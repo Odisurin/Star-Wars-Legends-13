@@ -6,9 +6,9 @@
 	layer = ABOVE_TABLE_LAYER
 	density = TRUE
 	anchored = TRUE
-	use_power = 1
+	use_power = IDLE_POWER_USE
 	idle_power_usage = 5
-	active_power_usage = 100
+	active_power_usage = 500
 	var/operating = 0 // Is it on?
 	var/dirty = 0 // = {0..100} Does it need cleaning?
 	var/broken = 0 // ={0,1,2} How broken is it???
@@ -78,7 +78,7 @@
 		return TRUE
 
 	else if(dirty == 100)
-		if(!istype(I, /obj/item/reagent_container/spray/cleaner))
+		if(!istype(I, /obj/item/reagent_containers/spray/cleaner))
 			to_chat(user, "<span class='warning'>It's dirty!</span>")
 			return TRUE
 
@@ -112,10 +112,10 @@
 			user.visible_message("<span class='notice'>[user] has added \the [I] to \the [src].</span>", \
 				"<span class='notice'>You add \the [I] to \the [src].</span>")
 
-	else if(istype(I,/obj/item/reagent_container/glass) || \
-			istype(I,/obj/item/reagent_container/food/drinks) || \
-			istype(I,/obj/item/reagent_container/food/condiment))
-	
+	else if(istype(I,/obj/item/reagent_containers/glass) || \
+			istype(I,/obj/item/reagent_containers/food/drinks) || \
+			istype(I,/obj/item/reagent_containers/food/condiment))
+
 		if(!I.reagents)
 			return TRUE
 
@@ -158,20 +158,20 @@
 		var/list/items_measures_p = new
 		for (var/obj/O in contents)
 			var/display_name = O.name
-			if (istype(O,/obj/item/reagent_container/food/snacks/egg))
+			if (istype(O,/obj/item/reagent_containers/food/snacks/egg))
 				items_measures[display_name] = "egg"
 				items_measures_p[display_name] = "eggs"
-			if (istype(O,/obj/item/reagent_container/food/snacks/tofu))
+			if (istype(O,/obj/item/reagent_containers/food/snacks/tofu))
 				items_measures[display_name] = "tofu chunk"
 				items_measures_p[display_name] = "tofu chunks"
-			if (istype(O,/obj/item/reagent_container/food/snacks/meat)) //any meat
+			if (istype(O,/obj/item/reagent_containers/food/snacks/meat)) //any meat
 				items_measures[display_name] = "slab of meat"
 				items_measures_p[display_name] = "slabs of meat"
-			if (istype(O,/obj/item/reagent_container/food/snacks/donkpocket))
+			if (istype(O,/obj/item/reagent_containers/food/snacks/donkpocket))
 				display_name = "Turnovers"
 				items_measures[display_name] = "turnover"
 				items_measures_p[display_name] = "turnovers"
-			if (istype(O,/obj/item/reagent_container/food/snacks/carpmeat))
+			if (istype(O,/obj/item/reagent_containers/food/snacks/carpmeat))
 				items_measures[display_name] = "fillet of meat"
 				items_measures_p[display_name] = "fillets of meat"
 			items_counts[display_name]++
@@ -273,14 +273,14 @@
 	for (var/i=1 to seconds)
 		if (machine_stat & (NOPOWER|BROKEN))
 			return 0
-		use_power(500)
+		use_power(active_power_usage)
 		sleep(10)
 	return 1
 
 /obj/machinery/microwave/proc/has_extra_item()
 	for (var/obj/O in contents)
 		if ( \
-				!istype(O,/obj/item/reagent_container/food) && \
+				!istype(O,/obj/item/reagent_containers/food) && \
 				!istype(O, /obj/item/grown) \
 			)
 			return 1
@@ -337,7 +337,7 @@
 	updateUsrDialog()
 
 /obj/machinery/microwave/proc/fail()
-	var/obj/item/reagent_container/food/snacks/badrecipe/ffuu = new(src)
+	var/obj/item/reagent_containers/food/snacks/badrecipe/ffuu = new(src)
 	var/amount = 0
 	for (var/obj/O in contents-ffuu)
 		amount++
@@ -363,5 +363,5 @@
 
 		if("dispose")
 			destroy_contents()
-	
+
 	updateUsrDialog()

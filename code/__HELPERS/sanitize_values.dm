@@ -21,9 +21,9 @@
 
 
 /proc/sanitize_inlist(value, list/L, default)
-	if(value in L)	
+	if(value in L)
 		return value
-	if(default)			
+	if(default)
 		return default
 	if(length(L))
 		return L[1]
@@ -33,7 +33,7 @@
 	for(var/i in L)
 		if(L[i] == value)
 			return value
-	if(default)			
+	if(default)
 		return default
 
 
@@ -43,14 +43,14 @@
 		if(MALE, FEMALE)
 			return gender
 		if(NEUTER)
-			if(neuter)	
+			if(neuter)
 				return gender
-			else		
+			else
 				return default
 		if(PLURAL)
-			if(plural)	
+			if(plural)
 				return gender
-			else		
+			else
 				return default
 	return default
 
@@ -69,29 +69,37 @@
 	return default
 
 
-/proc/sanitize_hexcolor(color, default = "#000000")
-	if(!istext(color)) 
+/proc/sanitize_hexcolor(color, desired_format = 3, include_crunch = FALSE, default = "#000000")
+	var/crunch = include_crunch ? "#" : ""
+	if(!istext(color))
 		return default
 
+	var/start = 1 + (text2ascii(color, 1) == 35)
 	var/len = length(color)
+	var/char = ""
+	// RRGGBB -> RGB but awful
+	var/convert_to_shorthand = desired_format == 3 && length_char(color) > 3
 
-	if(len != 7 && len !=4) 
-		return default
+	. = ""
+	var/i = start
+	while(i <= len)
+		char = color[i]
+		switch(text2ascii(char))
+			if(48 to 57)		//numbers 0 to 9
+				. += char
+			if(97 to 102)		//letters a to f
+				. += char
+			if(65 to 70)		//letters A to F
+				. += lowertext(char)
+			else
+				break
+		i += length(char)
+		if(convert_to_shorthand && i <= len) //skip next one
+			i += length(color[i])
 
-	if(text2ascii(color,1) != 35) 
-		return default	//35 is the ascii code for "#"
+	if(length_char(.) != desired_format)
+		if(default)
+			return default
+		return crunch + repeat_string(desired_format, "0")
 
-	. = "#"
-
-	for(var/i in 2 to len)
-		var/ascii = text2ascii(color,i)
-		switch(ascii)
-			if(48 to 57)	
-				. += ascii2text(ascii)		//numbers 0 to 9
-			if(97 to 102)	
-				. += ascii2text(ascii)		//letters a to f
-			if(65 to 70)	
-				. += ascii2text(ascii+32)	//letters A to F - translates to lowercase
-			else			
-				return default
-	return .
+	return crunch + .

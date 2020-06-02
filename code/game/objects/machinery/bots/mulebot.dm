@@ -106,12 +106,12 @@
 /obj/machinery/bot/mulebot/ex_act(severity)
 	unload(0)
 	switch(severity)
-		if(2)
+		if(EXPLODE_HEAVY)
 			wires.cut_all()
-		if(3)
+		if(EXPLODE_LIGHT)
 			wires.cut_random()
-	..()
-	return
+	return ..()
+
 
 /obj/machinery/bot/mulebot/bullet_act()
 	if(prob(50) && !isnull(load))
@@ -438,7 +438,7 @@
 		if(3)
 			process_bot()
 
-	if(refresh) 
+	if(refresh)
 		updateUsrDialog()
 
 /obj/machinery/bot/mulebot/proc/process_bot()
@@ -635,13 +635,11 @@
 
 	if(!isliving(A))
 		return ..()
-		
+
 	var/mob/living/L = A
 	visible_message("<span class='warning'>[src] knocks over [L]!</span>")
 	L.stop_pulling()
-	L.stun(8)
-	L.knock_down(5)
-	L.lying = TRUE
+	L.Paralyze(10 SECONDS)
 
 
 // called from mob/living/carbon/human/Crossed()
@@ -657,7 +655,7 @@
 	H.apply_damage(0.5*damage, BRUTE, "r_leg")
 	H.apply_damage(0.5*damage, BRUTE, "l_arm")
 	H.apply_damage(0.5*damage, BRUTE, "r_arm")
-
+	UPDATEHEALTH(H)
 	H.add_splatter_floor(loc, 1)
 	bloodiness += 4
 

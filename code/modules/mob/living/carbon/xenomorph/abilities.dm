@@ -27,10 +27,10 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	var/mob/living/carbon/C = owner
-	if(!length(C.stomach_contents))
+	var/mob/living/carbon/xenomorph/devourer = owner
+	if(!LAZYLEN(devourer.stomach_contents))
 		if(!silent)
-			to_chat(C, "<span class='warning'>There's nothing in our belly that needs regurgitating.</span>")
+			to_chat(devourer, "<span class='warning'>There's nothing in our belly that needs regurgitating.</span>")
 		return FALSE
 
 /datum/action/xeno_action/regurgitate/action_activate()
@@ -49,15 +49,16 @@
 	mechanics_text = "Plant a weed node (purple sac) on your tile."
 	keybind_signal = COMSIG_XENOABILITY_DROP_WEEDS
 
-/datum/action/xeno_action/plant_weeds/can_use_action(silent, override_flags)
-	. = ..()
-	if(locate(/obj/effect/alien/resin/trap) in get_turf(owner))
-		if(!silent)
-			to_chat(owner, "<span class='warning'>There is a resin trap in the way!</span>")
-		return FALSE
 
 /datum/action/xeno_action/plant_weeds/action_activate()
 	var/turf/T = get_turf(owner)
+
+	if(!T.check_alien_construction(owner, FALSE))
+		return fail_activate()
+
+	if(locate(/obj/effect/alien/resin/trap) in T)
+		to_chat(owner, "<span class='warning'>There is a resin trap in the way!</span>")
+		return fail_activate()
 
 	if(!T.is_weedable())
 		to_chat(owner, "<span class='warning'>Bad place for a garden!</span>")
@@ -69,10 +70,27 @@
 
 	owner.visible_message("<span class='xenonotice'>\The [owner] regurgitates a pulsating node and plants it on the ground!</span>", \
 		"<span class='xenonotice'>We regurgitate a pulsating node and plant it on the ground!</span>", null, 5)
-	new /obj/effect/alien/weeds/node (owner.loc, src, owner)
+	new /obj/effect/alien/weeds/node(owner.loc)
 	playsound(owner.loc, "alien_resin_build", 25)
 	GLOB.round_statistics.weeds_planted++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "weeds_planted")
+	add_cooldown()
 	return succeed_activate()
+
+//AI stuff
+/datum/action/xeno_action/plant_weeds/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/plant_weeds/ai_should_use(target)
+	if(!can_use_action(override_flags = XACT_IGNORE_SELECTED_ABILITY))
+		return ..()
+	if(locate(/obj/effect/alien/weeds/node) in owner.loc) //NODE SPAMMMM
+		//There's already a node on this loc don't plant anything
+		return ..()
+	return TRUE
+
+/datum/action/xeno_action/plant_weeds/slow
+	cooldown_timer = 12 SECONDS
 
 // Choose Resin
 /datum/action/xeno_action/choose_resin
@@ -81,7 +99,7 @@
 	mechanics_text = "Selects which structure you will build with the (secrete resin) ability."
 	keybind_signal = COMSIG_XENOABILITY_CHOOSE_RESIN
 	var/list/buildable_structures = list(
-		/turf/closed/wall/resin,
+		/turf/closed/wall/resin/regenerating,
 		/obj/structure/bed/nest,
 		/obj/effect/alien/resin/sticky,
 		/obj/structure/mineral_door/resin)
@@ -103,6 +121,7 @@
 
 	var/atom/A = X.selected_resin
 	to_chat(X, "<span class='notice'>We will now build <b>[initial(A.name)]\s</b> when secreting resin.</span>")
+	update_button_icon()
 	return succeed_activate()
 
 // Secrete Resin
@@ -113,9 +132,18 @@
 	ability_name = "secrete resin"
 	plasma_cost = 75
 	keybind_signal = COMSIG_XENOABILITY_SECRETE_RESIN
+	var/base_wait = 1 SECONDS
+	var/scaling_wait = 1 SECONDS
 
 /datum/action/xeno_action/activable/secrete_resin/use_ability(atom/A)
 	build_resin(get_turf(owner))
+
+/datum/action/xeno_action/activable/secrete_resin/proc/get_wait()
+	. = base_wait
+	if(!scaling_wait)
+		return
+	var/mob/living/carbon/xenomorph/X = owner
+	return base_wait + scaling_wait - max(0, (scaling_wait * X.health / X.maxHealth))
 
 /datum/action/xeno_action/activable/secrete_resin/proc/build_resin(turf/T)
 	var/mob/living/carbon/xenomorph/X = owner
@@ -138,7 +166,7 @@
 		to_chat(X, "<span class='warning'>We can only shape on weeds. We must find some resin before we start building!</span>")
 		return fail_activate()
 
-	if(!T.check_alien_construction(X))
+	if(!T.check_alien_construction(X, planned_building = X.selected_resin))
 		return fail_activate()
 
 	if(X.selected_resin == /obj/structure/mineral_door/resin)
@@ -156,9 +184,7 @@
 			to_chat(X, "<span class='warning'>Resin doors need a wall or resin door next to them to stand up.</span>")
 			return fail_activate()
 
-	var/wait_time = 10 + 30 - max(0,(30*X.health/X.maxHealth)) //Between 1 and 4 seconds, depending on health.
-
-	if(!do_after(X, wait_time, TRUE, T, BUSY_ICON_BUILD))
+	if(!do_after(X, get_wait(), TRUE, T, BUSY_ICON_BUILD))
 		return fail_activate()
 
 	blocker = locate() in T
@@ -175,7 +201,7 @@
 	if(!alien_weeds)
 		return fail_activate()
 
-	if(!T.check_alien_construction(X))
+	if(!T.check_alien_construction(X, planned_building = X.selected_resin))
 		return fail_activate()
 
 	if(X.selected_resin == /obj/structure/mineral_door/resin)
@@ -199,14 +225,21 @@
 
 	var/atom/new_resin
 
-	if(X.selected_resin == /turf/closed/wall/resin)
+	if(ispath(X.selected_resin, /turf)) // We should change turfs, not spawn them in directly
 		T.ChangeTurf(X.selected_resin)
 		new_resin = T
 	else
 		new_resin = new X.selected_resin(T)
 
 	if(new_resin)
+		add_cooldown()
 		succeed_activate()
+
+// Slower version of the secret resin
+/datum/action/xeno_action/activable/secrete_resin/slow
+	cooldown_timer = 5 SECONDS
+	base_wait = 2.5 SECONDS
+	scaling_wait = 0
 
 
 /datum/action/xeno_action/toggle_pheromones
@@ -215,6 +248,14 @@
 	mechanics_text = "Opens your pheromone options."
 	plasma_cost = 0
 	var/PheromonesOpen = FALSE //If the  pheromone choices buttons are already displayed or not
+
+/datum/action/xeno_action/toggle_pheromones/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/toggle_pheromones/ai_should_use(target)
+	if(PheromonesOpen)
+		return ..()
+	return TRUE
 
 /datum/action/xeno_action/toggle_pheromones/can_use_action()
 	return TRUE //No actual gameplay impact; should be able to collapse or open pheromone choices at any time
@@ -238,6 +279,17 @@
 	plasma_cost = 30 //Base plasma cost for begin to emit pheromones
 	var/aura_type = null //String for aura to emit
 	use_state_flags = XACT_USE_STAGGERED|XACT_USE_NOTTURF|XACT_USE_BUSY
+
+/datum/action/xeno_action/pheromones/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/pheromones/ai_should_use(target)
+	var/mob/living/carbon/xenomorph/X = owner
+	if(X.current_aura)
+		return ..()
+	if(prob(33)) //Since the pheromones go from recovery => warding => frenzy, this enables AI to somewhat randomly pick one of the three pheros to emit
+		return ..()
+	return TRUE
 
 /datum/action/xeno_action/pheromones/action_activate() //Must pass the basic plasma cost; reduces copy pasta
 	var/mob/living/carbon/xenomorph/X = owner
@@ -382,6 +434,7 @@
 	succeed_activate()
 
 	GLOB.round_statistics.larval_growth_stings++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "larval_growth_stings")
 
 	add_cooldown()
 	X.recurring_injection(A, /datum/reagent/toxin/xeno_growthtoxin, XENO_LARVAL_CHANNEL_TIME, XENO_LARVAL_AMOUNT_RECURRING)
@@ -428,7 +481,7 @@
 	var/acid_type = /obj/effect/xenomorph/acid
 	keybind_signal = COMSIG_XENOABILITY_CORROSIVE_ACID
 
-/datum/action/xeno_action/activable/corrosive_acid/can_use_ability(atom/A, silent = FALSE)
+/datum/action/xeno_action/activable/corrosive_acid/can_use_ability(atom/A, silent = FALSE, override_flags)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -564,7 +617,6 @@
 
 	if(!isturf(A))
 		log_combat(X, A, "spat on", addition="with corrosive acid")
-		msg_admin_attack("[X.name] ([X.ckey]) spat acid on [A].")
 	X.visible_message("<span class='xenowarning'>\The [X] vomits globs of vile stuff all over \the [A]. It begins to sizzle and melt under the bubbling mess of acid!</span>", \
 	"<span class='xenowarning'>We vomit globs of vile stuff all over \the [A]. It begins to sizzle and melt under the bubbling mess of acid!</span>", null, 5)
 	playsound(X.loc, "sound/bullets/acid_impact1.ogg", 25)
@@ -674,7 +726,7 @@
 	var/sound_to_play = pick(1, 2) == 1 ? 'sound/voice/alien_spitacid.ogg' : 'sound/voice/alien_spitacid2.ogg'
 	playsound(X.loc, sound_to_play, 25, 1)
 
-	var/obj/item/projectile/newspit = new /obj/item/projectile(current_turf)
+	var/obj/projectile/newspit = new /obj/projectile(current_turf)
 	newspit.generate_bullet(X.ammo, X.ammo.damage * SPIT_UPGRADE_BONUS(X))
 	newspit.permutated += X
 	newspit.def_zone = X.get_limbzone_target()
@@ -684,6 +736,18 @@
 	add_cooldown()
 
 	return succeed_activate()
+
+/datum/action/xeno_action/activable/xeno_spit/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/activable/xeno_spit/ai_should_use(target)
+	if(!iscarbon(target))
+		return ..()
+	if(get_dist(target, owner) > 6)
+		return ..()
+	if(!can_use_ability(target, override_flags = XACT_IGNORE_SELECTED_ABILITY))
+		return ..()
+	return TRUE
 
 
 /datum/action/xeno_action/xenohide
@@ -746,6 +810,7 @@
 	add_cooldown()
 
 	GLOB.round_statistics.sentinel_neurotoxin_stings++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "sentinel_neurotoxin_stings")
 
 	X.recurring_injection(A, /datum/reagent/toxin/xeno_neurotoxin, XENO_NEURO_CHANNEL_TIME, XENO_NEURO_AMOUNT_RECURRING)
 
@@ -762,7 +827,7 @@
 /datum/action/xeno_action/psychic_whisper/action_activate()
 	var/mob/living/carbon/xenomorph/X = owner
 	var/list/target_list = list()
-	for(var/mob/living/possible_target in view(world.view, X))
+	for(var/mob/living/possible_target in view(WORLD_VIEW, X))
 		if(possible_target == X || !possible_target.client || isxeno(possible_target))
 			continue
 		target_list += possible_target
@@ -778,7 +843,7 @@
 	if(!X.check_state())
 		return
 
-	var/msg = sanitize(input("Message:", "Psychic Whisper") as text|null)
+	var/msg = stripped_input("Message:", "Psychic Whisper")
 	if(!msg)
 		return
 
@@ -832,5 +897,5 @@
 
 
 /mob/living/carbon/xenomorph/proc/remove_abilities()
-	for(var/action_datum in actions)
+	for(var/action_datum in xeno_abilities)
 		qdel(action_datum)

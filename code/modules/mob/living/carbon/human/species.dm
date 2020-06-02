@@ -46,6 +46,7 @@
 	var/exhale_type = "carbon_dioxide"      // Exhaled gas type.
 
 	var/total_health = 100  //new maxHealth
+	var/max_stamina_buffer = 50
 
 	var/cold_level_1 = BODYTEMP_COLD_DAMAGE_LIMIT_ONE  	// Cold damage level 1 below this point.
 	var/cold_level_2 = BODYTEMP_COLD_DAMAGE_LIMIT_TWO  	// Cold damage level 2 below this point.
@@ -74,6 +75,9 @@
 	var/list/screams = list()
 	var/list/paincries = list()
 	var/list/goredcries = list()
+	var/list/gasps = list()
+	var/list/coughs = list()
+	var/list/burstscreams = list()
 
 	var/blood_color = "#A10808" //Red.
 	var/flesh_color = "#FFC896" //Pink.
@@ -133,19 +137,21 @@
 	H.limbs += LL
 	var/datum/limb/r_leg/RL = new(G, H)
 	H.limbs += RL
-	H.limbs +=  new/datum/limb/l_hand(LA, H)
-	H.limbs +=  new/datum/limb/r_hand(RA, H)
-	H.limbs +=  new/datum/limb/l_foot(LL, H)
-	H.limbs +=  new/datum/limb/r_foot(RL, H)
+	H.limbs +=  new/datum/limb/hand/l_hand(LA, H)
+	H.limbs +=  new/datum/limb/hand/r_hand(RA, H)
+	H.limbs +=  new/datum/limb/foot/l_foot(LL, H)
+	H.limbs +=  new/datum/limb/foot/r_foot(RL, H)
 
 	for(var/organ in has_organ)
 		var/organ_type = has_organ[organ]
 		H.internal_organs_by_name[organ] = new organ_type(H)
 
 	if(species_flags & IS_SYNTHETIC)
-		for(var/datum/limb/E in H.limbs)
-			if(E.limb_status & LIMB_DESTROYED) continue
-			E.limb_status |= LIMB_ROBOT
+		for(var/datum/limb/l in H.limbs)
+			var/datum/limb/robotic_limb = l
+			if(robotic_limb.limb_status & LIMB_DESTROYED)
+				continue
+			robotic_limb.add_limb_flags(LIMB_ROBOT)
 		for(var/datum/internal_organ/I in H.internal_organs)
 			I.mechanize()
 
@@ -160,6 +166,33 @@
 
 /datum/species/proc/random_name(gender)
 	return GLOB.namepool[namepool].get_random_name(gender)
+
+/datum/species/human/random_name(gender)
+	. = ..()
+	if(CONFIG_GET(flag/humans_need_surnames))
+		. += " " + pick(SSstrings.get_list_from_file("names/last_name"))
+
+/datum/species/proc/prefs_name(datum/preferences/prefs)
+	return prefs.real_name
+
+/datum/species/human/prefs_name(datum/preferences/prefs)
+	. = ..()
+	if(CONFIG_GET(flag/humans_need_surnames))
+		var/firstspace = findtext(., " ")
+		if(!firstspace || firstspace == length(.))
+			. += " " + pick(SSstrings.get_list_from_file("names/last_name"))
+
+/datum/species/synthetic/prefs_name(datum/preferences/prefs)
+	. = prefs.synthetic_name
+	if(!. || . == "Undefined") //In case they don't have a name set.
+		switch(prefs.gender)
+			if(MALE)
+				. = "David"
+			if(FEMALE)
+				. = "Anna"
+			else
+				. = "Jeri"
+		to_chat(prefs.parent, "<span class='warning'>You forgot to set your synthetic name in your preferences. Please do so next time.</span>")
 
 //special things to change after we're no longer that species
 /datum/species/proc/post_species_loss(mob/living/carbon/human/H)
@@ -245,6 +278,9 @@
 	screams = list(MALE = "male_scream", FEMALE = "female_scream")
 	paincries = list(MALE = "male_pain", FEMALE = "female_pain")
 	goredcries = list(MALE = "male_gored", FEMALE = "female_gored")
+	gasps = list(MALE = "male_gasp", FEMALE = "female_gasp")
+	coughs = list(MALE = "male_cough", FEMALE = "female_cough")
+	burstscreams = list(MALE = "male_preburst", FEMALE = "female_preburst")
 
 	//If you wanted to add a species-level ability:
 	/*abilities = list(/client/proc/test_ability)*/
@@ -274,7 +310,7 @@
 	brute_mod = 0.15
 	burn_mod = 1.50
 	reagent_tag = IS_HORROR
-	species_flags = HAS_SKIN_COLOR|NO_BREATHE|NO_POISON|HAS_LIPS|NO_PAIN|NO_SCAN|NO_POISON|NO_BLOOD|NO_SLIP|NO_CHEM_METABOLIZATION
+	species_flags = HAS_SKIN_COLOR|NO_BREATHE|NO_POISON|HAS_LIPS|NO_PAIN|NO_SCAN|NO_POISON|NO_BLOOD|NO_SLIP|NO_CHEM_METABOLIZATION|NO_STAMINA
 	unarmed_type = /datum/unarmed_attack/punch/strong
 	secondary_unarmed_type = /datum/unarmed_attack/bite/strong
 	death_message = "doubles over, unleashes a horrible, ear-shattering scream, then falls motionless and still..."
@@ -386,6 +422,7 @@
 	screams = list("neuter" = 'sound/voice/moth_scream.ogg')
 	paincries = list("neuter" = 'sound/voice/human_male_pain_3.ogg')
 	goredcries = list("neuter" = 'sound/voice/moth_scream.ogg')
+	burstscreams = list("neuter" = 'sound/voice/moth_scream.ogg')
 
 	flesh_color = "#E5CD99"
 
@@ -426,6 +463,29 @@
 /datum/species/moth/post_species_loss(mob/living/carbon/human/H)
 	H.remove_overlay(MOTH_WINGS_LAYER)
 	H.remove_underlay(MOTH_WINGS_BEHIND_LAYER)
+
+/datum/species/sectoid
+	name = "Sectoid"
+	name_plural = "Sectoids"
+	icobase = 'icons/mob/human_races/r_sectoid.dmi'
+	deform = 'icons/mob/human_races/r_sectoid.dmi'
+	default_language_holder = /datum/language_holder/sectoid
+	eyes = "blank_eyes"
+	speech_verb_override = "transmits"
+	show_paygrade = TRUE
+	count_human = TRUE
+
+	species_flags = HAS_NO_HAIR|NO_BREATHE|NO_POISON|NO_PAIN|USES_ALIEN_WEAPONS|NO_DAMAGE_OVERLAY
+
+	paincries = list("neuter" = 'sound/voice/sectoid_death.ogg')
+	death_sound = 'sound/voice/sectoid_death.ogg'
+
+	blood_color = "#00FF00"
+	flesh_color = "#C0C0C0"
+
+	reagent_tag = IS_SECTOID
+
+	namepool = /datum/namepool/sectoid
 
 /datum/species/vox
 	name = "Vox"
@@ -496,7 +556,7 @@
 	breath_type = "nitrogen"
 	poison_type = "oxygen"
 
-	species_flags = NO_SCAN|NO_BLOOD|NO_PAIN
+	species_flags = NO_SCAN|NO_BLOOD|NO_PAIN|NO_STAMINA
 
 	blood_color = "#2299FC"
 	flesh_color = "#808D11"
@@ -534,7 +594,7 @@
 
 	body_temperature = 350
 
-	species_flags = NO_BREATHE|NO_SCAN|NO_BLOOD|NO_POISON|NO_PAIN|IS_SYNTHETIC|NO_CHEM_METABOLIZATION
+	species_flags = NO_BREATHE|NO_SCAN|NO_BLOOD|NO_POISON|NO_PAIN|IS_SYNTHETIC|NO_CHEM_METABOLIZATION|NO_STAMINA|DETACHABLE_HEAD
 
 	blood_color = "#EEEEEE"
 	flesh_color = "#272757"
@@ -555,7 +615,7 @@
 	total_health = 150 //more health than regular humans
 
 	brute_mod = 0.75
-	burn_mod = 1.1
+	burn_mod = 0.90 //Synthetics should not be instantly melted by acid compared to humans - This is a test to hopefully fix very glaring issues involving synthetics taking 2.6 trillion damage when so much as touching acid
 
 	cold_level_1 = -1
 	cold_level_2 = -1
@@ -567,7 +627,7 @@
 
 	body_temperature = 350
 
-	species_flags = NO_BREATHE|NO_SCAN|NO_BLOOD|NO_POISON|NO_PAIN|IS_SYNTHETIC|NO_CHEM_METABOLIZATION
+	species_flags = NO_BREATHE|NO_SCAN|NO_BLOOD|NO_POISON|NO_PAIN|IS_SYNTHETIC|NO_CHEM_METABOLIZATION|NO_STAMINA|DETACHABLE_HEAD
 
 	blood_color = "#EEEEEE"
 
@@ -607,8 +667,8 @@
 	slowdown = 1.3 //Slower than later synths
 	total_health = 200 //But more durable
 	insulated = 1
-	brute_mod = 0.75
-	burn_mod = 1.1
+	brute_mod = 0.60 //but more durable
+	burn_mod = 0.90 //previous comment
 
 	cold_level_1 = -1
 	cold_level_2 = -1
@@ -620,7 +680,7 @@
 
 	body_temperature = 350
 
-	species_flags = NO_BREATHE|NO_SCAN|NO_BLOOD|NO_POISON|NO_PAIN|IS_SYNTHETIC|NO_CHEM_METABOLIZATION
+	species_flags = NO_BREATHE|NO_SCAN|NO_BLOOD|NO_POISON|NO_PAIN|IS_SYNTHETIC|NO_CHEM_METABOLIZATION|NO_STAMINA|DETACHABLE_HEAD
 
 	blood_color = "#EEEEEE"
 	hair_color = "#000000"
@@ -797,3 +857,72 @@
 		equip_slots |= SLOT_IN_R_POUCH
 		equip_slots |= SLOT_ACCESSORY
 		equip_slots |= SLOT_IN_ACCESSORY
+
+
+/datum/species/proc/apply_damage(damage = 0, damagetype = BRUTE, def_zone, blocked = 0, sharp = FALSE, edge = FALSE, updating_health = FALSE, mob/living/carbon/human/victim)
+	var/hit_percent = (100 - blocked) * 0.01
+
+	if(hit_percent <= 0) //total negation
+		return 0
+
+	damage *= CLAMP01(hit_percent) //Percentage reduction
+
+	if(!damage) //Complete negation
+		return 0
+
+	if(victim.protection_aura)
+		damage = round(damage * ((15 - victim.protection_aura) / 15))
+
+	var/datum/limb/organ = null
+	if(isorgan(def_zone))
+		organ = def_zone
+	else
+		if(!def_zone)
+			def_zone = ran_zone(def_zone)
+		organ = victim.get_limb(check_zone(def_zone))
+	if(!organ)
+		return FALSE
+
+	switch(damagetype)
+		if(BRUTE)
+			victim.damageoverlaytemp = 20
+			if(brute_mod)
+				damage *= brute_mod
+			if(organ.take_damage_limb(damage, 0, sharp, edge))
+				victim.UpdateDamageIcon()
+		if(BURN)
+			victim.damageoverlaytemp = 20
+			if(burn_mod)
+				damage *= burn_mod
+			if(organ.take_damage_limb(0, damage, sharp, edge))
+				victim.UpdateDamageIcon()
+		if(HALLOSS)
+			if(species_flags & NO_PAIN)
+				return
+			switch(damage)
+				if(-INFINITY to 0)
+					return FALSE
+				if(25 to 50)
+					if(prob(20))
+						victim.emote("pain")
+				if(50 to INFINITY)
+					if(prob(60))
+						victim.emote("pain")
+			victim.adjustHalLoss(damage)
+		if(TOX)
+			victim.adjustToxLoss(damage)
+		if(OXY)
+			victim.adjustOxyLoss(damage)
+		if(CLONE)
+			victim.adjustCloneLoss(damage)
+		if(STAMINA)
+			if(species_flags & NO_STAMINA)
+				return
+			victim.adjustStaminaLoss(damage)
+
+	// Will set our damageoverlay icon to the next level, which will then be set back to the normal level the next mob.Life().
+	SEND_SIGNAL(victim, COMSIG_HUMAN_DAMAGE_TAKEN, damage)
+
+	if(updating_health)
+		victim.updatehealth()
+	return damage

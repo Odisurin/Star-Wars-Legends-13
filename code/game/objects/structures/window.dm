@@ -50,11 +50,11 @@
 
 /obj/structure/window/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			take_damage(rand(125, 250))
-		if(2)
+		if(EXPLODE_HEAVY)
 			take_damage(rand(75, 125))
-		if(3)
+		if(EXPLODE_LIGHT)
 			take_damage(rand(25, 75))
 
 //TODO: Make full windows a separate type of window.
@@ -123,29 +123,29 @@
 			return
 
 		var/mob/living/M = G.grabbed_thing
-		var/state = user.grab_level
+		var/state = user.grab_state
 		user.drop_held_item()
 		switch(state)
 			if(GRAB_PASSIVE)
 				M.visible_message("<span class='warning'>[user] slams [M] against \the [src]!</span>")
 				log_combat(user, M, "slammed", "", "against \the [src]")
-				msg_admin_attack("[key_name(usr)] slammed [key_name(M)]'s face' against \the [src].")
 				M.apply_damage(7)
+				UPDATEHEALTH(M)
 				take_damage(10)
 			if(GRAB_AGGRESSIVE)
 				M.visible_message("<span class='danger'>[user] bashes [M] against \the [src]!</span>")
 				log_combat(user, M, "bashed", "", "against \the [src]")
-				msg_admin_attack("[key_name(usr)] bashed [key_name(M)]'s face' against \the [src].")
 				if(prob(50))
-					M.knock_down(1)
+					M.Paralyze(20)
 				M.apply_damage(10)
+				UPDATEHEALTH(M)
 				take_damage(25)
 			if(GRAB_NECK)
 				M.visible_message("<span class='danger'><big>[user] crushes [M] against \the [src]!</big></span>")
 				log_combat(user, M, "crushed", "", "against \the [src]")
-				msg_admin_attack("[key_name(usr)] crushed [key_name(M)]'s face' against \the [src].")
-				M.knock_down(5)
+				M.Paralyze(10 SECONDS)
 				M.apply_damage(20)
+				UPDATEHEALTH(M)
 				take_damage(50)
 
 	else if(I.flags_item & NOBLUDGEON)
@@ -234,38 +234,37 @@
 	update_icon()
 	for(var/direction in GLOB.cardinals)
 		for(var/obj/structure/window/W in get_step(src, direction))
-			W.update_icon()
+			INVOKE_NEXT_TICK(W, /atom/movable.proc/update_icon)
 
 //merges adjacent full-tile windows into one (blatant ripoff from game/smoothwall.dm)
 /obj/structure/window/update_icon()
 	//A little cludge here, since I don't know how it will work with slim windows. Most likely VERY wrong.
 	//this way it will only update full-tile ones
-	//This spawn is here so windows get properly updated when one gets deleted.
-	spawn(2)
-		if(!src)
-			return
-		if(!is_full_window())
-			icon_state = "[basestate]"
-			return
-		if(anchored)
-			for(var/obj/structure/window/W in orange(src, 1))
-				if(W.anchored && W.density	&& W.is_full_window()) //Only counts anchored, not-destroyed fill-tile windows.
-					if(abs(x - W.x) - abs(y - W.y)) //Doesn't count windows, placed diagonally to src
-						junction |= get_dir(src, W)
-		if(opacity)
+	if(!src)
+		return
+	if(!is_full_window())
+		icon_state = "[basestate]"
+		return
+	if(anchored)
+		for(var/obj/structure/window/W in orange(src, 1))
+			if(W.anchored && W.density	&& W.is_full_window()) //Only counts anchored, not-destroyed fill-tile windows.
+				if(abs(x - W.x) - abs(y - W.y)) //Doesn't count windows, placed diagonally to src
+					junction |= get_dir(src, W)
+	if(opacity)
+		icon_state = "[basestate][junction]"
+	else
+		if(reinf)
 			icon_state = "[basestate][junction]"
 		else
-			if(reinf)
-				icon_state = "[basestate][junction]"
-			else
-				icon_state = "[basestate][junction]"
-
-		return
+			icon_state = "[basestate][junction]"
 
 /obj/structure/window/fire_act(exposed_temperature, exposed_volume)
 	if(exposed_temperature > T0C + 800)
 		take_damage(round(exposed_volume / 100), BURN, "fire")
 	return ..()
+
+/obj/structure/window/GetExplosionBlock(explosion_dir)
+	return (!explosion_dir || ISDIAGONALDIR(dir) || dir & explosion_dir || REVERSE_DIR(dir) & explosion_dir) ? real_explosion_block : 0
 
 /obj/structure/window/phoronbasic
 	name = "phoron window"
@@ -274,6 +273,8 @@
 	icon_state = "phoronwindow"
 	shardtype = /obj/item/shard/phoron
 	max_integrity = 120
+	explosion_block = EXPLOSION_BLOCK_PROC
+	real_explosion_block = 2
 
 /obj/structure/window/phoronbasic/fire_act(exposed_temperature, exposed_volume)
 	if(exposed_temperature > T0C + 32000)
@@ -288,6 +289,8 @@
 	shardtype = /obj/item/shard/phoron
 	reinf = TRUE
 	max_integrity = 160
+	explosion_block = EXPLOSION_BLOCK_PROC
+	real_explosion_block = 4
 
 /obj/structure/window/phoronreinforced/fire_act(exposed_temperature, exposed_volume)
 	return
@@ -299,6 +302,8 @@
 	basestate = "rwindow"
 	max_integrity = 40
 	reinf = TRUE
+	explosion_block = EXPLOSION_BLOCK_PROC
+	real_explosion_block = 2
 
 /obj/structure/window/reinforced/toughened
 	name = "safety glass"
@@ -342,6 +347,7 @@
 	layer = TABLE_LAYER
 	static_frame = TRUE
 	flags_atom = NONE //This is not a border object; it takes up the entire tile.
+	explosion_block = 2
 	var/window_frame //For perspective windows,so the window frame doesn't magically dissapear
 	var/list/tiles_special = list(/obj/machinery/door/airlock,
 		/obj/structure/window/framed,
@@ -380,6 +386,8 @@
 	dir = 5
 	window_frame = /obj/structure/window_frame/mainship
 
+/obj/structure/window/framed/mainship/canterbury //So we can wallsmooth properly.
+
 /obj/structure/window/framed/mainship/toughened
 	name = "safety glass"
 	desc = "A very tough looking glass window with a special rod matrice, probably bullet proof."
@@ -394,6 +402,10 @@
 	resistance_flags = UNACIDABLE|INDESTRUCTIBLE
 	max_integrity = 1000000 //Failsafe, shouldn't matter
 
+/obj/structure/window/framed/mainship/hull/canterbury //So we can wallsmooth properly.
+	tiles_with = list(/turf/closed/wall/mainship/outer/canterbury)
+	tiles_special = list(/obj/structure/window/framed/mainship/hull/canterbury)
+
 /obj/structure/window/framed/mainship/requisitions
 	name = "kevlar-weave infused bulletproof window"
 	desc = "A borosilicate glass window infused with kevlar fibres and mounted within a special shock-absorbing frame, this is gonna be seriously hard to break through."
@@ -405,7 +417,7 @@
 	basestate = "white_rwindow"
 	window_frame = /obj/structure/window_frame/mainship/white
 
-
+/obj/structure/window/framed/mainship/white/canterbury //So we can wallsmooth properly.
 
 /obj/structure/window/framed/colony
 	name = "window"
@@ -489,33 +501,22 @@
 	desc = "A glass window with a special rod matrice inside a wall frame. This one has an automatic shutter system to prevent any atmospheric breach."
 	max_integrity = 200
 	//icon_state = "rwindow0_debug" //Uncomment to check hull in the map editor
-	var/triggered = FALSE //indicates if the shutters have already been triggered
 
-/obj/structure/window/framed/prison/reinforced/hull/Destroy()
-	spawn_shutters()
-	.=..()
+/obj/structure/window/framed/prison/reinforced/hull/Initialize()
+	. = ..()
+	AddElement(/datum/element/windowshutter)
 
-/obj/structure/window/framed/prison/reinforced/hull/proc/spawn_shutters(from_dir = 0)
-	if(triggered)
-		return
-	else
-		triggered = TRUE
-	if(!from_dir) //air escaping sound effect for original window
-		playsound(src, 'sound/machines/hiss.ogg', 50, 1)
-	for(var/direction in GLOB.cardinals)
-		if(direction == from_dir)
-			continue //doesn't check backwards
-		for(var/obj/structure/window/framed/prison/reinforced/hull/W in get_step(src,direction) )
-			W.spawn_shutters(turn(direction,180))
-	var/obj/machinery/door/poddoor/shutters/mainship/pressure/P = new(get_turf(src))
-	P.density = TRUE
-	switch(junction)
-		if(4,5,8,9,12)
-			P.setDir(SOUTH)
-		else
-			P.setDir(EAST)
-	spawn(16)
-		P.close()
+// dont even ask
+/obj/structure/window/framed/prison/reinforced/hull/tyson
+	icon_state = "col_window0"
+	basestate = "col_window"
+	window_frame = /obj/structure/window_frame/colony
+
+// no really
+/obj/structure/window/framed/prison/reinforced/hull/tyson/reinforced
+	icon_state = "col_rwindow0"
+	basestate = "col_rwindow"
+	window_frame = /obj/structure/window_frame/colony/reinforced
 
 /obj/structure/window/framed/prison/cell
 	name = "cell window"

@@ -14,10 +14,10 @@
 		return
 	if(!check_plasma(50))
 		return
-	if(cooldowns[COOLDOWN_ORDER])
+	if(COOLDOWN_CHECK(src, COOLDOWN_ORDER))
 		return
 	plasma_stored -= 50
-	var/txt = copytext(sanitize(input("Set the hive's orders to what? Leave blank to clear it.", "Hive Orders","")), 1, MAX_MESSAGE_LEN)
+	var/txt = stripped_input(src, "Set the hive's orders to what? Leave blank to clear it.", "Hive Orders")
 
 	if(txt)
 		xeno_message("<B>The Queen has given a new order. Check Status panel for details.</B>",3,hivenumber)
@@ -25,7 +25,7 @@
 	else
 		hive.hive_orders = ""
 
-	cooldowns[COOLDOWN_ORDER] = addtimer(VARSET_LIST_CALLBACK(cooldowns, COOLDOWN_ORDER, null), 15 SECONDS)
+	COOLDOWN_START(src, COOLDOWN_ORDER, 15 SECONDS)
 
 // ***************************************
 // *********** Hive message
@@ -142,18 +142,32 @@
 	playsound(X.loc, 'sound/voice/alien_queen_screech.ogg', 75, 0)
 	X.visible_message("<span class='xenohighdanger'>\The [X] emits an ear-splitting guttural roar!</span>")
 	GLOB.round_statistics.queen_screech++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "queen_screech")
 	X.create_shriekwave() //Adds the visual effect. Wom wom wom
 	//stop_momentum(charge_dir) //Screech kills a charge
 
 	var/list/nearby_living = list()
-	for(var/mob/living/L in hearers(world.view, X))
+	for(var/mob/living/L in hearers(WORLD_VIEW, X))
 		nearby_living.Add(L)
 
 	for(var/i in GLOB.mob_living_list)
 		var/mob/living/L = i
-		if(get_dist(L, X) > world.view)
+		if(get_dist(L, X) > WORLD_VIEW_NUM)
 			continue
-		L.screech_act(X, world.view, L in nearby_living)
+		L.screech_act(X, WORLD_VIEW_NUM, L in nearby_living)
+
+/datum/action/xeno_action/activable/screech/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/activable/screech/ai_should_use(target)
+	if(!iscarbon(target))
+		return ..()
+	if(get_dist(target, owner) > 4)
+		return ..()
+	if(!can_use_ability(target, override_flags = XACT_IGNORE_SELECTED_ABILITY))
+		return ..()
+	return TRUE
+
 
 // ***************************************
 // *********** Gut
@@ -169,7 +183,7 @@
 	if(!.)
 		return FALSE
 	var/mob/living/carbon/xenomorph/queen/X = owner
-	if(X.cooldowns[COOLDOWN_GUT])
+	if(COOLDOWN_CHECK(X, COOLDOWN_GUT))
 		return FALSE
 	if(!iscarbon(A))
 		return FALSE
@@ -202,7 +216,7 @@
 
 	succeed_activate()
 
-	X.cooldowns[COOLDOWN_GUT] = addtimer(VARSET_LIST_CALLBACK(X.cooldowns, COOLDOWN_GUT, null), 5 SECONDS)
+	COOLDOWN_START(X, COOLDOWN_GUT, 5 SECONDS)
 
 	X.visible_message("<span class='xenowarning'>\The [X] begins slowly lifting \the [victim] into the air.</span>", \
 	"<span class='xenowarning'>We begin focusing our anger as we slowly lift \the [victim] into the air.</span>")
@@ -264,7 +278,7 @@
 				return
 			stop_overwatch()
 			return
-	
+
 	start_overwatch(selected_xeno)
 
 
@@ -452,8 +466,8 @@
 	name = "Heal Xenomorph"
 	action_icon_state = "heal_xeno"
 	mechanics_text = "Heals a target Xenomorph"
-	plasma_cost = 600
-	cooldown_timer = 15 SECONDS
+	plasma_cost = 150
+	cooldown_timer = 16 SECONDS
 	keybind_signal = COMSIG_XENOABILITY_QUEEN_HEAL
 
 
@@ -486,8 +500,9 @@
 /datum/action/xeno_action/activable/queen_heal/use_ability(atom/target)
 	var/mob/living/carbon/xenomorph/patient = target
 	add_cooldown()
-	patient.adjustBruteLoss(-50)
-	patient.adjustFireLoss(-50)
+	patient.adjustBruteLoss(-100)
+	patient.adjustFireLoss(-100)
+	patient.adjust_sunder(-10)
 	succeed_activate()
 	to_chat(owner, "<span class='xenonotice'>We channel our plasma to heal [target]'s wounds.</span>")
 	to_chat(patient, "<span class='xenonotice'>We feel our wounds heal. Bless the Queen!</span>")
@@ -500,8 +515,8 @@
 	name = "Give Plasma"
 	action_icon_state = "queen_give_plasma"
 	mechanics_text = "Give plasma to a target Xenomorph (you must be overwatching them.)"
-	plasma_cost = 600
-	cooldown_timer = 15 SECONDS
+	plasma_cost = 150
+	cooldown_timer = 8 SECONDS
 	keybind_signal = COMSIG_XENOABILITY_QUEEN_GIVE_PLASMA
 
 
@@ -683,5 +698,6 @@
 	message_admins("[ADMIN_TPMONTY(X)] has deevolved [ADMIN_TPMONTY(T)]. Reason: [reason]")
 
 	GLOB.round_statistics.total_xenos_created-- //so an evolved xeno doesn't count as two.
+	SSblackbox.record_feedback("tally", "round_statistics", -1, "total_xenos_created")
 	qdel(T)
 	X.use_plasma(600)

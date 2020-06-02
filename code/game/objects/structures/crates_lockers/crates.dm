@@ -5,8 +5,6 @@
 	icon_state = "closed_basic"
 	icon_opened = "open_basic"
 	icon_closed = "closed_basic"
-	climbable = 1
-	climb_delay = 20 //Doesn't need as long to climb over a crate
 	anchored = FALSE
 	mob_storage_capacity = 0
 	var/rigged = 0
@@ -71,7 +69,7 @@
 			continue
 		if(istype(O, /obj/structure/bed)) //This is only necessary because of rollerbeds and swivel chairs.
 			var/obj/structure/bed/B = O
-			if(B.buckled_mob)
+			if(LAZYLEN(B.buckled_mobs))
 				continue
 		O.loc = src
 		itemcount++
@@ -117,23 +115,19 @@
 
 /obj/structure/closet/crate/ex_act(severity)
 	switch(severity)
-		if(1.0)
+		if(EXPLODE_DEVASTATE)
 			for(var/obj/O in src.contents)
 				qdel(O)
 			qdel(src)
-			return
-		if(2.0)
+		if(EXPLODE_HEAVY)
 			for(var/obj/O in src.contents)
 				if(prob(50))
 					qdel(O)
 			qdel(src)
-			return
-		if(3.0)
+		if(EXPLODE_LIGHT)
 			if (prob(50))
 				qdel(src)
-			return
-		else
-	return
+
 
 /obj/structure/closet/crate/alpha
 	name = "alpha squad crate"
@@ -203,8 +197,8 @@
 
 /obj/structure/closet/crate/hydroponics/prespawned/Initialize()
 	. = ..()
-	new /obj/item/reagent_container/spray/plantbgone(src)
-	new /obj/item/reagent_container/spray/plantbgone(src)
+	new /obj/item/reagent_containers/spray/plantbgone(src)
+	new /obj/item/reagent_containers/spray/plantbgone(src)
 	new /obj/item/tool/minihoe(src)
 
 /obj/structure/closet/crate/internals

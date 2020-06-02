@@ -52,8 +52,9 @@
 		return fail_activate()
 
 	GLOB.round_statistics.defender_headbutts++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "defender_headbutts")
 
-	X.visible_message("<span class='xenowarning'>\The [X] rams [H] with it's armored crest!</span>", \
+	X.visible_message("<span class='xenowarning'>\The [X] rams [H] with its armored crest!</span>", \
 	"<span class='xenowarning'>We ram [H] with our armored crest!</span>")
 
 	succeed_activate()
@@ -63,14 +64,15 @@
 
 	X.face_atom(H) //Face towards the target so we don't look silly
 
-	var/damage = X.xeno_caste.melee_damage + FRENZY_DAMAGE_BONUS(X)
+	var/damage = X.xeno_caste.melee_damage
 	damage *= (1 + distance * 0.25) //More distance = more momentum = stronger Headbutt.
 	var/affecting = H.get_limb(ran_zone(null, 0))
 	if(!affecting) //Still nothing??
 		affecting = H.get_limb("chest") //Gotta have a torso?!
 	var/armor_block = H.run_armor_check(affecting, "melee")
 	H.apply_damage(damage, BRUTE, affecting, armor_block) //We deal crap brute damage after armor...
-	H.apply_damage(damage, HALLOSS) //...But some sweet armour ignoring Halloss
+	H.apply_damage(damage, STAMINA) //...But some sweet armour ignoring Stamina
+	UPDATEHEALTH(H)
 	shake_camera(H, 2, 1)
 
 	var/facing = get_dir(X, H)
@@ -85,7 +87,7 @@
 		T = temp
 
 	H.throw_at(T, headbutt_distance, 1, src)
-	H.knock_down(1, 1)
+	H.Paralyze(20)
 	playsound(H,'sound/weapons/alien_claw_block.ogg', 50, 1)
 
 // ***************************************
@@ -121,7 +123,8 @@
 	var/mob/living/carbon/xenomorph/X = owner
 
 	GLOB.round_statistics.defender_tail_sweeps++
-	X.visible_message("<span class='xenowarning'>\The [X] sweeps it's tail in a wide circle!</span>", \
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "defender_tail_sweeps")
+	X.visible_message("<span class='xenowarning'>\The [X] sweeps its tail in a wide circle!</span>", \
 	"<span class='xenowarning'>We sweep our tail in a wide circle!</span>")
 
 	X.spin(4, 1)
@@ -132,15 +135,17 @@
 	for (var/mob/living/carbon/human/H in L)
 		step_away(H, src, sweep_range, 2)
 		if(H.stat != DEAD && !isnestedhost(H) ) //No bully
-			var/damage = X.xeno_caste.melee_damage + FRENZY_DAMAGE_BONUS(X)
+			var/damage = X.xeno_caste.melee_damage
 			var/affecting = H.get_limb(ran_zone(null, 0))
 			if(!affecting) //Still nothing??
 				affecting = H.get_limb("chest") //Gotta have a torso?!
 			var/armor_block = H.run_armor_check(affecting, "melee")
 			H.apply_damage(damage, BRUTE, affecting, armor_block) //Crap base damage after armour...
-			H.apply_damage(damage, HALLOSS) //...But some sweet armour ignoring Halloss
-			H.knock_down(1, 1)
+			H.apply_damage(damage, STAMINA) //...But some sweet armour ignoring Stamina
+			UPDATEHEALTH(H)
+			H.Paralyze(20)
 		GLOB.round_statistics.defender_tail_sweep_hits++
+		SSblackbox.record_feedback("tally", "round_statistics", 1, "defender_tail_sweep_hits")
 		shake_camera(H, 2, 1)
 
 		to_chat(H, "<span class='xenowarning'>We are struck by \the [X]'s tail sweep!</span>")
@@ -150,6 +155,18 @@
 	if(X.crest_defense)
 		X.use_plasma(plasma_cost)
 	add_cooldown()
+
+/datum/action/xeno_action/activable/tail_sweep/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/activable/tail_sweep/ai_should_use(target)
+	if(!iscarbon(target))
+		return ..()
+	if(get_dist(target, owner) > 1)
+		return ..()
+	if(!can_use_ability(target, override_flags = XACT_IGNORE_SELECTED_ABILITY))
+		return ..()
+	return TRUE
 
 // ***************************************
 // *********** Forward Charge
@@ -162,6 +179,27 @@
 	cooldown_timer = 15 SECONDS
 	plasma_cost = 80
 	use_state_flags = XACT_USE_CRESTED
+	keybind_signal = COMSIG_XENOABILITY_FORWARD_CHARGE
+
+/datum/action/xeno_action/activable/forward_charge/proc/charge_complete()
+	UnregisterSignal(owner, list(COMSIG_XENO_OBJ_THROW_HIT, COMSIG_XENO_LIVING_THROW_HIT, COMSIG_XENO_NONE_THROW_HIT))
+
+/datum/action/xeno_action/activable/forward_charge/proc/mob_hit(datum/source, mob/M)
+	if(M.stat || isxeno(M))
+		return
+	return COMPONENT_KEEP_THROWING
+
+/datum/action/xeno_action/activable/forward_charge/proc/obj_hit(datum/source, obj/target, speed)
+	var/mob/living/carbon/xenomorph/X = owner
+	if(istype(target, /obj/structure/table) || istype(target, /obj/structure/rack))
+		var/obj/structure/S = target
+		X.visible_message("<span class='danger'>[X] plows straight through [S]!</span>", null, null, 5)
+		S.deconstruct(FALSE) //We want to continue moving, so we do not reset throwing.
+		return // stay registered
+	else
+		target.hitby(X, speed) //This resets throwing.
+	charge_complete()
+
 /datum/action/xeno_action/activable/forward_charge/can_use_ability(atom/A, silent = FALSE, override_flags)
 	. = ..()
 	if(!.)
@@ -176,6 +214,10 @@
 
 /datum/action/xeno_action/activable/forward_charge/use_ability(atom/A)
 	var/mob/living/carbon/xenomorph/X = owner
+
+	RegisterSignal(X, COMSIG_XENO_OBJ_THROW_HIT, .proc/obj_hit)
+	RegisterSignal(X, COMSIG_XENO_LIVING_THROW_HIT, .proc/mob_hit)
+	RegisterSignal(X, COMSIG_XENO_NONE_THROW_HIT, .proc/charge_complete)
 
 	if(!do_after(X, 0.5 SECONDS, FALSE, X, BUSY_ICON_GENERIC, extra_checks = CALLBACK(src, .proc/can_use_ability, A, FALSE, XACT_USE_BUSY)))
 		return fail_activate()
@@ -234,16 +276,18 @@
 		if(!silent)
 			to_chat(src, "<span class='xenowarning'>We tuck ourselves into a defensive stance.</span>")
 		GLOB.round_statistics.defender_crest_lowerings++
-		armor = armor.setRating(bomb = XENO_BOMB_RESIST_2)
+		SSblackbox.record_feedback("tally", "round_statistics", 1, "defender_crest_lowerings")
+		soft_armor = soft_armor.setRating(bomb = XENO_BOMB_RESIST_2)
 		armor_bonus += xeno_caste.crest_defense_armor
-		speed_modifier += DEFENDER_CRESTDEFENSE_SLOWDOWN
+		add_movespeed_modifier(MOVESPEED_ID_CRESTDEFENSE, TRUE, 0, NONE, TRUE, DEFENDER_CRESTDEFENSE_SLOWDOWN)
 	else
 		if(!silent)
 			to_chat(src, "<span class='xenowarning'>We raise our crest.</span>")
 		GLOB.round_statistics.defender_crest_raises++
-		armor = armor.setRating(bomb = XENO_BOMB_RESIST_0)
+		SSblackbox.record_feedback("tally", "round_statistics", 1, "defender_crest_raises")
+		soft_armor = soft_armor.setRating(bomb = XENO_BOMB_RESIST_0)
 		armor_bonus -= xeno_caste.crest_defense_armor
-		speed_modifier -= DEFENDER_CRESTDEFENSE_SLOWDOWN
+		remove_movespeed_modifier(MOVESPEED_ID_CRESTDEFENSE)
 	update_icons()
 
 // ***************************************
@@ -280,26 +324,27 @@
 		X.set_crest_defense(FALSE, TRUE)
 		CD.add_cooldown()
 		to_chat(X, "<span class='xenowarning'>We tuck our lowered crest into ourselves.</span>")
-	
+
 	X.set_fortify(TRUE, was_crested)
 	add_cooldown()
 	return succeed_activate()
 
 /mob/living/carbon/xenomorph/defender/proc/set_fortify(on, silent = FALSE)
 	GLOB.round_statistics.defender_fortifiy_toggles++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "defender_fortifiy_toggles")
 	if(on)
+		ADD_TRAIT(src, TRAIT_IMMOBILE, FORTIFY_TRAIT)
 		if(!silent)
 			to_chat(src, "<span class='xenowarning'>We tuck ourselves into a defensive stance.</span>")
 		armor_bonus += xeno_caste.fortify_armor
-		armor = armor.setRating(bomb = XENO_BOMB_RESIST_3)
+		soft_armor = soft_armor.setRating(bomb = XENO_BOMB_RESIST_3)
 	else
 		if(!silent)
 			to_chat(src, "<span class='xenowarning'>We resume our normal stance.</span>")
 		armor_bonus -= xeno_caste.fortify_armor
-		armor = armor.setRating(bomb = XENO_BOMB_RESIST_0)
+		soft_armor = soft_armor.setRating(bomb = XENO_BOMB_RESIST_0)
+		REMOVE_TRAIT(src, TRAIT_IMMOBILE, FORTIFY_TRAIT)
 	fortify = on
-	set_frozen(on)
 	anchored = on
-	playsound(loc, 'sound/effects/stonedoor_openclose.ogg', 30, 1)
-	update_canmove()
+	playsound(loc, 'sound/effects/stonedoor_openclose.ogg', 30, TRUE)
 	update_icons()

@@ -527,8 +527,8 @@
 		force_update = TRUE
 		process()
 
-	else if(istype(I, /obj/item/reagent_container/syringe))
-		var/obj/item/reagent_container/syringe/S = I
+	else if(istype(I, /obj/item/reagent_containers/syringe))
+		var/obj/item/reagent_containers/syringe/S = I
 		if(S.mode == 1)
 			if(seed)
 				return FALSE
@@ -558,12 +558,12 @@
 		to_chat(user, "You plant the [S.seed.seed_name] [S.seed.seed_noun].")
 
 		if(S.seed.spread == 1)
-			msg_admin_attack("[key_name(user)] has planted a creeper packet.")
+			message_admins("[key_name(user)] has planted a creeper packet.")
 			var/obj/effect/plant_controller/creeper/PC = new(get_turf(src))
 			if(PC)
 				PC.seed = S.seed
 		else if(S.seed.spread == 2)
-			msg_admin_attack("[key_name(user)] has planted a spreading vine packet.")
+			message_admins("[key_name(user)] has planted a spreading vine packet.")
 			var/obj/effect/plant_controller/PC = new(get_turf(src))
 			if(PC)
 				PC.seed = S.seed
@@ -593,7 +593,7 @@
 		var/obj/item/storage/bag/plants/S = I
 
 		attack_hand(user)
-		for(var/obj/item/reagent_container/food/snacks/grown/G in user.loc)
+		for(var/obj/item/reagent_containers/food/snacks/grown/G in user.loc)
 			if(!S.can_be_inserted(G))
 				return
 			S.handle_item_insertion(G, TRUE, user)

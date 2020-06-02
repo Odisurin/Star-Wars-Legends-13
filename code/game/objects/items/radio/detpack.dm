@@ -76,20 +76,20 @@
 	. = ..()
 
 	if(ismultitool(I) && armed)
-		if(user.mind?.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_METAL)
+		if(user.skills.getRating("engineer") < SKILL_ENGINEER_METAL)
 			user.visible_message("<span class='notice'>[user] fumbles around figuring out how to use the [src].</span>",
 			"<span class='notice'>You fumble around figuring out how to use [src].</span>")
 			var/fumbling_time = 30
 			if(!do_after(user, fumbling_time, TRUE, src, BUSY_ICON_UNSKILLED))
 				return
 
-			if(prob((SKILL_ENGINEER_METAL - user.mind.cm_skills.engineer) * 20))
+			if(prob((SKILL_ENGINEER_METAL - user.skills.getRating("engineer")) * 20))
 				to_chat(user, "<font color='danger'>After several seconds of your clumsy meddling the [src] buzzes angrily as if offended. You have a <b>very</b> bad feeling about this.</font>")
 				timer = 0 //Oops. Now you fucked up. Immediate detonation.
-		
+
 		user.visible_message("<span class='notice'>[user] begins disarming [src] with [I].</span>",
 		"<span class='notice'>You begin disarming [src] with [I].</span>")
-		
+
 		if(!do_after(user, 30, TRUE, src, BUSY_ICON_FRIENDLY))
 			return
 
@@ -163,15 +163,15 @@
 	else if(href_list["code"])
 		code += text2num(href_list["code"])
 		code = CLAMP(round(code), 1, 100)
-	
+
 	else if(href_list["det_mode"])
 		det_mode = !det_mode
 		update_icon()
-	
+
 	else if(href_list["power"])
 		on = !on
 		update_icon()
-	
+
 	else if(href_list["timer"])
 		timer += text2num(href_list["timer"])
 		timer = CLAMP(round(timer), DETPACK_TIMER_MIN, DETPACK_TIMER_MAX)
@@ -185,8 +185,8 @@
 	if(!.)
 		return FALSE
 
-	if(user.mind?.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_METAL)
-		if(!do_after(user, 20, TRUE, src, BUSY_ICON_UNSKILLED))
+	if(user.skills.getRating("engineer") < SKILL_ENGINEER_METAL)
+		if(!do_after(user, 2 SECONDS, TRUE, src, BUSY_ICON_UNSKILLED))
 			return FALSE
 
 	return TRUE
@@ -232,14 +232,8 @@
 		return FALSE
 	if(istype(target, /obj/item) || istype(target, /mob))
 		return FALSE
-	if(isobj(target))
-		var/obj/O = target
-		if(CHECK_BITFIELD(O.resistance_flags, INDESTRUCTIBLE))
-			return FALSE
-	if(iswallturf(target))
-		var/turf/closed/wall/W = target
-		if(W.hull)
-			return FALSE
+	if(target.resistance_flags & INDESTRUCTIBLE)
+		return FALSE
 	if(istype(target, /obj/structure/window))
 		var/obj/structure/window/W = target
 		if(!W.damageable)
@@ -249,11 +243,10 @@
 		to_chat(user, "<span class='warning'>There is already a device attached to [target]</span>.")
 		return FALSE
 
-	if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_METAL)
+	if(user.skills.getRating("engineer") < SKILL_ENGINEER_METAL)
 		user.visible_message("<span class='notice'>[user] fumbles around figuring out how to use [src].</span>",
 		"<span class='notice'>You fumble around figuring out how to use [src].</span>")
-		var/fumbling_time = 50
-		if(!do_after(user, fumbling_time, TRUE, target, BUSY_ICON_UNSKILLED))
+		if(!do_after(user, 5 SECONDS, TRUE, target, BUSY_ICON_UNSKILLED))
 			return
 
 	user.visible_message("<span class='warning'>[user] is trying to plant [name] on [target]!</span>",
@@ -271,7 +264,7 @@
 
 		log_game("[key_name(user)] planted [src.name] on [target.name] at [AREACOORD(target.loc)] with [timer] second fuse.")
 		message_admins("[ADMIN_TPMONTY(user)] planted [src.name] on [target.name] at [ADMIN_VERBOSEJMP(target.loc)] with [timer] second fuse.")
-	
+
 		notify_ghosts("<b>[user]</b> has planted \a <b>[name]</b> on <b>[target.name]</b> with a <b>[timer]</b> second fuse!", source = user, action = NOTIFY_ORBIT)
 
 		//target.overlays += image('icons/obj/items/assemblies.dmi', "plastic-explosive2")
@@ -290,7 +283,7 @@
 /obj/item/detpack/proc/change_to_loud_sound()
 	if(sound_timer)
 		deltimer(sound_timer)
-		sound_timer = addtimer(CALLBACK(src, .proc/do_play_sound_loud), 1 SECONDS, TIMER_LOOP)
+		sound_timer = addtimer(CALLBACK(src, .proc/do_play_sound_loud), 1 SECONDS, TIMER_LOOP|TIMER_STOPPABLE)
 
 /obj/item/detpack/proc/do_play_sound_normal()
 	timer--
@@ -335,9 +328,9 @@
 	playsound(src.loc, 'sound/weapons/ring.ogg', 200, FALSE)
 	boom = TRUE
 	if(det_mode == TRUE) //If we're on demolition mode, big boom.
-		explosion(get_turf(plant_target), 2, 4, 5, 6)
+		explosion(plant_target, 3, 5, 6, 6)
 	else //if we're not, focused boom.
-		explosion(get_turf(plant_target), 1, 1, 2, 3)
+		explosion(plant_target, 2, 2, 3, 3, throw_range = FALSE)
 	if(plant_target)
 		if(isobj(plant_target))
 			plant_target = null

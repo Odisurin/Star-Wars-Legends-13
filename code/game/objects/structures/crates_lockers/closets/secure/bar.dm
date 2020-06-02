@@ -11,16 +11,16 @@
 
 /obj/structure/closet/secure_closet/bar/Initialize()
 	. = ..()
-	new /obj/item/reagent_container/food/drinks/cans/beer( src )
-	new /obj/item/reagent_container/food/drinks/cans/beer( src )
-	new /obj/item/reagent_container/food/drinks/cans/beer( src )
-	new /obj/item/reagent_container/food/drinks/cans/beer( src )
-	new /obj/item/reagent_container/food/drinks/cans/beer( src )
-	new /obj/item/reagent_container/food/drinks/cans/beer( src )
-	new /obj/item/reagent_container/food/drinks/cans/beer( src )
-	new /obj/item/reagent_container/food/drinks/cans/beer( src )
-	new /obj/item/reagent_container/food/drinks/cans/beer( src )
-	new /obj/item/reagent_container/food/drinks/cans/beer( src )
+	new /obj/item/reagent_containers/food/drinks/cans/beer( src )
+	new /obj/item/reagent_containers/food/drinks/cans/beer( src )
+	new /obj/item/reagent_containers/food/drinks/cans/beer( src )
+	new /obj/item/reagent_containers/food/drinks/cans/beer( src )
+	new /obj/item/reagent_containers/food/drinks/cans/beer( src )
+	new /obj/item/reagent_containers/food/drinks/cans/beer( src )
+	new /obj/item/reagent_containers/food/drinks/cans/beer( src )
+	new /obj/item/reagent_containers/food/drinks/cans/beer( src )
+	new /obj/item/reagent_containers/food/drinks/cans/beer( src )
+	new /obj/item/reagent_containers/food/drinks/cans/beer( src )
 
 /obj/structure/closet/secure_closet/bar/update_icon()
 	if(broken)
@@ -37,4 +37,4 @@
 /obj/structure/closet/secure_closet/bar/captain
 	name = "Success Cabinet"
 	req_access = list(ACCESS_MARINE_CAPTAIN)
-	
+

@@ -577,7 +577,7 @@
 	},
 /area/ice_colony/exterior/surface/cliff)
 "aci" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
@@ -662,7 +662,7 @@
 /area/ice_colony/surface/engineering/electric)
 "acx" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/drinks/cans/thirteenloko,
+/obj/item/reagent_containers/food/drinks/cans/thirteenloko,
 /turf/open/floor/tile/dark/yellow2,
 /area/ice_colony/surface/engineering/electric)
 "acy" = (
@@ -778,10 +778,9 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Colony Engineering Electric Storage";
-	req_access_txt = "100"
+	name = "\improper Colony Engineering Electric Storage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/engineering/electric)
@@ -916,12 +915,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/locked/free_access{
 	dir = 4;
-	icon_state = "door_locked";
-	locked = 1;
-	name = "Colony Requesitions Storage Pod";
-	req_access_txt = "100"
+	name = "\improper Colony Requesitions Storage Pod"
 	},
 /turf/open/floor/plating/icefloor,
 /area/ice_colony/surface/requesitions)
@@ -930,6 +926,10 @@
 	dir = 8
 	},
 /area/ice_colony/exterior/surface/landing_pad2)
+"adp" = (
+/obj/effect/landmark/nuke_spawn,
+/turf/open/shuttle/dropship/three,
+/area/ice_colony/underground/responsehangar)
 "adq" = (
 /obj/effect/turf_overlay/icerock,
 /obj/effect/turf_overlay/icerock{
@@ -1034,6 +1034,12 @@
 	},
 /turf/closed/ice_rock/corners,
 /area/ice_colony/exterior/surface/cliff)
+"adG" = (
+/obj/structure/filingcabinet/security,
+/turf/open/floor/tile/dark/red2{
+	dir = 6
+	},
+/area/ice_colony/underground/responsehangar)
 "adH" = (
 /obj/machinery/light/small{
 	dir = 4
@@ -1363,6 +1369,14 @@
 "aeC" = (
 /turf/closed/ice_rock/singleEnd,
 /area/ice_colony/exterior/surface/valley/north)
+"aeD" = (
+/obj/machinery/light/small{
+	dir = 1
+	},
+/turf/open/floor/tile/vault{
+	dir = 8
+	},
+/area/ice_colony/surface/storage_unit/research)
 "aeE" = (
 /obj/effect/landmark/monkey_spawn,
 /turf/open/floor/plating/ground/snow/layer2,
@@ -1407,9 +1421,8 @@
 /turf/open/floor/plating,
 /area/ice_colony/surface/engineering)
 "aeL" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Colony Engineering Generator Room";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Colony Engineering Generator Room"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/engineering/generator)
@@ -1470,10 +1483,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Colony Engineering Tool Storage";
-	req_access_txt = "100"
+	name = "\improper Colony Engineering Tool Storage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/engineering/tool)
@@ -1635,10 +1647,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 4;
-	name = "\improper Colony Engineering Material Storage";
-	req_access_txt = "100"
+	name = "\improper Colony Engineering Material Storage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/engineering)
@@ -2089,7 +2100,7 @@
 /area/ice_colony/surface/engineering)
 "agz" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/snacks/human/burger,
+/obj/item/reagent_containers/food/snacks/human/burger,
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable{
 	d1 = 4;
@@ -2131,9 +2142,8 @@
 	},
 /area/ice_colony/exterior/surface/valley/northwest)
 "agD" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Colony Engineering Generator Room";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Colony Engineering Generator Room"
 	},
 /obj/structure/cable{
 	d1 = 4;
@@ -2309,17 +2319,13 @@
 /turf/closed/ice_rock/southWall,
 /area/ice_colony/exterior/surface/valley/north)
 "agY" = (
-/obj/machinery/vending/tool{
-	req_access_txt = "102"
-	},
+/obj/machinery/vending/tool,
 /turf/open/floor/tile/dark/yellow2{
 	dir = 1
 	},
 /area/ice_colony/surface/substation/smes)
 "agZ" = (
-/obj/machinery/vending/engivend{
-	req_access_txt = "102"
-	},
+/obj/machinery/vending/engivend,
 /turf/open/floor/tile/dark/yellow2{
 	dir = 1
 	},
@@ -2435,10 +2441,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 4;
-	name = "\improper Colony Engineering Locker Room";
-	req_access_txt = "100"
+	name = "\improper Colony Engineering Locker Room"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/engineering)
@@ -2534,7 +2539,6 @@
 /area/ice_colony/surface/substation/smes)
 "ahy" = (
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 4
 	},
 /obj/structure/cable/yellow{
@@ -2586,7 +2590,6 @@
 /area/ice_colony/surface/substation/smes)
 "ahD" = (
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 1
 	},
 /obj/structure/cable/yellow{
@@ -2921,10 +2924,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Colony Engineering";
-	req_access_txt = "100"
+	name = "\improper Colony Engineering"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/engineering)
@@ -2938,10 +2940,9 @@
 /area/ice_colony/surface/engineering)
 "aiA" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Colony Engineering Backup Power Storage";
-	req_access_txt = "100"
+	name = "\improper Colony Engineering Backup Power Storage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/engineering)
@@ -2992,7 +2993,7 @@
 /turf/open/floor/plating/ground/ice,
 /area/ice_colony/exterior/surface/valley/northwest)
 "aiI" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /obj/structure/cable/yellow{
 	d1 = 4;
 	d2 = 8;
@@ -3020,7 +3021,6 @@
 /area/ice_colony/surface/substation/smes)
 "aiK" = (
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 1
 	},
 /obj/structure/cable/yellow{
@@ -3053,11 +3053,9 @@
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/hydroponics/north)
 "aiP" = (
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Hydroponics North Wing Dome";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Hydroponics North Wing Dome"
 	},
 /turf/open/floor/tile/darkgreen/darkgreen2{
 	dir = 8
@@ -3124,7 +3122,6 @@
 /area/ice_colony/surface/engineering)
 "aiW" = (
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
@@ -3183,7 +3180,6 @@
 /area/ice_colony/surface/substation/smes)
 "ajd" = (
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 4
 	},
 /obj/structure/cable/yellow,
@@ -3283,12 +3279,9 @@
 /turf/open/floor/tile/dark,
 /area/ice_colony/exterior/surface/landing_pad2)
 "ajq" = (
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/locked/free_access{
 	dir = 4;
-	icon_state = "door_locked";
-	locked = 1;
-	name = "Colony Requesitions Storage Pod";
-	req_access_txt = "100"
+	name = "\improper Colony Requesitions Storage Pod"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -3342,7 +3335,6 @@
 /area/ice_colony/surface/engineering)
 "ajw" = (
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 8
 	},
 /obj/structure/cable/yellow{
@@ -3446,10 +3438,9 @@
 /area/ice_colony/surface/engineering)
 "ajE" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Colony Power Substation SMES";
-	req_access_txt = "100"
+	name = "\improper Colony Power Substation SMES"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/substation/smes)
@@ -3892,6 +3883,12 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /turf/open/floor/plating/ground/snow/layer0,
 /area/ice_colony/exterior/surface/clearing/north)
+"akH" = (
+/obj/machinery/computer/nuke_disk_generator/green,
+/turf/open/floor/tile/dark/red2{
+	dir = 8
+	},
+/area/ice_colony/surface/hangar/checkpoint)
 "akI" = (
 /obj/structure/closet/toolcloset,
 /turf/open/floor/tile/dark/yellow2,
@@ -3935,28 +3932,10 @@
 	},
 /turf/open/floor/freezer,
 /area/ice_colony/surface/dorms/restroom_w)
-"akS" = (
-/obj/machinery/shower{
-	dir = 4;
-	icon_state = "shower";
-	pixel_x = 5;
-	pixel_y = -8
-	},
-/turf/open/floor/freezer,
-/area/ice_colony/surface/dorms/restroom_e)
 "akT" = (
 /obj/structure/curtain/open/shower,
 /turf/open/floor/freezer,
 /area/ice_colony/surface/dorms/restroom_e)
-"akU" = (
-/obj/machinery/shower{
-	dir = 4;
-	icon_state = "shower";
-	pixel_x = 5;
-	pixel_y = -8
-	},
-/turf/open/floor/freezer,
-/area/ice_colony/surface/dorms/restroom_w)
 "akV" = (
 /obj/structure/curtain/open/shower,
 /turf/open/floor/freezer,
@@ -4009,10 +3988,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Colony Power Substation";
-	req_access_txt = "100"
+	name = "\improper Colony Power Substation"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/substation/smes)
@@ -4023,8 +4001,7 @@
 /area/ice_colony/underground/hangar)
 "alf" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Hydroponics Dome South Wing";
-	req_access_txt = "100"
+	name = "\improper Hydroponics Dome South Wing"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /turf/open/floor/tile/dark2,
@@ -4256,13 +4233,7 @@
 	},
 /area/ice_colony/underground/hangar)
 "alT" = (
-/obj/machinery/shower{
-	dir = 4;
-	icon_state = "shower";
-	pixel_x = 5;
-	pixel_y = -8
-	},
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /obj/item/storage/toolbox/emergency,
 /turf/open/floor/freezer,
 /area/ice_colony/surface/dorms/restroom_w)
@@ -4328,7 +4299,7 @@
 	},
 /area/ice_colony/surface/mining)
 "ame" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/darkgreen/darkgreen2{
 	dir = 8
 	},
@@ -4718,11 +4689,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Hydroponics North Wing Technical Storage";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Hydroponics North Wing Technical Storage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/hydroponics/north)
@@ -4864,10 +4833,10 @@
 /area/ice_colony/surface/engineering)
 "anA" = (
 /obj/structure/closet/crate/freezer,
-/obj/item/reagent_container/blood/OMinus,
-/obj/item/reagent_container/blood/OMinus,
-/obj/item/reagent_container/blood/OMinus,
-/obj/item/reagent_container/blood/OMinus,
+/obj/item/reagent_containers/blood/OMinus,
+/obj/item/reagent_containers/blood/OMinus,
+/obj/item/reagent_containers/blood/OMinus,
+/obj/item/reagent_containers/blood/OMinus,
 /turf/open/floor/tile/red/whitered{
 	dir = 9
 	},
@@ -4951,15 +4920,11 @@
 /turf/open/floor/tile/dark/yellow2,
 /area/ice_colony/surface/substation)
 "anQ" = (
-/obj/machinery/vending/assist{
-	req_access_txt = "102"
-	},
+/obj/machinery/vending/assist,
 /turf/open/floor/tile/dark/yellow2,
 /area/ice_colony/surface/substation)
 "anR" = (
-/obj/machinery/vending/assist{
-	req_access_txt = "102"
-	},
+/obj/machinery/vending/assist,
 /turf/open/floor/tile/dark/yellow2{
 	dir = 6
 	},
@@ -5009,9 +4974,7 @@
 "anY" = (
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 4;
-	name = "\improper Toilet Unit";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Toilet Unit"
 	},
 /turf/open/floor/freezer,
 /area/ice_colony/surface/dorms/restroom_w)
@@ -5037,7 +5000,6 @@
 /area/ice_colony/surface/clinic/treatment)
 "aoc" = (
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 4
 	},
 /obj/structure/cable/yellow{
@@ -5117,9 +5079,7 @@
 "aom" = (
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 4;
-	name = "\improper Toilet Unit";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Toilet Unit"
 	},
 /turf/open/floor/freezer,
 /area/ice_colony/surface/dorms/restroom_e)
@@ -5145,10 +5105,9 @@
 "aop" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Colony Power Substation";
-	req_access_txt = "100"
+	name = "\improper Colony Power Substation"
 	},
 /obj/structure/cable{
 	d1 = 1;
@@ -5427,9 +5386,8 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Colony Mining Station";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Colony Mining Station"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/surface/mining)
@@ -5488,11 +5446,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Aurora Medical Clinic Recovery Room";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Aurora Medical Clinic Recovery Room"
 	},
 /turf/open/floor/tile/white,
 /area/ice_colony/surface/clinic/treatment)
@@ -5573,11 +5529,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Aurora Medical Clinic Scanning Unit";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Aurora Medical Clinic Scanning Unit"
 	},
 /turf/open/floor/tile/white,
 /area/ice_colony/surface/clinic/treatment)
@@ -5599,7 +5553,7 @@
 "apr" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/firstaid/adv,
-/obj/item/reagent_container/glass/bottle/oxycodone{
+/obj/item/reagent_containers/glass/bottle/oxycodone{
 	pixel_x = 9;
 	pixel_y = 6
 	},
@@ -5608,11 +5562,11 @@
 	},
 /area/ice_colony/surface/clinic/treatment)
 "aps" = (
-/obj/item/reagent_container/blood/empty{
+/obj/item/reagent_containers/blood/empty{
 	pixel_x = 25;
 	pixel_y = 9
 	},
-/obj/item/reagent_container/blood/empty{
+/obj/item/reagent_containers/blood/empty{
 	pixel_x = 25;
 	pixel_y = 9
 	},
@@ -5623,7 +5577,7 @@
 /obj/structure/sink{
 	dir = 4
 	},
-/obj/item/reagent_container/blood/empty,
+/obj/item/reagent_containers/blood/empty,
 /turf/open/floor/tile/red/whitered{
 	dir = 4
 	},
@@ -5661,12 +5615,12 @@
 "apA" = (
 /obj/structure/table/reinforced,
 /obj/item/defibrillator,
-/obj/item/reagent_container/spray/cleaner,
-/obj/item/reagent_container/spray/surgery{
+/obj/item/reagent_containers/spray/cleaner,
+/obj/item/reagent_containers/spray/surgery{
 	pixel_x = 12;
 	pixel_y = 2
 	},
-/obj/item/reagent_container/spray/surgery{
+/obj/item/reagent_containers/spray/surgery{
 	pixel_x = 12;
 	pixel_y = 2
 	},
@@ -6116,11 +6070,9 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Aurora Medical Clinic Storage";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Aurora Medical Clinic Storage"
 	},
 /turf/open/floor/tile/white,
 /area/ice_colony/surface/clinic/storage)
@@ -6184,9 +6136,7 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Dormitories Men's Restroom";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Dormitories Men's Restroom"
 	},
 /turf/open/floor/freezer,
 /area/ice_colony/surface/dorms/restroom_w)
@@ -6210,9 +6160,7 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Dormitories Women's Restroom";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Dormitories Women's Restroom"
 	},
 /turf/open/floor/freezer,
 /area/ice_colony/surface/dorms/restroom_e)
@@ -6549,8 +6497,7 @@
 "arx" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Colony Dormitories";
-	req_access_txt = "100"
+	name = "\improper Colony Dormitories"
 	},
 /turf/open/floor/tile/darkgreen/darkgreen2{
 	dir = 6
@@ -6591,9 +6538,7 @@
 "arF" = (
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Colony Dormitory Unit";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Colony Dormitory Unit"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/surface/dorms)
@@ -6623,9 +6568,7 @@
 "arK" = (
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Colony Dormitory Custodial Closet";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Colony Dormitory Custodial Closet"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/surface/dorms)
@@ -6641,8 +6584,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Colony Dormitories";
-	req_access_txt = "100"
+	name = "\improper Colony Dormitories"
 	},
 /turf/open/floor/tile/darkgreen/darkgreen2{
 	dir = 10
@@ -6814,7 +6756,7 @@
 "asi" = (
 /obj/structure/bed,
 /obj/item/bedsheet/medical,
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /obj/machinery/light/small{
 	dir = 8
 	},
@@ -6955,8 +6897,7 @@
 "asE" = (
 /obj/machinery/door/airlock/multi_tile/mainship/medidoor{
 	dir = 4;
-	name = "\improper Aurora Medical Clinic Treatment";
-	req_access_txt = "100"
+	name = "\improper Aurora Medical Clinic Treatment"
 	},
 /turf/open/floor/tile/red/whitered{
 	dir = 8
@@ -6975,11 +6916,9 @@
 	},
 /area/ice_colony/surface/clinic/treatment)
 "asG" = (
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 1;
-	name = "\improper Aurora Medical Clinic Storage";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Aurora Medical Clinic Storage"
 	},
 /turf/open/floor{
 	icon_state = "cafeteria";
@@ -7715,8 +7654,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/medidoor{
 	dir = 1;
-	name = "\improper Aurora Medical Clinic";
-	req_access_txt = "100"
+	name = "\improper Aurora Medical Clinic"
 	},
 /turf/open/floor/tile/red/whiteredfull,
 /area/ice_colony/surface/clinic/lobby)
@@ -8283,8 +8221,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Hydroponics Dome";
-	req_access_txt = "100"
+	name = "\improper Hydroponics Dome"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/hydroponics/lobby)
@@ -8357,8 +8294,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Colony Dormitories";
-	req_access_txt = "100"
+	name = "\improper Colony Dormitories"
 	},
 /turf/open/floor/tile/darkgreen/darkgreen2{
 	dir = 6
@@ -8464,8 +8400,7 @@
 "awo" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Hydroponics Zoo Dome";
-	req_access_txt = "100"
+	name = "\improper Hydroponics Zoo Dome"
 	},
 /turf/open/floor/tile/darkgreen/darkgreen2,
 /area/ice_colony/surface/hydroponics/lobby)
@@ -8496,8 +8431,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Hydroponics Dome";
-	req_access_txt = "100"
+	name = "\improper Hydroponics Dome"
 	},
 /turf/open/floor/tile/darkgreen/darkgreen2,
 /area/ice_colony/surface/hydroponics/lobby)
@@ -8627,8 +8561,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Colony Dormitories";
-	req_access_txt = "100"
+	name = "\improper Colony Dormitories"
 	},
 /turf/open/floor/tile/darkgreen/darkgreen2{
 	dir = 10
@@ -8654,7 +8587,7 @@
 /turf/closed/ice/thin/end,
 /area/ice_colony/exterior/surface/valley/southeast)
 "awN" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/wood,
 /area/ice_colony/surface/dorms)
 "awO" = (
@@ -8973,7 +8906,6 @@
 /area/ice_colony/surface/disposals)
 "axF" = (
 /obj/structure/disposaloutlet{
-	icon_state = "outlet";
 	dir = 4
 	},
 /obj/structure/disposalpipe/trunk{
@@ -9343,7 +9275,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/item/reagent_container/food/snacks/hotchili,
+/obj/item/reagent_containers/food/snacks/hotchili,
 /turf/open/floor/tile/darkgreen/darkgreen2{
 	dir = 1
 	},
@@ -9410,8 +9342,7 @@
 "ayS" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Power Substation";
-	req_access_txt = "100"
+	name = "\improper Underground Power Substation"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -9671,9 +9602,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Colony Disposals";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Colony Disposals"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/disposals)
@@ -9753,7 +9683,7 @@
 /area/ice_colony/surface/dorms/lavatory)
 "azL" = (
 /obj/structure/table,
-/obj/item/reagent_container/spray/cleaner,
+/obj/item/reagent_containers/spray/cleaner,
 /turf/open/floor/tile/dark/brown2,
 /area/ice_colony/surface/dorms/lavatory)
 "azM" = (
@@ -9837,7 +9767,7 @@
 /obj/machinery/light/small{
 	dir = 4
 	},
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/freezer,
 /area/ice_colony/surface/dorms/restroom_e)
 "aAa" = (
@@ -9909,7 +9839,7 @@
 	},
 /area/ice_colony/exterior/surface/valley/northwest)
 "aAl" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/disposals)
 "aAm" = (
@@ -9927,8 +9857,7 @@
 "aAp" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Colony Dormitories Lavatory";
-	req_access_txt = "100"
+	name = "\improper Colony Dormitories Lavatory"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/dorms/lavatory)
@@ -9980,8 +9909,7 @@
 "aAw" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Colony Dormitories Canteen";
-	req_access_txt = "100"
+	name = "\improper Colony Dormitories Canteen"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/dorms/canteen)
@@ -10189,11 +10117,9 @@
 	},
 /area/ice_colony/surface/disposals)
 "aBf" = (
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Hydroponics South Wing Dome";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Hydroponics South Wing Dome"
 	},
 /turf/open/floor/tile/darkgreen/darkgreen2{
 	dir = 8
@@ -10440,8 +10366,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Colony Dormitories";
-	req_access_txt = "100"
+	name = "\improper Colony Dormitories"
 	},
 /turf/open/floor/tile/dark/blue2{
 	dir = 6
@@ -10664,9 +10589,8 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/multi_tile/mainship/comdoor{
-	name = "\improper Colony Administration";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/multi_tile/mainship/comdoor/free_access{
+	name = "\improper Colony Administration"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/command/checkpoint)
@@ -10991,7 +10915,7 @@
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/command/control/office)
 "aDa" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/command/control/office)
 "aDb" = (
@@ -11035,10 +10959,9 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/security/glass{
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
 	dir = 4;
-	name = "\improper Colony Security Checkpoint";
-	req_access_txt = "100"
+	name = "\improper Colony Security Checkpoint"
 	},
 /turf/open/floor/tile/dark/red2{
 	dir = 8
@@ -11187,9 +11110,7 @@
 /obj/effect/decal/cleanable/blood/gibs,
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Colony Dormitory Unit";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Colony Dormitory Unit"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/surface/dorms)
@@ -11400,10 +11321,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 8
 	},
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/free_access{
 	dir = 4;
-	name = "Colony Garage";
-	req_access_txt = "100"
+	name = "\improper Colony Garage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/garage/one)
@@ -11527,8 +11447,7 @@
 "aEo" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Colony Garage";
-	req_access_txt = "100"
+	name = "\improper Colony Garage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/garage/repair)
@@ -11857,11 +11776,9 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Hydroponics South Wing Technical Storage";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Hydroponics South Wing Technical Storage"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -12061,9 +11978,8 @@
 	id = "colony_admin_top";
 	name = "\improper Colony Administration Blast Door"
 	},
-/obj/machinery/door/airlock/multi_tile/mainship/comdoor{
-	name = "\improper Colony Offices";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/multi_tile/mainship/comdoor/free_access{
+	name = "\improper Colony Offices"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/command/control/office)
@@ -12193,10 +12109,9 @@
 /area/ice_colony/surface/garage/repair)
 "aFY" = (
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Colony Garage Repair Station";
-	req_access_txt = "100"
+	name = "\improper Colony Garage Repair Station"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/garage/repair)
@@ -12537,10 +12452,9 @@
 	id = "colony_admin_top";
 	name = "\improper Colony Administration Blast Door"
 	},
-/obj/machinery/door/airlock/multi_tile/mainship/comdoor{
+/obj/machinery/door/airlock/multi_tile/mainship/comdoor/free_access{
 	dir = 1;
-	name = "\improper Colony Control Center";
-	req_access_txt = "100"
+	name = "\improper Colony Control Center"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/command/control)
@@ -12648,10 +12562,9 @@
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/free_access{
 	dir = 2;
-	name = "Colony Garage";
-	req_access_txt = "100"
+	name = "\improper Colony Garage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/garage/one)
@@ -12701,10 +12614,9 @@
 	},
 /area/ice_colony/surface/garage/one)
 "aHc" = (
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/free_access{
 	dir = 2;
-	name = "Colony Garage";
-	req_access_txt = "100"
+	name = "\improper Colony Garage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/garage/two)
@@ -12781,12 +12693,10 @@
 /turf/open/floor/wood,
 /area/ice_colony/surface/command/crisis)
 "aHn" = (
-/obj/structure/closet/secure_closet/guncabinet,
+/obj/structure/closet/secure_closet/guncabinet/highpower,
 /obj/machinery/firealarm{
 	dir = 4
 	},
-/obj/item/weapon/gun/pistol/highpower,
-/obj/item/ammo_magazine/pistol/highpower,
 /turf/open/floor/wood,
 /area/ice_colony/surface/command/crisis)
 "aHo" = (
@@ -12968,9 +12878,8 @@
 	name = "\improper Forced Blast Door";
 	opacity = 0
 	},
-/obj/machinery/door/airlock/multi_tile/mainship/comdoor{
-	name = "\improper Colony Crisis Room";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/multi_tile/mainship/comdoor/free_access{
+	name = "\improper Colony Crisis Room"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/surface/command/crisis)
@@ -12993,10 +12902,9 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/command{
+/obj/machinery/door/airlock/mainship/command/free_access{
 	dir = 1;
-	name = "\improper Colony Administration Office";
-	req_access_txt = "100"
+	name = "\improper Colony Administration Office"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/surface/command/control/pv1)
@@ -13011,10 +12919,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/command{
+/obj/machinery/door/airlock/mainship/command/free_access{
 	dir = 1;
-	name = "\improper Colony Administration Office";
-	req_access_txt = "100"
+	name = "\improper Colony Administration Office"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/surface/command/control/pv2)
@@ -13049,10 +12956,7 @@
 /obj/machinery/door_control{
 	id = "st_17";
 	name = "Storage Unit Lock";
-	normaldoorcontrol = 1;
-	pixel_x = 24;
-	req_access_txt = "100";
-	specialfunctions = 4
+	pixel_x = 24
 	},
 /turf/open/floor/tile/vault{
 	dir = 8
@@ -13062,10 +12966,7 @@
 /obj/machinery/door_control{
 	id = "st_17";
 	name = "Storage Unit Lock";
-	normaldoorcontrol = 1;
-	pixel_x = -24;
-	req_access_txt = "100";
-	specialfunctions = 4
+	pixel_x = -24
 	},
 /turf/open/floor/plating/ground/snow/layer2,
 /area/ice_colony/surface/storage_unit/power)
@@ -13373,8 +13274,7 @@
 /area/ice_colony/exterior/surface/valley/southeast)
 "aIT" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Hydroponics Dome South Wing";
-	req_access_txt = "100"
+	name = "\improper Hydroponics Dome South Wing"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /turf/open/floor/tile/dark2,
@@ -13455,8 +13355,7 @@
 "aJf" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Colony Dormitories";
-	req_access_txt = "100"
+	name = "\improper Colony Dormitories"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -13953,8 +13852,7 @@
 /area/ice_colony/exterior/surface/clearing/north)
 "aKM" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Hydroponics Dome North Wing";
-	req_access_txt = "100"
+	name = "\improper Hydroponics Dome North Wing"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/hydroponics/north)
@@ -13997,13 +13895,8 @@
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/north)
 "aKT" = (
-/obj/machinery/door/airlock/mainship/maint{
-	icon_state = "door_locked";
-	id = "undergroundhangarwest";
-	locked = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -14025,9 +13918,7 @@
 /turf/open/floor/tile/dark/brown2,
 /area/ice_colony/surface/garage/one)
 "aKW" = (
-/turf/open/floor{
-	icon_state = "darkredcorners2"
-	},
+/turf/open/floor/tile/dark/red2/corner,
 /area/ice_colony/underground/responsehangar)
 "aKX" = (
 /obj/structure/rack,
@@ -14399,8 +14290,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Anti-Freeze Canteen";
-	req_access_txt = "100"
+	name = "\improper Anti-Freeze Canteen"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/surface/bar/canteen)
@@ -14570,8 +14460,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Hydroponics Dome North Wing";
-	req_access_txt = "100"
+	name = "\improper Hydroponics Dome North Wing"
 	},
 /turf/open/floor/tile/dark,
 /area/ice_colony/surface/hydroponics/north)
@@ -14653,10 +14542,9 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/security/glass{
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
 	dir = 4;
-	name = "\improper Colony Security Checkpoint";
-	req_access_txt = "100"
+	name = "\improper Colony Security Checkpoint"
 	},
 /turf/open/floor/tile/dark/red2{
 	dir = 8
@@ -15017,25 +14905,20 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/locked/free_access{
 	dir = 2;
-	icon_state = "door_locked";
 	id = "st_18";
-	locked = 1;
-	name = "Disposals Storage Unit";
-	req_access_txt = "100"
+	name = "\improper Disposals Storage Unit"
 	},
 /turf/open/floor/tile/vault{
 	dir = 8
 	},
 /area/ice_colony/surface/storage_unit/telecomms)
 "aNC" = (
-/obj/structure/closet/secure_closet/guncabinet,
+/obj/structure/closet/secure_closet/guncabinet/highpower,
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/item/weapon/gun/pistol/highpower,
-/obj/item/ammo_magazine/pistol/highpower,
 /turf/open/floor/wood,
 /area/ice_colony/surface/command/crisis)
 "aND" = (
@@ -15045,7 +14928,7 @@
 "aNE" = (
 /obj/structure/mopbucket,
 /obj/item/tool/mop,
-/obj/item/reagent_container/glass/bucket,
+/obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/plating,
 /area/ice_colony/surface/research)
 "aNF" = (
@@ -15140,11 +15023,6 @@
 /obj/effect/spawner/random/toolbox,
 /turf/open/floor/plating/ground/snow/layer1,
 /area/ice_colony/exterior/surface/clearing/south)
-"aNR" = (
-/turf/open/floor/tile/dark/red2{
-	dir = 8
-	},
-/area/ice_colony/surface/hangar/checkpoint)
 "aNS" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/window/brigdoor/westleft{
@@ -15235,21 +15113,14 @@
 /obj/machinery/door_control{
 	id = "st_18";
 	name = "Storage Unit Lock";
-	normaldoorcontrol = 1;
-	pixel_y = 24;
-	req_access_txt = "100";
-	specialfunctions = 4
+	pixel_y = 24
 	},
 /turf/open/floor/tile/vault{
 	dir = 8
 	},
 /area/ice_colony/surface/storage_unit/telecomms)
 "aOi" = (
-/obj/structure/closet/secure_closet/guncabinet,
-/obj/item/weapon/gun/pistol/highpower,
-/obj/item/weapon/gun/pistol/highpower,
-/obj/item/ammo_magazine/pistol/highpower,
-/obj/item/ammo_magazine/pistol/highpower,
+/obj/structure/closet/secure_closet/guncabinet/highpower,
 /turf/open/floor/wood,
 /area/ice_colony/surface/command/crisis)
 "aOj" = (
@@ -15274,10 +15145,9 @@
 /turf/closed/wall,
 /area/ice_colony/surface/research)
 "aOp" = (
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Omicron Custodial Storage";
-	req_access_txt = "100"
+	name = "\improper Omicron Custodial Storage"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/surface/research)
@@ -15323,10 +15193,7 @@
 /obj/machinery/door_control{
 	id = "st_19";
 	name = "Storage Unit Lock";
-	normaldoorcontrol = 1;
-	pixel_y = -24;
-	req_access_txt = "103";
-	specialfunctions = 4
+	pixel_y = -24
 	},
 /turf/open/floor/tile/vault{
 	dir = 8
@@ -15348,7 +15215,7 @@
 /area/ice_colony/exterior/surface/clearing/south)
 "aOy" = (
 /obj/structure/table/reinforced,
-/obj/item/reagent_container/food/snacks/donkpocket,
+/obj/item/reagent_containers/food/snacks/donkpocket,
 /obj/structure/window/reinforced{
 	dir = 1
 	},
@@ -15374,12 +15241,12 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/obj/item/reagent_container/food/snacks/cheeseburger,
+/obj/item/reagent_containers/food/snacks/cheeseburger,
 /turf/open/floor/freezer,
 /area/ice_colony/surface/bar/canteen)
 "aOC" = (
 /obj/structure/table/reinforced,
-/obj/item/reagent_container/food/snacks/fortunecookie,
+/obj/item/reagent_containers/food/snacks/fortunecookie,
 /obj/item/tool/kitchen/utensil/fork,
 /turf/open/floor/freezer,
 /area/ice_colony/surface/bar/canteen)
@@ -15388,7 +15255,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/obj/item/reagent_container/food/snacks/hotchili{
+/obj/item/reagent_containers/food/snacks/hotchili{
 	pixel_x = -1;
 	pixel_y = 2
 	},
@@ -15403,7 +15270,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/obj/item/reagent_container/food/snacks/hotchili,
+/obj/item/reagent_containers/food/snacks/hotchili,
 /turf/open/floor/freezer,
 /area/ice_colony/surface/bar/canteen)
 "aOG" = (
@@ -15414,7 +15281,7 @@
 /area/ice_colony/surface/bar/canteen)
 "aOH" = (
 /obj/structure/table/woodentable,
-/obj/item/reagent_container/food/drinks/cans/beer,
+/obj/item/reagent_containers/food/drinks/cans/beer,
 /turf/open/floor/wood,
 /area/ice_colony/surface/bar/bar)
 "aOI" = (
@@ -15446,7 +15313,7 @@
 /area/ice_colony/surface/bar/bar)
 "aOM" = (
 /obj/structure/table/woodentable,
-/obj/item/reagent_container/food/drinks/bottle/vodka,
+/obj/item/reagent_containers/food/drinks/bottle/vodka,
 /turf/open/floor/wood,
 /area/ice_colony/surface/bar/bar)
 "aON" = (
@@ -15645,10 +15512,7 @@
 /obj/machinery/door_control{
 	id = "research_entrance";
 	name = "Research Entrance Lock";
-	normaldoorcontrol = 1;
-	pixel_x = 24;
-	req_access_txt = "103";
-	specialfunctions = 4
+	pixel_x = 24
 	},
 /turf/open/floor/tile/dark/brown2{
 	dir = 5
@@ -15688,8 +15552,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Hydroponics Dome South Wing";
-	req_access_txt = "100"
+	name = "\improper Hydroponics Dome South Wing"
 	},
 /turf/open/floor/tile/dark,
 /area/ice_colony/surface/hydroponics/south)
@@ -15710,13 +15573,11 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/locked/free_access{
 	dir = 2;
-	icon_state = "door_locked";
 	id = "st_19";
-	locked = 1;
-	name = "Research Storage Unit";
-	req_access_txt = "100"
+	name = "\improper Research Storage Unit";
+	
 	},
 /turf/open/floor/tile/vault{
 	dir = 8
@@ -15769,8 +15630,7 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Security Checkpoint";
-	req_access_txt = "100"
+	name = "\improper Security Checkpoint"
 	},
 /turf/open/floor/tile/dark/brown2{
 	dir = 9
@@ -16011,13 +15871,11 @@
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/research)
 "aQm" = (
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/locked/free_access{
 	dir = 4;
-	icon_state = "door_locked";
 	id = "research_entrance";
-	locked = 1;
-	name = "Omicron Research Dome";
-	req_access_txt = "100"
+	name = "\improper Omicron Research Dome";
+	
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -16037,7 +15895,7 @@
 /turf/closed/wall,
 /area/ice_colony/surface/hydroponics/lobby)
 "aQo" = (
-/obj/item/reagent_container/food/drinks/cans/beer,
+/obj/item/reagent_containers/food/drinks/cans/beer,
 /obj/machinery/door/window/northright{
 	dir = 4;
 	name = "Bar"
@@ -16191,9 +16049,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Aerodrome Hangar Alpha";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Aerodrome Hangar Alpha"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/hangar/alpha)
@@ -16364,7 +16221,7 @@
 	},
 /obj/structure/table,
 /obj/item/tool/soap,
-/obj/item/reagent_container/spray/cleaner{
+/obj/item/reagent_containers/spray/cleaner{
 	pixel_x = 6;
 	pixel_y = -2
 	},
@@ -16446,7 +16303,7 @@
 /area/ice_colony/exterior/surface/valley/southwest)
 "aRj" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/snacks/flour,
+/obj/item/reagent_containers/food/snacks/flour,
 /obj/item/tool/kitchen/rollingpin,
 /turf/open/floor/freezer,
 /area/ice_colony/surface/bar/canteen)
@@ -16630,11 +16487,9 @@
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/research/field_gear)
 "aRK" = (
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	name = "\improper Omicron Field Gear Storage";
-	icon_state = "door_closed";
-	dir = 8;
-	req_access_txt = "100"
+	dir = 8
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 8
@@ -16802,9 +16657,7 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Anti-Freeze Canteen Freezer";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Anti-Freeze Canteen Freezer"
 	},
 /turf/open/floor/freezer,
 /area/ice_colony/surface/bar/canteen)
@@ -17204,7 +17057,7 @@
 /area/ice_colony/surface/bar/canteen)
 "aTf" = (
 /obj/structure/table/reinforced,
-/obj/item/reagent_container/food/snacks/bigbiteburger,
+/obj/item/reagent_containers/food/snacks/bigbiteburger,
 /turf/open/floor/freezer,
 /area/ice_colony/surface/bar/canteen)
 "aTg" = (
@@ -17308,7 +17161,7 @@
 /obj/structure/bed/chair{
 	dir = 1
 	},
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/shuttle{
 	icon_state = "floor6"
 	},
@@ -17527,7 +17380,7 @@
 /turf/open/floor/freezer,
 /area/ice_colony/surface/bar/bar)
 "aTQ" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/freezer,
 /area/ice_colony/surface/bar/bar)
 "aTR" = (
@@ -18062,10 +17915,9 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 4;
-	name = "\improper Omicron Temporary Sample Storage";
-	req_access_txt = "100"
+	name = "\improper Omicron Temporary Sample Storage"
 	},
 /turf/open/floor/tile/dark/yellow2{
 	dir = 4
@@ -18559,9 +18411,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Aerodrome Hangar Beta";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Aerodrome Hangar Beta"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/hangar/beta)
@@ -18673,10 +18524,9 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Omicron Technical Storage";
-	req_access_txt = "100"
+	name = "\improper Omicron Technical Storage"
 	},
 /obj/structure/cable{
 	d1 = 1;
@@ -18899,7 +18749,7 @@
 /obj/item/clothing/under/marine/veteran/PMC,
 /obj/item/clothing/head/helmet/marine/veteran/PMC,
 /obj/item/clothing/gloves/marine/veteran/PMC,
-/obj/item/clothing/mask/gas/PMC,
+/obj/item/clothing/mask/gas/PMC/damaged,
 /obj/item/clothing/suit/storage/marine/veteran/PMC,
 /obj/item/weapon/gun/smg/m39/elite,
 /turf/open/floor/tile/dark/red2{
@@ -18907,9 +18757,7 @@
 	},
 /area/ice_colony/underground/responsehangar)
 "aXu" = (
-/obj/structure/closet/secure_closet/guncabinet,
-/obj/item/storage/pouch/magazine/large/pmc_m39,
-/obj/item/weapon/gun/smg/m39,
+/obj/structure/closet/secure_closet/guncabinet/pmc_m39,
 /turf/open/floor/tile/dark/red2{
 	dir = 5
 	},
@@ -18931,11 +18779,7 @@
 	},
 /area/ice_colony/surface/hangar/beta)
 "aXy" = (
-/obj/structure/closet/secure_closet/guncabinet,
-/obj/item/storage/pouch/magazine/large/pmc_m39,
-/obj/item/ammo_magazine/smg/m39/ap,
-/obj/item/ammo_magazine/smg/m39/ap,
-/obj/item/weapon/gun/smg/m39,
+/obj/structure/closet/secure_closet/guncabinet/pmc_m39,
 /turf/open/floor/tile/dark/red2{
 	dir = 4
 	},
@@ -19116,7 +18960,7 @@
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/research/tech_storage)
 "aXV" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /obj/machinery/atmospherics/components/unary/vent_pump{
 	dir = 8;
 	on = 1
@@ -19410,7 +19254,7 @@
 /turf/open/floor/plating/icefloor,
 /area/ice_colony/exterior/surface/container_yard)
 "aYZ" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/plating/icefloor,
 /area/ice_colony/exterior/surface/container_yard)
 "aZa" = (
@@ -19804,8 +19648,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Aerodrome Hangar";
-	req_access_txt = "100"
+	name = "\improper Aerodrome Hangar"
 	},
 /turf/open/floor/tile/dark/brown2{
 	dir = 10
@@ -20256,12 +20099,12 @@
 /turf/open/floor/plating/icefloor,
 /area/ice_colony/exterior/surface/container_yard)
 "bbj" = (
-/obj/item/reagent_container/food/snacks/meat{
+/obj/item/reagent_containers/food/snacks/meat{
 	pixel_x = 5;
 	pixel_y = 3
 	},
-/obj/item/reagent_container/food/snacks/meat,
-/obj/item/reagent_container/food/snacks/meat{
+/obj/item/reagent_containers/food/snacks/meat,
+/obj/item/reagent_containers/food/snacks/meat{
 	pixel_x = -1;
 	pixel_y = 2
 	},
@@ -20588,8 +20431,7 @@
 "bcj" = (
 /obj/machinery/door/airlock/multi_tile/mainship/medidoor{
 	dir = 4;
-	name = "\improper Colony Xenoarcheology Outpost";
-	req_access_txt = "100"
+	name = "\improper Colony Xenoarcheology Outpost"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/excavation)
@@ -20650,6 +20492,7 @@
 /area/ice_colony/exterior/surface/valley/south/excavation)
 "bcw" = (
 /obj/structure/fence,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/open/floor/plating/ground/ice,
 /area/ice_colony/exterior/underground/caves/open)
 "bcx" = (
@@ -20782,10 +20625,8 @@
 	d1 = 4;
 	d2 = 8
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/tile/dark,
 /area/ice_colony/underground/westroadtunnel)
@@ -20818,10 +20659,8 @@
 /turf/open/floor/tile/dark,
 /area/ice_colony/underground/westroadtunnel)
 "bcV" = (
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/tile/dark,
 /area/ice_colony/underground/westroadtunnel)
@@ -20953,13 +20792,8 @@
 	},
 /area/ice_colony/surface/excavation)
 "bdp" = (
-/obj/machinery/door/airlock/mainship/maint{
-	icon_state = "door_locked";
-	id = "Colony_PMC_Hangar";
-	locked = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -21098,9 +20932,8 @@
 	},
 /area/ice_colony/underground/responsehangar)
 "bdI" = (
-/obj/machinery/door/airlock/mainship/security/glass{
-	name = "\improper Security Prep";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
+	name = "\improper Security Prep"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -21337,8 +21170,7 @@
 "ben" = (
 /obj/effect/decal/cleanable/blood/xtracks,
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Anti-Freeze Bar";
-	req_access_txt = "100"
+	name = "\improper Anti-Freeze Bar"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/surface/bar/bar)
@@ -21483,13 +21315,8 @@
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/north)
 "beJ" = (
-/obj/machinery/door/airlock/mainship/maint{
-	icon_state = "door_locked";
-	id = "undergroundhangarwest";
-	locked = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/hangar)
@@ -21732,11 +21559,9 @@
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/north)
 "bfv" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/north)
@@ -21769,10 +21594,7 @@
 /obj/machinery/door_control{
 	id = "st_19";
 	name = "Storage Unit Lock";
-	normaldoorcontrol = 1;
-	pixel_y = 24;
-	req_access_txt = "103";
-	specialfunctions = 4
+	pixel_y = 24
 	},
 /turf/open/floor/plating/ground/snow/layer0,
 /area/ice_colony/exterior/surface/valley/southwest)
@@ -21788,11 +21610,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 1;
-	name = "\improper Underground Requesitions Office";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Requesitions Office"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/requesition/lobby)
@@ -22089,11 +21909,9 @@
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/excavation)
 "bgt" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/requesition)
@@ -22158,15 +21976,11 @@
 	},
 /area/ice_colony/underground/requesition)
 "bgE" = (
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin15"
-	},
+/turf/open/shuttle/dropship/floor,
 /area/ice_colony/underground/responsehangar)
 "bgF" = (
 /obj/machinery/computer3,
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin15"
-	},
+/turf/open/shuttle/dropship/floor,
 /area/ice_colony/underground/responsehangar)
 "bgG" = (
 /turf/open/floor/tile/dark/blue2{
@@ -22230,9 +22044,7 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Anti-Freeze Bar Freezer";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Anti-Freeze Bar Freezer"
 	},
 /turf/open/floor/freezer,
 /area/ice_colony/surface/bar/bar)
@@ -22418,10 +22230,9 @@
 	},
 /area/ice_colony/underground/requesition)
 "bhp" = (
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/free_access{
 	dir = 2;
-	name = "Underground Hangar Power Substation";
-	req_access_txt = "100"
+	name = "\improper Underground Hangar Power Substation"
 	},
 /turf/open/floor/plating/icefloor,
 /area/ice_colony/underground/hangar)
@@ -22643,10 +22454,7 @@
 /obj/machinery/door_control{
 	id = "req_sec_storage";
 	name = "Requesition Secure Storage";
-	normaldoorcontrol = 1;
-	pixel_y = -24;
-	req_access_txt = "100";
-	specialfunctions = 4
+	pixel_y = -24
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -22772,8 +22580,7 @@
 "bio" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Underground Requesitions Bay";
-	req_access_txt = "100"
+	name = "\improper Underground Requesitions Bay"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/requesition)
@@ -22784,14 +22591,10 @@
 /obj/structure/table/woodentable{
 	icon_state = "reinf_table"
 	},
-/obj/machinery/door/window/brigdoor/westleft{
-	dir = 1;
-	icon_state = "leftsecure";
-	id = null;
+/obj/machinery/door/window/brigdoor/southleft{
 	name = "Requesitions Desk"
 	},
-/obj/machinery/door/window/northright{
-	dir = 2;
+/obj/machinery/door/window/southright{
 	name = "Requesitions Desk"
 	},
 /obj/item/tool/pen/blue{
@@ -22839,7 +22642,6 @@
 /area/ice_colony/underground/hangar)
 "biw" = (
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 8
 	},
 /obj/structure/cable{
@@ -22851,8 +22653,7 @@
 "bix" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Power Substation";
-	req_access_txt = "100"
+	name = "\improper Underground Power Substation"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -22964,10 +22765,7 @@
 /obj/machinery/door_control{
 	id = "req_sec_storage";
 	name = "Requesition Secure Storage";
-	normaldoorcontrol = 1;
-	pixel_y = 24;
-	req_access_txt = "100";
-	specialfunctions = 4
+	pixel_y = 24
 	},
 /turf/open/floor/tile/dark/brown2{
 	dir = 1
@@ -22996,9 +22794,7 @@
 /obj/structure/rack,
 /obj/item/storage/toolbox/mechanical,
 /obj/item/multitool,
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin15"
-	},
+/turf/open/shuttle/dropship/floor,
 /area/ice_colony/underground/responsehangar)
 "biP" = (
 /turf/open/shuttle/dropship{
@@ -23051,7 +22847,6 @@
 /area/ice_colony/underground/hangar)
 "biW" = (
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 8
 	},
 /obj/structure/cable{
@@ -23092,7 +22887,7 @@
 	},
 /area/ice_colony/underground/hangar)
 "bjb" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/shuttle/dropship{
 	icon_state = "floor8"
 	},
@@ -23230,10 +23025,8 @@
 	},
 /area/ice_colony/underground/requesition/lobby)
 "bju" = (
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -23251,21 +23044,14 @@
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/north)
 "bjw" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	icon_state = "door_locked";
-	id = "undergroundhangarpower";
-	locked = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/hangar)
 "bjx" = (
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin7"
-	},
+/turf/open/shuttle/dropship/seven,
 /area/ice_colony/underground/responsehangar)
 "bjy" = (
 /turf/open/floor/tile/dark/brown2{
@@ -23405,9 +23191,7 @@
 /area/ice_colony/underground/requesition/lobby)
 "bjT" = (
 /obj/structure/rack,
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin15"
-	},
+/turf/open/shuttle/dropship/floor,
 /area/ice_colony/underground/responsehangar)
 "bjU" = (
 /turf/closed/ice/corner{
@@ -23433,7 +23217,7 @@
 /area/ice_colony/surface/research)
 "bjY" = (
 /obj/structure/table/reinforced,
-/obj/item/reagent_container/glass/beaker/bluespace,
+/obj/item/reagent_containers/glass/beaker/bluespace,
 /turf/open/floor/tile/dark/purple2{
 	dir = 8
 	},
@@ -23596,11 +23380,9 @@
 /turf/closed/wall/r_wall,
 /area/ice_colony/underground/crew/chapel)
 "bkD" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/crew/chapel)
@@ -23627,14 +23409,6 @@
 "bkJ" = (
 /turf/closed/wall/r_wall,
 /area/ice_colony/underground/maintenance/research)
-"bkK" = (
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
-	},
-/turf/open/floor/plating,
-/area/ice_colony/underground/hallway/north_west)
 "bkL" = (
 /obj/machinery/light{
 	dir = 4
@@ -23689,8 +23463,7 @@
 /area/ice_colony/underground/crew/chapel)
 "bkS" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Underground Requesitions Lobby";
-	req_access_txt = "100"
+	name = "\improper Underground Requesitions Lobby"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/hallway/north_west)
@@ -23713,11 +23486,9 @@
 /turf/closed/wall/r_wall/unmeltable,
 /area/ice_colony/underground/hallway/north_west)
 "bkX" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/crew/morgue)
@@ -23771,9 +23542,7 @@
 /area/ice_colony/underground/responsehangar)
 "blf" = (
 /obj/machinery/door/airlock/mainship/generic,
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin3"
-	},
+/turf/open/shuttle/dropship/three,
 /area/ice_colony/underground/responsehangar)
 "blg" = (
 /obj/structure/cable/yellow{
@@ -23786,13 +23555,10 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/locked/free_access{
 	dir = 4;
-	icon_state = "door_locked";
 	id = "st_17";
-	locked = 1;
-	name = "Power Storage Unit";
-	req_access_txt = "100"
+	name = "\improper Power Storage Unit"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -23802,11 +23568,9 @@
 	},
 /area/ice_colony/surface/storage_unit/power)
 "blh" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/requesition/sec_storage)
@@ -23835,9 +23599,7 @@
 	},
 /area/ice_colony/underground/hallway/north_west)
 "bll" = (
-/obj/structure/flora/pottedplant{
-	icon_state = "plant-21"
-	},
+/obj/structure/flora/pottedplant/twentyone,
 /turf/open/floor/tile/darkgreen/darkgreen2{
 	dir = 5
 	},
@@ -23873,14 +23635,6 @@
 /obj/structure/bookcase/manuals/medical,
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/library)
-"blt" = (
-/obj/machinery/light/small{
-	dir = 1
-	},
-/turf/open/floor/tile/vault{
-	dir = 8
-	},
-/area/ice_colony/surface/storage_unit/research)
 "blu" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -23903,9 +23657,7 @@
 /area/ice_colony/exterior/surface/valley/southeast)
 "blx" = (
 /obj/structure/bed/chair/dropship/passenger,
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin15"
-	},
+/turf/open/shuttle/dropship/floor,
 /area/ice_colony/underground/responsehangar)
 "bly" = (
 /obj/structure/cable{
@@ -23922,7 +23674,7 @@
 	pixel_x = 14;
 	pixel_y = 11
 	},
-/obj/item/clothing/mask/gas/PMC,
+/obj/item/clothing/mask/gas/PMC/damaged,
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/central)
 "blA" = (
@@ -24136,9 +23888,7 @@
 /obj/structure/bed/chair/dropship/passenger{
 	dir = 4
 	},
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin15"
-	},
+/turf/open/shuttle/dropship/floor,
 /area/ice_colony/underground/responsehangar)
 "bmd" = (
 /obj/structure/table/woodentable,
@@ -24253,10 +24003,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/hallway/north_west)
@@ -24374,9 +24122,7 @@
 /obj/structure/bed/chair/dropship/passenger{
 	dir = 8
 	},
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin15"
-	},
+/turf/open/shuttle/dropship/floor,
 /area/ice_colony/underground/responsehangar)
 "bmM" = (
 /obj/structure/cable,
@@ -24629,11 +24375,9 @@
 	},
 /area/ice_colony/underground/hallway/north_west)
 "bnA" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/hallway/north_west)
@@ -25086,10 +24830,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/free_access{
 	dir = 4;
-	name = "Underground Morgue";
-	req_access_txt = "100"
+	name = "\improper Underground Morgue"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/morgue)
@@ -25349,7 +25092,7 @@
 /area/ice_colony/underground/crew/morgue)
 "bpC" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/drinks/bottle/holywater,
+/obj/item/reagent_containers/food/drinks/bottle/holywater,
 /obj/machinery/light,
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/morgue)
@@ -25389,9 +25132,7 @@
 	},
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 4;
-	name = "\improper Underground Requesitions Freezer";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Requesitions Freezer"
 	},
 /turf/open/floor/freezer,
 /area/ice_colony/underground/requesition/storage)
@@ -25526,9 +25267,8 @@
 /area/ice_colony/underground/hallway/south_east)
 "bpY" = (
 /obj/structure/table/reinforced,
-/obj/machinery/door/window/brigdoor/westleft{
+/obj/machinery/door/window/brigdoor/eastleft{
 	icon_state = "leftsecure";
-	dir = 4;
 	id = "brg"
 	},
 /obj/machinery/door/window/brigdoor/westleft{
@@ -25694,10 +25434,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/free_access{
 	dir = 2;
-	name = "Underground Morgue";
-	req_access_txt = "100"
+	name = "\improper Underground Morgue"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/morgue)
@@ -25708,11 +25447,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 1;
-	name = "\improper Underground Library";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Library"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/library)
@@ -25972,8 +25709,7 @@
 /area/ice_colony/underground/hallway/north_west)
 "brm" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Underground Sports Center";
-	req_access_txt = "100"
+	name = "\improper Underground Sports Center"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/bball)
@@ -26026,10 +25762,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/engineering)
@@ -26301,8 +26035,7 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/machinery/door/airlock/multi_tile/mainship/medidoor{
 	dir = 4;
-	name = "\improper Underground Medical Laboratory";
-	req_access_txt = "100"
+	name = "\improper Underground Medical Laboratory"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/medical/lobby)
@@ -26359,8 +26092,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Underground Sports Center";
-	req_access_txt = "100"
+	name = "\improper Underground Sports Center"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/bball)
@@ -26523,11 +26255,9 @@
 /area/ice_colony/underground/medical/treatment)
 "bsP" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/hallway/north_west)
@@ -26537,8 +26267,7 @@
 "bsR" = (
 /obj/structure/table/reinforced,
 /obj/structure/paper_bin,
-/obj/machinery/door/window/brigdoor/westleft{
-	dir = 2;
+/obj/machinery/door/window/brigdoor/southleft{
 	icon_state = "leftsecure";
 	id = "brg";
 	name = "Security Desk"
@@ -26559,10 +26288,9 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/security/glass{
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
 	dir = 1;
-	name = "\improper Underground Security Checkpoint";
-	req_access_txt = "100"
+	name = "\improper Underground Security Checkpoint"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/reception/checkpoint_north)
@@ -26623,8 +26351,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/medidoor{
 	dir = 1;
-	name = "\improper Underground Medical Laboratory";
-	req_access_txt = "100"
+	name = "\improper Underground Medical Laboratory"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/medical/lobby)
@@ -27111,10 +26838,8 @@
 /turf/open/floor/wood,
 /area/ice_colony/underground/security/marshal)
 "bus" = (
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/reception/checkpoint_north)
@@ -27191,9 +26916,7 @@
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/bball)
 "buB" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "NS-center"
-	},
+/obj/effect/decal/warning_stripes/nscenter,
 /obj/effect/decal/warning_stripes/thin{
 	dir = 1
 	},
@@ -27250,8 +26973,7 @@
 "buI" = (
 /obj/machinery/door/airlock/multi_tile/mainship/medidoor{
 	dir = 1;
-	name = "\improper Underground Medical Laboratory";
-	req_access_txt = "100"
+	name = "\improper Underground Medical Laboratory"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/medical/lobby)
@@ -27313,9 +27035,7 @@
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/bball)
 "buS" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "NS-center"
-	},
+/obj/effect/decal/warning_stripes/nscenter,
 /obj/effect/decal/warning_stripes,
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -27349,11 +27069,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Underground Sports Center";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Sports Center"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/bball)
@@ -27485,9 +27203,7 @@
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/bball)
 "bvp" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "NS-center"
-	},
+/obj/effect/decal/warning_stripes/nscenter,
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/bball)
 "bvq" = (
@@ -27562,8 +27278,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Chapel";
-	req_access_txt = "100"
+	name = "\improper Underground Chapel"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/chapel)
@@ -27646,7 +27361,7 @@
 "bvH" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/box/beakers,
-/obj/item/reagent_container/glass/beaker/bluespace,
+/obj/item/reagent_containers/glass/beaker/bluespace,
 /turf/open/floor/tile/red/whitered{
 	dir = 4
 	},
@@ -27689,10 +27404,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/medical/or)
@@ -27723,16 +27436,12 @@
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/bball)
 "bvR" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "NS-center"
-	},
+/obj/effect/decal/warning_stripes/nscenter,
 /obj/effect/decal/warning_stripes,
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/bball)
 "bvS" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "NS-center"
-	},
+/obj/effect/decal/warning_stripes/nscenter,
 /obj/effect/decal/warning_stripes,
 /obj/item/toy/beach_ball/basketball,
 /turf/open/floor/wood,
@@ -27896,11 +27605,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Underground Medical Laboratory Lobby";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Medical Laboratory Lobby"
 	},
 /turf/open/floor/tile/white,
 /area/ice_colony/underground/medical/lobby)
@@ -28089,11 +27796,9 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/medical{
-	dir = 1;
-	name = "Underground Medical Laboratory Operating Theatre";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/medical/or/free_access{
+	name = "\improper Underground Medical Laboratory Operating Theatre";
+	dir = 1
 	},
 /turf/open/floor/tile/white,
 /area/ice_colony/underground/medical/or)
@@ -28137,10 +27842,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/medical/treatment)
@@ -28168,9 +27871,7 @@
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/bball)
 "bwW" = (
-/obj/effect/decal/warning_stripes{
-	icon_state = "NS-center"
-	},
+/obj/effect/decal/warning_stripes/nscenter,
 /obj/effect/decal/warning_stripes/thin{
 	dir = 2
 	},
@@ -28179,7 +27880,6 @@
 /area/ice_colony/underground/crew/bball)
 "bwX" = (
 /obj/structure/closet/walllocker/hydrant/full{
-	icon_state = "hydrant";
 	dir = 4
 	},
 /turf/open/floor/tile/darkgreen/darkgreen2{
@@ -28298,7 +27998,7 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/item/reagent_container/food/drinks/bottle/holywater,
+/obj/item/reagent_containers/food/drinks/bottle/holywater,
 /turf/open/floor/carpet,
 /area/ice_colony/underground/crew/chapel)
 "bxm" = (
@@ -28311,11 +28011,9 @@
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/morgue)
 "bxn" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/central/construction)
@@ -28508,11 +28206,9 @@
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/central)
 "bxQ" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/crew/bball)
@@ -28573,11 +28269,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 1;
-	name = "\improper Underground Medical Laboratory";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Medical Laboratory"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/medical/lobby)
@@ -28595,8 +28289,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Power Substation";
-	req_access_txt = "100"
+	name = "\improper Underground Power Substation"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/engineering)
@@ -28829,8 +28522,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Power Substation";
-	req_access_txt = "100"
+	name = "\improper Underground Power Substation"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/engineering)
@@ -29223,11 +28915,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 1;
-	name = "\improper Underground Medical Laboratory Storage";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Medical Laboratory Storage"
 	},
 /turf/open/floor/tile/white,
 /area/ice_colony/underground/medical/storage)
@@ -29409,11 +29099,9 @@
 /area/ice_colony/underground/medical/storage)
 "bAb" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/command/center)
@@ -29479,11 +29167,9 @@
 /area/ice_colony/underground/security/marshal)
 "bAn" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/engineering)
@@ -29618,7 +29304,7 @@
 /area/ice_colony/underground/crew/canteen)
 "bAJ" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/drinks/dry_ramen,
+/obj/item/reagent_containers/food/drinks/dry_ramen,
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/canteen)
 "bAK" = (
@@ -29633,10 +29319,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/security/glass{
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
 	dir = 1;
-	name = "\improper Underground Security Detective's Office";
-	req_access_txt = "100"
+	name = "\improper Underground Security Detective's Office"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/underground/security/detective)
@@ -29647,10 +29332,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/security/glass{
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
 	dir = 1;
-	name = "\improper Underground Security Marshal's Office";
-	req_access_txt = "100"
+	name = "\improper Underground Security Marshal's Office"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/underground/security/marshal)
@@ -29752,14 +29436,13 @@
 /area/ice_colony/underground/crew/canteen)
 "bBd" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/snacks/boiledspagetti,
+/obj/item/reagent_containers/food/snacks/boiledspagetti,
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/canteen)
 "bBe" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Staff Canteen";
-	req_access_txt = "100"
+	name = "\improper Underground Staff Canteen"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/canteen)
@@ -29791,9 +29474,8 @@
 	},
 /area/ice_colony/underground/hallway/south_east)
 "bBi" = (
-/obj/machinery/door/airlock/mainship/security/glass{
-	name = "\improper Underground Security";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
+	name = "\improper Underground Security"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -29851,11 +29533,9 @@
 /area/ice_colony/underground/hallway/north_west)
 "bBq" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/medical/storage)
@@ -29898,10 +29578,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/crew/canteen)
@@ -30055,8 +29733,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Main Hallway";
-	req_access_txt = "100"
+	name = "\improper Underground Main Hallway"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/hallway/north_west)
@@ -30106,10 +29783,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/security/hallway)
@@ -30138,10 +29813,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/hallway/north_west)
@@ -30279,9 +29952,8 @@
 /obj/structure/disposalpipe/segment{
 	dir = 8
 	},
-/obj/machinery/door/airlock/mainship/security/glass{
-	name = "\improper Underground Security";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
+	name = "\improper Underground Security"
 	},
 /turf/open/floor/tile/dark/red2{
 	dir = 10
@@ -30318,9 +29990,7 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/turf/open/floor{
-	icon_state = "darkredcorners2"
-	},
+/turf/open/floor/tile/dark/red2/corner,
 /area/ice_colony/underground/security/hallway)
 "bCq" = (
 /obj/machinery/disposal,
@@ -30413,7 +30083,7 @@
 /area/ice_colony/underground/crew/canteen)
 "bCB" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/snacks/chips,
+/obj/item/reagent_containers/food/snacks/chips,
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/canteen)
 "bCC" = (
@@ -30432,7 +30102,7 @@
 /area/ice_colony/underground/hallway/south_east)
 "bCD" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/snacks/cheeseburger,
+/obj/item/reagent_containers/food/snacks/cheeseburger,
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/canteen)
 "bCE" = (
@@ -30544,7 +30214,7 @@
 	d2 = 4;
 	icon_state = "2-4"
 	},
-/obj/item/reagent_container/food/snacks/hotchili,
+/obj/item/reagent_containers/food/snacks/hotchili,
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/canteen)
 "bCT" = (
@@ -30875,10 +30545,9 @@
 /turf/open/floor/plating,
 /area/ice_colony/underground/command/center)
 "bDI" = (
-/obj/machinery/door/airlock/mainship/command{
+/obj/machinery/door/airlock/mainship/command/free_access{
 	dir = 1;
-	name = "\improper Underground Command Center";
-	req_access_txt = "100"
+	name = "\improper Underground Command Center"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/command/center)
@@ -30904,10 +30573,10 @@
 /area/ice_colony/underground/security/interrogation)
 "bDM" = (
 /obj/structure/closet/secure_closet/freezer/fridge,
-/obj/item/reagent_container/food/snacks/meat,
-/obj/item/reagent_container/food/snacks/meat,
-/obj/item/reagent_container/food/snacks/meat,
-/obj/item/reagent_container/food/snacks/meatsteak,
+/obj/item/reagent_containers/food/snacks/meat,
+/obj/item/reagent_containers/food/snacks/meat,
+/obj/item/reagent_containers/food/snacks/meat,
+/obj/item/reagent_containers/food/snacks/meatsteak,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -31141,20 +30810,16 @@
 	},
 /area/ice_colony/underground/command/center)
 "bEr" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/command/pv1)
 "bEs" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/command/pv2)
@@ -31410,8 +31075,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Underground Security Checkpoint";
-	req_access_txt = "100"
+	name = "\improper Underground Security Checkpoint"
 	},
 /turf/open/floor/tile/dark/red2{
 	dir = 8
@@ -31651,20 +31315,16 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/locked/free_access{
 	dir = 2;
-	icon_state = "door_locked";
-	locked = 1;
-	name = "Underground Secure Technical Storage";
-	req_access_txt = "100"
+	name = "\improper Underground Secure Technical Storage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/storage/highsec)
 "bFP" = (
-/obj/machinery/door/airlock/mainship/security/glass{
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
 	dir = 1;
-	name = "\improper Underground Security Checkpoint";
-	req_access_txt = "100"
+	name = "\improper Underground Security Checkpoint"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/command/checkpoint)
@@ -31810,9 +31470,7 @@
 /area/ice_colony/underground/security/hallway)
 "bGg" = (
 /obj/structure/table/reinforced,
-/obj/machinery/door/window/brigdoor/westleft{
-	icon_state = "leftsecure";
-	dir = 4;
+/obj/machinery/door/window/brigdoor/eastleft{
 	id = "brg"
 	},
 /obj/machinery/door/window/brigdoor/westleft{
@@ -31988,9 +31646,7 @@
 "bGA" = (
 /obj/structure/rack,
 /obj/item/storage/firstaid/regular,
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin15"
-	},
+/turf/open/shuttle/dropship/floor,
 /area/ice_colony/underground/responsehangar)
 "bGB" = (
 /turf/closed/wall/r_wall,
@@ -32096,10 +31752,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/hallway/south_east)
@@ -32263,10 +31917,9 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/command{
+/obj/machinery/door/airlock/mainship/command/free_access{
 	dir = 1;
-	name = "\improper Underground Administration Office";
-	req_access_txt = "100"
+	name = "\improper Underground Administration Office"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/underground/command/pv1)
@@ -32278,10 +31931,9 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/command{
+/obj/machinery/door/airlock/mainship/command/free_access{
 	dir = 1;
-	name = "\improper Underground Administration Office";
-	req_access_txt = "100"
+	name = "\improper Underground Administration Office"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/underground/command/pv2)
@@ -32500,10 +32152,9 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/security{
+/obj/machinery/door/airlock/mainship/security/free_access{
 	dir = 1;
-	name = "\improper Underground Security Interrogation Observation";
-	req_access_txt = "100"
+	name = "\improper Underground Security Interrogation Observation"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/security/backroom)
@@ -32519,11 +32170,9 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Underground Medical Laboratory Treatment";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Medical Laboratory Treatment"
 	},
 /turf/open/floor/tile/white,
 /area/ice_colony/underground/medical/treatment)
@@ -32534,8 +32183,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Underground Security Checkpoint";
-	req_access_txt = "100"
+	name = "\improper Underground Security Checkpoint"
 	},
 /turf/open/floor/tile/dark/red2{
 	dir = 8
@@ -32555,10 +32203,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/security/glass{
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
 	dir = 1;
-	name = "\improper Underground Security Lobby";
-	req_access_txt = "100"
+	name = "\improper Underground Security Lobby"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/security)
@@ -32810,10 +32457,8 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/hallway/south_east)
@@ -32843,9 +32488,7 @@
 /turf/open/floor/tile/dark/yellow2,
 /area/ice_colony/underground/storage)
 "bIG" = (
-/obj/machinery/vending/assist{
-	req_access_txt = "102"
-	},
+/obj/machinery/vending/assist,
 /turf/open/floor/tile/dark/yellow2{
 	dir = 6
 	},
@@ -32872,10 +32515,8 @@
 	},
 /area/ice_colony/underground/command/checkpoint)
 "bIL" = (
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/storage)
@@ -32992,10 +32633,9 @@
 	},
 /area/ice_colony/underground/command/checkpoint)
 "bJa" = (
-/obj/machinery/door/airlock/multi_tile/mainship/comdoor{
+/obj/machinery/door/airlock/multi_tile/mainship/comdoor/free_access{
 	dir = 1;
-	name = "\improper Colony Offices";
-	req_access_txt = "100"
+	name = "\improper Colony Offices"
 	},
 /turf/open/floor/tile/dark/blue2{
 	dir = 2
@@ -33250,10 +32890,8 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/hallway/north_west)
@@ -33287,10 +32925,9 @@
 	},
 /area/ice_colony/underground/command/checkpoint)
 "bJG" = (
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Underground Technical Storage";
-	req_access_txt = "100"
+	name = "\improper Underground Technical Storage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/storage)
@@ -33306,17 +32943,14 @@
 /area/ice_colony/underground/storage)
 "bJI" = (
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Underground Technical Storage";
-	req_access_txt = "100"
+	name = "\improper Underground Technical Storage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/storage)
 "bJJ" = (
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin8"
-	},
+/turf/open/shuttle/dropship/eight,
 /area/ice_colony/underground/responsehangar)
 "bJK" = (
 /obj/structure/mineral_door/resin,
@@ -33331,9 +32965,7 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Men's Barracks";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Men's Barracks"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/dorm_l)
@@ -33346,9 +32978,7 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Women's Barracks";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Women's Barracks"
 	},
 /turf/open/floor/wood,
 /area/ice_colony/underground/crew/dorm_r)
@@ -33542,7 +33172,7 @@
 /area/ice_colony/underground/hallway/south_east)
 "bKg" = (
 /obj/structure/safe,
-/obj/item/reagent_container/food/drinks/bottle/absinthe,
+/obj/item/reagent_containers/food/drinks/bottle/absinthe,
 /obj/item/weapon/katana,
 /turf/open/floor/tile/dark/blue2{
 	dir = 1
@@ -33681,17 +33311,15 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/security/glass{
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
 	dir = 1;
-	name = "\improper Underground Security Armory";
-	req_access_txt = "100"
+	name = "\improper Underground Security Armory"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/security/armory)
 "bKA" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Underground Security Brig";
-	req_access_txt = "100"
+	name = "\improper Underground Security Brig"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/security/brig)
@@ -33713,8 +33341,7 @@
 "bKD" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Main Hallway";
-	req_access_txt = "100"
+	name = "\improper Underground Main Hallway"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/hallway/north_west)
@@ -33819,7 +33446,6 @@
 /area/ice_colony/underground/reception)
 "bKS" = (
 /obj/structure/closet/walllocker/hydrant/full{
-	icon_state = "hydrant";
 	dir = 4
 	},
 /turf/open/floor/tile/dark/purple2{
@@ -33939,10 +33565,9 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Underground Disposals";
-	req_access_txt = "100"
+	name = "\improper Underground Disposals"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/disposals)
@@ -33956,9 +33581,7 @@
 	},
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Lavatory";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Lavatory"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/lavatory)
@@ -34090,12 +33713,6 @@
 	dir = 1
 	},
 /area/ice_colony/underground/hallway/south_east)
-"bLD" = (
-/obj/machinery/computer/nuke_disk_generator/green,
-/turf/open/floor/tile/dark/red2{
-	dir = 6
-	},
-/area/ice_colony/underground/responsehangar)
 "bLE" = (
 /turf/open/floor/plating/icefloor/warnplate{
 	dir = 10
@@ -34412,11 +34029,9 @@
 /area/ice_colony/underground/crew/lavatory)
 "bMw" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/security)
@@ -34700,10 +34315,8 @@
 /turf/open/floor/carpet,
 /area/ice_colony/underground/crew/leisure)
 "bNn" = (
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/reception)
@@ -34790,11 +34403,9 @@
 /area/ice_colony/underground/security/armory)
 "bNx" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/hallway/south_east)
@@ -34970,11 +34581,9 @@
 	},
 /area/ice_colony/underground/responsehangar)
 "bNZ" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/reception)
@@ -35302,10 +34911,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/security/glass{
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
 	dir = 1;
-	name = "\improper PMC Hangar Checkpoint";
-	req_access_txt = "100"
+	name = "\improper PMC Hangar Checkpoint"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/responsehangar)
@@ -35584,7 +35192,7 @@
 /area/ice_colony/underground/crew/lavatory)
 "bPO" = (
 /obj/structure/table,
-/obj/item/reagent_container/spray/cleaner,
+/obj/item/reagent_containers/spray/cleaner,
 /turf/open/floor/tile/dark/brown2,
 /area/ice_colony/underground/crew/lavatory)
 "bPP" = (
@@ -35605,11 +35213,9 @@
 /area/ice_colony/underground/crew/lavatory)
 "bPT" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/crew/leisure)
@@ -35643,28 +35249,22 @@
 /area/ice_colony/underground/security/armory)
 "bPZ" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/crew/disposals)
 "bQa" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/crew/lavatory)
 "bQb" = (
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/hallway/south_east)
@@ -35682,9 +35282,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/mainship/security{
-	name = "\improper Underground Security Showers";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/security/free_access{
+	name = "\improper Underground Security Showers"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/security/brig)
@@ -35789,9 +35388,7 @@
 /turf/open/floor/tile/dark,
 /area/ice_colony/surface/excavationbarracks)
 "bQA" = (
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin3"
-	},
+/turf/open/shuttle/dropship/three,
 /area/ice_colony/underground/responsehangar)
 "bQC" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
@@ -35934,9 +35531,7 @@
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 2
 	},
-/turf/open/shuttle/dropship{
-	icon_state = "rasputin15"
-	},
+/turf/open/shuttle/dropship/floor,
 /area/ice_colony/underground/responsehangar)
 "bQT" = (
 /turf/closed/shuttle/ert{
@@ -35976,12 +35571,9 @@
 	},
 /area/ice_colony/underground/responsehangar)
 "bQZ" = (
-/obj/machinery/door/airlock/mainship/security/glass{
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
 	dir = 1;
-	icon_state = "door_locked";
-	locked = 1;
-	name = "\improper Hangar Armoury";
-	req_access_txt = "0"
+	name = "\improper Hangar Armoury"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/hangar/checkpoint)
@@ -36019,8 +35611,7 @@
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Staff Canteen";
-	req_access_txt = "100"
+	name = "\improper Underground Staff Canteen"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/crew/canteen)
@@ -36049,7 +35640,7 @@
 /obj/structure/closet/secure_closet/security_empty{
 	name = "PMC Equipment Locker"
 	},
-/obj/item/clothing/mask/gas/PMC,
+/obj/item/clothing/mask/gas/PMC/damaged,
 /turf/open/floor/tile/dark/red2{
 	dir = 10
 	},
@@ -36058,7 +35649,7 @@
 /obj/structure/closet/secure_closet/security_empty{
 	name = "PMC Equipment Locker"
 	},
-/obj/item/clothing/mask/gas/PMC,
+/obj/item/clothing/mask/gas/PMC/damaged,
 /turf/open/floor/tile/dark/red2,
 /area/ice_colony/underground/responsehangar)
 "bRi" = (
@@ -36091,13 +35682,8 @@
 /turf/open/floor/plating/ground/snow/layer0,
 /area/ice_colony/exterior/surface/valley/southwest)
 "bRo" = (
-/obj/machinery/door/airlock/mainship/maint{
-	icon_state = "door_locked";
-	id = "undergroundhangarsouth";
-	locked = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/hallway/north_west)
@@ -36266,9 +35852,8 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/security{
-	name = "\improper Underground Security Evidence Storage";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/security/free_access{
+	name = "\improper Underground Security Evidence Storage"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/security/interrogation)
@@ -36346,9 +35931,8 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/security/glass{
-	name = "\improper Underground Security Interrogation";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/security/glass/free_access{
+	name = "\improper Underground Security Interrogation"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/security/interrogation)
@@ -36361,7 +35945,7 @@
 /turf/open/floor/plating/ground/snow/layer2,
 /area/ice_colony/exterior/surface/clearing/south)
 "bSb" = (
-/obj/effect/landmark/start/xeno_spawn,
+/obj/effect/landmark/start/job/xenomorph,
 /turf/open/floor/plating/ground/ice,
 /area/ice_colony/underground/maintenance/central)
 "bSc" = (
@@ -36424,8 +36008,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/manifold/green/hidden,
-/obj/structure/disposalpipe/junction{
-	icon_state = "pipe-j2";
+/obj/structure/disposalpipe/junction/flipped{
 	dir = 4
 	},
 /turf/open/floor/plating/ground/snow/layer0,
@@ -36576,10 +36159,8 @@
 	},
 /area/ice_colony/exterior/underground/caves)
 "bSC" = (
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/north)
@@ -36605,7 +36186,7 @@
 /area/ice_colony/underground/maintenance/east)
 "bSI" = (
 /obj/structure/rack,
-/obj/item/reagent_container/blood/OMinus,
+/obj/item/reagent_containers/blood/OMinus,
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/east)
 "bSJ" = (
@@ -36617,9 +36198,7 @@
 "bSK" = (
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Toilet Unit";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Toilet Unit"
 	},
 /turf/open/floor/tile/white,
 /area/ice_colony/underground/hallway/north_west)
@@ -36792,7 +36371,6 @@
 /area/ice_colony/underground/hallway/north_west)
 "bTf" = (
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 4
 	},
 /obj/structure/cable{
@@ -36817,7 +36395,6 @@
 /area/ice_colony/underground/engineering/substation)
 "bTh" = (
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 4
 	},
 /obj/structure/cable,
@@ -36844,12 +36421,9 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/locked/free_access{
 	dir = 2;
-	icon_state = "door_locked";
-	locked = 1;
-	name = "Underground Secure Technical Storage";
-	req_access_txt = "100"
+	name = "\improper Underground Secure Technical Storage"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/engineering/substation)
@@ -36866,9 +36440,7 @@
 "bTm" = (
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 4;
-	name = "\improper Underground Lavatory";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Lavatory"
 	},
 /turf/open/floor/tile/white,
 /area/ice_colony/underground/hallway/north_west)
@@ -37099,10 +36671,10 @@
 /area/ice_colony/underground/maintenance/east)
 "bTY" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/light/small{
-	dir = 8
-	},
 /obj/effect/decal/remains/human,
+/obj/machinery/light/small{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/east)
 "bTZ" = (
@@ -37113,15 +36685,6 @@
 "bUa" = (
 /obj/machinery/light/small{
 	dir = 8
-	},
-/turf/open/floor/plating,
-/area/ice_colony/underground/maintenance/east)
-"bUb" = (
-/obj/machinery/atmospherics/pipe/simple/green/hidden{
-	dir = 5
-	},
-/obj/effect/decal/cleanable/cobweb{
-	dir = 1
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/east)
@@ -37406,8 +36969,7 @@
 /area/ice_colony/surface/hydroponics/south)
 "bUV" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Hydroponics Dome South Wing";
-	req_access_txt = "100"
+	name = "\improper Hydroponics Dome South Wing"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/surface/hydroponics/south)
@@ -37573,8 +37135,8 @@
 /area/ice_colony/underground/hangar)
 "bVu" = (
 /obj/structure/table/reinforced,
-/obj/item/reagent_container/food/snacks/flour,
-/obj/item/reagent_container/food/snacks/flour{
+/obj/item/reagent_containers/food/snacks/flour,
+/obj/item/reagent_containers/food/snacks/flour{
 	pixel_x = 7;
 	pixel_y = 8
 	},
@@ -37676,7 +37238,6 @@
 /area/ice_colony/surface/excavationbarracks)
 "bVL" = (
 /obj/machinery/shower{
-	icon_state = "shower";
 	dir = 4
 	},
 /obj/structure/window/reinforced,
@@ -37843,7 +37404,7 @@
 /area/ice_colony/surface/excavationbarracks)
 "bWc" = (
 /obj/structure/table/woodentable,
-/obj/item/reagent_container/food/snacks/boiledspagetti,
+/obj/item/reagent_containers/food/snacks/boiledspagetti,
 /turf/open/floor/tile/dark,
 /area/ice_colony/surface/excavationbarracks)
 "bWd" = (
@@ -37923,7 +37484,6 @@
 /area/ice_colony/surface/excavationbarracks)
 "bWo" = (
 /obj/structure/bed/chair/wood/wings{
-	icon_state = "wooden_chair_wings";
 	dir = 1
 	},
 /turf/open/floor/tile/dark/yellow2,
@@ -38039,7 +37599,6 @@
 /area/ice_colony/exterior/surface/valley/southeast)
 "bWG" = (
 /obj/machinery/shower{
-	icon_state = "shower";
 	dir = 4
 	},
 /obj/machinery/door/window/eastleft,
@@ -38127,6 +37686,7 @@
 "bWT" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/thin/straight,
 /area/ice_colony/underground/maintenance/east)
 "bWU" = (
@@ -38307,7 +37867,7 @@
 "bXp" = (
 /obj/structure/bed,
 /obj/item/bedsheet/orange,
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/dark/yellow2{
 	dir = 5
 	},
@@ -38716,10 +38276,8 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/maint{
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/security/backroom)
@@ -38823,10 +38381,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/free_access{
 	dir = 2;
-	name = "Underground Power Substation";
-	req_access_txt = "100"
+	name = "\improper Underground Power Substation"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/engineering/substation)
@@ -38867,7 +38424,9 @@
 /turf/open/floor/plating,
 /area/ice_colony/underground/engineering/substation)
 "bYM" = (
-/obj/machinery/door/airlock/mainship/maint,
+/obj/machinery/door/airlock/mainship/maint/free_access{
+	name = "\improper Underground Maintenance"
+	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/engineering/substation)
 "bYN" = (
@@ -38913,9 +38472,7 @@
 "bYR" = (
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Underground Lavatory";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Lavatory"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /turf/open/floor/tile/white,
@@ -39006,9 +38563,8 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/mainship/security{
-	name = "\improper Underground Security Custodial Closet";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/mainship/security/free_access{
+	name = "\improper Underground Security Custodial Closet"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/security/backroom)
@@ -39108,16 +38664,14 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Underground Excavation Prep";
-	req_access_txt = "100"
+	name = "\improper Underground Excavation Prep"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/hallway/south_east)
 "bZo" = (
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Underground Engineering Locker Room";
-	req_access_txt = "100"
+	name = "\improper Underground Engineering Locker Room"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/engineering)
@@ -39154,10 +38708,9 @@
 /turf/open/floor/plating/icefloor,
 /area/ice_colony/underground/hangar)
 "bZt" = (
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 4;
-	name = "\improper Underground Engineering Locker Room";
-	req_access_txt = "100"
+	name = "\improper Underground Engineering Locker Room"
 	},
 /turf/open/floor/tile/dark2,
 /area/ice_colony/underground/engineering)
@@ -39187,11 +38740,9 @@
 	},
 /area/ice_colony/exterior/surface/landing_pad)
 "bZx" = (
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 1;
-	name = "\improper Underground Maintenance";
-	req_access_txt = "100";
-	req_one_access_txt = "0"
+	name = "\improper Underground Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ice_colony/underground/maintenance/engineering)
@@ -39303,7 +38854,7 @@
 /area/ice_colony/underground/maintenance/engineering)
 "bZJ" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
-/obj/machinery/door/airlock/mainship/maint{
+/obj/machinery/door/airlock/mainship/maint/free_access{
 	dir = 2;
 	name = "Maintenance Hatch"
 	},
@@ -39708,9 +39259,8 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/multi_tile/mainship/comdoor{
-	name = "\improper Colony Administration";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/multi_tile/mainship/comdoor/free_access{
+	name = "\improper Colony Administration"
 	},
 /obj/effect/decal/cleanable/blood/xtracks,
 /turf/open/floor/tile/dark2,
@@ -39836,9 +39386,8 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/multi_tile/mainship/comdoor{
-	name = "\improper Colony Administration";
-	req_access_txt = "100"
+/obj/machinery/door/airlock/multi_tile/mainship/comdoor/free_access{
+	name = "\improper Colony Administration"
 	},
 /obj/effect/decal/cleanable/blood/xeno,
 /turf/open/floor/tile/dark2,
@@ -39870,6 +39419,7 @@
 /area/ice_colony/exterior/surface/landing_pad)
 "cdY" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/straight{
 	dir = 4
 	},
@@ -39942,6 +39492,7 @@
 /area/ice_colony/exterior/surface/valley/west)
 "cxW" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice_rock/westWall,
 /area/ice_colony/exterior/surface/cliff)
 "czW" = (
@@ -39952,11 +39503,19 @@
 	dir = 6
 	},
 /area/ice_colony/exterior/surface/cliff)
+"cKM" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/corners{
+	dir = 10
+	},
+/area/ice_colony/exterior/surface/cliff)
 "cLf" = (
 /turf/closed/wall/r_wall/unmeltable,
 /area/storage/testroom)
 "cNc" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/wall/r_wall,
 /area/ice_colony/underground/maintenance/south)
 "cND" = (
@@ -39990,6 +39549,7 @@
 /area/ice_colony/exterior/surface/cliff)
 "dAY" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/corner{
 	dir = 8
 	},
@@ -39997,18 +39557,38 @@
 "dRL" = (
 /obj/structure/mineral_door/resin,
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/open/floor/plating/ground/ice,
 /area/ice_colony/underground/maintenance/east)
+"eak" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/corners{
+	dir = 6
+	},
+/area/ice_colony/exterior/surface/cliff)
 "esg" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/corner,
 /area/ice_colony/underground/maintenance/east)
 "etV" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/ice/corner,
 /area/ice_colony/exterior/underground/caves)
+"eCc" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice,
+/area/ice_colony/exterior/underground/caves)
+"eJg" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/corners,
+/area/ice_colony/exterior/surface/cliff)
 "eOo" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/open/floor/plating/ground/ice,
 /area/ice_colony/exterior/surface/valley/northeast)
 "eWD" = (
@@ -40018,6 +39598,16 @@
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/open/floor/plating/ground/ice,
 /area/ice_colony/underground/maintenance/south)
+"fak" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/singleEnd{
+	dir = 8
+	},
+/area/ice_colony/exterior/surface/cliff)
+"fdT" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/wall/r_wall/unmeltable,
+/area/space)
 "fgn" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/open/floor/plating,
@@ -40025,6 +39615,7 @@
 "fiU" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/thin/straight,
 /area/ice_colony/exterior/surface/valley/south/excavation)
 "fjG" = (
@@ -40039,6 +39630,7 @@
 /area/ice_colony/exterior/surface/valley/northeast)
 "fol" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/corner{
 	dir = 1
 	},
@@ -40060,6 +39652,23 @@
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/open/floor/plating/ground/snow/layer3,
 /area/ice_colony/exterior/surface/valley/northwest)
+"fIy" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/corners,
+/area/ice_colony/exterior/underground/caves)
+"fKd" = (
+/obj/effect/turf_overlay/icerock,
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/corners,
+/area/ice_colony/exterior/surface/cliff)
+"fLy" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/corners{
+	dir = 9
+	},
+/area/ice_colony/exterior/surface/cliff)
 "fNR" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/lv624/fog_blocker,
@@ -40073,6 +39682,11 @@
 	dir = 10
 	},
 /area/ice_colony/exterior/surface/cliff)
+"fQC" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/wall/r_wall,
+/area/ice_colony/underground/hallway/south_east)
 "fRw" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone,
 /turf/open/floor/plating/ground/snow/layer3,
@@ -40095,6 +39709,7 @@
 "gqo" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/thin/end{
 	dir = 1
 	},
@@ -40124,6 +39739,7 @@
 "gFB" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/thin/end{
 	dir = 4
 	},
@@ -40150,6 +39766,12 @@
 	},
 /turf/closed/ice_rock/corners,
 /area/ice_colony/exterior/surface/valley/west)
+"hmq" = (
+/obj/effect/decal/cleanable/cobweb{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/ice_colony/underground/maintenance/east)
 "hot" = (
 /obj/structure/sign/greencross,
 /turf/open/floor/tile/darkgreen/darkgreen2,
@@ -40159,6 +39781,11 @@
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone,
 /turf/open/floor/plating/ground/ice,
 /area/ice_colony/exterior/surface/valley/southeast)
+"hwe" = (
+/obj/effect/turf_underlay/icefloor,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice/thin/single,
+/area/ice_colony/underground/maintenance/south)
 "hDJ" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2{
 	dir = 8
@@ -40168,6 +39795,7 @@
 "hKh" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/thin/end{
 	dir = 8
 	},
@@ -40198,8 +39826,13 @@
 	},
 /turf/closed/ice_rock/northWall,
 /area/ice_colony/exterior/surface/cliff)
+"ikI" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/ice,
+/area/ice_colony/underground/maintenance/south)
 "inT" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/open/floor/plating/ground/ice,
 /area/ice_colony/underground/maintenance/east)
 "ioJ" = (
@@ -40224,6 +39857,11 @@
 	},
 /turf/open/floor/plating/ground/ice,
 /area/ice_colony/exterior/surface/landing_pad_external)
+"iHY" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/southWall,
+/area/ice_colony/exterior/surface/cliff)
 "iJZ" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/open/floor/plating/ground/ice,
@@ -40241,6 +39879,13 @@
 	},
 /turf/closed/ice_rock/northWall,
 /area/ice_colony/exterior/surface/cliff)
+"jac" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice/straight{
+	dir = 4
+	},
+/area/ice_colony/underground/maintenance/south)
 "jgT" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2{
@@ -40251,6 +39896,7 @@
 "jhp" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/thin/single,
 /area/ice_colony/underground/maintenance/east)
 "jqu" = (
@@ -40263,6 +39909,7 @@
 /area/ice_colony/underground/maintenance/south)
 "jvd" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/corner{
 	dir = 4
 	},
@@ -40270,6 +39917,7 @@
 "jyB" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/thin/single,
 /area/ice_colony/exterior/surface/valley/south/excavation)
 "jzH" = (
@@ -40278,11 +39926,27 @@
 	dir = 1
 	},
 /area/ice_colony/exterior/underground/caves)
+"jzL" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/wall/r_wall,
+/area/ice_colony/underground/crew/leisure)
 "jAc" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/ice/end{
 	dir = 4
 	},
+/area/ice_colony/exterior/surface/cliff)
+"jBH" = (
+/obj/effect/turf_overlay/icerock{
+	dir = 4
+	},
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/corners,
+/area/ice_colony/exterior/surface/cliff)
+"jOy" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/southWall,
 /area/ice_colony/exterior/surface/cliff)
 "jQk" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone{
@@ -40331,9 +39995,18 @@
 	dir = 8
 	},
 /area/ice_colony/exterior/surface/cliff)
+"kCS" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating,
+/area/ice_colony/underground/maintenance/south)
+"kKm" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/corners,
+/area/ice_colony/exterior/surface/cliff)
 "kQw" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/thin/straight{
 	dir = 4
 	},
@@ -40382,6 +40055,10 @@
 	dir = 1
 	},
 /area/ice_colony/exterior/surface/landing_pad_external)
+"lBq" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/northWall,
+/area/ice_colony/exterior/surface/cliff)
 "lGA" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden,
 /obj/effect/landmark/lv624/fog_blocker,
@@ -40395,11 +40072,23 @@
 /obj/docking_port/stationary/crashmode,
 /turf/open/floor/plating/icefloor,
 /area/ice_colony/exterior/surface/landing_pad)
+"lSx" = (
+/obj/machinery/atmospherics/pipe/simple/green/hidden{
+	dir = 4
+	},
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating,
+/area/ice_colony/underground/maintenance/south)
 "mbE" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice_rock/singlePart{
 	dir = 6
 	},
+/area/ice_colony/exterior/surface/cliff)
+"mcs" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice,
 /area/ice_colony/exterior/surface/cliff)
 "mgJ" = (
 /obj/effect/turf_overlay/icerock{
@@ -40412,6 +40101,11 @@
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/ice,
 /area/ice_colony/exterior/underground/caves/open)
+"muZ" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice/straight,
+/area/ice_colony/exterior/underground/caves)
 "mxc" = (
 /obj/item/lightstick/anchored,
 /obj/structure/cable{
@@ -40431,12 +40125,23 @@
 	},
 /turf/closed/ice_rock/eastWall,
 /area/ice_colony/exterior/surface/cliff)
+"mKW" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice/corner,
+/area/ice_colony/exterior/underground/caves)
 "mLj" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone{
 	dir = 1
 	},
 /turf/closed/ice_rock/corners{
 	dir = 10
+	},
+/area/ice_colony/exterior/surface/cliff)
+"mLn" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/corners{
+	dir = 6
 	},
 /area/ice_colony/exterior/surface/cliff)
 "mLS" = (
@@ -40459,12 +40164,24 @@
 	},
 /turf/closed/ice_rock/westWall,
 /area/ice_colony/exterior/surface/cliff)
+"neG" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/westWall,
+/area/ice_colony/exterior/surface/cliff)
 "neY" = (
 /obj/effect/turf_overlay/icerock{
 	dir = 1
 	},
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice_rock/corners,
+/area/ice_colony/exterior/surface/cliff)
+"nhg" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice/straight{
+	dir = 4
+	},
 /area/ice_colony/exterior/surface/cliff)
 "nyy" = (
 /obj/structure/disposalpipe/segment,
@@ -40480,6 +40197,12 @@
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/ice_rock/corners,
 /area/ice_colony/exterior/surface/cliff)
+"nGE" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/corners{
+	dir = 5
+	},
+/area/ice_colony/exterior/underground/caves)
 "nIz" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/ice_rock/corners{
@@ -40488,8 +40211,13 @@
 /area/ice_colony/exterior/underground/caves/open)
 "nKI" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice,
 /area/ice_colony/underground/maintenance/east)
+"nLI" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice/straight,
+/area/ice_colony/exterior/underground/caves)
 "nXf" = (
 /obj/structure/cable{
 	icon_state = "4-8";
@@ -40521,6 +40249,10 @@
 	dir = 1
 	},
 /area/ice_colony/exterior/surface/cliff)
+"oXx" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/ice,
+/area/ice_colony/exterior/underground/caves/open)
 "php" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone{
 	dir = 2
@@ -40531,19 +40263,46 @@
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone,
 /turf/closed/ice_rock/southWall,
 /area/ice_colony/exterior/surface/cliff)
+"pYj" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/wall/r_wall,
+/area/ice_colony/underground/hallway/south_east)
+"qfP" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/wall/r_wall,
+/area/ice_colony/underground/crew/leisure)
+"qpU" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice/straight{
+	dir = 4
+	},
+/area/ice_colony/exterior/underground/caves)
 "qrL" = (
 /obj/effect/landmark/xeno_silo_spawn,
 /turf/open/floor/plating/ground/ice,
 /area/ice_colony/underground/maintenance/east)
+"qsE" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/singlePart{
+	dir = 5
+	},
+/area/ice_colony/exterior/surface/cliff)
+"qwW" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/northWall,
+/area/ice_colony/exterior/underground/caves)
 "qFz" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/thin/end{
 	dir = 4
 	},
 /area/ice_colony/underground/maintenance/east)
 "qIM" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice_rock/singlePart{
 	dir = 1
 	},
@@ -40555,6 +40314,7 @@
 /area/ice_colony/exterior/surface/cliff)
 "qMH" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice_rock/corners{
 	dir = 5
 	},
@@ -40563,6 +40323,10 @@
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone,
 /turf/closed/ice_rock/corners,
 /area/ice_colony/exterior/surface/cliff)
+"qPt" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/westWall,
+/area/ice_colony/exterior/underground/caves)
 "qUJ" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/ice/junction{
@@ -40608,6 +40372,13 @@
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/ice_rock/southWall,
 /area/ice_colony/exterior/surface/valley/west)
+"rxD" = (
+/obj/machinery/atmospherics/pipe/simple/green/hidden{
+	dir = 4
+	},
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/ice,
+/area/ice_colony/underground/maintenance/south)
 "rAY" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/wall/r_wall,
@@ -40622,6 +40393,7 @@
 /area/ice_colony/exterior/surface/cliff)
 "rKF" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/open/floor/plating/ground/ice,
 /area/ice_colony/underground/maintenance/engineering)
 "rMt" = (
@@ -40632,16 +40404,24 @@
 /area/ice_colony/exterior/surface/cliff)
 "rSi" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice_rock/singleEnd{
 	dir = 8
 	},
 /area/ice_colony/exterior/surface/cliff)
 "sfn" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/corner{
 	dir = 4
 	},
 /area/ice_colony/exterior/underground/caves)
+"siB" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/singleEnd{
+	dir = 1
+	},
+/area/ice_colony/exterior/surface/cliff)
 "spj" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/xeno_tunnel,
@@ -40661,6 +40441,7 @@
 /area/ice_colony/exterior/surface/valley/north)
 "sKH" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/straight,
 /area/ice_colony/underground/maintenance/east)
 "sMq" = (
@@ -40669,12 +40450,26 @@
 	},
 /turf/closed/ice_rock/westWall,
 /area/ice_colony/exterior/surface/cliff)
+"sQc" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice/straight,
+/area/ice_colony/exterior/surface/cliff)
+"sSn" = (
+/obj/effect/turf_overlay/icerock{
+	dir = 8
+	},
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/corners,
+/area/ice_colony/exterior/surface/cliff)
 "tbQ" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/ice,
 /area/ice_colony/exterior/surface/cliff)
 "tit" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/corner,
 /area/ice_colony/underground/maintenance/south)
 "tmI" = (
@@ -40685,6 +40480,7 @@
 /area/ice_colony/exterior/surface/cliff)
 "toB" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/open/floor/plating/ground/snow/layer1,
 /area/ice_colony/exterior/surface/valley/south/excavation)
 "tto" = (
@@ -40694,8 +40490,16 @@
 "twy" = (
 /obj/effect/turf_underlay/icefloor,
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice/thin/end,
 /area/ice_colony/underground/maintenance/east)
+"tAl" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice/corner{
+	dir = 4
+	},
+/area/ice_colony/exterior/surface/cliff)
 "tJT" = (
 /obj/machinery/atmospherics/pipe/simple/green/hidden{
 	dir = 4
@@ -40719,6 +40523,7 @@
 	dir = 1
 	},
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/closed/ice_rock/corners,
 /area/ice_colony/exterior/surface/cliff)
 "tTa" = (
@@ -40793,19 +40598,31 @@
 /area/ice_colony/exterior/underground/caves)
 "vrG" = (
 /obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/open/floor/plating/ground/snow/layer0,
 /area/ice_colony/exterior/surface/valley/south/excavation)
-"vPm" = (
-/obj/effect/turf_underlay/icefloor,
-/obj/effect/landmark/nuke_spawn,
-/turf/closed/ice/thin/single,
+"weW" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/wall/r_wall,
 /area/ice_colony/underground/maintenance/south)
+"wjI" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice/corner{
+	dir = 8
+	},
+/area/ice_colony/exterior/surface/cliff)
 "wmQ" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/ice_rock/corners{
 	dir = 5
 	},
 /area/ice_colony/exterior/underground/caves/open)
+"wBP" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice,
+/area/ice_colony/exterior/surface/cliff)
 "wHH" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone,
 /turf/closed/wall/r_wall,
@@ -40839,6 +40656,10 @@
 /turf/closed/ice/end{
 	dir = 4
 	},
+/area/ice_colony/exterior/underground/caves)
+"xpq" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/ice_rock/eastWall,
 /area/ice_colony/exterior/underground/caves)
 "xQi" = (
 /obj/effect/landmark/lv624/fog_blocker,
@@ -43066,22 +42887,22 @@ aac
 aac
 aac
 aac
+kKm
+aac
+aag
+aag
+aag
+aag
+aag
+aag
+aag
+aag
+aag
+aag
+aag
 aac
 aac
-aag
-aag
-aag
-aag
-aag
-aag
-aag
-aag
-aag
-aag
-aag
-aac
-aac
-aac
+kKm
 aac
 aac
 aac
@@ -43154,12 +42975,12 @@ bGw
 bGw
 bGw
 bGw
-bGw
-bGw
-bGw
-bSQ
-bSQ
-bSQ
+fIy
+fIy
+fIy
+xpq
+xpq
+xpq
 bSQ
 bSQ
 bSQ
@@ -43323,7 +43144,7 @@ aac
 aac
 aac
 aac
-aac
+kKm
 aae
 bmU
 bmU
@@ -43338,7 +43159,7 @@ bmU
 bmU
 acm
 aac
-aac
+kKm
 aac
 aac
 aac
@@ -43411,12 +43232,12 @@ bGw
 bGw
 bGw
 bSR
-bnT
+nLI
 bmi
 bSR
 bmU
 bmU
-bmU
+oXx
 bmU
 bmU
 bmU
@@ -43580,7 +43401,7 @@ acD
 aac
 acD
 aac
-aac
+kKm
 aaU
 bmU
 baB
@@ -43595,7 +43416,7 @@ bmU
 bmU
 acm
 aac
-aac
+kKm
 aac
 aac
 aac
@@ -43668,12 +43489,12 @@ bxe
 bxe
 bxe
 bRY
+oXx
 bmU
 bmU
 bmU
 bmU
-bmU
-bmU
+oXx
 bmU
 bmU
 bmU
@@ -43837,7 +43658,7 @@ bbA
 aag
 acj
 aag
-aae
+jOy
 bmU
 bmU
 beG
@@ -43852,7 +43673,7 @@ btk
 bmU
 bmU
 acm
-aac
+kKm
 aac
 aac
 aac
@@ -43925,12 +43746,12 @@ bmU
 bmU
 bmU
 bmU
-bmU
+oXx
 bmU
 bmU
 gaB
 bmU
-bmU
+oXx
 bRL
 bSW
 bmU
@@ -44094,7 +43915,7 @@ aCs
 abb
 aaC
 aaC
-acj
+cKM
 bmU
 bmU
 bmU
@@ -44109,7 +43930,7 @@ bmU
 bmU
 bmU
 acm
-aac
+kKm
 aac
 aac
 aac
@@ -44182,12 +44003,12 @@ bmU
 bmU
 bmU
 bmU
-bmU
+oXx
 bmU
 bmU
 btk
 bmU
-bmU
+oXx
 bRM
 bSR
 bRL
@@ -44351,22 +44172,22 @@ apS
 aBK
 aCs
 abb
-aaC
-aaC
-aaC
-aaC
-acj
-acD
-aac
-aac
-aac
-aaC
+mcs
+mcs
+mcs
+mcs
+cKM
+jBH
+kKm
+kKm
+kKm
+mcs
 bnV
 bmU
 bmU
 bmU
 acj
-aaB
+mLn
 aac
 aac
 aac
@@ -44439,12 +44260,12 @@ bnV
 bnV
 bmU
 bmU
+oXx
 bmU
 bmU
 bmU
 bmU
-bmU
-bmU
+oXx
 bmU
 bmU
 bRM
@@ -44617,13 +44438,13 @@ acj
 acD
 aac
 aac
-aaC
+mcs
 bnV
 bmU
 bmU
 bmU
 bmU
-acm
+lBq
 aac
 aac
 aac
@@ -44696,12 +44517,12 @@ bTv
 bTv
 bTv
 bTv
+oXx
 bmU
 bmU
 bmU
 bmU
-bmU
-bmU
+oXx
 bmU
 bmU
 bmU
@@ -44874,13 +44695,13 @@ aaC
 acj
 acD
 aac
-aaC
+mcs
 bnV
 bmU
 bmU
 gaB
 bmU
-acm
+lBq
 aac
 aac
 aac
@@ -44953,12 +44774,12 @@ bGw
 bGw
 bGw
 bGw
-bTv
-bTv
-bTv
-bTv
-bTv
-bSW
+qPt
+qPt
+qPt
+qPt
+qPt
+nGE
 bmU
 bmU
 bmU
@@ -45131,13 +44952,13 @@ aaC
 aaC
 acm
 abZ
-aaV
+qsE
 bmU
 bmU
 bmU
 bmU
 bmU
-acm
+lBq
 aac
 aac
 aac
@@ -45388,13 +45209,13 @@ aCs
 abb
 alJ
 alJ
-acn
+fak
 bmU
 bmU
 bmU
 bmU
 bmU
-acm
+lBq
 aac
 aac
 aaG
@@ -45650,8 +45471,8 @@ bmU
 bmU
 bmU
 bmU
-abZ
-aac
+siB
+kKm
 aac
 aac
 aac
@@ -45907,7 +45728,7 @@ bmU
 bmU
 bmU
 bmU
-bmU
+oXx
 aar
 acj
 aaU
@@ -46164,7 +45985,7 @@ bmU
 bmU
 bmU
 bmU
-bmU
+oXx
 bmU
 bmU
 bmU
@@ -46421,7 +46242,7 @@ bmU
 bmU
 bmU
 bmU
-bmU
+oXx
 bmU
 bmU
 bmU
@@ -46673,12 +46494,12 @@ alJ
 alJ
 alJ
 alJ
-aaC
-aaC
-aaB
-aaG
-aaG
-aaB
+mcs
+mcs
+mLn
+neG
+neG
+mLn
 bmU
 bmU
 bmU
@@ -56490,7 +56311,7 @@ bRo
 bkt
 bkt
 bkt
-bkK
+bRo
 bkt
 bkt
 bkt
@@ -57464,7 +57285,7 @@ aaQ
 aJL
 aJL
 aLA
-blt
+aeD
 aMa
 aLP
 aLP
@@ -58343,16 +58164,16 @@ bpu
 bqx
 boJ
 cNc
-bOk
-bOk
-bOk
-bOk
-bOk
-bOk
-bQo
-bQu
-bjZ
-bSw
+weW
+weW
+weW
+weW
+weW
+weW
+rxD
+ikI
+qwW
+fdT
 "}
 (69,1,1) = {"
 aaa
@@ -58599,7 +58420,7 @@ bMc
 bpu
 ceQ
 boJ
-car
+jac
 cas
 bQu
 bQu
@@ -58856,7 +58677,7 @@ bUK
 bpu
 bqx
 boJ
-rAY
+fQC
 cat
 bQu
 bQu
@@ -59113,7 +58934,7 @@ bMc
 bpu
 brX
 bLn
-boJ
+pYj
 car
 bQu
 bUD
@@ -59370,7 +59191,7 @@ bMc
 bpu
 brY
 bLo
-boJ
+pYj
 cau
 bQu
 bQu
@@ -59627,7 +59448,7 @@ bMc
 bpu
 bqx
 boJ
-rAY
+fQC
 bQu
 bQu
 bQu
@@ -59884,7 +59705,7 @@ bMc
 bpu
 bqx
 rAY
-cas
+hwe
 bQu
 bUD
 bQu
@@ -60398,7 +60219,7 @@ bMl
 bpu
 bqx
 boJ
-car
+jac
 bQu
 bQu
 bQu
@@ -60655,8 +60476,8 @@ bUM
 bpu
 bqx
 boJ
-car
-vPm
+jac
+cas
 bQu
 bQu
 bUD
@@ -60912,17 +60733,17 @@ bMc
 bpu
 bqx
 bNA
-bNA
-hVA
-hVA
-hVA
-hVA
-bNA
-bQu
-bQn
-bPg
-bjZ
-bSw
+qfP
+jzL
+jzL
+jzL
+jzL
+qfP
+ikI
+lSx
+kCS
+qwW
+fdT
 "}
 (79,1,1) = {"
 aaa
@@ -62540,11 +62361,11 @@ abL
 aax
 aax
 akC
-akU
+akW
 alk
 alT
 alk
-akU
+akW
 alk
 apm
 alk
@@ -66138,11 +65959,11 @@ abL
 aax
 aax
 akD
-akS
+akX
 alm
-akS
+akX
 alm
-akS
+akX
 anE
 aqt
 apH
@@ -66316,7 +66137,7 @@ bCI
 bCI
 bCI
 bUa
-bCI
+hmq
 bQw
 bjZ
 bSw
@@ -66829,7 +66650,7 @@ bTX
 bCJ
 bTY
 bTZ
-bUb
+bTN
 bCI
 bQw
 bjZ
@@ -68853,9 +68674,9 @@ bml
 aZF
 aZF
 aZF
-uOC
-uOC
-uOC
+eCc
+eCc
+eCc
 aZF
 bCg
 bEe
@@ -69109,11 +68930,11 @@ byc
 bmm
 bml
 aZF
-uOC
+eCc
 bmh
 bnT
 bml
-uOC
+eCc
 bCg
 bEe
 bCI
@@ -69365,12 +69186,12 @@ bqP
 byc
 bmT
 bmm
-tTa
+muZ
 bnT
 bmi
 bmT
 bmQ
-uOC
+eCc
 bCg
 bEe
 bCI
@@ -69627,7 +69448,7 @@ bza
 boB
 ndK
 bmm
-etV
+mKW
 bCg
 bBP
 bCJ
@@ -69884,7 +69705,7 @@ bzb
 byc
 byc
 byc
-fjG
+qpU
 bCg
 bEe
 bCI
@@ -70141,7 +69962,7 @@ byc
 byc
 bRV
 byc
-fjG
+qpU
 bCg
 bEe
 bCI
@@ -70398,7 +70219,7 @@ byc
 byc
 biF
 byc
-fjG
+qpU
 bCg
 bEe
 bCI
@@ -70655,7 +70476,7 @@ rKF
 byc
 byc
 byc
-fjG
+qpU
 bCg
 bEe
 bCI
@@ -77514,7 +77335,7 @@ aLW
 aMD
 aMT
 aNm
-aNR
+akH
 aOS
 aOf
 aON
@@ -81791,14 +81612,14 @@ aaa
 aaa
 aaa
 bSw
-tto
-tto
-ktI
-tbQ
+eJg
+eJg
+iHY
+wBP
 rSi
-uvI
-gXG
-uPx
+tAl
+sQc
+wjI
 mbE
 qIM
 acC
@@ -82573,7 +82394,7 @@ fkF
 ade
 adj
 adj
-uEl
+fLy
 adj
 adj
 adj
@@ -82694,7 +82515,7 @@ aac
 aac
 aac
 aae
-gGw
+nhg
 bbY
 bcY
 vrG
@@ -82950,7 +82771,7 @@ iVB
 rls
 rls
 aac
-ktI
+iHY
 aaR
 abb
 bbX
@@ -83086,7 +82907,7 @@ adA
 adj
 aaU
 aaG
-mgJ
+sSn
 aad
 aaB
 adj
@@ -83207,7 +83028,7 @@ acj
 aac
 aac
 gEI
-ktI
+iHY
 aaC
 aaQ
 bbX
@@ -83343,7 +83164,7 @@ adA
 abZ
 acC
 acD
-qLM
+fKd
 aaB
 acQ
 adj
@@ -83600,7 +83421,7 @@ acR
 aaP
 abb
 acj
-fzT
+eak
 aaS
 adA
 adj
@@ -83722,14 +83543,14 @@ aaQ
 acm
 aac
 gEI
-ktI
+iHY
 aaR
 abb
 bbI
 aaP
 amC
 aba
-gXG
+sQc
 aaZ
 aaC
 aaC
@@ -83857,7 +83678,7 @@ aba
 aaZ
 aaR
 aba
-gXG
+sQc
 afx
 acR
 adj
@@ -83979,14 +83800,14 @@ aaQ
 acj
 acD
 gEI
-ktI
+iHY
 aaC
 aaR
 beU
 bfi
 aaC
 aaC
-tbQ
+wBP
 aaC
 aaC
 aaC
@@ -84114,7 +83935,7 @@ aar
 aaC
 aaC
 aaC
-tbQ
+wBP
 aaR
 abn
 adk
@@ -84494,13 +84315,13 @@ abn
 acj
 acD
 gEI
-tto
+eJg
 aae
 aaC
 aaC
 acm
 aac
-ktI
+iHY
 aaC
 aaC
 aaC
@@ -84628,7 +84449,7 @@ aac
 aac
 aac
 aac
-tto
+eJg
 aac
 aae
 aaR
@@ -84751,7 +84572,7 @@ baC
 afO
 acm
 gEI
-tto
+eJg
 aaf
 aaG
 aaG
@@ -85008,13 +84829,13 @@ bcE
 afO
 acm
 gEI
-tto
+eJg
 aac
 aac
 aac
 aac
 aac
-tto
+eJg
 aaf
 aaG
 aaG
@@ -85265,13 +85086,13 @@ bcE
 afO
 acm
 gEI
-tto
+eJg
 aac
 aac
 aac
 aac
 aac
-tto
+eJg
 aac
 aac
 aac
@@ -89841,7 +89662,7 @@ blx
 blx
 blx
 bIY
-bQA
+adp
 bQA
 bQA
 bQT
@@ -92153,7 +91974,7 @@ aHY
 aNA
 aOs
 bvD
-bLD
+adG
 aGB
 aXu
 aXy

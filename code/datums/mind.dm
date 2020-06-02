@@ -33,33 +33,29 @@
 
 	var/memory
 
-	var/assigned_role
-	var/assigned_squad
-	var/comm_title
-
-	var/datum/skills/cm_skills //the knowledge you have about certain abilities and actions (e.g. do you how to do surgery?)
-								//see skills.dm in #define folder and code/datums/skills.dm for more info
-
 	var/datum/money_account/initial_account
 
 	var/last_death = 0
 
 	var/bypass_ff = FALSE
-	var/late_joiner = FALSE
 
 
 /datum/mind/New(key)
 	src.key = key
 
 
-/datum/mind/Destroy()
-	SSticker.minds -= src
+/datum/mind/Destroy(force, ...)
+	current = null
+	if(initial_account)
+		QDEL_NULL(initial_account)
 	return ..()
 
 
 /datum/mind/proc/transfer_to(mob/new_character, force_key_move = FALSE)
 	if(current)	// remove ourself from our old body's mind variable
 		current.mind = null
+		SStgui.on_transfer(current, new_character)
+
 	if(key)
 		if(new_character.key != key)					//if we're transferring into a body with a key associated which is not ours
 			new_character.ghostize(TRUE)						//we'll need to ghostize so that key isn't mobless.
@@ -68,11 +64,6 @@
 
 	if(new_character.mind)								//disassociate any mind currently in our new body's mind variable
 		new_character.mind.current = null
-
-	if(isxeno(new_character))
-		QDEL_NULL(cm_skills)
-
-	SSnano.user_transferred(current, new_character) // transfer active NanoUI instances to new user
 
 	current = new_character								//associate ourself with our new body
 	new_character.mind = src							//and associate our new body with ourself
@@ -86,11 +77,10 @@
 
 
 /datum/mind/proc/store_memory(new_text)
-	var/combined = length(memory + new_text)
-	if(combined > MAX_PAPER_MESSAGE_LEN)
-		memory = copytext(memory, combined - MAX_PAPER_MESSAGE_LEN, combined)
-	else
-		memory += "[new_text]<br>"
+	var/newlength = length_char(memory) + length_char(new_text)
+	if (newlength > MAX_PAPER_MESSAGE_LEN)
+		memory = copytext_char(memory, -newlength - MAX_PAPER_MESSAGE_LEN)
+	memory += "[new_text]<BR>"
 
 
 /datum/mind/proc/wipe_memory()
@@ -109,33 +99,6 @@
 		mind.key = key
 	else
 		mind = new /datum/mind(key)
-		SSticker.minds += mind
 	if(!mind.name)
 		mind.name = real_name
 	mind.current = src
-
-
-/mob/living/carbon/human/mind_initialize()
-	. = ..()
-	if(!mind.cm_skills)
-		mind.cm_skills = new /datum/skills/pfc
-
-
-/mob/living/carbon/xenomorph/mind_initialize()
-	. = ..()
-	mind.assigned_role = "Xenomorph"
-
-
-/mob/living/silicon/mind_initialize()
-	. = ..()
-	mind.assigned_role = "Silicon"
-
-
-/mob/living/silicon/ai/mind_initialize()
-	. = ..()
-	mind.assigned_role = "AI"
-
-
-/mob/living/simple_animal/mind_initialize()
-	. = ..()
-	mind.assigned_role = "Animal"

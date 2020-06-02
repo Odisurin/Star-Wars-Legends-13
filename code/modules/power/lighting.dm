@@ -101,7 +101,7 @@
 				icon_state = "tube-empty"
 			if("bulb")
 				icon_state = "bulb-empty"
-		
+
 		stage = 3
 		user.visible_message("[user] closes [src]'s casing.", \
 			"You close [src]'s casing.", "You hear a noise.")
@@ -136,7 +136,7 @@
 	desc = "A lighting fixture."
 	anchored = TRUE
 	layer = FLY_LAYER
-	use_power = 2
+	use_power = ACTIVE_POWER_USE
 	idle_power_usage = 2
 	active_power_usage = 20
 	power_channel = LIGHT //Lights are calc'd via area so they dont need to be in the machine list
@@ -211,7 +211,7 @@
 /obj/machinery/light/LateInitialize()
 	var/area/A = get_area(src)
 	seton(A.lightswitch && A.power_light)
-	
+
 
 /obj/machinery/light/Destroy()
 	var/area/A = get_area(src)
@@ -367,7 +367,7 @@
 			s.set_up(3, 1, src)
 			s.start()
 			if(prob(75))
-				electrocute_mob(user, get_area(src), src, rand(0.7, 1))
+				electrocute_mob(user, get_area(src), src, rand(7, 10) * 0.1)
 
 
 // returns whether this light has power
@@ -402,7 +402,7 @@
 /obj/machinery/light/attack_alien(mob/living/carbon/xenomorph/M)
 	if(status == 2) //Ignore if broken.
 		return FALSE
-	M.do_attack_animation(src)
+	M.do_attack_animation(src, ATTACK_EFFECT_SMASH)
 	M.visible_message("<span class='danger'>\The [M] smashes [src]!</span>", \
 	"<span class='danger'>We smash [src]!</span>", null, 5)
 	broken() //Smashola!
@@ -493,13 +493,13 @@
 
 /obj/machinery/light/ex_act(severity)
 	switch(severity)
-		if(1.0)
+		if(EXPLODE_DEVASTATE)
 			qdel(src)
 			return
-		if(2.0)
+		if(EXPLODE_HEAVY)
 			if (prob(75))
 				broken()
-		if(3.0)
+		if(EXPLODE_LIGHT)
 			if (prob(50))
 				broken()
 	return
@@ -528,13 +528,12 @@
 // explode the light
 
 /obj/machinery/light/proc/explode()
-	var/turf/T = get_turf(src.loc)
-	spawn(0)
-		broken()	// break it first to give a warning
-		sleep(2)
-		explosion(T, 0, 0, 2, 2)
-		sleep(1)
-		qdel(src)
+	broken()	// break it first to give a warning
+	addtimer(CALLBACK(src, .proc/delayed_explosion), 0.5 SECONDS)
+
+/obj/machinery/light/proc/delayed_explosion()
+	explosion(loc, 0, 1, 3, 2)
+	qdel(src)
 
 // the light item
 // can be tube or bulb subtypes
@@ -616,8 +615,8 @@
 /obj/item/light_bulb/attackby(obj/item/I, mob/user, params)
 	. = ..()
 
-	if(istype(I, /obj/item/reagent_container/syringe))
-		var/obj/item/reagent_container/syringe/S = I
+	if(istype(I, /obj/item/reagent_containers/syringe))
+		var/obj/item/reagent_containers/syringe/S = I
 
 		to_chat(user, "You inject the solution into the [src].")
 
@@ -658,7 +657,7 @@
 	anchored = TRUE
 	density = FALSE
 	layer = BELOW_TABLE_LAYER
-	use_power = 2
+	use_power = ACTIVE_POWER_USE
 	idle_power_usage = 2
 	active_power_usage = 20
 	power_channel = LIGHT //Lights are calc'd via area so they dont need to be in the machine list

@@ -8,33 +8,87 @@
 	icon = 'icons/turf/mainship.dmi'
 	icon_state = "default"
 
+/turf/open/floor/mainship/check_alien_construction(mob/living/builder, silent = FALSE, planned_building)
+	if(ispath(planned_building, /turf/closed/wall/)) // The Canterbury moves and will leave a hole in space if there's a resin wall.
+		if(!silent)
+			to_chat(builder, "<span class='warning'>This place seems unable to support a wall.</span>")
+		return FALSE
+	return ..()
+
+/turf/open/floor/mainship/stripesquare
+	icon_state = "test_floor4"
+
+/turf/open/floor/mainship/plate
+	icon_state = "plate"
+
+/turf/open/floor/mainship/cargo
+	icon_state = "cargo"
+
+/turf/open/floor/mainship/cargo/arrow
+	icon_state = "cargo_arrow"
+	icon_regular_floor = "cargo_arrow"
+
+/turf/open/floor/mainship/blue
+	icon_state = "blue"
+
+/turf/open/floor/mainship/blue/full
+	icon_state = "bluefull"
+
+/turf/open/floor/mainship/blue/corner
+	icon_state = "bluecorner"
+
+/turf/open/floor/mainship/emerald
+	icon_state = "emerald"
+
+/turf/open/floor/mainship/orange
+	icon_state = "orange"
+
+/turf/open/floor/mainship/orange/corner
+	icon_state = "orangecorner"
+
+/turf/open/floor/mainship/orange/full
+	icon_state = "orangefull"
+
+/turf/open/floor/mainship/green
+	icon_state = "green"
+
+/turf/open/floor/mainship/green/corner
+	icon_state = "greencorner"
+
+/turf/open/floor/mainship/red
+	icon_state = "red"
+
+/turf/open/floor/mainship/red/full
+	icon_state = "redfull"
+
+/turf/open/floor/mainship/red/corner
+	icon_state = "redcorner"
+
+/turf/open/floor/mainship/ai
+	icon_state = "ai_floors"
+
+/turf/open/floor/mainship/sterile
+	icon_state = "sterile_green"
+
+/turf/open/floor/mainship/sterile/plain
+	icon_state = "sterile"
+
+/turf/open/floor/mainship/sterile/dark
+	icon_state = "dark_sterile"
+
+/turf/open/floor/mainship/sterile/corner
+	icon_state = "sterile_green_corner"
+
+/turf/open/floor/mainship/sterile/side
+	icon_state = "sterile_green_side"
+
 /turf/open/floor/mainship/mono
 	icon_state = "mono"
 	icon_regular_floor = "mono"
 
-/turf/open/floor/marking/loadingarea
-	icon_state = "loadingarea"
-
-/turf/open/floor/marking/bot
-	icon_state = "bot"
-
-/turf/open/floor/marking/delivery
-	icon_state = "delivery"
-
-/turf/open/floor/marking/warning
-	icon_state = "warning"
-
-/turf/open/floor/marking/warning/corner
-	icon_state = "warningcorner"
-
-/turf/open/floor/marking/asteroidwarning
-	icon_state = "asteroidwarning"
-
-/turf/open/floor/grimy
-	icon_state = "grimy"
-
-/turf/open/floor/asteroidfloor
-	icon_state = "asteroidfloor"
+/turf/open/floor/mainship/tcomms
+	icon_plating = "tcomms"
+	icon_state = "tcomms"
 
 //Cargo elevator
 /turf/open/floor/mainship/empty
@@ -45,9 +99,6 @@
 
 /turf/open/floor/mainship/empty/is_weedable()
 	return FALSE
-
-/turf/open/floor/mainship/empty/ex_act(severity) //Should make it indestructable
-	return
 
 /turf/open/floor/mainship/empty/fire_act(exposed_temperature, exposed_volume)
 	return
@@ -115,6 +166,32 @@
 
 
 
+//***********
+
+/turf/open/floor/marking/loadingarea
+	icon_state = "loadingarea"
+
+/turf/open/floor/marking/bot
+	icon_state = "bot"
+
+/turf/open/floor/marking/delivery
+	icon_state = "delivery"
+
+/turf/open/floor/marking/warning
+	icon_state = "warning"
+
+/turf/open/floor/marking/warning/corner
+	icon_state = "warningcorner"
+
+/turf/open/floor/marking/asteroidwarning
+	icon_state = "asteroidwarning"
+
+/turf/open/floor/grimy
+	icon_state = "grimy"
+
+/turf/open/floor/asteroidfloor
+	icon_state = "asteroidfloor"
+
 
 
 //////////////////////////////////////////////////////////////////////
@@ -142,6 +219,9 @@
 	name = "floor"
 	icon_state = "wood"
 	floor_tile = new/obj/item/stack/tile/wood
+	shoefootstep = FOOTSTEP_WOOD
+	barefootstep = FOOTSTEP_WOOD
+	mediumxenofootstep = FOOTSTEP_WOOD
 
 /turf/open/floor/wood/broken
 	icon_state = "wood-broken"
@@ -154,7 +234,8 @@
 	. = ..()
 	icon_state = "[state]vault"
 
-
+/turf/open/floor/cult
+	icon_state = "cult"
 
 /turf/open/floor/engine
 	name = "reinforced floor"
@@ -176,20 +257,11 @@
 
 		if(!do_after(user, 30, TRUE, src, BUSY_ICON_BUILD))
 			return
-			
+
 		new /obj/item/stack/rods(src, 2)
 		ChangeTurf(/turf/open/floor)
 		var/turf/open/floor/F = src
 		F.make_plating()
-
-
-/turf/open/floor/engine/ex_act(severity)
-	switch(severity)
-		if(1)
-			break_tile_to_plating()
-		if(2)
-			if(prob(25))
-				break_tile_to_plating()
 
 
 /turf/open/floor/engine/nitrogen
@@ -208,8 +280,11 @@
 	name = "floor"
 	icon_state = "ironsand1"
 
+/turf/open/floor/scorched
+	icon_state = "floorscorched1"
 
-
+/turf/open/floor/scorched/two
+	icon_state = "floorscorched2"
 
 
 /turf/open/floor/bluegrid
@@ -221,10 +296,16 @@
 	icon_state = "gcircuit"
 
 
+/turf/open/floor/asteroid
+	icon_state = "asteroid"
+
 /turf/open/floor/grass
 	name = "Grass patch"
 	icon_state = "grass1"
 	floor_tile = new/obj/item/stack/tile/grass
+	shoefootstep = FOOTSTEP_GRASS
+	barefootstep = FOOTSTEP_GRASS
+	mediumxenofootstep = FOOTSTEP_GRASS
 
 
 /turf/open/floor/grass/Initialize()
@@ -242,11 +323,27 @@
 		var/turf/open/floor/FF = get_step(src,direction)
 		FF.update_icon() //so siding get updated properly
 
+/turf/open/floor/tile/damaged/panel
+	icon_state = "panelscorched"
+
+/turf/open/floor/tile/damaged/three
+	icon_state = "damaged3"
+
+/turf/open/floor/tile/damaged/four
+	icon_state = "damaged4"
+
+/turf/open/floor/tile/damaged/five
+	icon_state = "damaged5"
+
 /turf/open/floor/tile/white
 	icon_state = "white"
 
 /turf/open/floor/tile/chapel
 	icon_state = "chapel"
+	icon_regular_floor = "chapel"
+
+/turf/open/floor/tile/cmo
+	icon_state = "cmo"
 
 /turf/open/floor/tile/bar
 	icon_state = "bar"
@@ -262,6 +359,12 @@
 
 /turf/open/floor/tile/vault
 	icon_state = "vault"
+
+/turf/open/floor/tile/yellow
+	icon_state = "yellow"
+
+/turf/open/floor/tile/yellow/patch
+	icon_state = "yellowpatch"
 
 /turf/open/floor/tile/yellow/full
 	icon_state = "yellowfull"
@@ -286,6 +389,10 @@
 
 /turf/open/floor/tile/red/whiteredfull
 	icon_state = "whiteredfull"
+
+// no directions
+/turf/open/floor/tile/red/redblue/full
+	icon_state = "redbluefull"
 
 /turf/open/floor/tile/red/redtaupe
 	icon_state = "red"
@@ -316,6 +423,9 @@
 
 /turf/open/floor/tile/blue/whitebluecorner
 	icon_state = "whitebluecorner"
+
+/turf/open/floor/tile/blue/taupeblue
+	icon_state = "blue"
 
 /turf/open/floor/tile/blue/taupebluecorner
 	icon_state = "bluecorner"
@@ -401,6 +511,9 @@
 /turf/open/floor/animated/bcircuit
 	icon_state = "bcircuit"
 
+/turf/open/floor/grime
+	icon_state = "floorgrime"
+
 /turf/open/floor/podhatch
 	icon_state = "podhatch"
 
@@ -416,6 +529,9 @@
 /turf/open/floor/carpet
 	name = "Carpet"
 	icon_state = "carpet"
+	shoefootstep = FOOTSTEP_CARPET
+	barefootstep = FOOTSTEP_CARPET
+	mediumxenofootstep = FOOTSTEP_CARPET
 
 
 /turf/open/floor/carpet/Initialize()
@@ -440,6 +556,12 @@
 /turf/open/floor/prison
 	icon = 'icons/turf/prison.dmi'
 	icon_state = "floor"
+
+/turf/open/floor/prison/bright_clean
+	icon_state = "bright_clean"
+
+/turf/open/floor/prison/bright_clean/two
+	icon_state = "bright_clean2"
 
 /turf/open/floor/prison/rampbottom
 	icon_state = "rampbottom"
@@ -515,6 +637,9 @@
 
 /turf/open/floor/prison/darkbrown/corner
 	icon_state = "darkbrowncorners2"
+
+/turf/open/floor/prison/darkbrown/full
+	icon_state = "darkbrownfull2"
 
 /turf/open/floor/prison/green
 	icon_state = "green"

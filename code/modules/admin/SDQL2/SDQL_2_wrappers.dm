@@ -54,7 +54,7 @@
 	return get_step(Ref, Dir)
 
 
-/proc/_hearers(Depth = world.view, Center = usr)
+/proc/_hearers(Depth = WORLD_VIEW, Center = usr)
 	return hearers(Depth, Center)
 
 
@@ -284,11 +284,11 @@
 	winset(player, control_id, params)
 
 
-/proc/_winshow(player, window, show = 1) 
+/proc/_winshow(player, window, show = 1)
 	winshow(player, window, show)
 
 
-/proc/_winget(player, control_id, params) 
+/proc/_winget(player, control_id, params)
 	winget(player, control_id, params)
 
 
@@ -332,7 +332,7 @@
 	return view(Dist, Center)
 
 
-/proc/_viewers(Depth = world.view, Center = usr)
+/proc/_viewers(Depth = WORLD_VIEW, Center = usr)
 	return viewers(Depth, Center)
 
 

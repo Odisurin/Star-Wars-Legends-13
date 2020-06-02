@@ -89,7 +89,7 @@
 			else
 				to_chat(h_user, "Small electrical arc sparks and burns your hand as you touch the [src]!")
 				h_user.adjustFireLoss(rand(5,10))
-				h_user.knock_out(2)
+				h_user.Unconscious(40)
 			charge = 0
 
 		if (16 to 35)
@@ -102,7 +102,7 @@
 			else
 				to_chat(h_user, "Medium electrical sparks as you touch the [src], severely burning your hand!")
 				h_user.adjustFireLoss(rand(10,25))
-				h_user.knock_out(5)
+				h_user.Unconscious(10 SECONDS)
 			INVOKE_ASYNC(src, .proc/empulse, loc, 2, 4)
 			charge = 0
 
@@ -114,11 +114,11 @@
 			if (user_protected)
 				to_chat(h_user, "Strong electrical arc sparks between you and [src], ignoring your gloves and burning your hand!")
 				h_user.adjustFireLoss(rand(25,60))
-				h_user.knock_out(8)
+				h_user.Unconscious(16 SECONDS)
 			else
 				to_chat(h_user, "Strong electrical arc sparks between you and [src], knocking you out for a while!")
 				h_user.adjustFireLoss(rand(35,75))
-				h_user.knock_out(12)
+				h_user.Unconscious(24 SECONDS)
 			INVOKE_ASYNC(src, .proc/empulse, loc, 8, 16)
 			charge = 0
 			apcs_overload(1, 10)
@@ -132,7 +132,7 @@
 			to_chat(h_user, "Massive electrical arc sparks between you and [src]. Last thing you can think about is \"Oh shit...\"")
 			// Remember, we have few gigajoules of electricity here.. Turn them into crispy toast.
 			h_user.adjustFireLoss(rand(150,195))
-			h_user.knock_out(25)
+			h_user.Unconscious(50 SECONDS)
 			INVOKE_ASYNC(src, .proc/empulse, loc, 32, 64)
 			charge = 0
 			apcs_overload(5, 25)
@@ -148,7 +148,7 @@
 						visible_message("Magnetic containment stabilised.")
 						return
 					visible_message("DANGER! Magnetic containment field failure in 3 ... 2 ... 1 ...")
-					explosion(src.loc,1,2,4,8)
+					explosion(loc, 2, 3, 5, 8)
 					// Not sure if this is necessary, but just in case the SMES *somehow* survived..
 					qdel(src)
 
@@ -212,7 +212,7 @@
 
 		playsound(get_turf(src), 'sound/items/crowbar.ogg', 25, 1)
 		to_chat(user, "<span class='warning'>You begin to disassemble the [src]!</span>")
-		
+
 		if(!do_after(user, 10 SECONDS * cur_coils, TRUE, src, BUSY_ICON_BUILD)) // More coils = takes longer to disassemble. It's complex so largest one with 5 coils will take 50s
 			return
 

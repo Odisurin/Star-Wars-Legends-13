@@ -49,10 +49,10 @@
 
 /obj/item/grown/log/attackby(obj/item/I, mob/user, params)
 	. = ..()
-	
+
 	if(I.sharp != IS_SHARP_ITEM_BIG)
 		return
-		
+
 	user.show_message("<span class='notice'>You make planks out of \the [src]!</span>", 1)
 	var/obj/item/stack/sheet/wood/NG = new(user.loc, 2)
 	NG.add_to_stacks(user)
@@ -108,7 +108,8 @@
 			if(affecting.take_damage_limb(0, force))
 				user.UpdateDamageIcon()
 		else
-			user.take_limb_damage(0,force)
+			user.take_limb_damage(0, force)
+			UPDATEHEALTH(user)
 		return 1
 	return 0
 
@@ -135,7 +136,7 @@
 /obj/item/grown/nettle/death/pickup(mob/living/carbon/human/user as mob)
 
 	if(..() && prob(50))
-		user.knock_out(5)
+		user.Unconscious(10 SECONDS)
 		to_chat(user, "<span class='warning'>You are stunned by the deathnettle when you try picking it up!</span>")
 
 /obj/item/grown/nettle/attack(mob/living/carbon/M as mob, mob/user as mob)
@@ -152,12 +153,11 @@
 		to_chat(M, "<span class='warning'>You are stunned by the powerful acid of the deathnettle!</span>")
 
 		log_combat(user, M, "hit", src)
-		msg_admin_attack("[ADMIN_TPMONTY(usr)] used the [src.name] on [ADMIN_TPMONTY(M)].")
 
 		M.adjust_blurriness(force/7)
 		if(prob(20))
-			M.knock_out(force/6)
-			M.knock_down(force/15)
+			M.Unconscious(force/6 *20)
+			M.Paralyze(force/15 *20)
 		M.drop_held_item()
 
 /obj/item/corncob

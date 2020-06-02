@@ -10,13 +10,14 @@ GLOBAL_LIST_EMPTY(latejoin_cryo)
 GLOBAL_LIST_EMPTY(landmarks_list)				//list of all landmarks created
 GLOBAL_LIST_EMPTY(start_landmarks_list)			//list of all spawn points created
 
-GLOBAL_LIST_EMPTY(marine_spawns_by_job)			//2d array of /datum/job => list(turfs)
+GLOBAL_LIST_EMPTY(spawns_by_job)			//2d array of /datum/job => list(turfs)
 
 GLOBAL_LIST_EMPTY(landmarks_round_start)		//landmarks that require action at round start
 
 GLOBAL_LIST_EMPTY(xeno_tunnel_landmarks)		//list of turfs marked by /obj/effect/landmark/xeno_tunnel
 GLOBAL_LIST_EMPTY(map_items)
 GLOBAL_LIST_EMPTY(fog_blocker_locations)		//list of turfs marked by /obj/effect/landmark/lv624/fog_blocker
+GLOBAL_LIST_EMPTY(xeno_spawn_protection_locations)
 GLOBAL_LIST_EMPTY(fog_blockers)
 
 GLOBAL_LIST_EMPTY(huntergames_primary_spawns)
@@ -25,9 +26,6 @@ GLOBAL_LIST_EMPTY(huntergames_secondary_spawns)
 GLOBAL_LIST_EMPTY(jobspawn_overrides)					//These will take precedence over normal spawnpoints if created.
 
 GLOBAL_LIST_EMPTY(newplayer_start)
-GLOBAL_LIST_EMPTY(ai_spawn)
-GLOBAL_LIST_EMPTY(xeno_spawn)//Aliens spawn at these.
-GLOBAL_LIST_EMPTY(surv_spawn)
 GLOBAL_LIST_EMPTY(tdome1)
 GLOBAL_LIST_EMPTY(tdome2)
 GLOBAL_LIST_EMPTY(deathmatch)

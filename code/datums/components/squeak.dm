@@ -18,7 +18,7 @@
 	RegisterSignal(parent, list(COMSIG_ATOM_ENTERED, COMSIG_PARENT_ATTACKBY), .proc/play_squeak)
 	if(ismovableatom(parent))
 		RegisterSignal(parent, list(COMSIG_MOVABLE_BUMP, COMSIG_MOVABLE_IMPACT), .proc/play_squeak)
-		RegisterSignal(parent, COMSIG_MOVABLE_CROSSED, .proc/play_squeak_crossed)
+		RegisterSignal(parent, COMSIG_MOVABLE_CROSSED_BY, .proc/play_squeak_crossed)
 		RegisterSignal(parent, COMSIG_MOVABLE_DISPOSING, .proc/disposing_react)
 		if(isitem(parent))
 			RegisterSignal(parent, COMSIG_ITEM_ATTACK, .proc/play_squeak)
@@ -45,12 +45,11 @@
 		return
 	if(!squeak_sound)
 		CRASH("Squeak component attempted to play invalid sound.")
-		return
 
 	if(islist(squeak_sound))
-		playsound(parent, sound(pick(squeak_sound)), volume)
+		playsound(parent, sound(pick(squeak_sound)), volume, TRUE, 10)
 	else
-		playsound(parent, sound(squeak_sound), volume)
+		playsound(parent, sound(squeak_sound), volume, TRUE, 10)
 
 
 /datum/component/squeak/proc/step_squeak()
@@ -61,15 +60,16 @@
 		steps++
 
 
-/datum/component/squeak/proc/play_squeak_crossed(datum/source, atom/movable/AM)
+/datum/component/squeak/proc/play_squeak_crossed(datum/source, atom/movable/AM, oldloc)
 	if(isitem(AM))
 		var/obj/item/I = AM
 		if(I.flags_item & ITEM_ABSTRACT)
 			return
-		else if(istype(AM, /obj/item/projectile))
-			var/obj/item/projectile/P = AM
-			if(P.original_target != parent)
-				return
+
+	if(istype(AM, /obj/projectile))
+		var/obj/projectile/P = AM
+		if(P.original_target != parent)
+			return
 
 	if(isobserver(AM))
 		return

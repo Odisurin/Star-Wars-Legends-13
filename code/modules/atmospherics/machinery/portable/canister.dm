@@ -17,7 +17,7 @@
 	var/can_max_release_pressure = (ONE_ATMOSPHERE * 10)
 	var/can_min_release_pressure = (ONE_ATMOSPHERE / 10)
 
-	armor = list("melee" = 50, "bullet" = 50, "laser" = 50, "energy" = 100, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 50)
+	soft_armor = list("melee" = 50, "bullet" = 50, "laser" = 50, "energy" = 100, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 50)
 	max_integrity = 250
 	var/temperature_resistance = 1000 + T0C
 	var/starter_temp
@@ -108,7 +108,7 @@
 			new /obj/item/stack/sheet/metal (loc, 10)
 		else
 			new /obj/item/stack/sheet/metal (loc, 5)
-	qdel(src)
+	return ..()
 
 
 /obj/machinery/portable_atmospherics/canister/proc/canister_break()

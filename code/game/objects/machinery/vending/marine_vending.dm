@@ -13,42 +13,41 @@
 
 	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
 	products = list(
-					/obj/item/weapon/gun/pistol/m4a3 = 25,
-					/obj/item/weapon/gun/revolver/m44 = 15,
-					/obj/item/weapon/gun/smg/m39 = 20,
-					/obj/item/weapon/gun/rifle/m41a = 25,
-					/obj/item/weapon/gun/energy/lasgun/M43 = 10,
-					/obj/item/weapon/gun/shotgun/pump = 10,
-					/obj/item/ammo_magazine/pistol = 30,
-					/obj/item/ammo_magazine/revolver = 25,
-					/obj/item/ammo_magazine/smg/m39 = 30,
-					/obj/item/ammo_magazine/rifle = 25,
-					/obj/item/cell/lasgun/M43 = 20,
+					/obj/item/weapon/gun/pistol/standard_pistol = 25,
+					/obj/item/ammo_magazine/pistol/standard_pistol = 30,
+					/obj/item/weapon/gun/revolver/standard_revolver = 15,
+					/obj/item/ammo_magazine/revolver/standard_revolver = 25,
+					/obj/item/weapon/gun/smg/standard_smg = 20,
+					/obj/item/ammo_magazine/smg/standard_smg = 30,
+					/obj/item/weapon/gun/smg/standard_machinepistol = 20,
+					/obj/item/ammo_magazine/smg/standard_machinepistol = 30,
+					/obj/item/weapon/gun/rifle/standard_carbine = 25,
+					/obj/item/ammo_magazine/rifle/standard_carbine = 25,
+					/obj/item/weapon/gun/rifle/standard_assaultrifle = 25,
+					/obj/item/ammo_magazine/rifle/standard_assaultrifle = 25,
+					/obj/item/weapon/gun/rifle/standard_lmg = 15,
+					/obj/item/ammo_magazine/standard_lmg = 30,
+					/obj/item/weapon/gun/rifle/standard_dmr = 10,
+					/obj/item/ammo_magazine/rifle/standard_dmr = 25,
+					/obj/item/weapon/gun/energy/lasgun/lasrifle = 10,
+					/obj/item/cell/lasgun/lasrifle = 20,
+					/obj/item/weapon/gun/shotgun/pump/t35 = 10,
 					/obj/item/ammo_magazine/shotgun = 10,
 					/obj/item/ammo_magazine/shotgun/buckshot = 10,
 					/obj/item/ammo_magazine/shotgun/flechette = 10,
-					/obj/item/weapon/combat_knife = 20,
+					/obj/item/weapon/gun/rifle/standard_autoshotgun = 10,
+					/obj/item/ammo_magazine/rifle/tx15_slug = 25,
+					/obj/item/ammo_magazine/rifle/tx15_flechette = 25,
+					/obj/item/attachable/bayonetknife = 20,
 					/obj/item/weapon/throwing_knife = 5,
 					/obj/item/storage/box/m94 = 5,
 					/obj/item/attachable/flashlight = 10,
-					/obj/item/attachable/bayonet = 10,
 					)
-
-	contraband =   list(/obj/item/ammo_magazine/revolver/marksman = 2,
-						/obj/item/ammo_magazine/pistol/ap = 2,
-						/obj/item/ammo_magazine/smg/m39/ap = 1
-						)
-
-	premium = list(
-					/obj/item/weapon/gun/rifle/m41aMK1 = 1,
-					/obj/item/ammo_magazine/rifle/m41aMK1 = 6
-					)
-
 	prices = list()
 
 /obj/machinery/vending/marine/select_gamemode_equipment(gamemode)
 	var/products2[]
-	if(SSmapping.configs[GROUND_MAP].map_name == MAP_ICE_COLONY)
+	if(SSmapping.configs[GROUND_MAP].environment_traits[MAP_COLD])
 		products2 = list(/obj/item/clothing/mask/rebreather/scarf = 10, /obj/item/clothing/mask/rebreather = 10)
 	build_inventory(products2)
 
@@ -79,17 +78,16 @@
 					/obj/item/storage/backpack/marine/standard = 15,
 					/obj/item/storage/backpack/marine/satchel = 15,
 					/obj/item/storage/large_holster/machete/full = 10,
-					/obj/item/storage/large_holster/m37 = 10,
 					/obj/item/storage/belt/marine = 15,
 					/obj/item/storage/belt/shotgun = 10,
 					/obj/item/storage/belt/sparepouch = 10,
 					/obj/item/storage/belt/knifepouch = 10,
 					/obj/item/belt_harness/marine = 10,
 					/obj/item/storage/belt/utility/full = 10,
+					/obj/item/storage/belt/sparepouch = 5,
 					/obj/item/storage/belt/grenade = 5,
-					/obj/item/storage/belt/gun/m4a3 = 10,
-					/obj/item/storage/belt/gun/m44 = 5,
-					/obj/item/storage/large_holster/m39 = 5,
+					/obj/item/storage/belt/gun/pistol/standard_pistol = 10,
+					/obj/item/storage/belt/gun/revolver/standard_revolver = 5,
 					/obj/item/clothing/tie/storage/webbing = 5,
 					/obj/item/clothing/tie/storage/brown_vest = 5,
 					/obj/item/clothing/tie/storage/white_vest/medic = 5,
@@ -110,14 +108,18 @@
 					/obj/item/storage/pouch/magazine/pistol = 10,
 					/obj/item/storage/pouch/magazine/pistol/large = 5,
 					/obj/item/storage/pouch/shotgun = 10,
-					/obj/item/weapon/gun/pistol/m4a3 = 20,
+					/obj/item/weapon/gun/pistol/standard_pistol = 20,
 					/obj/item/weapon/gun/pistol/m1911 = 5,
-					/obj/item/weapon/gun/revolver/m44 = 15,
-					/obj/item/weapon/gun/smg/m39 = 15,
-					/obj/item/weapon/gun/rifle/m41a = 20,
-					/obj/item/weapon/gun/rifle/lmg = 2,
-					/obj/item/weapon/gun/energy/lasgun/M43 = 10,
-					/obj/item/weapon/gun/shotgun/pump = 10,
+					/obj/item/weapon/gun/revolver/standard_revolver = 15,
+					/obj/item/weapon/gun/smg/standard_smg = 15,
+					/obj/item/weapon/gun/smg/standard_machinepistol = 20,
+					/obj/item/weapon/gun/rifle/standard_carbine = 20,
+					/obj/item/weapon/gun/rifle/standard_assaultrifle = 20,
+					/obj/item/weapon/gun/rifle/standard_lmg = 10,
+					/obj/item/weapon/gun/rifle/standard_dmr = 10,
+					/obj/item/weapon/gun/energy/lasgun/lasrifle = 10,
+					/obj/item/weapon/gun/shotgun/pump/t35 = 10,
+					/obj/item/weapon/gun/rifle/standard_autoshotgun = 10,
 					/obj/item/explosive/mine = 2,
 					/obj/item/explosive/grenade/frag/m15 = 2,
 					/obj/item/explosive/grenade/incendiary = 4,
@@ -166,38 +168,23 @@
 	icon_deny = "marinerequisitions"
 	wrenchable = FALSE
 	products = list(
-					/obj/item/ammobox/m4a3 = 3,
-					/obj/item/ammo_magazine/pistol = 20,
-					/obj/item/ammobox/m4a3ext = 1,
-					/obj/item/ammo_magazine/pistol/extended = 10,
-					/obj/item/ammobox/m4a3ap = 1,
-					/obj/item/ammo_magazine/pistol/ap = 5,
-					/obj/item/ammo_magazine/pistol/incendiary = 5,
+					/obj/item/ammo_magazine/pistol/standard_pistol = 25,
 					/obj/item/ammo_magazine/pistol/m1911 = 10,
-					/obj/item/ammo_magazine/revolver = 20,
-					/obj/item/ammo_magazine/revolver/marksman = 5,
-					/obj/item/ammo_magazine/revolver/heavy = 5,
-					/obj/item/ammobox/m39 = 3,
-					/obj/item/ammo_magazine/smg/m39 = 15,
-					/obj/item/ammobox/m39ap = 1,
-					/obj/item/ammo_magazine/smg/m39/ap = 5,
-					/obj/item/ammobox/m39ext = 1,
-					/obj/item/ammo_magazine/smg/m39/extended = 5,
-					/obj/item/ammobox = 3,
-					/obj/item/ammo_magazine/rifle = 15,
-					/obj/item/ammobox/ap = 1,
-					/obj/item/ammo_magazine/rifle/ap = 5,
-					/obj/item/ammobox/ext = 1,
-					/obj/item/ammo_magazine/rifle/extended = 5,
-					/obj/item/cell/lasgun/M43 = 15,
-					/obj/item/cell/lasgun/M43/highcap = 5,
-					/obj/item/shotgunbox = 3,
+					/obj/item/ammo_magazine/revolver/standard_revolver = 20,
+					/obj/item/ammo_magazine/smg/standard_smg = 15,
+					/obj/item/ammo_magazine/smg/standard_machinepistol = 15,
+					/obj/item/ammo_magazine/rifle/standard_carbine = 15,
+					/obj/item/ammo_magazine/rifle/standard_assaultrifle = 15,
+					/obj/item/ammo_magazine/standard_lmg = 10,
+					/obj/item/ammo_magazine/rifle/standard_dmr = 25,
+					/obj/item/cell/lasgun/lasrifle = 15,
+					/obj/item/cell/lasgun/lasrifle/highcap = 5,
 					/obj/item/ammo_magazine/shotgun = 10,
-					/obj/item/shotgunbox/buckshot = 3,
 					/obj/item/ammo_magazine/shotgun/buckshot = 10,
-					/obj/item/shotgunbox/flechette = 3,
 					/obj/item/ammo_magazine/shotgun/flechette = 15,
-					/obj/item/smartgun_powerpack = 2
+					/obj/item/ammo_magazine/rifle/tx15_slug = 25,
+					/obj/item/ammo_magazine/rifle/tx15_flechette = 25,
+					/obj/item/ammo_magazine/standard_smartmachinegun = 2
 					)
 
 	contraband = list(
@@ -223,7 +210,7 @@
 	GLOB.cargo_ammo_vendors.Remove(src)
 
 /obj/machinery/vending/lasgun
-	name = "ColMarTech Lasgun Field Charger"
+	name = "ColMarTech lasrifle Field Charger"
 	desc = "An automated power cell dispenser and charger. Used to recharge energy weapon power cells, including in the field. Has an internal battery that charges off the power grid when wrenched down."
 	icon_state = "lascharger"
 	icon_vend = "lascharger-vend"
@@ -234,14 +221,14 @@
 	drag_delay = FALSE
 	anchored = FALSE
 	idle_power_usage = 1
-	vend_power_usage = 50
+	active_power_usage = 50
 	machine_current_charge = 50000 //integrated battery for recharging energy weapons. Normally 10000.
 	machine_max_charge = 50000
 
-	product_ads = "Lasgun running low? Recharge here!;Need a charge?;Power up!;Electrifying!;Empower yourself!"
+	product_ads = "Lasrifle running low? Recharge here!;Need a charge?;Power up!;Electrifying!;Empower yourself!"
 	products = list(
-					/obj/item/cell/lasgun/M43 = 10,
-					/obj/item/cell/lasgun/M43/highcap = 2,
+					/obj/item/cell/lasgun/lasrifle = 10,
+					/obj/item/cell/lasgun/lasrifle/highcap = 2,
 					)
 
 	contraband =   list()
@@ -281,7 +268,14 @@
 
 
 /obj/machinery/vending/lasgun/MouseDrop_T(atom/movable/A, mob/user)
-	. = ..()
+	if(machine_stat & (BROKEN|NOPOWER))
+		return
+
+	if(user.stat || user.restrained() || user.lying_angle)
+		return
+
+	if(get_dist(user, src) > 1 || get_dist(src, A) > 1)
+		return
 
 	var/obj/item/I = A
 	if(istype(I, /obj/item/cell/lasgun))
@@ -336,25 +330,24 @@
 	desc = "Standard Issue Food and Drinks Vendor, containing standard military food and drinks."
 	icon_state = "sustenance"
 	wrenchable = FALSE
-	products = list(/obj/item/reagent_container/food/snacks/protein_pack = 50,
-					/obj/item/reagent_container/food/snacks/mre_pack/meal1 = 15,
-					/obj/item/reagent_container/food/snacks/mre_pack/meal2 = 15,
-					/obj/item/reagent_container/food/snacks/mre_pack/meal3 = 15,
-					/obj/item/reagent_container/food/snacks/mre_pack/meal4 = 15,
-					/obj/item/reagent_container/food/snacks/mre_pack/meal6 = 15,
+	products = list(/obj/item/reagent_containers/food/snacks/protein_pack = 50,
+					/obj/item/reagent_containers/food/snacks/mre_pack/meal1 = 15,
+					/obj/item/reagent_containers/food/snacks/mre_pack/meal2 = 15,
+					/obj/item/reagent_containers/food/snacks/mre_pack/meal3 = 15,
+					/obj/item/reagent_containers/food/snacks/mre_pack/meal4 = 15,
+					/obj/item/reagent_containers/food/snacks/mre_pack/meal6 = 15,
 					/obj/item/storage/box/MRE = 10,
-					/obj/item/reagent_container/food/drinks/flask = 5)
+					/obj/item/reagent_containers/food/drinks/flask = 5)
 //Christmas inventory
 /*
-					/obj/item/reagent_container/food/snacks/mre_pack/xmas1 = 25,
-					/obj/item/reagent_container/food/snacks/mre_pack/xmas2 = 25,
-					/obj/item/reagent_container/food/snacks/mre_pack/xmas3 = 25)*/
-	contraband = list(/obj/item/reagent_container/food/drinks/flask/marine = 10,
-					/obj/item/reagent_container/food/snacks/mre_pack/meal5 = 15)
+					/obj/item/reagent_containers/food/snacks/mre_pack/xmas1 = 25,
+					/obj/item/reagent_containers/food/snacks/mre_pack/xmas2 = 25,
+					/obj/item/reagent_containers/food/snacks/mre_pack/xmas3 = 25)*/
+	contraband = list(/obj/item/reagent_containers/food/drinks/flask/marine = 10,
+					/obj/item/reagent_containers/food/snacks/mre_pack/meal5 = 15)
 	vend_delay = 15
 	//product_slogans = "Standard Issue Marine food!;It's good for you, and not the worst thing in the world.;Just fucking eat it.;"
 	product_ads = "Try the cornbread.;Try the pizza.;Try the pasta.;Try the tofu, wimp.;Try the pork."
-	req_access_txt = ""
 
 
 /obj/machinery/vending/MarineMed
@@ -365,37 +358,41 @@
 	product_ads = "Go save some lives!;The best stuff for your medbay.;Only the finest tools.;All natural chemicals!;This stuff saves lives.;Don't you want some?;Ping!"
 	req_one_access = list(ACCESS_MARINE_MEDBAY, ACCESS_MARINE_CHEMISTRY, ACCESS_MARINE_MEDPREP) //Medics, doctors and researchers can access
 	wrenchable = FALSE
-	products = list(/obj/item/reagent_container/hypospray/autoinjector/quickclot = 6,
-					/obj/item/reagent_container/hypospray/autoinjector/bicaridine = 6,
-					/obj/item/reagent_container/hypospray/autoinjector/dexalinplus = 6,
-					/obj/item/reagent_container/hypospray/autoinjector/dylovene = 6,
-					/obj/item/reagent_container/hypospray/autoinjector/inaprovaline = 6,
-					/obj/item/reagent_container/hypospray/autoinjector/kelotane = 6,
-					/obj/item/reagent_container/hypospray/autoinjector/oxycodone = 4,
-					/obj/item/reagent_container/hypospray/autoinjector/tricordrazine = 8,
-					/obj/item/reagent_container/hypospray/autoinjector/hypervene = 4,
-					/obj/item/reagent_container/hypospray/autoinjector/hyperzine = 0,
+	products = list(/obj/item/reagent_containers/hypospray/autoinjector/quickclot = 6,
+					/obj/item/reagent_containers/hypospray/autoinjector/bicaridine = 6,
+					/obj/item/reagent_containers/hypospray/autoinjector/dexalinplus = 6,
+					/obj/item/reagent_containers/hypospray/autoinjector/dylovene = 6,
+					/obj/item/reagent_containers/hypospray/autoinjector/inaprovaline = 6,
+					/obj/item/reagent_containers/hypospray/autoinjector/kelotane = 6,
+					/obj/item/reagent_containers/hypospray/autoinjector/oxycodone = 4,
+					/obj/item/reagent_containers/hypospray/autoinjector/tricordrazine = 8,
+					/obj/item/reagent_containers/hypospray/autoinjector/combat = 2,
+					/obj/item/reagent_containers/hypospray/autoinjector/hypervene = 4,
+					/obj/item/reagent_containers/hypospray/autoinjector/synaptizine = 0,
 					/obj/item/storage/pill_bottle/bicaridine = 3,
 					/obj/item/storage/pill_bottle/dexalin = 3,
 					/obj/item/storage/pill_bottle/dylovene = 3,
 					/obj/item/storage/pill_bottle/kelotane = 3,
 					/obj/item/storage/pill_bottle/spaceacillin = 3,
 					/obj/item/storage/pill_bottle/inaprovaline = 3,
+					/obj/item/storage/pill_bottle/alkysine = 3,
+					/obj/item/storage/pill_bottle/tricordrazine = 3,
+					/obj/item/storage/pill_bottle/imidazoline = 3,
 					/obj/item/storage/pill_bottle/tramadol = 3,
 					/obj/item/storage/pill_bottle/russianRed = 5,
 					/obj/item/storage/pill_bottle/peridaxon = 2,
 					/obj/item/storage/pill_bottle/quickclot = 2,
 					/obj/item/storage/pill_bottle/hypervene = 2,
-					/obj/item/stack/medical/advanced/bruise_pack = 6,
+					/obj/item/stack/medical/advanced/bruise_pack = 8,
 					/obj/item/stack/medical/bruise_pack = 8,
-					/obj/item/stack/medical/advanced/ointment = 6,
+					/obj/item/stack/medical/advanced/ointment = 8,
 					/obj/item/stack/medical/ointment = 8,
-					/obj/item/stack/medical/splint = 2,
+					/obj/item/stack/medical/splint = 4,
 					/obj/item/healthanalyzer = 3,
 					/obj/item/bodybag/cryobag = 2)
 
-	contraband = list(/obj/item/reagent_container/hypospray/autoinjector/sleeptoxin =3,
-					/obj/item/reagent_container/hypospray/autoinjector/hyperzine/expired =3)
+	contraband = list(/obj/item/reagent_containers/hypospray/autoinjector/sleeptoxin =3,
+					/obj/item/reagent_containers/hypospray/autoinjector/synaptizine_expired =3)
 
 
 
@@ -406,19 +403,19 @@
 	icon_deny = "bloodvendor-deny"
 	product_ads = "The best blood on the market!"
 	req_access = list(ACCESS_MARINE_MEDBAY, ACCESS_MARINE_CHEMISTRY)
-	products = list(/obj/item/reagent_container/blood/APlus = 5,
-					/obj/item/reagent_container/blood/AMinus = 5,
-					/obj/item/reagent_container/blood/BPlus = 5,
-					/obj/item/reagent_container/blood/BMinus = 5,
-					/obj/item/reagent_container/blood/OPlus = 5,
-					/obj/item/reagent_container/blood/OMinus = 5,
-					/obj/item/reagent_container/blood/empty = 10)
+	products = list(/obj/item/reagent_containers/blood/APlus = 5,
+					/obj/item/reagent_containers/blood/AMinus = 5,
+					/obj/item/reagent_containers/blood/BPlus = 5,
+					/obj/item/reagent_containers/blood/BMinus = 5,
+					/obj/item/reagent_containers/blood/OPlus = 5,
+					/obj/item/reagent_containers/blood/OMinus = 5,
+					/obj/item/reagent_containers/blood/empty = 10)
 	contraband = list()
 
 /obj/machinery/vending/MarineMed/Blood/build_inventory(productlist[])
 	. = ..()
 	var/temp_list[] = productlist
-	var/obj/item/reagent_container/blood/temp_path
+	var/obj/item/reagent_containers/blood/temp_path
 	var/datum/data/vending_product/R
 	var/blood_type
 	for(R in (product_records + hidden_records + coin_records))
@@ -456,7 +453,7 @@
 						/obj/item/storage/pouch/pistol = 4,
 						/obj/item/clothing/mask/gas = 4
 					)
-	contraband = list(/obj/item/reagent_container/blood/OMinus = 1)
+	contraband = list(/obj/item/reagent_containers/blood/OMinus = 1)
 
 
 /obj/machinery/vending/marine_special
@@ -485,7 +482,8 @@
 					/obj/item/storage/box/spec/heavy_grenadier = 1,
 					/obj/item/storage/box/m42c_system = 1,
 					/obj/item/storage/box/m42c_system_Jungle = 1,
-					/obj/item/storage/box/spec/pyro = 1
+					/obj/item/storage/box/spec/pyro = 1,
+					/obj/item/storage/box/spec/tracker = 1
 					)
 	prices = list()
 
@@ -510,8 +508,9 @@
 					/obj/item/storage/box/spec/heavy_grenadier = 1,
 					/obj/item/storage/box/spec/sniper = 1,
 					/obj/item/storage/box/spec/scout = 1,
-					/obj/item/storage/box/spec/scoutshotgun = 1,
-					/obj/item/storage/box/spec/pyro = 1
+					/obj/item/storage/box/spec/pyro = 1,
+					/obj/item/storage/box/spec/tracker = 1
+
 			)
 	prices = list()
 
@@ -553,7 +552,7 @@
 
 	products = list(
 						/obj/item/clothing/tie/storage/webbing = 1,
-						/obj/item/storage/box/m56_system = 1,
+						/obj/item/storage/box/t26_system = 1,
 						/obj/item/smartgun_powerpack = 1,
 						/obj/item/storage/pouch/magazine = 1,
 						/obj/item/clothing/mask/gas = 1
@@ -595,20 +594,6 @@
 						/obj/item/storage/box/zipcuffs = 2
 					)
 
-/obj/machinery/vending/marine_leader/select_gamemode_equipment(gamemode)
-	var/products2[]
-	switch(SSmapping.configs[GROUND_MAP].map_name)
-		if(MAP_ICE_COLONY)
-			products2 = list( /obj/item/map/ice_colony_map = 3)
-		if(MAP_BIG_RED)
-			products2 = list(/obj/item/map/big_red_map = 3)
-		if(MAP_WHISKEY_OUTPOST)
-			products2 = list(/obj/item/map/whiskey_outpost_map = 3)
-		if(MAP_LV_624)
-			products2 = list(/obj/item/map/lazarus_landing_map = 3)
-	build_inventory(products2)
-
-
 
 /obj/machinery/vending/attachments
 	name = "\improper Armat Systems Attachments Vendor"
@@ -625,16 +610,13 @@
 						/obj/item/attachable/extended_barrel = 8,
 						/obj/item/attachable/heavy_barrel = 2,
 						/obj/item/attachable/suppressor = 8,
-						/obj/item/attachable/widelens = 4,
-						/obj/item/attachable/focuslens = 4,
-						/obj/item/attachable/efflens = 4,
-						/obj/item/attachable/pulselens = 4,
 
 						/obj/item/attachable/flashlight = 20,
 						/obj/item/attachable/magnetic_harness = 8,
 						/obj/item/attachable/quickfire = 2,
 						/obj/item/attachable/reddot = 10,
 						/obj/item/attachable/scope = 1,
+						/obj/item/attachable/scope/mini = 1,
 
 						/obj/item/attachable/angledgrip = 10,
 						/obj/item/attachable/bipod = 4,
@@ -643,10 +625,9 @@
 						/obj/item/attachable/lasersight = 10,
 						/obj/item/attachable/verticalgrip = 10,
 
-						/obj/item/attachable/stock/smg = 3,
+						/obj/item/attachable/stock/t19stock = 3,
 						/obj/item/attachable/stock/revolver = 3,
-						/obj/item/attachable/stock/shotgun = 3,
-						/obj/item/attachable/stock/rifle = 3 ,
+						/obj/item/attachable/stock/t35stock = 3,
 						/obj/item/attachable/stock/tactical = 3,
 
 						/obj/item/attachable/attached_gun/flamer = 3,
@@ -680,14 +661,14 @@
 					/obj/item/clothing/under/marine/standard = 20,
 					/obj/item/storage/backpack/marine/standard = 10,
 					/obj/item/storage/backpack/marine/satchel = 10,
+					/obj/item/clothing/gloves/marine = 20,
 					/obj/item/clothing/suit/storage/marine = 10,
 					/obj/item/clothing/suit/storage/marine/M3HB = 10,
 					/obj/item/clothing/suit/storage/marine/M3LB = 10,
-					/obj/item/clothing/suit/storage/marine/M3P = 10,
 					/obj/item/clothing/suit/storage/marine/M3IS = 10,
-					/obj/item/clothing/suit/storage/marine/M3E = 10,
 					/obj/item/clothing/suit/storage/marine/harness = 10,
-					/obj/item/clothing/head/helmet/marine = 20,
+					/obj/item/clothing/head/helmet/marine/standard = 20,
+					/obj/item/clothing/head/helmet/marine/heavy = 20,
 					/obj/item/clothing/glasses/mgoggles = 10,
 					/obj/item/clothing/glasses/mgoggles/prescription = 10,
 					/obj/item/clothing/mask/rebreather/scarf = 10,
@@ -703,14 +684,15 @@
 					/obj/item/storage/belt/shotgun = 10,
 					/obj/item/storage/belt/knifepouch = 10,
 					/obj/item/belt_harness/marine = 10,
-					/obj/item/storage/belt/gun/m4a3 = 10,
-					/obj/item/storage/belt/gun/m44 = 10,
-					/obj/item/storage/large_holster/m39 = 10,
+					/obj/item/storage/belt/sparepouch = 10,
+					/obj/item/storage/belt/gun/pistol/standard_pistol = 10,
+					/obj/item/storage/belt/gun/revolver/standard_revolver = 10,
 					/obj/item/storage/pouch/pistol = 10,
 					/obj/item/storage/pouch/magazine = 10,
 					/obj/item/storage/pouch/magazine/pistol = 10,
 					/obj/item/storage/pouch/shotgun = 10,
 					/obj/item/storage/pouch/firstaid = 10,
+					/obj/item/storage/pouch/grenade = 10,
 					/obj/item/storage/pouch/medkit = 10,
 					/obj/item/storage/pouch/flare = 10,
 					/obj/item/storage/pouch/construction = 10,
@@ -745,23 +727,18 @@
 		switch(squad_tag)
 			if("Alpha")
 				products2 = list(/obj/item/radio/headset/mainship/marine/alpha = 20,
-								/obj/item/clothing/gloves/marine/alpha = 10,
 								/obj/item/clothing/mask/bandanna/alpha = 10)
 			if("Bravo")
 				products2 = list(/obj/item/radio/headset/mainship/marine/bravo = 20,
-								/obj/item/clothing/gloves/marine/bravo = 10,
 								/obj/item/clothing/mask/bandanna/bravo = 10)
 			if("Charlie")
 				products2 = list(/obj/item/radio/headset/mainship/marine/charlie = 20,
-								/obj/item/clothing/gloves/marine/charlie = 10,
 								/obj/item/clothing/mask/bandanna/charlie = 10)
 			if("Delta")
 				products2 = list(/obj/item/radio/headset/mainship/marine/delta = 20,
-								/obj/item/clothing/gloves/marine/delta = 10,
 								/obj/item/clothing/mask/bandanna/delta = 10)
 	else
-		products2 = list(/obj/item/radio/headset/mainship = 10,
-						/obj/item/clothing/gloves/marine = 10,
+		products2 = list(/obj/item/radio/headset/mainship = 20,
 						/obj/item/clothing/mask/bandanna = 10)
 	build_inventory(products2)
 	GLOB.marine_vendors.Add(src)
@@ -770,5 +747,3 @@
 /obj/machinery/vending/uniform_supply/Destroy()
 	. = ..()
 	GLOB.marine_vendors.Remove(src)
-
-

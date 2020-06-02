@@ -2,9 +2,6 @@
 // might be worth adapting the bugs into a feature and using these
 // subtypes as a basis for non-common-speaking alien foreigners. ~ Z
 
-/mob/living/carbon/human/dummy
-	real_name = "Test Dummy"
-	status_flags = GODMODE|CANPUSH
 
 /mob/living/carbon/human/species/skrell
 	race = "Skrell"
@@ -22,7 +19,7 @@
 
 /mob/living/carbon/human/species/unathi
 	race = "Unathi"
-	
+
 /datum/species/unathi/handle_post_spawn(mob/living/carbon/human/H)
 	. = ..()
 	H.h_style = "Unathi Horns"
@@ -51,7 +48,7 @@
 /mob/living/carbon/human/species/synthetic
 	race = "Synthetic"
 
-/mob/living/carbon/human/species/synthetic_old
+/mob/living/carbon/human/species/synthetic/old
 	race = "Early Synthetic"
 
 /mob/living/carbon/human/species/moth
@@ -60,3 +57,6 @@
 /datum/species/moth/handle_post_spawn(mob/living/carbon/human/H)
 	. = ..()
 	H.moth_wings = pick(GLOB.moth_wings_list - "Burnt Off")
+
+/mob/living/carbon/human/species/sectoid
+	race = "Sectoid"

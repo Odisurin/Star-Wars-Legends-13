@@ -57,7 +57,6 @@
 
 	do_evolve(castetype, castepick)
 
-
 /mob/living/carbon/xenomorph/proc/do_evolve(forced_caste_type, forced_caste_name)
 	if(is_ventcrawling)
 		to_chat(src, "<span class='warning'>This place is too constraining to evolve.</span>")
@@ -164,11 +163,12 @@
 			return FALSE
 
 		if(hivenumber == XENO_HIVE_NORMAL && SSticker?.mode && hive.xeno_queen_timer)
-			to_chat(src, "<span class='warning'>We must wait about [round(hive.xeno_queen_timer / 60)] minutes for the hive to recover from the previous Queen's death.<span>")
+			to_chat(src, "<span class='warning'>We must wait about [timeleft(hive.xeno_queen_timer) * 0.1] seconds for the hive to recover from the previous Queen's death.<span>")
 			return
 
-		if(mind)
-			mind.assigned_role = ROLE_XENO_QUEEN
+		if(isxenoresearcharea(get_area(src)))
+			to_chat(src, "<span class='warning'>Something in this place is isolating us from Queen Mother's psychic presence. We should leave before it's too late!</span>")
+			return
 
 		switch(hivenumber) // because it causes issues otherwise
 			if(XENO_HIVE_CORRUPTED)
@@ -185,13 +185,30 @@
 	else if(new_caste_type == /mob/living/carbon/xenomorph/shrike) //Special case for dealing with shrikes
 		if(is_banned_from(ckey, ROLE_XENO_QUEEN))
 			to_chat(src, "<span class='warning'>You are jobbanned from Queen-like roles.</span>")
+			return
 
 		if(length(hive.xenos_by_typepath[/mob/living/carbon/xenomorph/shrike]))
 			to_chat(src, "<span class='warning'>There already is a living Shrike. The hive cannot contain more than one psychic energy repository.</span>")
 			return
 
-		if(mind)
-			mind.assigned_role = ROLE_XENO_QUEEN
+		if(isxenoresearcharea(get_area(src)))
+			to_chat(src, "<span class='warning'>Something in this place is interfering with our link to Queen Mother. We are unable to evolve to a psychic caste here!</span>")
+			return
+
+	else if(new_caste_type == /mob/living/carbon/xenomorph/hivemind) //Special case for dealing with hiveminds - this may be subject to heavy change, such as multiple hiveminds potentially being an option
+		if(length(hive.xenos_by_typepath[/mob/living/carbon/xenomorph/hivemind]))
+			to_chat(src, "<span class='warning'>There cannot be two manifestations of the hivemind's will at once.</span>")
+			return
+
+		if(isxenoresearcharea(get_area(src)))
+			to_chat(src, "<span class='warning'>Something in this place is interfering with our link to the Hivemind. We are unable to evolve to be its manifestation!</span>")
+			return
+			
+		var/turf/T = get_turf(src)
+
+		if(!T.check_alien_construction(src))
+			return			
+		
 
 	else
 		var/potential_queens = length(hive.xenos_by_typepath[/mob/living/carbon/xenomorph/larva]) + length(hive.xenos_by_typepath[/mob/living/carbon/xenomorph/drone])
@@ -215,6 +232,7 @@
 				return
 			else if(isxenodrone(src) && new_caste_type != /mob/living/carbon/xenomorph/shrike)
 				to_chat(src, "<span class='xenonotice'>The hive currently has no sister able to become a ruler! The survival of the hive requires from us to be a Shrike!</span>")
+				return
 		else if(xeno_caste.evolution_threshold && evolution_stored < xeno_caste.evolution_threshold)
 			to_chat(src, "<span class='warning'>We must wait before evolving. Currently at: [evolution_stored] / [xeno_caste.evolution_threshold].</span>")
 			return
@@ -244,6 +262,10 @@
 	else if(new_caste_type == /mob/living/carbon/xenomorph/shrike)
 		if(length(hive.xenos_by_typepath[/mob/living/carbon/xenomorph/shrike]))
 			to_chat(src, "<span class='warning'>There already is a Shrike.</span>")
+			return
+	else if(new_caste_type == /mob/living/carbon/xenomorph/hivemind) //Special case for dealing with hiveminds - this may be subject to heavy change, such as multiple hiveminds potentially being an option
+		if(length(hive.xenos_by_typepath[/mob/living/carbon/xenomorph/hivemind]))
+			to_chat(src, "<span class='warning'>There cannot be two manifestations of the hivemind's will at once.</span>")
 			return
 	else if(!forced_caste_type) // these shouldnt be checked if trying to become a queen.
 		if((tier == XENO_TIER_ONE && TO_XENO_TIER_2_FORMULA(tierzeros + tierones, tiertwos, tierthrees))
@@ -295,9 +317,12 @@
 		H.add_hud_to(new_xeno) //keep our mobhud choice
 		new_xeno.xeno_mobhud = TRUE
 
+	if(lighting_alpha != new_xeno.lighting_alpha)
+		new_xeno.toggle_nightvision(lighting_alpha)
+
 	new_xeno.middle_mouse_toggle = middle_mouse_toggle //Keep our toggle state
 
-	update_spits() //Update spits to new/better ones
+	new_xeno.update_spits() //Update spits to new/better ones
 
 	new_xeno.visible_message("<span class='xenodanger'>A [new_xeno.xeno_caste.caste_name] emerges from the husk of \the [src].</span>", \
 	"<span class='xenodanger'>We emerge in a greater form from the husk of our old body. For the hive!</span>")
@@ -305,6 +330,7 @@
 	SEND_SIGNAL(hive, COMSIG_XENOMORPH_POSTEVOLVING, new_xeno)
 
 	GLOB.round_statistics.total_xenos_created-- //so an evolved xeno doesn't count as two.
+	SSblackbox.record_feedback("tally", "round_statistics", -1, "total_xenos_created")
 
 	if(queen_chosen_lead && new_caste_type != /mob/living/carbon/xenomorph/queen) // xeno leader is removed by Destroy()
 		new_xeno.queen_chosen_lead = TRUE

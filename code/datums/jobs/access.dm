@@ -2,7 +2,7 @@
 	//check if it doesn't require any access at all
 	if(check_access())
 		return TRUE
-	
+
 	if(issilicon(M))
 		return TRUE //Silicons can access whatever they want
 
@@ -15,47 +15,23 @@
 
 
 /obj/proc/check_access(obj/item/card/id/ID)
-	//These generations have been moved out of /obj/New() because they were slowing down the creation of objects that never even used the access system.
-	var/i
-	if(!req_access)
-		req_access = list()
-		if(req_access_txt)
-			var/list/req_access_str = text2list(req_access_txt, ";")
-			var/n
-			for(i in req_access_str)
-				n = text2num(i)
-				if(!n)
-					continue
-				req_access += n
-
-	if(!req_one_access)
-		req_one_access = list()
-		if(req_one_access_txt)
-			var/list/req_one_access_str = text2list(req_one_access_txt, ";")
-			var/n
-			for(i in req_one_access_str)
-				n = text2num(i)
-				if(!n) 
-					continue
-				req_one_access += n
-
-	if(!length(req_access) && !length(req_one_access)) 
+	if(!LAZYLEN(req_access) && !LAZYLEN(req_one_access))
 		return TRUE
 
-	if(!istype(ID)) 
+	if(!istype(ID))
 		return FALSE
 
-	for(i in req_access)
-		if(!(i in ID.access)) 
+	for(var/i in req_access)
+		if(!(i in ID.access))
 			return FALSE
 
-	if(length(req_one_access))
-		for(i in req_one_access)
+	if(LAZYLEN(req_one_access))
+		for(var/i in req_one_access)
 			if(!(i in ID.access))
 				continue
 			return TRUE
 		return FALSE
-	
+
 	return TRUE
 
 
@@ -76,45 +52,45 @@
 
 /proc/get_region_accesses(code)
 	switch(code)
-		if(0) 
+		if(0)
 			return ALL_ACCESS
-		if(1) 
+		if(1)
 			return list(ACCESS_MARINE_WO, ACCESS_MARINE_BRIG)//security
-		if(2) 
+		if(2)
 			return list(ACCESS_MARINE_CMO, ACCESS_MARINE_MEDBAY, ACCESS_MARINE_CHEMISTRY)//medbay
-		if(3) 
+		if(3)
 			return list(ACCESS_MARINE_RESEARCH)//research
-		if(4) 
+		if(4)
 			return list(ACCESS_MARINE_CE, ACCESS_MARINE_ENGINEERING)//engineering and maintenance
-		if(5) 
+		if(5)
 			return list(ACCESS_MARINE_CAPTAIN, ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_BRIDGE, ACCESS_MARINE_CARGO)//command
-		if(6) 
+		if(6)
 			return list(ACCESS_IFF_MARINE, ACCESS_MARINE_PREP, ACCESS_MARINE_MEDPREP, ACCESS_MARINE_ENGPREP, ACCESS_MARINE_SMARTPREP, ACCESS_MARINE_LEADER, ACCESS_MARINE_SPECPREP)//spess mahreens
-		if(7) 
+		if(7)
 			return list(ACCESS_MARINE_ALPHA, ACCESS_MARINE_BRAVO, ACCESS_MARINE_CHARLIE, ACCESS_MARINE_DELTA)//squads
-		if(8) 
+		if(8)
 			return list(ACCESS_CIVILIAN_PUBLIC, ACCESS_CIVILIAN_LOGISTICS, ACCESS_CIVILIAN_RESEARCH, ACCESS_CIVILIAN_ENGINEERING)//Civilian
 
 
 /proc/get_region_accesses_name(code)
 	switch(code)
-		if(0) 
+		if(0)
 			return "All"
-		if(1) 
+		if(1)
 			return "[SSmapping.configs[SHIP_MAP].map_name] Security"//security
-		if(2) 
+		if(2)
 			return "[SSmapping.configs[SHIP_MAP].map_name] Medbay"//medbay
-		if(3) 
+		if(3)
 			return "[SSmapping.configs[SHIP_MAP].map_name] Research"//research
-		if(4) 
+		if(4)
 			return "[SSmapping.configs[SHIP_MAP].map_name] Engineering"//engineering and maintenance
-		if(5) 
+		if(5)
 			return "[SSmapping.configs[SHIP_MAP].map_name] Command"//command
-		if(6) 
+		if(6)
 			return "Marines"//marine prep
-		if(7) 
+		if(7)
 			return "Squads"//squads
-		if(8) 
+		if(8)
 			return "Civilian"//Civilian
 
 
@@ -282,7 +258,7 @@
 		if("10")
 			. = size ? "ADM " : "Admiral"
 		if("11")
-			. = size ? "FADM " : "Fleet Admiral"		
+			. = size ? "FADM " : "Fleet Admiral"
 		if("WO")
 			. = size ? "WO " : "Warrant Officer"
 		if("CWO")
@@ -294,33 +270,33 @@
 		if("MO4")
 			. = size ? "MAJ " : "Major"
 		if("UPP1")
-			. = size ? "UPVT " : "UPP Private"
+			. = size ? "UGNR " : "USL Gunner"
 		if("UPP2")
-			. = size ? "UPFC " : "UPP Private First Class"
+			. = size ? "USUR " : "USL Surgeon"
 		if("UPP3")
-			. = size ? "UCPL " : "UPP Corporal"
+			. = size ? "UPOM " : "USL Powder Monkey"
 		if("UPP4")
-			. = size ? "ULCPL " : "UPP Lance Corporal"
+			. = size ? "UCPT " : "USL Captain"
 		if("UPP5")
-			. = size ? "USGT " : "UPP Sergeant"
+			. = size ? "UQM " : "USL Quartermaster"
 		if("UPP6")
-			. = size ? "USSGT " : "UPP Staff Sergeant"
+			. = size ? "USSGT " : "USL Staff Sergeant"
 		if("UPP7")
-			. = size ? "UENS " : "UPP Ensign"
+			. = size ? "UENS " : "USL Ensign"
 		if("UPP8")
-			. = size ? "ULT " : "UPP Lieutenant"
+			. = size ? "ULT " : "USL Lieutenant"
 		if("UPP9")
-			. = size ? "ULCDR " : "UPP Lieutenant Commander"
+			. = size ? "ULCDR " : "USL Lieutenant Commander"
 		if("UPP10")
-			. = size ? "UCDR " : "UPP Commander"
+			. = size ? "UCDR " : "USL Commander"
 		if("UPP11")
-			. = size ? "UADM " : "UPP Admiral"
+			. = size ? "UADM " : "USL Admiral"
 		if("UPPC1")
-			. = size ? "UPPC " : "UPP Commando Standard"
+			. = size ? "UEPM " : "USL Elite Powder Monkey"
 		if("UPPC2")
-			. = size ? "UPPC " : "UPP Commando Medic"
+			. = size ? "UESUR " : "USL Elite Surgeon"
 		if("UPPC3")
-			. = size ? "UPPC " : "UPP Commando Leader"
+			. = size ? "UECPT " : "USL Elite Captain"
 		if("FRE1")
 			. = size ? "FRE " : "Freelancer Standard"
 		if("FRE2")

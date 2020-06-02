@@ -1,26 +1,26 @@
 /obj/proc/take_damage(damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE, attack_dir, armour_penetration = 0)
 	if(QDELETED(src))
 		CRASH("[src] taking damage after deletion")
-	
+
 	if(sound_effect)
 		play_attack_sound(damage_amount, damage_type, damage_flag)
-	
+
 	if((resistance_flags & INDESTRUCTIBLE) || obj_integrity <= 0)
 		return
 	damage_amount = run_obj_armor(damage_amount, damage_type, damage_flag, attack_dir, armour_penetration)
-	
+
 	if(damage_amount < DAMAGE_PRECISION)
 		return
 	. = damage_amount
-	
+
 	obj_integrity = max(obj_integrity - damage_amount, 0)
 
 	update_icon()
-	
+
 	//BREAKING FIRST
 	if(integrity_failure && obj_integrity <= integrity_failure)
 		obj_break(damage_flag)
-	
+
 	//DESTROYING SECOND
 	if(obj_integrity <= 0)
 		obj_destruction(damage_flag)
@@ -31,15 +31,22 @@
 
 
 ///returns the damage value of the attack after processing the obj's various armor protections
-/obj/proc/run_obj_armor(damage_amount, damage_type, damage_flag = 0, attack_dir, armour_penetration = 0)
+/obj/proc/run_obj_armor(damage_amount, damage_type, damage_flag = "", attack_dir, armour_penetration = 0)
 	if(!damage_type)
 		return 0
-	var/armor_protection = 0
 	if(damage_flag)
-		armor_protection = armor.getRating(damage_flag)
-	if(armor_protection)		//Only apply weak-against-armor/hollowpoint effects if there actually IS armor.
-		armor_protection = CLAMP(armor_protection - armour_penetration, min(armor_protection, 0), 100)
-	return round(damage_amount * (100 - armor_protection) * 0.01, DAMAGE_PRECISION)
+		var/obj_hard_armor = hard_armor.getRating(damage_flag)
+		var/obj_soft_armor = soft_armor.getRating(damage_flag)
+		if(armour_penetration)
+			if(obj_hard_armor)
+				obj_hard_armor = max(0, obj_hard_armor - (obj_hard_armor * armour_penetration * 0.01)) //AP reduces a % of hard armor.
+			if(obj_soft_armor)
+				obj_soft_armor = max(0, obj_soft_armor - armour_penetration) //Flat removal.
+		if(obj_hard_armor)
+			damage_amount = max(0, damage_amount - obj_hard_armor)
+		if(obj_soft_armor)
+			damage_amount = max(0, damage_amount - (damage_amount * obj_soft_armor * 0.01))
+	return round(damage_amount, DAMAGE_PRECISION)
 
 
 ///the sound played when the obj is damaged.
@@ -58,19 +65,18 @@
 			playsound(loc, 'sound/items/welder.ogg', 50, 1)
 
 
-/obj/ex_act(severity, target)
+/obj/ex_act(severity)
 	if(resistance_flags & INDESTRUCTIBLE)
 		return
 	. = ..() //contents explosion
-	if(target == src)
-		take_damage(INFINITY, BRUTE, "bomb", 0)
+	if(QDELETED(src))
 		return
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			take_damage(INFINITY, BRUTE, "bomb", 0)
-		if(2)
+		if(EXPLODE_HEAVY)
 			take_damage(rand(100, 250), BRUTE, "bomb", 0)
-		if(3)
+		if(EXPLODE_LIGHT)
 			take_damage(rand(10, 90), BRUTE, "bomb", 0)
 
 
@@ -86,7 +92,7 @@
 	take_damage(tforce, BRUTE, "melee", 1, get_dir(src, AM))
 
 
-/obj/bullet_act(obj/item/projectile/P)
+/obj/bullet_act(obj/projectile/P)
 	if(istype(P.ammo, /datum/ammo/xeno) && !(resistance_flags & XENO_DAMAGEABLE))
 		return
 	. = ..()
@@ -97,7 +103,7 @@
 
 
 /obj/proc/attack_generic(mob/user, damage_amount = 0, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, armor_penetration = 0) //used by attack_alien, attack_animal, and attack_slime
-	user.do_attack_animation(src)
+	user.do_attack_animation(src, ATTACK_EFFECT_SMASH)
 	user.changeNext_move(CLICK_CD_MELEE)
 	return take_damage(damage_amount, damage_type, damage_flag, sound_effect, get_dir(src, user), armor_penetration)
 
@@ -122,7 +128,7 @@
 		return
 	X.visible_message("<span class='danger'>[X] has slashed [src]!</span>",
 	"<span class='danger'>We slash [src]!</span>")
-	X.flick_attack_overlay(src, "slash")
+	X.do_attack_animation(src, ATTACK_EFFECT_CLAW)
 	playsound(loc, "alien_claw_metal", 25)
 	attack_generic(X, X.xeno_caste.melee_damage, BRUTE, "melee", FALSE)
 
@@ -134,6 +140,7 @@
 
 ///the obj is deconstructed into pieces, whether through careful disassembly or when destroyed.
 /obj/proc/deconstruct(disassembled = TRUE)
+	SHOULD_CALL_PARENT(TRUE)
 	SEND_SIGNAL(src, COMSIG_OBJ_DECONSTRUCT, disassembled)
 	qdel(src)
 
@@ -169,3 +176,7 @@
 		obj_break(damage_type)
 		return TRUE
 	return FALSE
+
+///returns how much the object blocks an explosion. Used by subtypes.
+/obj/proc/GetExplosionBlock(explosion_dir)
+	CRASH("Unimplemented GetExplosionBlock()")

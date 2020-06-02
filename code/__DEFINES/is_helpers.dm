@@ -1,8 +1,14 @@
+#if DM_VERSION < 513
 #define islist(L) (istype(L, /list))
+#endif
 
 #define in_range(source, user) (get_dist(source, user) <= 1 && (get_step(source, 0)?:z) == (get_step(user, 0)?:z))
 
+#if DM_VERSION < 513
 #define ismovableatom(A) (istype(A, /atom/movable))
+#else
+#define ismovableatom(A) ismovable(A)
+#endif
 
 #define isatom(A) (isloc(A))
 
@@ -49,12 +55,22 @@
 #define issynth(H) (is_species(H, /datum/species/synthetic) || is_species(H, /datum/species/early_synthetic))
 #define isspeciessynthetic(H) (H.species.species_flags & IS_SYNTHETIC)
 #define ismoth(H) (is_species(H, /datum/species/moth))
+#define issectoid(H) (is_species(H, /datum/species/sectoid))
 #define ishumanbasic(H) (is_species(H, /datum/species/human))
 
 //Job/role helpers
-#define issurvivor(H) (H?.mind?.assigned_role == "Survivor")
-#define ismarine(H) (H?.faction == "Marine" && (H?.mind?.assigned_role in GLOB.jobs_marines))
-#define ispmc(H) (H?.faction == "PMC")
+#define ismarinefaction(H) (H.faction == "TerraGov")
+#define ispolicejob(J) (istype(J, /datum/job/terragov/police))
+#define ismedicaljob(J) (istype(J, /datum/job/terragov/medical))
+#define isengineeringjob(J) (istype(J, /datum/job/terragov/engineering))
+#define ismarinejob(J) (istype(J, /datum/job/terragov/squad))
+#define ismarinespecjob(J) (istype(J, /datum/job/terragov/squad/specialist))
+#define ismarineleaderjob(J) (istype(J, /datum/job/terragov/squad/leader))
+#define ismarinecommandjob(J) (istype(J, /datum/job/terragov/command))
+#define ismarinecaptainjob(J) (istype(J, /datum/job/terragov/command/captain))
+#define iscorporateliaisonjob(J) (istype(J, /datum/job/terragov/civilian/liaison))
+#define issurvivorjob(J) (istype(J, /datum/job/survivor))
+#define ischaplainjob(J) (istype(J, /datum/job/survivor/chaplain))
 
 //more carbon mobs
 #define ismonkey(A) (istype(A, /mob/living/carbon/monkey))
@@ -86,9 +102,13 @@
 #define isxenoshrike(A) (istype(A, /mob/living/carbon/xenomorph/shrike))
 #define isxenodefiler(A) (istype(A, /mob/living/carbon/xenomorph/Defiler))
 #define isxenobull(A) (istype(A, /mob/living/carbon/xenomorph/bull))
+#define isxenohivemind(A) (istype(A, /mob/living/carbon/xenomorph/hivemind))
+#define isxenopanther(A) (istype(A, /mob/living/carbon/xenomorph/panther))
 
 //Silicon mobs
 #define issilicon(A) (istype(A, /mob/living/silicon))
+
+#define issiliconoradminghost(A) (istype(A, /mob/living/silicon) || IsAdminGhost(A))
 
 #define isAI(A) (istype(A, /mob/living/silicon/ai))
 
@@ -127,7 +147,15 @@
 
 #define isitem(A) (istype(A, /obj/item))
 
+#define isgrabitem(A) (istype(A, /obj/item/grab))
+
+#define isclothing(A) (istype(A, /obj/item/clothing))
+
+#define issuit(A) (istype(A, /obj/item/clothing/suit))
+
 #define isgun(A) (istype(A, /obj/item/weapon/gun))
+
+#define isattachmentflashlight(A) (istype(A, /obj/item/attachable/flashlight))
 
 #define iswrench(I) (istype(I, /obj/item/tool/wrench))
 
@@ -174,18 +202,21 @@
 
 #define iseffect(O) (istype(O, /obj/effect))
 
+#define isainode(O) (istype(O, /obj/effect/ai_node))
 
 //Gamemode
-#define isdistress(O) (istype(O, /datum/game_mode/distress))
-#define iscrashgamemode(O) (istype(O, /datum/game_mode/crash))
+#define isdistress(O) (istype(O, /datum/game_mode/infestation/distress))
+#define iscrashgamemode(O) (istype(O, /datum/game_mode/infestation/crash))
 
+#define isxenoresearcharea(A) (istype(A, /area/mainship/medical/medical_science))
 
 // Admin
-#define isaghost(mob) ( copytext(mob.key, 1, 2) == "@" )
-#define isclientedaghost(mob) (isaghost(mob) && GLOB.directory[copytext(mob.ckey, 2)])
+#define isaghost(mob) ( mob.key && mob.key[1] == "@" )
+#define isclientedaghost(living) (isaghost(living) && GLOB.directory[copytext_char(living.ckey, 2)] && living.get_ghost())
 
 // Shuttles
 #define isshuttleturf(T) (length(T.baseturfs) && (/turf/baseturf_skipover/shuttle in T.baseturfs))
+#define isalamoarea(A) (istype(A, /area/shuttle/dropship/alamo))
 
 // Xeno hives
 #define isnormalhive(hive) (istype(hive, /datum/hive_status/normal))

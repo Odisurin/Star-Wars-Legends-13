@@ -40,8 +40,8 @@
 		/obj/item/toy/prize/seraph,
 		/obj/item/toy/spinningtoy,
 		/obj/item/toy/sword,
-		/obj/item/reagent_container/food/snacks/grown/ambrosiadeus,
-		/obj/item/reagent_container/food/snacks/grown/ambrosiavulgaris,
+		/obj/item/reagent_containers/food/snacks/grown/ambrosiadeus,
+		/obj/item/reagent_containers/food/snacks/grown/ambrosiavulgaris,
 		/obj/item/violin,
 		/obj/item/clothing/tie/horrible)
 
@@ -230,7 +230,7 @@
 
 
 /obj/item/wrapping_paper/attack(mob/target, mob/user)
-	if(!ishuman(target)) 
+	if(!ishuman(target))
 		return
 
 	var/mob/living/carbon/human/H = target
@@ -253,4 +253,3 @@
 	H.forceMove(present)
 
 	log_combat(user, H, "wrapped")
-	msg_admin_attack("[key_name(user)] used [src] to wrap [key_name(H)]")

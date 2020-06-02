@@ -4,10 +4,10 @@
 	icon = 'icons/obj/doors/windoor.dmi'
 	icon_state = "left"
 	layer = ABOVE_WINDOW_LAYER
-	resistance_flags = UNACIDABLE
+	resistance_flags = XENO_DAMAGEABLE
 	var/base_state = "left"
 	max_integrity = 150 //If you change this, consiter changing ../door/window/brigdoor/ health at the bottom of this .dm file
-	armor = list("melee" = 20, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 70, "acid" = 100)
+	soft_armor = list("melee" = 20, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 70, "acid" = 100)
 	visible = FALSE
 	use_power = FALSE
 	flags_atom = ON_BORDER
@@ -145,7 +145,7 @@
 	else if(operating == -1 && iscrowbar(I))
 		playsound(loc, 'sound/items/crowbar.ogg', 25, 1)
 		user.visible_message("[user] starts to remove the electronics from the windoor.", "You start to remove electronics from the windoor.")
-		
+
 		if(!do_after(user, 40, TRUE, src, BUSY_ICON_BUILD))
 			return TRUE
 
@@ -180,7 +180,7 @@
 			E = electronics
 			electronics = null
 			E.forceMove(loc)
-			
+
 		E.icon_state = "door_electronics_smoked"
 		operating = 0
 		qdel(src)
@@ -238,14 +238,39 @@
 /obj/machinery/door/window/northleft
 	dir = NORTH
 
+/obj/machinery/door/window/northleft/brig
+	req_access = list(ACCESS_MARINE_BRIG)
+
+/obj/machinery/door/window/northleft/req
+	req_one_access = list(ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_CARGO)
+
 /obj/machinery/door/window/eastleft
 	dir = EAST
+
+/obj/machinery/door/window/eastleft/req
+	req_one_access = list(ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_CARGO)
+
+/obj/machinery/door/window/eastleft/brig
+	req_access = list(ACCESS_MARINE_BRIG)
 
 /obj/machinery/door/window/westleft
 	dir = WEST
 
+/obj/machinery/door/window/westleft/bridge
+	req_access = list(ACCESS_MARINE_BRIDGE)
+
+/obj/machinery/door/window/westleft/engineering
+	req_access = list(ACCESS_MARINE_ENGINEERING)
+
+/obj/machinery/door/window/westleft/req
+	req_one_access = list(ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_CARGO)
+
+
 /obj/machinery/door/window/southleft
 	dir = SOUTH
+
+/obj/machinery/door/window/southleft/brig
+	req_access = list(ACCESS_MARINE_BRIG)
 
 /obj/machinery/door/window/southleft/briefing
 	req_access = list(ACCESS_MARINE_BRIG)
@@ -265,6 +290,9 @@
 
 /obj/machinery/door/window/eastright/briefing
 	req_access = list(ACCESS_MARINE_BRIG)
+
+/obj/machinery/door/window/eastright/bridge
+	req_access = list(ACCESS_MARINE_BRIDGE)
 
 /obj/machinery/door/window/westright
 	dir = WEST
@@ -307,3 +335,6 @@
 	dir = SOUTH
 	icon_state = "rightsecure"
 	base_state = "rightsecure"
+
+/obj/machinery/door/window/mainship/bridge
+	req_access = list(ACCESS_MARINE_BRIDGE)

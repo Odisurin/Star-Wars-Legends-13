@@ -94,9 +94,9 @@
 
 	var/obj/item/grab/G = I
 	if(istype(G)) //Handle grabbed mob
-		if(!ismob(G.grabbed_thing) || user.grab_level < GRAB_AGGRESSIVE)
+		if(!ismob(G.grabbed_thing) || user.grab_state < GRAB_AGGRESSIVE)
 			return
-			
+
 		var/mob/GM = G.grabbed_thing
 		user.visible_message("<span class='warning'>[user] starts putting [GM] into [src].</span>",
 		"<span class='warning'>You start putting [GM] into [src].</span>")
@@ -114,22 +114,28 @@
 	else if(user.transferItemToLoc(I, src))
 		user.visible_message("<span class='notice'>[user] places [I] into [src].</span>",
 		"<span class='notice'>You place [I] into [src].</span>")
-	
+
 	update()
 
 //Mouse drop another mob or self
 /obj/machinery/disposal/MouseDrop_T(mob/target, mob/user)
-	if(!istype(target) || target.anchored || target.buckled || get_dist(user, src) > 1 || get_dist(user, target) > 1 || user.incapacitated(TRUE) || isAI(user) || target.mob_size >= MOB_SIZE_BIG)
+	// Check the user, if they can do all the things, are they close, alive?
+	if(isAI(user) || isxeno(user) || !isliving(user) || get_dist(user, target) > 1 || !in_range(user, src) || user.incapacitated(TRUE))
 		return
-	if(isanimal(user) && target != user) return //Animals cannot put mobs other than themselves into disposal
+	// Check the target, are they valid, small enough, and not tied down
+	if(!istype(target) || target.anchored || target.buckled || target.mob_size >= MOB_SIZE_BIG)
+		return
+	if(target != user && (isanimal(user) || user.restrained())) 
+		return //Animals cannot put mobs other than themselves into disposal
 
 	if(target == user)
 		visible_message("<span class='notice'>[user] starts climbing into the disposal.</span>")
 	else
-		if(user.restrained()) return //can't stuff someone other than you if restrained.
 		visible_message("<span class ='warning'>[user] starts stuffing [target] into the disposal.</span>")
-	if(!do_after(user, 40, FALSE, target, BUSY_ICON_HOSTILE))
+		
+	if(!do_after(user, 4 SECONDS, FALSE, target, BUSY_ICON_HOSTILE))
 		return
+
 	if(target == user)
 		user.visible_message("<span class='notice'>[user] climbs into [src].</span>",
 		"<span class ='notice'>You climb into [src].</span>")
@@ -149,7 +155,7 @@
 	if(!isliving(user))
 		return
 	var/mob/living/L = user
-	if(L.stat || L.stunned || L.knocked_down || flushing)
+	if(L.stat || L.IsStun() || L.IsParalyzed() || flushing)
 		return
 	if(L.loc == src)
 		go_out(L)
@@ -161,11 +167,10 @@
 		user.client.eye = user.client.mob
 		user.client.perspective = MOB_PERSPECTIVE
 	user.forceMove(loc)
-	user.update_canmove() //Force the delay to go in action immediately
 	if(isliving(user))
 		var/mob/living/L = user
-		L.stun(2)
-	if(!user.lying)
+		L.Stun(40)
+	if(!user.lying_angle)
 		user.visible_message("<span class='warning'>[user] suddenly climbs out of [src]!",
 		"<span class='warning'>You climb out of [src] and get your bearings!")
 		update()
@@ -246,26 +251,23 @@
 		AM.pipe_eject(0)
 		if(isliving(AM))
 			var/mob/M = AM
-			M.update_canmove() //Force the delay to go in action immediately
-			if(!M.lying)
+			if(!M.lying_angle)
 				M.visible_message("<span class='warning'>[M] is suddenly pushed out of [src]!",
 				"<span class='warning'>You get pushed out of [src] and get your bearings!")
 			if(isliving(M))
 				var/mob/living/L = M
-				L.stun(2)
+				L.Stun(40)
 	update()
 
 //Pipe affected by explosion
 /obj/machinery/disposal/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			qdel(src)
-			return
-		if(2)
+		if(EXPLODE_HEAVY)
 			if(prob(60))
 				qdel(src)
-			return
-		if(3)
+		if(EXPLODE_LIGHT)
 			if(prob(25))
 				qdel(src)
 
@@ -382,14 +384,12 @@
 			AM.pipe_eject(0)
 			spawn(1)
 				AM?.throw_at(target, 5, 1)
-	
+
 		qdel(H)
 
 /obj/machinery/disposal/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover, /obj/item) && mover.throwing)
 		var/obj/item/I = mover
-		if(istype(I, /obj/item/projectile))
-			return
 		if(prob(75))
 			I.loc = src
 			visible_message("<span class='notice'>[I] lands into [src].</span>")
@@ -465,7 +465,8 @@
 	while(active)
 		if(hasmob && prob(3))
 			for(var/mob/living/H in src)
-				H.take_overall_damage(20, 0, "Blunt Trauma") //Horribly maim any living creature jumping down disposals.  c'est la vie
+				H.take_overall_damage(20) //Horribly maim any living creature jumping down disposals.  c'est la vie
+				UPDATEHEALTH(H)
 
 		sleep(1) //Was 1
 		var/obj/structure/disposalpipe/curr = loc
@@ -518,19 +519,19 @@
 
 
 //Called when player tries to move while in a pipe
-/obj/structure/disposalholder/relaymove(mob/user as mob)
+/obj/structure/disposalholder/relaymove(mob/user)
 
 	if(!isliving(user))
 		return
 
-	var/mob/living/U = user
+	var/mob/living/living_user = user
 
-	if(U.stat || U.cooldowns[COOLDOWN_DISPOSAL])
+	if(living_user.stat || COOLDOWN_CHECK(living_user, COOLDOWN_DISPOSAL))
 		return
 
-	U.cooldowns[COOLDOWN_DISPOSAL] = addtimer(VARSET_LIST_CALLBACK(U.cooldowns, COOLDOWN_DISPOSAL, null), 10 SECONDS)
+	COOLDOWN_START(living_user, COOLDOWN_DISPOSAL, 10 SECONDS)
 
-	playsound(src.loc, 'sound/effects/clang.ogg', 25, 0)
+	playsound(loc, 'sound/effects/clang.ogg', 25)
 
 
 //Disposal pipes
@@ -670,11 +671,11 @@
 //Pipe affected by explosion
 /obj/structure/disposalpipe/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			qdel(src)
-		if(2)
+		if(EXPLODE_HEAVY)
 			take_damage(rand(5, 15))
-		if(3)
+		if(EXPLODE_LIGHT)
 			take_damage(rand(0, 15))
 
 //Attack by item. Weldingtool: unfasten and convert to obj/disposalconstruct
@@ -699,7 +700,7 @@
 		user.visible_message("<span class='notice'>[user] starts slicing [src].</span>",
 		"<span class='notice'>You start slicing [src].</span>")
 		sleep(30)
-		if(!W.isOn() || user.loc != uloc || wloc != I.loc) 
+		if(!W.isOn() || user.loc != uloc || wloc != I.loc)
 			to_chat(user, "<span class='warning'>You must stay still while welding [src].</span>")
 			return
 
@@ -933,6 +934,9 @@
 /obj/structure/disposalpipe/junction/flipped
 	icon_state = "pipe-j2"
 
+/obj/structure/disposalpipe/junction/yjunc
+	icon_state = "pipe-y"
+
 //Next direction to move, if coming in from secondary dirs, then next is primary dir, if coming in from primary dir, then next is equal chance of other dirs
 /obj/structure/disposalpipe/junction/nextdir(fromdir)
 	var/flipdir = turn(fromdir, 180)
@@ -967,7 +971,7 @@
 /obj/structure/disposalpipe/tagger/Initialize()
 	. = ..()
 	dpdir = dir|turn(dir, 180)
-	if(sort_tag) 
+	if(sort_tag)
 		GLOB.tagger_locations |= sort_tag
 	updatename()
 	updatedesc()
@@ -1025,7 +1029,7 @@
 
 /obj/structure/disposalpipe/sortjunction/Initialize()
 	. = ..()
-	if(sortType) 
+	if(sortType)
 		GLOB.tagger_locations |= sortType
 
 	updatedir()
@@ -1235,7 +1239,7 @@
 
 /obj/structure/disposaloutlet/Initialize()
 	. = ..()
-	
+
 	target = get_ranged_target_turf(src, dir, 10)
 	var/obj/structure/disposalpipe/trunk/trunk = locate() in loc
 	if(trunk)
@@ -1268,7 +1272,7 @@
 		else
 			playsound(loc, 'sound/items/screwdriver.ogg', 25, 1)
 			to_chat(user, "<span class='notice'>You attach the screws around the power connection.</span>")
-	
+
 	else if(iswelder(I) && mode)
 		var/obj/item/tool/weldingtool/W = I
 		if(!W.remove_fuel(0, user))

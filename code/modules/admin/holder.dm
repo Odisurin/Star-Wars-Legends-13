@@ -174,6 +174,16 @@
 /proc/HrefTokenFormField(forceGlobal = FALSE)
 	return "<input type='hidden' name='admin_token' value='[RawHrefToken(forceGlobal)]'>"
 
+//This proc checks whether subject has at least ONE of the rights specified in rights_required.
+/proc/check_rights_for(client/subject, rights_required)
+	if(subject && subject.holder)
+		return subject.holder.check_for_rights(rights_required)
+	return FALSE
+
+/datum/admins/proc/check_for_rights(rights_required)
+	if(rights_required && !(rights_required & rank.rights))
+		return FALSE
+	return TRUE
 
 /proc/check_rights(rights_required, show_msg = TRUE)
 	if(!usr?.client)
@@ -247,7 +257,6 @@ GLOBAL_PROTECT(admin_verbs_default)
 /world/proc/AVadmin()
 	return list(
 	/datum/admins/proc/show_player_panel,
-	/datum/admins/proc/pref_attack_logs,
 	/datum/admins/proc/pref_ff_attack_logs,
 	/datum/admins/proc/pref_end_attack_logs,
 	/datum/admins/proc/pref_debug_logs,
@@ -313,7 +322,7 @@ GLOBAL_PROTECT(admin_verbs_mentor)
 /world/proc/AVban()
 	return list(
 	/datum/admins/proc/ban_panel,
-	/datum/admins/proc/sticky_ban_panel,
+	/datum/admins/proc/stickybanpanel,
 	/datum/admins/proc/unban_panel,
 	/datum/admins/proc/note_panel
 	)
@@ -342,7 +351,8 @@ GLOBAL_PROTECT(admin_verbs_asay)
 	/datum/admins/proc/map_template_upload,
 	/datum/admins/proc/reestablish_db_connection,
 	/datum/admins/proc/view_runtimes,
-	/datum/admins/proc/spatial_agent
+	/datum/admins/proc/spatial_agent,
+	/datum/admins/proc/check_bomb_impacts
 	)
 GLOBAL_LIST_INIT(admin_verbs_debug, world.AVdebug())
 GLOBAL_PROTECT(admin_verbs_debug)
@@ -373,16 +383,18 @@ GLOBAL_PROTECT(admin_verbs_varedit)
 	/datum/admins/proc/force_distress,
 	/datum/admins/proc/object_sound,
 	/datum/admins/proc/drop_bomb,
+	/datum/admins/proc/drop_dynex_bomb,
 	/datum/admins/proc/change_security_level,
 	/datum/admins/proc/edit_appearance,
 	/datum/admins/proc/outfit_manager,
 	/datum/admins/proc/offer,
 	/datum/admins/proc/force_dropship,
+	/datum/admins/proc/open_shuttlepanel,
 	/datum/admins/proc/xeno_panel,
 	/datum/admins/proc/view_faxes,
 	/datum/admins/proc/possess,
 	/datum/admins/proc/release,
-	/datum/admins/proc/launch_pod,
+	/client/proc/centcom_podlauncher,
 	/datum/admins/proc/play_cinematic,
 	/datum/admins/proc/set_tip,
 	/datum/admins/proc/ghost_interact,
@@ -403,6 +415,7 @@ GLOBAL_PROTECT(admin_verbs_fun)
 	/datum/admins/proc/toggle_join,
 	/datum/admins/proc/toggle_respawn,
 	/datum/admins/proc/set_respawn_time,
+	/datum/admins/proc/set_xenorespawn_time,
 	/datum/admins/proc/end_round,
 	/datum/admins/proc/delay_start,
 	/datum/admins/proc/delay_end,
@@ -444,7 +457,8 @@ GLOBAL_PROTECT(admin_verbs_sound)
 
 /world/proc/AVspawn()
 	return list(
-	/datum/admins/proc/spawn_atom
+	/datum/admins/proc/spawn_atom,
+	/client/proc/get_togglebuildmode
 	)
 GLOBAL_LIST_INIT(admin_verbs_spawn, world.AVspawn())
 GLOBAL_PROTECT(admin_verbs_spawn)
@@ -525,15 +539,6 @@ GLOBAL_PROTECT(admin_verbs_spawn)
 			to_chat(C, msg)
 
 
-/proc/msg_admin_attack(msg)
-	msg = "<span class='admin'><span class='prefix'>ATTACK:</span> <span class='message linkify'>[msg]</span></span>"
-	for(var/client/C in GLOB.admins)
-		if(!check_other_rights(C, R_ADMIN, FALSE))
-			continue
-		if((C.prefs.toggles_chat & CHAT_ATTACKLOGS) || ((SSticker.current_state == GAME_STATE_FINISHED) && (C.prefs.toggles_chat & CHAT_ENDROUNDLOGS)))
-			to_chat(C, msg)
-
-
 /proc/msg_admin_ff(msg)
 	msg = "<span class='admin'><span class='prefix'>ATTACK:</span> <span class='green linkify'>[msg]</span></span>"
 	for(var/client/C in GLOB.admins)
@@ -541,17 +546,6 @@ GLOBAL_PROTECT(admin_verbs_spawn)
 			continue
 		if((C.prefs.toggles_chat & CHAT_FFATTACKLOGS) || ((SSticker.current_state == GAME_STATE_FINISHED) && (C.prefs.toggles_chat & CHAT_ENDROUNDLOGS)))
 			to_chat(C, msg)
-
-
-/proc/afk_message(mob/living/carbon/human/H)
-	if(QDELETED(H))
-		return
-	if(H.stat == DEAD)
-		return
-	if(isclientedaghost(H))
-		return
-	log_admin("[key_name(H)] (Job: [H.job]) has been away for 15 minutes.")
-	message_admins("[ADMIN_TPMONTY(H)] (Job: [H.job]) has been away for 15 minutes.")
 
 
 /client/proc/find_stealth_key(txt)
@@ -623,7 +617,7 @@ GLOBAL_PROTECT(admin_verbs_spawn)
 	return usr?.client && GLOB.AdminProcCaller == usr.client.ckey
 
 
-/proc/GenIrcStealthKey()
+/proc/GenTgsStealthKey()
 	var/num = (rand(0,1000))
 	var/i = 0
 	while(i == 0)

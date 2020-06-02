@@ -14,16 +14,15 @@
 		return 0
 
 	if (istype(M,/mob/living/carbon/human))		//Repairing robolimbs
-		if(issynth(M) && M == user)
-			return
 		var/mob/living/carbon/human/H = M
 		var/datum/limb/S = H.get_limb(user.zone_selected)
 
 		if(S.surgery_open_stage == 0)
 			if (S && (S.limb_status & LIMB_ROBOT))
+				if(user.action_busy || !do_after(user, 1 SECONDS, TRUE, src, BUSY_ICON_MEDICAL))
+					return
 				if(S.get_damage())
-					S.heal_damage(15, 15, robo_repair = 1)
-					H.updatehealth()
+					S.heal_limb_damage(15, 15, robo_repair = TRUE, updating_health = TRUE)
 					use(1)
 					user.visible_message("<span class='notice'>\The [user] applies some nanite paste at [user != M ? "\the [M]'s" : "\the"] [S.display_name] with \the [src].</span>",\
 					"<span class='notice'>You apply some nanite paste at [user == M ? "your" : "[M]'s"] [S.display_name].</span>")

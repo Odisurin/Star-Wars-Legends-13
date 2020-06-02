@@ -5,8 +5,22 @@
 /obj/item/cell/Initialize()
 	. = ..()
 	charge = maxcharge
+	if(self_recharge)
+		START_PROCESSING(SSobj, src)
 
 	update_icon()
+
+/obj/item/cell/Destroy()
+	if(self_recharge)
+		STOP_PROCESSING(SSobj, src)
+	return ..()
+
+/obj/item/cell/process()
+	if(self_recharge)
+		if(world.time >= last_use + charge_delay)
+			give(charge_amount)
+	else
+		return PROCESS_KILL
 
 /obj/item/cell/update_icon()
 	cut_overlays()
@@ -28,6 +42,7 @@
 	if(rigged && amount > 0)
 		explode()
 		return FALSE
+	last_use = world.time
 
 	if(charge < amount)
 		return FALSE
@@ -92,8 +107,8 @@
 /obj/item/cell/attackby(obj/item/I, mob/user, params)
 	. = ..()
 
-	if(istype(I, /obj/item/reagent_container/syringe))
-		var/obj/item/reagent_container/syringe/S = I
+	if(istype(I, /obj/item/reagent_containers/syringe))
+		var/obj/item/reagent_containers/syringe/S = I
 
 		if(issynth(user) && !CONFIG_GET(flag/allow_synthetic_gun_use))
 			to_chat(user, "<span class='warning'>Your programming restricts rigging of power cells.</span>")
@@ -109,11 +124,8 @@
 		if(issynth(user) && !CONFIG_GET(flag/allow_synthetic_gun_use))
 			to_chat(user, "<span class='warning'>Your programming restricts rigging of power cells.</span>")
 			return
-		var/delay = SKILL_TASK_EASY
-		var/skill
-		if(user.mind?.cm_skills && user.mind.cm_skills.engineer) //Higher skill lowers the delay.
-			skill = user.mind.cm_skills.engineer
-			delay -= 5 + skill * 1.25
+		var/skill = user.skills.getRating("engineer")
+		var/delay = SKILL_TASK_EASY - (5 + skill * 1.25)
 
 		if(user.action_busy)
 			return
@@ -160,14 +172,14 @@
 /obj/item/cell/proc/explode()
 	var/turf/T = get_turf(src.loc)
 /*
-* 1000-cell	explosion(T, -1, 0, 1, 1)
-* 2500-cell	explosion(T, -1, 0, 1, 1)
-* 10000-cell	explosion(T, -1, 1, 3, 3)
-* 15000-cell	explosion(T, -1, 2, 4, 4)
+* 1000-cell	explosion(T, 0, 0, 1, 1)
+* 2500-cell	explosion(T, 0, 0, 1, 1)
+* 10000-cell	explosion(T, 0, 1, 3, 3)
+* 15000-cell	explosion(T, 0, 2, 4, 4)
 * */
-	var/devastation_range = -1 //round(charge/11000)
-	var/heavy_impact_range = CLAMP(round(sqrt(charge) * 0.01), -1, 2)
-	var/light_impact_range = CLAMP(round(sqrt(charge) * 0.15), -1, 3)
+	var/devastation_range = 0 //round(charge/11000)
+	var/heavy_impact_range = CLAMP(round(sqrt(charge) * 0.01), 0, 3)
+	var/light_impact_range = CLAMP(round(sqrt(charge) * 0.15), 0, 4)
 	var/flash_range = CLAMP(round(sqrt(charge) * 0.15), -1, 4)
 
 	explosion(T, devastation_range, heavy_impact_range, light_impact_range, flash_range)
@@ -191,22 +203,21 @@
 /obj/item/cell/ex_act(severity)
 
 	switch(severity)
-		if(1.0)
+		if(EXPLODE_DEVASTATE)
 			qdel(src)
-			return
-		if(2.0)
+		if(EXPLODE_HEAVY)
 			if (prob(50))
 				qdel(src)
 				return
 			if (prob(50))
 				corrupt()
-		if(3.0)
+		if(EXPLODE_LIGHT)
 			if (prob(25))
 				qdel(src)
 				return
 			if (prob(25))
 				corrupt()
-	return
+
 
 /obj/item/cell/proc/get_electrocute_damage()
 	switch (charge)

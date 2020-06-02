@@ -22,8 +22,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/ui_style = "Midnight"
 	var/ui_style_color = "#ffffff"
 	var/ui_style_alpha = 230
+	var/tgui_fancy = TRUE
+	var/tgui_lock = TRUE
 	var/toggles_chat = TOGGLES_CHAT_DEFAULT
 	var/toggles_sound = TOGGLES_SOUND_DEFAULT
+	var/toggles_gameplay = TOGGLES_GAMEPLAY_DEFAULT
 
 	var/ghost_hud = TOGGLES_GHOSTHUD_DEFAULT
 	var/ghost_vision = TRUE
@@ -106,6 +109,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	// Hud tooltip
 	var/tooltips = TRUE
 
+	/// Chat on map
+	var/chat_on_map = TRUE
+	var/see_chat_non_mob = TRUE
+	var/max_chat_length = CHAT_MESSAGE_MAX_LENGTH
+
+	var/auto_fit_viewport = TRUE
+
 
 /datum/preferences/New(client/C)
 	if(!istype(C))
@@ -121,15 +131,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	// We don't have a savefile or we failed to load them
 	random_character()
 	menuoptions = list()
-	key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key)
-	addtimer(CALLBACK(src, .proc/keybindings_setup, C), 5 SECONDS)
-	
-
-/datum/preferences/proc/keybindings_setup(client/C)
-	var/choice = tgalert(C, "Would you prefer 'Hotkey' or 'Classic' defaults?", "Setup keybindings", "Hotkey", "Classic")
-	focus_chat = (choice == "Classic")
-	key_bindings = (!focus_chat) ? deepCopyList(GLOB.hotkey_keybinding_list_by_key) : deepCopyList(GLOB.classic_keybinding_list_by_key)
-	save_preferences()
+	key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key) // give them default keybinds and update their movement keys
+	C.update_movement_keys(src)
 
 
 /datum/preferences/can_interact(mob/user)
@@ -186,7 +189,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	dat += "<br>"
 
 	dat += "<center>"
-	dat += "<a href='?_src_=prefs;preference=jobmenu'>Set Marine Role Preferences</a><br>"
+	dat += "<a href='?_src_=prefs;preference=jobmenu'>Set Role Preferences</a><br>"
 	dat += "<a href='?_src_=prefs;preference=keybindings_menu'>Keybindings</a>"
 	dat += "</center>"
 
@@ -258,9 +261,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if("Xeno Queen")
 				ban_check_name = ROLE_XENO_QUEEN
 
-			if("Survivor")
-				ban_check_name = ROLE_SURVIVOR
-
 		if(is_banned_from(user.ckey, ban_check_name))
 			dat += "<b>[role]:</b> <a href='?_src_=prefs;preference=bancheck;role=[role]'>BANNED</a><br>"
 		else
@@ -331,8 +331,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	dat += "<b>Focus chat:</b> <a href='?_src_=prefs;preference=focus_chat'>[(focus_chat) ? "Enabled" : "Disabled"]</a><br>"
 	dat += "<b>Tooltips:</b> <a href='?_src_=prefs;preference=tooltips'>[(tooltips) ? "Shown" : "Hidden"]</a><br>"
 	dat += "<b>FPS:</b> <a href='?_src_=prefs;preference=clientfps'>[clientfps]</a><br>"
+	dat += "<b>Fit Viewport:</b> <a href='?_src_=prefs;preference=auto_fit_viewport'>[auto_fit_viewport ? "Auto" : "Manual"]</a><br>"
 
-
+	dat += "<h2>Runechat Settings:</h2>"
+	dat += "<b>Show Runechat Chat Bubbles:</b> <a href='?_src_=prefs;preference=chat_on_map'>[chat_on_map ? "Enabled" : "Disabled"]</a><br>"
+	dat += "<b>Runechat message char limit:</b> <a href='?_src_=prefs;preference=max_chat_length;task=input'>[max_chat_length]</a><br>"
+	dat += "<b>See Runechat for non-mobs:</b> <a href='?_src_=prefs;preference=see_chat_non_mob'>[see_chat_non_mob ? "Enabled" : "Disabled"]</a><br>"
 
 	dat += "<h2>UI Customization:</h2>"
 	dat += "<b>Style:</b> <a href='?_src_=prefs;preference=ui'>[ui_style]</a><br>"
@@ -363,12 +367,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/width = widthPerColumn
 
 	var/HTML = "<center>"
-	if(!length(SSjob.occupations))
+	if(!length(SSjob.joinable_occupations))
 		HTML += "The job subsystem hasn't initialized yet, please try again later."
 		HTML += "<center><a href='?_src_=prefs;preference=jobclose'>Done</a></center><br>" // Easier to press up here.
 
 	else
-		HTML += "<b>Choose marine role preferences.</b><br>"
+		HTML += "<b>Choose role preferences.</b><br>"
 		HTML += "<div align='center'>Left-click to raise the preference, right-click to lower it.<br></div>"
 		HTML += "<center><a href='?_src_=prefs;preference=jobclose'>Done</a></center><br>" // Easier to press up here.
 		HTML += "<script type='text/javascript'>function setJobPrefRedirect(level, job) { window.location.href='?_src_=prefs;preference=jobselect;level=' + level + ';job=' + encodeURIComponent(job); return false; }</script>"
@@ -378,12 +382,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 		//The job before the current job. I only use this to get the previous jobs color when I'm filling in blank rows.
 		var/datum/job/lastJob
-		var/datum/job/overflow = SSjob.GetJob(SSjob.overflow_role)
 
-		for(var/datum/job/job in sortList(SSjob.occupations, /proc/cmp_job_display_asc))
-			if(!(job.title in GLOB.jobs_regular_all))
-				continue
-
+		for(var/j in SSjob.joinable_occupations)
+			var/datum/job/job = j
 			index += 1
 			if(index >= limit || (job.title in splitJobs))
 				width += widthPerColumn
@@ -409,7 +410,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				var/available_in_days = job.available_in_days(user.client)
 				HTML += "<font color=red>[rank]</font></td><td><font color=red> \[IN [(available_in_days)] DAYS\]</font></td></tr>"
 				continue
-			if((rank in GLOB.jobs_command) || rank == "AI")//Bold head jobs
+			if(job.job_flags & JOB_FLAG_BOLD_NAME_ON_SELECTION)
 				HTML += "<b><span class='dark'>[rank]</span></b>"
 			else
 				HTML += "<span class='dark'>[rank]</span>"
@@ -440,14 +441,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			HTML += "<a class='white' href='?_src_=prefs;preference=jobselect;level=[prefUpperLevel];job=[rank]' oncontextmenu='javascript:return setJobPrefRedirect([prefLowerLevel], \"[rank]\");'>"
 
-			if(rank == SSjob.overflow_role) //Overflow is special
-				if(job_preferences[overflow.title] == JOBS_PRIORITY_LOW)
-					HTML += "<font color=green>Yes</font>"
-				else
-					HTML += "<font color=red>No</font>"
-				HTML += "</a></td></tr>"
-				continue
-
 			HTML += "<font color=[prefLevelColor]>[prefLevelLabel]</font>"
 			HTML += "</a></td></tr>"
 
@@ -460,7 +453,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		var/message
 		switch(alternate_option)
 			if(BE_OVERFLOW)
-				message = "Be [SSjob.overflow_role] if preferences unavailable"
+				message = "Be [ispath(SSjob.overflow_role) ? initial(SSjob.overflow_role.title) : SSjob.overflow_role.title] if preferences unavailable"
 			if(GET_RANDOM_JOB)
 				message = "Get random job if preferences unavailable"
 			if(RETURN_TO_LOBBY)
@@ -514,14 +507,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/list/user_binds = list()
 	for(var/key in key_bindings)
 		for(var/kb_name in key_bindings[key])
-			user_binds[kb_name] = key
+			user_binds[kb_name] += list(key)
 
 	var/list/kb_categories = list()
 	// Group keybinds by category
 	for(var/name in GLOB.keybindings_by_name)
 		var/datum/keybinding/kb = GLOB.keybindings_by_name[name]
-		if(!(kb.category in kb_categories))
-			kb_categories[kb.category] = list()
 		kb_categories[kb.category] += list(kb)
 
 	var/HTML = "<style>label { display: inline-block; width: 200px; }</style><body>"
@@ -533,11 +524,24 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		HTML += "<h3>[category]</h3>"
 		for(var/i in kb_categories[category])
 			var/datum/keybinding/kb = i
-			var/bound_key = user_binds[kb.name]
-			bound_key = (bound_key) ? bound_key : "Unbound"
-
-			HTML += "<label>[kb.full_name]</label> <a href ='?_src_=prefs;preference=keybindings_capture;keybinding=[kb.name];old_key=[bound_key]'>[bound_key] Default: ( [focus_chat ? kb.hotkey_key : kb.classic_key] )</a>"
-			HTML += "<br>"
+			if(!length(user_binds[kb.name]))
+				HTML += "<label>[kb.full_name]</label> <a href ='?_src_=prefs;preference=keybindings_capture;keybinding=[kb.name];old_key=["Unbound"]'>Unbound</a>"
+				var/list/default_keys = focus_chat ? kb.hotkey_keys : kb.classic_keys
+				if(LAZYLEN(default_keys))
+					HTML += "| Default: [default_keys.Join(", ")]"
+				HTML += "<br>"
+			else
+				var/bound_key = user_binds[kb.name][1]
+				HTML += "<label>[kb.full_name]</label> <a href ='?_src_=prefs;preference=keybindings_capture;keybinding=[kb.name];old_key=[bound_key]'>[bound_key]</a>"
+				for(var/bound_key_index in 2 to length(user_binds[kb.name]))
+					bound_key = user_binds[kb.name][bound_key_index]
+					HTML += " | <a href ='?_src_=prefs;preference=keybindings_capture;keybinding=[kb.name];old_key=[bound_key]'>[bound_key]</a>"
+				if(length(user_binds[kb.name]) < MAX_KEYS_PER_KEYBIND)
+					HTML += "| <a href ='?_src_=prefs;preference=keybindings_capture;keybinding=[kb.name]'>Add Secondary</a>"
+				var/list/default_keys = focus_chat ? kb.hotkey_keys : kb.classic_keys
+				if(LAZYLEN(default_keys))
+					HTML += "| Default: [default_keys.Join(", ")]"
+				HTML += "<br>"
 
 	HTML += "<br><br>"
 	HTML += "<a href ='?_src_=prefs;preference=keybindings_done'>Close</a>"
@@ -550,19 +554,21 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	popup.open(FALSE)
 	onclose(user, "keybindings", src)
 
-
 /datum/preferences/proc/CaptureKeybinding(mob/user, datum/keybinding/kb, old_key)
 	var/HTML = {"
 	<div id='focus' style="outline: 0;" tabindex=0>Keybinding: [kb.full_name]<br>[kb.description]<br><br><b>Press any key to change<br>Press ESC to clear</b></div>
 	<script>
+	var deedDone = false;
 	document.onkeyup = function(e) {
-		var shift = e.shiftKey ? 1 : 0;
+		if(deedDone){ return; }
 		var alt = e.altKey ? 1 : 0;
 		var ctrl = e.ctrlKey ? 1 : 0;
+		var shift = e.shiftKey ? 1 : 0;
 		var numpad = (95 < e.keyCode && e.keyCode < 112) ? 1 : 0;
 		var escPressed = e.keyCode == 27 ? 1 : 0;
-		var url = 'byond://?_src_=prefs;preference=keybindings_set;keybinding=[kb.name];old_key=[old_key];clear_key='+escPressed+';key='+e.key+';shift='+shift+';alt='+alt+';ctrl='+ctrl+';numpad='+numpad+';key_code='+e.keyCode;
+		var url = 'byond://?_src_=prefs;preference=keybindings_set;keybinding=[kb.name];old_key=[old_key];clear_key='+escPressed+';key='+e.key+';alt='+alt+';ctrl='+ctrl+';shift='+shift+';numpad='+numpad+';key_code='+e.keyCode;
 		window.location=url;
+		deedDone = true;
 	}
 	document.getElementById('focus').focus();
 	</script>
@@ -594,11 +600,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				random_character()
 				real_name = random_unique_name(gender)
 				save_character()
-			ShowChoices(user)			
+			ShowChoices(user)
 			return TRUE
 
 		if("synth_name")
-			var/newname = input(user, "Choose your Synthetic's name:", "Synthetic Name") as text|null
+			var/newname = input(user, "Choose your Synthetic's name:", "Synthetic Name")
 			newname = reject_bad_name(newname)
 			if(!newname)
 				to_chat(user, "<font color='red'>Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ' and .</font>")
@@ -612,7 +618,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			synthetic_type = new_synth_type
 
 		if("xeno_name")
-			var/newname = input(user, "Choose your Xenomorph name:", "Xenomorph Name") as text|null
+			var/newname = input(user, "Choose your Xenomorph name:", "Xenomorph Name")
 			if(newname == "")
 				xeno_name = "Undefined"
 			else
@@ -623,7 +629,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				xeno_name = newname
 
 		if("ai_name")
-			var/newname = input(user, "Choose your AI name:", "AI Name") as text|null
+			var/newname = input(user, "Choose your AI name:", "AI Name")
 			if(newname == "")
 				ai_name = "ARES v3.2"
 			else
@@ -634,7 +640,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				ai_name = newname
 
 		if("name_real")
-			var/newname = input(user, "Choose your character's name:", "Character Name") as text|null
+			var/newname = input(user, "Choose your character's name:", "Character Name")
 			newname = reject_bad_name(newname)
 			if(!newname)
 				to_chat(user, "<font color='red'>Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ' and .</font>")
@@ -888,43 +894,36 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			return
 
 		if("med_record")
-			var/medmsg = input(user, "Set your medical notes here.", "Medical Records", sanitize(med_record)) as null|message
+			var/medmsg = stripped_input(user, "Set your medical notes here.", "Medical Records", sanitize(med_record))
 			if(!medmsg)
 				return
-			medmsg = copytext(sanitize(medmsg), 1, MAX_PAPER_MESSAGE_LEN)
 
 			med_record = medmsg
 			SetRecords(user)
 			return
 
 		if("sec_record")
-			var/secmsg = input(user,"Set your security notes here.", "Security Records", sanitize(sec_record)) as null|message
+			var/secmsg = stripped_input(user,"Set your security notes here.", "Security Records", sanitize(sec_record))
 			if(!secmsg)
 				return
-
-			secmsg = copytext(sanitize(secmsg), 1, MAX_PAPER_MESSAGE_LEN)
 
 			sec_record = secmsg
 			SetRecords(user)
 			return
 
 		if("gen_record")
-			var/genmsg = input(user, "Set your employment notes here.", "Employment Records", sanitize(gen_record)) as null|message
+			var/genmsg = stripped_input(user, "Set your employment notes here.", "Employment Records", sanitize(gen_record))
 			if(!genmsg)
 				return
-
-			genmsg = copytext(sanitize(genmsg), 1, MAX_PAPER_MESSAGE_LEN)
 
 			gen_record = genmsg
 			SetRecords(user)
 			return
 
 		if("exploit_record")
-			var/exploit = input(user, "Enter information that others may want to use against you.", "Exploit Record", sanitize(exploit_record)) as null|message
+			var/exploit = stripped_input(user, "Enter information that others may want to use against you.", "Exploit Record", sanitize(exploit_record))
 			if(!exploit)
 				return
-
-			exploit = copytext(sanitize(exploit), 1, MAX_PAPER_MESSAGE_LEN)
 
 			exploit_record = exploit
 			SetRecords(user)
@@ -934,29 +933,44 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			user << browse(null, "window=records")
 
 		if("flavor_text")
-			var/msg = input(user, "Give a physical description of your character.", "Flavor Text", sanitize(flavor_text)) as null|message
+			var/msg = stripped_input(user, "Give a physical description of your character.", "Flavor Text", sanitize(flavor_text))
 			if(!msg)
 				return
-			msg = copytext(sanitize(msg), 1, MAX_MESSAGE_LEN)
 			flavor_text = msg
 
 		if("windowflashing")
 			windowflashing = !windowflashing
 
+		if("auto_fit_viewport")
+			auto_fit_viewport = !auto_fit_viewport
+			if(auto_fit_viewport && parent)
+				parent.fit_viewport()
+
 		if("focus_chat")
 			focus_chat = !focus_chat
 			if(focus_chat)
-				winset(user, null, "input.focus=true input.background-color=[COLOR_INPUT_ENABLED]")
+				winset(user, null, "input.focus=true")
 			else
-				winset(user, null, "input.focus=false input.background-color=[COLOR_INPUT_DISABLED]")
+				winset(user, null, "map.focus=true")
 
 		if("clientfps")
-			var/desiredfps = input(user, "Choose your desired FPS. (0 = synced with server tick rate, currently:[world.fps])", "FPS", clientfps) as null|num
+			var/desiredfps = input(user, "Choose your desired fps. (0 = synced with server tick rate (currently:[world.fps]))", "Character Preference", clientfps)  as null|num
 			if(isnull(desiredfps))
 				return
 			desiredfps = CLAMP(desiredfps, 0, 240)
 			clientfps = desiredfps
 			parent.fps = desiredfps
+
+		if("chat_on_map")
+			chat_on_map = !chat_on_map
+
+		if ("max_chat_length")
+			var/desiredlength = input(user, "Choose the max character length of shown Runechat messages. Valid range is 1 to [CHAT_MESSAGE_MAX_LENGTH] (default: [initial(max_chat_length)]))", "Character Preference", max_chat_length)  as null|num
+			if (!isnull(desiredlength))
+				max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
+
+		if("see_chat_non_mob")
+			see_chat_non_mob = !see_chat_non_mob
 
 		if("tooltips")
 			tooltips = !tooltips
@@ -985,43 +999,44 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			var/clear_key = text2num(href_list["clear_key"])
 			var/old_key = href_list["old_key"]
 			if(clear_key)
-				if(old_key != "Unbound") // if it was already set
+				if(key_bindings[old_key])
 					key_bindings[old_key] -= kb_name
-					key_bindings["Unbound"] += list(kb_name)
+					if(!length(key_bindings[old_key]))
+						key_bindings -= old_key
 				user << browse(null, "window=capturekeypress")
 				save_preferences()
 				ShowKeybindings(user)
 				return
 
-			var/key = href_list["key"]
-			var/numpad = text2num(href_list["numpad"])
-			var/AltMod = text2num(href_list["alt"]) ? "Alt-" : ""
-			var/CtrlMod = text2num(href_list["ctrl"]) ? "Ctrl-" : ""
-			var/ShiftMod = text2num(href_list["shift"]) ? "Shift-" : ""
+			var/new_key = uppertext(href_list["key"])
+			var/AltMod = text2num(href_list["alt"]) ? "Alt" : ""
+			var/CtrlMod = text2num(href_list["ctrl"]) ? "Ctrl" : ""
+			var/ShiftMod = text2num(href_list["shift"]) ? "Shift" : ""
+			var/numpad = text2num(href_list["numpad"]) ? "Numpad" : ""
 			// var/key_code = text2num(href_list["key_code"])
 
-			var/new_key = uppertext(key)
+			if(GLOB._kbMap[new_key])
+				new_key = GLOB._kbMap[new_key]
 
-			// This is a mapping from JS keys to Byond - ref: https://keycode.info/
-			var/list/_kbMap = list(
-				"UP" = "North", "RIGHT" = "East", "DOWN" = "South", "LEFT" = "West",
-				"INSERT" = "Insert", "HOME" = "Northwest", "PAGEUP" = "Northeast",
-				"DEL" = "Delete", "END" = "Southwest",  "PAGEDOWN" = "Southeast",
-				"SPACEBAR" = "Space", "ALT" = "Alt", "SHIFT" = "Shift", "CONTROL" = "Ctrl"
-			)
-			new_key = _kbMap[new_key] ? _kbMap[new_key] : new_key
-
-			if (numpad)
-				new_key = "Numpad[new_key]"
-
-			var/full_key = "[AltMod][CtrlMod][ShiftMod][new_key]"
-			if(!key_bindings[old_key])
-				key_bindings[old_key] = list()
-			key_bindings[old_key] -= kb_name
+			var/full_key
+			switch(new_key)
+				if("Alt")
+					full_key = "[new_key][CtrlMod][ShiftMod]"
+				if("Ctrl")
+					full_key = "[AltMod][new_key][ShiftMod]"
+				if("Shift")
+					full_key = "[AltMod][CtrlMod][new_key]"
+				else
+					full_key = "[AltMod][CtrlMod][ShiftMod][numpad][new_key]"
+			if(key_bindings[old_key])
+				key_bindings[old_key] -= kb_name
+				if(!length(key_bindings[old_key]))
+					key_bindings -= old_key
 			key_bindings[full_key] += list(kb_name)
 			key_bindings[full_key] = sortList(key_bindings[full_key])
 
 			user << browse(null, "window=capturekeypress")
+			user.client.update_movement_keys()
 			save_preferences()
 			ShowKeybindings(user)
 			return
@@ -1036,6 +1051,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				return
 			focus_chat = (choice == "Classic")
 			key_bindings = (!focus_chat) ? deepCopyList(GLOB.hotkey_keybinding_list_by_key) : deepCopyList(GLOB.classic_keybinding_list_by_key)
+			user.client.update_movement_keys()
 			save_preferences()
 			ShowKeybindings(user)
 			return
@@ -1065,7 +1081,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 
 /datum/preferences/proc/UpdateJobPreference(mob/user, role, desiredLvl)
-	if(!SSjob || !length(SSjob.occupations))
+	if(!length(SSjob?.joinable_occupations))
 		return
 
 	var/datum/job/job = SSjob.GetJob(role)
@@ -1074,12 +1090,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		user << browse(null, "window=mob_occupation")
 		ShowChoices(user)
 		return
-
-	if(role == SSjob.overflow_role)
-		if(job_preferences[job.title] == JOBS_PRIORITY_LOW)
-			desiredLvl = JOBS_PRIORITY_NEVER
-		else
-			desiredLvl = JOBS_PRIORITY_LOW
 
 	SetJobPreferenceLevel(job, desiredLvl)
 	SetChoices(user)

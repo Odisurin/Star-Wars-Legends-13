@@ -11,14 +11,13 @@
 		var/mob/M = loc
 		M.update_inv_head()
 
-
 /obj/item/clothing/head/tgmcbandanna
 	name = "\improper TGMC bandanna"
 	desc = "Typically worn by heavy-weapon operators, mercenaries and scouts, the bandanna serves as a lightweight and comfortable hat. Comes in two stylish colors."
 	icon = 'icons/obj/clothing/cm_hats.dmi'
 	sprite_sheet_id = 1
 	icon_state = "band"
-	flags_inv_hide = HIDETOPHAIR
+	flags_inv_hide = NONE
 	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT)
 
 /obj/item/clothing/head/tgmcbandanna/tan
@@ -32,7 +31,7 @@
 	sprite_sheet_id = 1
 	icon_state = "beanie_cargo"
 	flags_inv_hide = HIDETOPHAIR
-	armor = list("melee" = 35, "bullet" = 35, "laser" = 35, "energy" = 15, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 15, "acid" = 15)
+	soft_armor = list("melee" = 15, "bullet" = 15, "laser" = 15, "energy" = 15, "bomb" = 10, "bio" = 5, "rad" = 0, "fire" = 5, "acid" = 5)
 
 
 /obj/item/clothing/head/tgmcberet
@@ -41,7 +40,7 @@
 	icon = 'icons/obj/clothing/cm_hats.dmi'
 	sprite_sheet_id = 1
 	icon_state = "beret"
-	armor = list("melee" = 40, "bullet" = 40, "laser" = 40, "energy" = 20, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 20, "acid" = 20)
+	soft_armor = list("melee" = 15, "bullet" = 15, "laser" = 15, "energy" = 15, "bomb" = 10, "bio" = 5, "rad" = 0, "fire" = 5, "acid" = 5)
 	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT)
 
 /obj/item/clothing/head/tgmcberet/tan
@@ -59,14 +58,14 @@
 	name = "\improper Command Master at Arms beret"
 	desc = "A beret with the lieutenant insignia emblazoned on it. It shines with the glow of corrupt authority and a smudge of doughnut."
 	icon_state = "beretwo"
-	armor = list("melee" = 60, "bullet" = 80, "laser" = 80, "energy" = 20, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 20, "acid" = 20)
+	soft_armor = list("melee" = 15, "bullet" = 50, "laser" = 50, "energy" = 15, "bomb" = 50, "bio" = 5, "rad" = 0, "fire" = 50, "acid" = 5)
 	flags_item_map_variant = NONE
 
 /obj/item/clothing/head/tgmcberet/fc
 	name = "\improper Field Commander beret"
 	desc = "A beret with the field commander insignia emblazoned on it. It commands loyalty and bravery in all who gaze upon it."
 	icon_state = "beretfc"
-	armor = list("melee" = 60, "bullet" = 80, "laser" = 80, "energy" = 20, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 20, "acid" = 20)
+	soft_armor = list("melee" = 50, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 10, "bio" = 5, "rad" = 0, "fire" = 50, "acid" = 50)
 	flags_item_map_variant = NONE
 
 
@@ -76,7 +75,7 @@
 	icon_state = "cap"
 	icon = 'icons/obj/clothing/cm_hats.dmi'
 	sprite_sheet_id = 1
-	armor = list("melee" = 40, "bullet" = 40, "laser" = 40, "energy" = 20, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 20, "acid" = 20)
+	soft_armor = list("melee" = 15, "bullet" = 15, "laser" = 15, "energy" = 15, "bomb" = 10, "bio" = 5, "rad" = 0, "fire" = 5, "acid" = 5)
 	var/flipped_cap = FALSE
 	var/base_cap_icon
 	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT)
@@ -118,7 +117,7 @@
 	desc = "The pinnacle of tacticool technology."
 	icon_state = "booniehat"
 	item_state = "booniehat"
-	armor = list("melee" = 35, "bullet" = 35, "laser" = 35, "energy" = 15, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 15, "acid" = 15)
+	soft_armor = list("melee" = 15, "bullet" = 15, "laser" = 15, "energy" = 15, "bomb" = 10, "bio" = 5, "rad" = 0, "fire" = 5, "acid" = 5)
 
 
 /obj/item/clothing/head/headband
@@ -162,7 +161,7 @@
 	name = "marine officer beret"
 	desc = "A beret with the TGMC insignia emblazoned on it. It radiates respect and authority."
 	icon_state = "hosberet"
-	armor = list("melee" = 40, "bullet" = 40, "laser" = 40, "energy" = 20, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 20, "acid" = 20)
+	soft_armor = list("melee" = 15, "bullet" = 15, "laser" = 15, "energy" = 15, "bomb" = 10, "bio" = 5, "rad" = 0, "fire" = 5, "acid" = 5)
 	flags_inventory = BLOCKSHARPOBJ
 
 /obj/item/clothing/head/beret/marine/captain
@@ -197,7 +196,7 @@
 	desc = "Perfect for winter in Siberia, da?"
 	icon_state = "ushankadown"
 	item_state = "ushankadown"
-	armor = list("melee" = 35, "bullet" = 35, "laser" = 20, "energy" = 10, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 10, "acid" = 10)
+	soft_armor = list("melee" = 35, "bullet" = 35, "laser" = 20, "energy" = 10, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 10, "acid" = 10)
 	flags_cold_protection = HEAD
 	min_cold_protection_temperature = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE
 	flags_inventory = BLOCKSHARPOBJ
@@ -222,7 +221,7 @@
 	siemens_coefficient = 2.0
 	anti_hug = 4
 	flags_armor_protection = HEAD|CHEST|ARMS
-	armor = list("melee" = 90, "bullet" = 70, "laser" = 45, "energy" = 55, "bomb" = 45, "bio" = 10, "rad" = 10, "fire" = 55, "acid" = 55)
+	soft_armor = list("melee" = 90, "bullet" = 70, "laser" = 45, "energy" = 55, "bomb" = 45, "bio" = 10, "rad" = 10, "fire" = 55, "acid" = 55)
 	flags_cold_protection = HEAD|CHEST|ARMS
 	min_cold_protection_temperature = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE
 	flags_inventory = BLOCKSHARPOBJ
@@ -230,22 +229,22 @@
 
 
 /obj/item/clothing/head/uppcap
-	name = "\improper armored UPP cap"
-	desc = "Standard UPP head gear for covert operations and low-ranking officers alike. Sells for high prices on the black market due to their rarity."
+	name = "\improper armored USL cap"
+	desc = "Standard USL head gear for covert operations and low-ranking pirates alike."
 	icon = 'icons/obj/clothing/cm_hats.dmi'
 	icon_state = "upp_cap"
 	sprite_sheet_id = 1
 	siemens_coefficient = 2.0
 	//anti_hug = 2
 	flags_armor_protection = HEAD
-	armor = list("melee" = 50, "bullet" = 50, "laser" = 45, "energy" = 55, "bomb" = 45, "bio" = 10, "rad" = 10, "fire" = 55, "acid" = 55)
+	soft_armor = list("melee" = 50, "bullet" = 50, "laser" = 45, "energy" = 55, "bomb" = 45, "bio" = 10, "rad" = 10, "fire" = 55, "acid" = 55)
 	flags_cold_protection = HEAD
 	min_cold_protection_temperature = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE
 	flags_inventory = BLOCKSHARPOBJ
 	flags_inv_hide = HIDEEARS
 
 /obj/item/clothing/head/uppcap/beret
-	name = "\improper armored UPP beret"
+	name = "\improper armored USL beret"
 	icon_state = "upp_beret"
 
 /obj/item/clothing/head/frelancer
@@ -256,7 +255,7 @@
 	icon_state = "freelancer_cap"
 	siemens_coefficient = 2.0
 	flags_armor_protection = HEAD
-	armor = list("melee" = 50, "bullet" = 50, "laser" = 45, "energy" = 55, "bomb" = 45, "bio" = 10, "rad" = 10, "fire" = 55, "acid" = 55)
+	soft_armor = list("melee" = 50, "bullet" = 50, "laser" = 45, "energy" = 55, "bomb" = 45, "bio" = 10, "rad" = 10, "fire" = 55, "acid" = 55)
 	flags_cold_protection = HEAD
 	min_cold_protection_temperature = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE
 	flags_inventory = BLOCKSHARPOBJ
@@ -274,7 +273,7 @@
 	icon_state = "rebel_hood"
 	siemens_coefficient = 2.0
 	flags_armor_protection = HEAD|CHEST
-	armor = list("melee" = 30, "bullet" = 30, "laser" = 45, "energy" = 35, "bomb" = 45, "bio" = 20, "rad" = 30, "fire" = 35, "acid" = 35)
+	soft_armor = list("melee" = 30, "bullet" = 30, "laser" = 45, "energy" = 35, "bomb" = 45, "bio" = 20, "rad" = 30, "fire" = 35, "acid" = 35)
 	flags_cold_protection = HEAD
 	min_cold_protection_temperature = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE
 	flags_inventory = BLOCKSHARPOBJ
@@ -286,9 +285,16 @@
 	icon_state = "admiral_helmet"
 	siemens_coefficient = 2.0
 	flags_armor_protection = HEAD
-	armor = list("melee" = 60, "bullet" = 60, "laser" = 45, "energy" = 55, "bomb" = 55, "bio" = 10, "rad" = 10, "fire" = 55, "acid" = 55)
+	soft_armor = list("melee" = 60, "bullet" = 60, "laser" = 45, "energy" = 55, "bomb" = 55, "bio" = 10, "rad" = 10, "fire" = 55, "acid" = 55)
 	flags_cold_protection = HEAD
 	min_cold_protection_temperature = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE
 	flags_inventory = BLOCKSHARPOBJ
 	flags_inv_hide = HIDEEARS
 
+/obj/item/clothing/head/commissar
+	name = "\improper commissar cap"
+	desc = "A cap worn by commissars of the Imperial Army. This one seems to radiate authority."
+	sprite_sheet_id = 1
+	icon = 'icons/obj/clothing/cm_hats.dmi'
+	icon_state = "commissar_cap"
+	soft_armor = list("melee" = 30, "bullet" = 30, "laser" = 30, "energy" = 30, "bomb" = 15, "bio" = 10, "rad" = 0, "fire" = 20, "acid" = 20)

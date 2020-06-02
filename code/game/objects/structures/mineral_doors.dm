@@ -110,7 +110,7 @@
 				P.cut_apart(user, src.name, src, PLASMACUTTER_BASE_COST * PLASMACUTTER_VLOW_MOD) //Minimal energy cost.
 		if(W.damtype == "fire" && is_resin) //Burn damage deals extra vs resin structures (mostly welders).
 			multiplier += 1
-		user.do_attack_animation(src)
+		user.do_attack_animation(src, used_item = W)
 		hardness -= W.force * multiplier * 0.01
 		if(!P)
 			to_chat(user, "You hit the [name] with your [W.name]!")
@@ -146,18 +146,18 @@
 
 /obj/structure/mineral_door/ex_act(severity = 1)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			Dismantle(1)
-		if(2)
+		if(EXPLODE_HEAVY)
 			if(prob(20))
 				Dismantle(1)
 			else
 				hardness--
 				CheckHardness()
-		if(3)
+		if(EXPLODE_LIGHT)
 			hardness -= 0.1
 			CheckHardness()
-	return
+
 
 /obj/structure/mineral_door/iron
 	mineralType = "metal"

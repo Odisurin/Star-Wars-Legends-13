@@ -56,17 +56,25 @@
 		button.color = rgb(255, 255, 255, 255)
 	else
 		button.color = rgb(128, 0, 0, 128)
-	
+
 	return TRUE
 
 /datum/action/proc/action_activate()
-	return
+	if(SEND_SIGNAL(src, COMSIG_ACTION_TRIGGER) & COMPONENT_ACTION_BLOCK_TRIGGER)
+		return FALSE
+	return TRUE
 
 /datum/action/proc/fail_activate()
 	return
 
+/datum/action/proc/add_selected_frame()
+	button.vis_contents += selected_frame
+
+/datum/action/proc/remove_selected_frame()
+	button.vis_contents -= selected_frame
+
 /datum/action/proc/can_use_action()
-	if(!QDELETED(owner)) 
+	if(!QDELETED(owner))
 		return TRUE
 
 /datum/action/proc/give_action(mob/M)
@@ -80,6 +88,7 @@
 		M.client.screen += button
 	M.update_action_buttons()
 	M.actions_by_path[type] = src
+	SEND_SIGNAL(M, ACTION_GIVEN)
 
 /datum/action/proc/remove_action(mob/M)
 	if(M.client)
@@ -88,7 +97,15 @@
 	M.actions -= src
 	M.update_action_buttons()
 	owner = null
+	SEND_SIGNAL(M, ACTION_REMOVED)
 
+//Should a AI element occasionally see if this ability should be used?
+/datum/action/proc/ai_should_start_consider()
+	return FALSE
+
+//When called, see if based on the surroundings should the AI use this ability
+/datum/action/proc/ai_should_use(target)
+	return FALSE
 
 //This is the proc used to update all the action buttons.
 /mob/proc/update_action_buttons(reload_screen)

@@ -52,7 +52,7 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 /proc/GUID()
 	var/const/GUID_VERSION = "b"
 	var/const/GUID_VARIANT = "d"
-	var/node_id = copytext(md5("[rand()*rand(1,9999999)][world.name][world.hub][world.hub_password][world.internet_address][world.address][world.contents.len][world.status][world.port][rand()*rand(1,9999999)]"), 1, 13)
+	var/node_id = copytext_char(md5("[rand()*rand(1,9999999)][world.name][world.hub][world.hub_password][world.internet_address][world.address][world.contents.len][world.status][world.port][rand()*rand(1,9999999)]"), 1, 13)
 
 	var/time_high = "[num2hex(text2num(time2text(world.realtime,"YYYY")), 2)][num2hex(world.realtime, 6)]"
 
@@ -91,9 +91,9 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 
 //Returns whether or not A is the middle most value
 /proc/InRange(A, lower, upper)
-	if(A < lower) 
+	if(A < lower)
 		return FALSE
-	if(A > upper) 
+	if(A > upper)
 		return FALSE
 	return TRUE
 
@@ -141,7 +141,6 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 	else if(. >= 360)
 		. -= 360
 
-
 /proc/angle_to_dir(angle)
 	switch(angle)
 		if(338 to 360, 0 to 22)
@@ -160,7 +159,7 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 			return WEST
 		if(293 to 337)
 			return NORTHWEST
-		
+
 
 
 /proc/LinkBlocked(turf/A, turf/B)
@@ -217,17 +216,14 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 
 //Returns whether or not a player is a guest using their ckey as an input
 /proc/IsGuestKey(key)
-	if(!findtext(key, "Guest-", 1, 7))
+	if (findtext(key, "Guest-", 1, 7) != 1) //was findtextEx
 		return FALSE
 
-	var/i = 7, ch, len = length(key)
+	var/i, ch, len = length(key)
 
-	if(copytext(key, 7, 8) == "W") //webclient
-		i++
-
-	for(var/j in i to len)
-		ch = text2ascii(key, j)
-		if(ch < 48 || ch > 57)
+	for (i = 7, i <= len, ++i) //we know the first 6 chars are Guest-
+		ch = text2ascii(key, i)
+		if (ch < 48 || ch > 57) //0-9
 			return FALSE
 	return TRUE
 
@@ -297,6 +293,116 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 		if(areas)
 			. |= T.loc
 
+//similar function to range(), but with no limitations on the distance; will search spiralling outwards from the center
+/proc/spiral_range(dist=0, center=usr, orange=0)
+	var/list/L = list()
+	var/turf/t_center = get_turf(center)
+	if(!t_center)
+		return list()
+
+	if(!orange)
+		L += t_center
+		L += t_center.contents
+
+	if(!dist)
+		return L
+
+
+	var/turf/T
+	var/y
+	var/x
+	var/c_dist = 1
+
+
+	while( c_dist <= dist )
+		y = t_center.y + c_dist
+		x = t_center.x - c_dist + 1
+		for(x in x to t_center.x+c_dist)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+				L += T.contents
+
+		y = t_center.y + c_dist - 1
+		x = t_center.x + c_dist
+		for(y in t_center.y-c_dist to y)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+				L += T.contents
+
+		y = t_center.y - c_dist
+		x = t_center.x + c_dist - 1
+		for(x in t_center.x-c_dist to x)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+				L += T.contents
+
+		y = t_center.y - c_dist + 1
+		x = t_center.x - c_dist
+		for(y in y to t_center.y+c_dist)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+				L += T.contents
+		c_dist++
+
+	return L
+
+//similar function to RANGE_TURFS(), but will search spiralling outwards from the center (like the above, but only turfs)
+/proc/spiral_range_turfs(dist=0, center=usr, orange=0, list/outlist = list(), tick_checked)
+	outlist.Cut()
+	if(!dist)
+		outlist += center
+		return outlist
+
+	var/turf/t_center = get_turf(center)
+	if(!t_center)
+		return outlist
+
+	var/list/L = outlist
+	var/turf/T
+	var/y
+	var/x
+	var/c_dist = 1
+
+	if(!orange)
+		L += t_center
+
+	while( c_dist <= dist )
+		y = t_center.y + c_dist
+		x = t_center.x - c_dist + 1
+		for(x in x to t_center.x+c_dist)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+
+		y = t_center.y + c_dist - 1
+		x = t_center.x + c_dist
+		for(y in t_center.y-c_dist to y)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+
+		y = t_center.y - c_dist
+		x = t_center.x + c_dist - 1
+		for(x in t_center.x-c_dist to x)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+
+		y = t_center.y - c_dist + 1
+		x = t_center.x - c_dist
+		for(y in y to t_center.y+c_dist)
+			T = locate(x,y,t_center.z)
+			if(T)
+				L += T
+		c_dist++
+		if(tick_checked)
+			CHECK_TICK
+
+	return L
 
 // returns the turf located at the map edge in the specified direction relative to A
 // used for mass driver
@@ -329,11 +435,11 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 	var/y = A.y
 	if(direction & NORTH)
 		y = min(world.maxy, y + range)
-	if(direction & SOUTH)
+	else if(direction & SOUTH)
 		y = max(1, y - range)
 	if(direction & EAST)
 		x = min(world.maxx, x + range)
-	if(direction & WEST)
+	else if(direction & WEST)
 		x = max(1, x - range)
 
 	return locate(x, y, A.z)
@@ -351,10 +457,10 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 /proc/between(low, middle, high)
 	return max(min(middle, high), low)
 
-
+#if DM_VERSION < 513
 /proc/arctan(x)
 	return arcsin(x / sqrt(1 + x * x))
-
+#endif
 
 //returns random gauss number
 /proc/GaussRand(sigma)
@@ -433,7 +539,7 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 
 
 /proc/is_blocked_turf(turf/T)
-	if(T.density) 
+	if(T.density)
 		return TRUE
 	for(var/atom/A in T)
 		if(A.density)
@@ -442,7 +548,7 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 //Takes: Anything that could possibly have variables and a varname to check.
 //Returns: TRUE if found, FALSE if not.
 /proc/hasvar(datum/A, varname)
-	if(A.vars.Find(lowertext(varname))) 
+	if(A.vars.Find(lowertext(varname)))
 		return TRUE
 	return FALSE
 
@@ -450,10 +556,10 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 //Takes: Area type as text string or as typepath OR an instance of the area.
 //Returns: A list of all turfs in areas of that type of that type in the world.
 /proc/get_area_turfs(areatype)
-	if(!areatype) 
+	if(!areatype)
 		return
 
-	if(istext(areatype)) 
+	if(istext(areatype))
 		areatype = text2path(areatype)
 
 	if(isarea(areatype))
@@ -484,7 +590,7 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 	//       Movement based on lower left corner. Tiles that do not fit
 	//		 into the new area will not be moved.
 
-	if(!A || !src) 
+	if(!A || !src)
 		return FALSE
 
 	var/list/turfs_src = get_area_turfs(src.type)
@@ -493,17 +599,17 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 	var/src_min_x = 0
 	var/src_min_y = 0
 	for(var/turf/T in turfs_src)
-		if(T.x < src_min_x || !src_min_x) 
+		if(T.x < src_min_x || !src_min_x)
 			src_min_x = T.x
-		if(T.y < src_min_y || !src_min_y) 
+		if(T.y < src_min_y || !src_min_y)
 			src_min_y = T.y
 
 	var/trg_min_x = 0
 	var/trg_min_y = 0
 	for(var/turf/T in turfs_trg)
-		if(T.x < trg_min_x || !trg_min_x) 
+		if(T.x < trg_min_x || !trg_min_x)
 			trg_min_x = T.x
-		if(T.y < trg_min_y || !trg_min_y) 
+		if(T.y < trg_min_y || !trg_min_y)
 			trg_min_y = T.y
 
 	var/list/refined_src = list()
@@ -550,7 +656,7 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 						corner.density = TRUE
 						corner.anchored = TRUE
 						corner.icon = X.icon
-						corner.icon_state = oldreplacetext(X.icon_state, "_s", "_f")
+						corner.icon_state = replacetext(X.icon_state, "_s", "_f")
 						corner.tag = "delete me"
 						corner.name = "wall"
 
@@ -569,15 +675,15 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 						// Reset the shuttle corners
 						if(O.tag == "delete me")
 							X.icon = 'icons/turf/shuttle.dmi'
-							X.icon_state = oldreplacetext(O.icon_state, "_f", "_s") // revert the turf to the old icon_state
+							X.icon_state = replacetext(O.icon_state, "_f", "_s") // revert the turf to the old icon_state
 							X.name = "wall"
 							qdel(O) // prevents multiple shuttle corners from stacking
 							continue
-						if(!isobj(O)) 
+						if(!isobj(O))
 							continue
 						O.loc = X
 					for(var/mob/M in T)
-						if(!ismob(M)) 
+						if(!ismob(M))
 							continue // If we need to check for more mobs, I'll add a variable
 						M.loc = X
 
@@ -620,6 +726,7 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 
 
 /proc/DuplicateObject(atom/original, atom/newloc)
+	RETURN_TYPE(original.type)
 	if(!original || !newloc)
 		return
 
@@ -659,7 +766,7 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 	//       Movement based on lower left corner. Tiles that do not fit
 	//		 into the new area will not be moved.
 
-	if(!A || !src) 
+	if(!A || !src)
 		return FALSE
 
 	var/list/turfs_src = get_area_turfs(src.type)
@@ -668,7 +775,7 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 	var/src_min_x = 0
 	var/src_min_y = 0
 	for(var/turf/T in turfs_src)
-		if(T.x < src_min_x || !src_min_x) 
+		if(T.x < src_min_x || !src_min_x)
 			src_min_x = T.x
 		if(T.y < src_min_y || !src_min_y)
 			src_min_y = T.y
@@ -676,9 +783,9 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 	var/trg_min_x = 0
 	var/trg_min_y = 0
 	for(var/turf/T in turfs_trg)
-		if(T.x < trg_min_x || !trg_min_x) 
+		if(T.x < trg_min_x || !trg_min_x)
 			trg_min_x = T.x
-		if(T.y < trg_min_y || !trg_min_y) 
+		if(T.y < trg_min_y || !trg_min_y)
 			trg_min_y = T.y
 
 	var/list/refined_src = list()
@@ -745,7 +852,7 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 
 					for(var/mob/M in T)
 
-						if(!ismob(M)) 
+						if(!ismob(M))
 							continue // If we need to check for more mobs, I'll add a variable
 						mobs += M
 
@@ -788,11 +895,11 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 
 //Returns the 2 dirs perpendicular to the arg
 /proc/get_perpen_dir(dir)
-	if(dir & (dir-1)) 
+	if(dir & (dir-1))
 		return 0 //diagonals
 	if(dir in list(EAST, WEST))
 		return list(SOUTH, NORTH)
-	else 
+	else
 		return list(EAST, WEST)
 
 
@@ -801,40 +908,32 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 	return (rand(1, value) == value)
 
 
-/proc/view_or_range(distance = world.view , center = usr , type)
-	switch(type)
-		if("view")
-			. = view(distance,center)
-		if("range")
-			. = range(distance,center)
-
-
 /proc/parse_zone(zone)
-	if(zone == "r_hand") 
+	if(zone == "r_hand")
 		return "right hand"
-	else if (zone == "l_hand") 
+	else if (zone == "l_hand")
 		return "left hand"
-	else if (zone == "l_arm") 
+	else if (zone == "l_arm")
 		return "left arm"
-	else if (zone == "r_arm") 
+	else if (zone == "r_arm")
 		return "right arm"
-	else if (zone == "l_leg") 
+	else if (zone == "l_leg")
 		return "left leg"
-	else if (zone == "r_leg") 
+	else if (zone == "r_leg")
 		return "right leg"
-	else if (zone == "l_foot") 
+	else if (zone == "l_foot")
 		return "left foot"
-	else if (zone == "r_foot") 
+	else if (zone == "r_foot")
 		return "right foot"
-	else if (zone == "l_hand") 
+	else if (zone == "l_hand")
 		return "left hand"
-	else if (zone == "r_hand") 
+	else if (zone == "r_hand")
 		return "right hand"
-	else if (zone == "l_foot") 
+	else if (zone == "l_foot")
 		return "left foot"
-	else if (zone == "r_foot") 
+	else if (zone == "r_foot")
 		return "right foot"
-	else 
+	else
 		return zone
 
 
@@ -861,11 +960,11 @@ GLOBAL_LIST_INIT(common_tools, typecacheof(list(
 
 //Whether or not the given item counts as sharp in terms of dealing damage
 /proc/is_sharp(obj/item/I)
-	if(!istype(I)) 
+	if(!istype(I))
 		return FALSE
-	if(I.sharp) 
+	if(I.sharp)
 		return TRUE
-	if(I.edge) 
+	if(I.edge)
 		return TRUE
 	return FALSE
 
@@ -874,7 +973,7 @@ GLOBAL_LIST_INIT(common_tools, typecacheof(list(
 /proc/has_edge(obj/item/I)
 	if(!istype(I))
 		return FALSE
-	if(!I.edge) 
+	if(!I.edge)
 		return FALSE
 	return TRUE
 
@@ -888,15 +987,15 @@ GLOBAL_LIST_INIT(common_tools, typecacheof(list(
 	tY = tY[1]
 	tX = splittext(tX[1], ":")
 	tX = tX[1]
-	var/list/actual_view = getviewsize(C ? C.view : world.view)
-	tX = CLAMP(origin.x + text2num(tX) - round(actual_view[1] / 2) - 1, 1, world.maxx)
-	tY = CLAMP(origin.y + text2num(tY) - round(actual_view[2] / 2) - 1, 1, world.maxy)
+	var/list/actual_view = getviewsize(C ? C.view : WORLD_VIEW)
+	tX = CLAMP(origin.x + text2num(tX) - round(actual_view[1] * 0.5) + (round(C?.pixel_x / 32)) - 1, 1, world.maxx)
+	tY = CLAMP(origin.y + text2num(tY) - round(actual_view[2] * 0.5) + (round(C?.pixel_y / 32)) - 1, 1, world.maxy)
 	return locate(tX, tY, tZ)
 
 
 //Returns TRUE if the given item is capable of popping things like balloons, inflatable barriers, or cutting police tape.
 /proc/can_puncture(obj/item/I)
-	if(!istype(I)) 
+	if(!istype(I))
 		return FALSE
 	return (I.sharp || I.heat >= 400 	|| \
 		isscrewdriver(I)	 || \
@@ -931,21 +1030,21 @@ GLOBAL_LIST_INIT(common_tools, typecacheof(list(
 
 /proc/reverse_nearby_direction(direction)
 	switch(direction)
-		if(NORTH) 		
+		if(NORTH)
 			. = list(SOUTH, SOUTHEAST, SOUTHWEST)
-		if(NORTHEAST) 	
+		if(NORTHEAST)
 			. = list(SOUTHWEST, SOUTH, WEST)
-		if(EAST) 		
+		if(EAST)
 			. = list(WEST, SOUTHWEST, NORTHWEST)
-		if(SOUTHEAST) 	
+		if(SOUTHEAST)
 			. = list(NORTHWEST, NORTH, WEST)
-		if(SOUTH) 		
+		if(SOUTH)
 			. = list(NORTH, NORTHEAST, NORTHWEST)
-		if(SOUTHWEST) 	
+		if(SOUTHWEST)
 			. = list(NORTHEAST, NORTH, EAST)
-		if(WEST) 		
+		if(WEST)
 			. = list(EAST, NORTHEAST, SOUTHEAST)
-		if(NORTHWEST) 	
+		if(NORTHWEST)
 			. = list(SOUTHEAST, SOUTH, EAST)
 
 
@@ -991,14 +1090,14 @@ GLOBAL_LIST_INIT(wallitems, typecacheof(list(
 		if(is_type_in_typecache(O, GLOB.wallitems))
 			if(O.pixel_x != 0 || O.pixel_y != 0)
 				continue
-			
+
 			return TRUE
 
 	return FALSE
 
 
 /proc/format_text(text)
-	return oldreplacetext(oldreplacetext(text,"\proper ",""),"\improper ","")
+	return replacetext(replacetext(text,"\proper ",""),"\improper ","")
 
 
 //Reasonably Optimized Bresenham's Line Drawing
@@ -1122,7 +1221,7 @@ GLOBAL_LIST_INIT(wallitems, typecacheof(list(
 // Bucket a value within boundary
 /proc/get_bucket(bucket_size, max, current, min = 0, list/boundary_terms)
 	if(length(boundary_terms) == 2)
-		if(current >= max) 
+		if(current >= max)
 			return boundary_terms[1]
 		if(current < min)
 			return boundary_terms[2]
@@ -1151,6 +1250,13 @@ GLOBAL_LIST_INIT(wallitems, typecacheof(list(
 	animate(src, pixel_x = pixel_x + shiftx, pixel_y = pixel_y + shifty, time = 0.2, loop = duration)
 	pixel_x = initialpixelx
 	pixel_y = initialpixely
+
+/atom/proc/contains(atom/A)
+	if(!A)
+		return FALSE
+	for(var/atom/location = A.loc, location, location = location.loc)
+		if(location == src)
+			return TRUE
 
 /*
 
@@ -1213,6 +1319,48 @@ will handle it, but:
 	animate(I, alpha = 0, time = 0.5 SECONDS, easing = EASE_IN)
 	addtimer(CALLBACK(GLOBAL_PROC, /.proc/remove_images_from_clients, I, show_to), 0.5 SECONDS)
 
+//takes an input_key, as text, and the list of keys already used, outputting a replacement key in the format of "[input_key] ([number_of_duplicates])" if it finds a duplicate
+//use this for lists of things that might have the same name, like mobs or objects, that you plan on giving to a player as input
+/proc/avoid_assoc_duplicate_keys(input_key, list/used_key_list)
+	if(!input_key || !istype(used_key_list))
+		return
+	if(used_key_list[input_key])
+		used_key_list[input_key]++
+		input_key = "[input_key] ([used_key_list[input_key]])"
+	else
+		used_key_list[input_key] = 1
+	return input_key
 
-/proc/send_global_signal(signal) //Wrapper for callbacks and the likes.
-	SEND_GLOBAL_SIGNAL(signal)
+//Returns a list of all items of interest with their name
+/proc/getpois(mobs_only=FALSE,skip_mindless=FALSE)
+	var/list/mobs = sortmobs()
+	var/list/namecounts = list()
+	var/list/pois = list()
+	for(var/mob/M in mobs)
+		if(skip_mindless && (!M.mind && !M.ckey))
+			continue
+		if(M.client && M.client.holder && M.client.holder.fakekey) //stealthmins
+			continue
+		var/name = avoid_assoc_duplicate_keys(M.name, namecounts)
+
+		if(M.real_name && M.real_name != M.name)
+			name += " \[[M.real_name]\]"
+		if(M.stat == DEAD)
+			if(isobserver(M))
+				name += " \[ghost\]"
+			else
+				name += " \[dead\]"
+		pois[name] = M
+
+	return pois
+
+//Returns the left and right dir of the input dir, used for AI stutter step while attacking
+/proc/LeftAndRightOfDir(direction, diagonal_check = FALSE)
+	if(diagonal_check)
+		if(ISDIAGONALDIR(direction))
+			return list(turn(direction, 45), turn(direction, -45))
+	return list(turn(direction, 90), turn(direction, -90))
+
+/proc/CallAsync(datum/source, proctype, list/arguments)
+	set waitfor = FALSE
+	return call(source, proctype)(arglist(arguments))

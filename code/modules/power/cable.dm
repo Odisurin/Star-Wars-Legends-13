@@ -61,7 +61,7 @@ By design, d1 is the smallest direction and d2 is the highest
 	// ensure d1 & d2 reflect the icon_state for entering and exiting cable
 	var/dash = findtext(icon_state, "-")
 	d1 = text2num( copytext( icon_state, 1, dash ) )
-	d2 = text2num( copytext( icon_state, dash+1 ) )
+	d2 = text2num( copytext( icon_state, dash + length(icon_state[dash]) ) )
 
 	var/turf/T = get_turf(src)			// hide if turf is not intact
 	if(level==1)
@@ -95,7 +95,7 @@ By design, d1 is the smallest direction and d2 is the highest
 		return
 	var/turf/T = loc
 	stored.forceMove(T)
-	qdel(src)
+	return ..()
 
 ///////////////////////////////////
 // General procedures
@@ -176,16 +176,16 @@ By design, d1 is the smallest direction and d2 is the highest
 		return
 
 	switch(severity)
-		if(1.0)
+		if(EXPLODE_DEVASTATE)
 			qdel(src)
-		if(2.0)
+		if(EXPLODE_HEAVY)
 			if (prob(50))
-				new/obj/item/stack/cable_coil(loc, d1 ? 2 : 1, color)
+				new /obj/item/stack/cable_coil(loc, d1 ? 2 : 1, color)
 				qdel(src)
 
-		if(3.0)
+		if(EXPLODE_LIGHT)
 			if (prob(25))
-				new/obj/item/stack/cable_coil(loc, d1 ? 2 : 1, color)
+				new /obj/item/stack/cable_coil(loc, d1 ? 2 : 1, color)
 				qdel(src)
 
 ////////////////////////////////////////////

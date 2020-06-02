@@ -8,7 +8,7 @@ Currently only has the tank hardpoints
 	var/slot //What slot do we attach to?
 	var/obj/vehicle/multitile/root/cm_armored/owner //Who do we work for?
 
-	icon = 'icons/obj/hardpoint_modules.dmi'
+	icon = 'icons/obj/vehicles/hardpoint_modules.dmi'
 	icon_state = "tires" //Placeholder
 
 	max_integrity = 100
@@ -40,7 +40,7 @@ Currently only has the tank hardpoints
 	. = ..()
 	var/status = obj_integrity <= 0.1 ? "broken" : "functional"
 	var/span_class = obj_integrity <= 0.1 ? "<span class = 'danger'>" : "<span class = 'notice'>"
-	if((user?.mind?.cm_skills && user.mind.cm_skills.engineer >= SKILL_ENGINEER_METAL) || isobserver(user))
+	if((user.skills.getRating("engineer") >= SKILL_ENGINEER_METAL) || isobserver(user))
 		switch(PERCENT(obj_integrity / max_integrity))
 			if(0.1 to 33)
 				status = "heavily damaged"
@@ -237,7 +237,7 @@ Currently only has the tank hardpoints
 	buyable = FALSE
 
 /obj/item/hardpoint/primary/cannon/apply_buff()
-	owner.cooldowns["primary"] = 200
+	owner.internal_cooldowns["primary"] = 200
 	owner.accuracies["primary"] = 0.97
 
 /obj/item/hardpoint/primary/cannon/active_effect(atom/A)
@@ -246,10 +246,10 @@ Currently only has the tank hardpoints
 		to_chat(usr, "<span class='warning'>This module does not have any ammo.</span>")
 		return
 
-	next_use = world.time + owner.cooldowns["primary"] * owner.misc_ratios["prim_cool"]
+	next_use = world.time + owner.internal_cooldowns["primary"] * owner.misc_ratios["prim_cool"]
 	var/obj/item/hardpoint/secondary/towlauncher/HP = owner.hardpoints[HDPT_SECDGUN]
 	if(istype(HP))
-		HP.next_use = world.time + owner.cooldowns["secondary"] * owner.misc_ratios["secd_cool"]
+		HP.next_use = world.time + owner.internal_cooldowns["secondary"] * owner.misc_ratios["secd_cool"]
 
 	var/delay = 5
 	var/turf/T = get_turf(A)
@@ -273,7 +273,7 @@ Currently only has the tank hardpoints
 
 	if(!prob(owner.accuracies["primary"] * 100 * owner.misc_ratios["prim_acc"]))
 		T = get_step(T, pick(GLOB.cardinals))
-	var/obj/item/projectile/P = new
+	var/obj/projectile/P = new
 	P.generate_bullet(new ammo.default_ammo)
 	log_combat(usr, usr, "fired the [src].")
 	log_explosion("[usr] fired the [src] at [AREACOORD(loc)].")
@@ -313,7 +313,7 @@ Currently only has the tank hardpoints
 	//Now the cutoff is a little abrupt, but at least it exists. --MadSnailDisease
 
 /obj/item/hardpoint/primary/minigun/apply_buff()
-	owner.cooldowns["primary"] = 2 //will be overridden, please ignore
+	owner.internal_cooldowns["primary"] = 2 //will be overridden, please ignore
 	owner.accuracies["primary"] = 0.33
 
 /obj/item/hardpoint/primary/minigun/active_effect(atom/A)
@@ -335,7 +335,7 @@ Currently only has the tank hardpoints
 	next_use = world.time + (chained > length(chain_delays) ? 0.5 : chain_delays[chained]) * owner.misc_ratios["prim_cool"]
 	if(!prob(owner.accuracies["primary"] * 100 * owner.misc_ratios["prim_acc"]))
 		A = get_step(A, pick(GLOB.cardinals))
-	var/obj/item/projectile/P = new
+	var/obj/projectile/P = new
 	P.generate_bullet(new ammo.default_ammo)
 	P.fire_at(A, owner, src, P.ammo.max_range, P.ammo.shell_speed)
 
@@ -366,7 +366,7 @@ Currently only has the tank hardpoints
 	max_angle = 90
 
 /obj/item/hardpoint/secondary/flamer/apply_buff()
-	owner.cooldowns["secondary"] = 20
+	owner.internal_cooldowns["secondary"] = 20
 	owner.accuracies["secondary"] = 0.5
 
 /obj/item/hardpoint/secondary/flamer/active_effect(atom/A)
@@ -375,10 +375,10 @@ Currently only has the tank hardpoints
 		to_chat(usr, "<span class='warning'>This module does not have any ammo.</span>")
 		return
 
-	next_use = world.time + owner.cooldowns["secondary"] * owner.misc_ratios["secd_cool"]
+	next_use = world.time + owner.internal_cooldowns["secondary"] * owner.misc_ratios["secd_cool"]
 	if(!prob(owner.accuracies["secondary"] * 100 * owner.misc_ratios["secd_acc"]))
 		A = get_step(A, pick(GLOB.cardinals))
-	var/obj/item/projectile/P = new
+	var/obj/projectile/P = new
 	P.generate_bullet(new ammo.default_ammo)
 	P.fire_at(A, owner, src, P.ammo.max_range, P.ammo.shell_speed)
 	playsound(get_turf(src), 'sound/weapons/guns/fire/tank_flamethrower.ogg', 60, 1)
@@ -401,7 +401,7 @@ Currently only has the tank hardpoints
 	max_angle = 90
 
 /obj/item/hardpoint/secondary/towlauncher/apply_buff()
-	owner.cooldowns["secondary"] = 150
+	owner.internal_cooldowns["secondary"] = 150
 	owner.accuracies["secondary"] = 0.8
 
 /obj/item/hardpoint/secondary/towlauncher/active_effect(atom/A)
@@ -429,14 +429,14 @@ Currently only has the tank hardpoints
 
 	qdel(TL)
 
-	next_use = world.time + owner.cooldowns["secondary"] * owner.misc_ratios["secd_cool"]
+	next_use = world.time + owner.internal_cooldowns["secondary"] * owner.misc_ratios["secd_cool"]
 	var/obj/item/hardpoint/primary/cannon/HP = owner.hardpoints[HDPT_PRIMARY]
 	if(istype(HP))
-		HP.next_use = world.time + owner.cooldowns["primary"] * owner.misc_ratios["prim_cool"]
+		HP.next_use = world.time + owner.internal_cooldowns["primary"] * owner.misc_ratios["prim_cool"]
 
 	if(!prob(owner.accuracies["secondary"] * 100 * owner.misc_ratios["secd_acc"]))
 		T = get_step(T, pick(GLOB.cardinals))
-	var/obj/item/projectile/P = new
+	var/obj/projectile/P = new
 	P.generate_bullet(new ammo.default_ammo)
 	log_combat(usr, usr, "fired the [src].")
 	log_explosion("[usr] fired the [src] at [AREACOORD(loc)].")
@@ -464,7 +464,7 @@ Currently only has the tank hardpoints
 	buyable = FALSE
 
 /obj/item/hardpoint/secondary/m56cupola/apply_buff()
-	owner.cooldowns["secondary"] = 3
+	owner.internal_cooldowns["secondary"] = 3
 	owner.accuracies["secondary"] = 0.7
 
 /obj/item/hardpoint/secondary/m56cupola/active_effect(atom/A)
@@ -473,10 +473,10 @@ Currently only has the tank hardpoints
 		to_chat(usr, "<span class='warning'>This module does not have any ammo.</span>")
 		return
 
-	next_use = world.time + owner.cooldowns["secondary"] * owner.misc_ratios["secd_cool"]
+	next_use = world.time + owner.internal_cooldowns["secondary"] * owner.misc_ratios["secd_cool"]
 	if(!prob(owner.accuracies["secondary"] * 100 * owner.misc_ratios["secd_acc"]))
 		A = get_step(A, pick(GLOB.cardinals))
-	var/obj/item/projectile/P = new
+	var/obj/projectile/P = new
 	P.generate_bullet(new ammo.default_ammo)
 	P.fire_at(A, owner, src, P.ammo.max_range, P.ammo.shell_speed)
 	playsound(get_turf(src), pick(list('sound/weapons/guns/fire/smartgun1.ogg', 'sound/weapons/guns/fire/smartgun2.ogg', 'sound/weapons/guns/fire/smartgun3.ogg')), 60, 1)
@@ -499,7 +499,7 @@ Currently only has the tank hardpoints
 	max_angle = 90
 
 /obj/item/hardpoint/secondary/grenade_launcher/apply_buff()
-	owner.cooldowns["secondary"] = 30
+	owner.internal_cooldowns["secondary"] = 30
 	owner.accuracies["secondary"] = 0.4
 
 /obj/item/hardpoint/secondary/grenade_launcher/active_effect(atom/A)
@@ -508,10 +508,10 @@ Currently only has the tank hardpoints
 		to_chat(usr, "<span class='warning'>This module does not have any ammo.</span>")
 		return
 
-	next_use = world.time + owner.cooldowns["secondary"] * owner.misc_ratios["secd_cool"]
+	next_use = world.time + owner.internal_cooldowns["secondary"] * owner.misc_ratios["secd_cool"]
 	if(!prob(owner.accuracies["secondary"] * 100 * owner.misc_ratios["secd_acc"]))
 		A = get_step(A, pick(GLOB.cardinals))
-	var/obj/item/projectile/P = new
+	var/obj/projectile/P = new
 	P.generate_bullet(new ammo.default_ammo)
 	log_combat(usr, usr, "fired the [src].")
 	log_explosion("[usr] fired the [src] at [AREACOORD(loc)].")
@@ -547,7 +547,7 @@ Currently only has the tank hardpoints
 	buyable = FALSE
 
 /obj/item/hardpoint/support/smoke_launcher/apply_buff()
-	owner.cooldowns["support"] = 30
+	owner.internal_cooldowns["support"] = 30
 	owner.accuracies["support"] = 0.8
 
 /obj/item/hardpoint/support/smoke_launcher/active_effect(atom/A)
@@ -556,10 +556,10 @@ Currently only has the tank hardpoints
 		to_chat(usr, "<span class='warning'>This module does not have any ammo.</span>")
 		return
 
-	next_use = world.time + owner.cooldowns["support"] * owner.misc_ratios["supp_cool"]
+	next_use = world.time + owner.internal_cooldowns["support"] * owner.misc_ratios["supp_cool"]
 	if(!prob(owner.accuracies["support"] * 100 * owner.misc_ratios["supp_acc"]))
 		A = get_step(A, pick(GLOB.cardinals))
-	var/obj/item/projectile/P = new
+	var/obj/projectile/P = new
 	P.generate_bullet(new ammo.default_ammo)
 	P.fire_at(A, owner, src, P.ammo.max_range, P.ammo.shell_speed)
 	playsound(get_turf(src), 'sound/weapons/guns/fire/tank_smokelauncher.ogg', 60, 1)
@@ -694,7 +694,7 @@ Currently only has the tank hardpoints
 	is_activatable = TRUE
 	var/is_active = FALSE
 
-	var/view_buff = 12 //This way you can VV for more or less fun
+	var/view_buff = "25x25" //This way you can VV for more or less fun
 	var/view_tile_offset = 5
 
 	icon_state = "artillery"
@@ -710,7 +710,7 @@ Currently only has the tank hardpoints
 	if(!M.client)
 		return
 	if(is_active)
-		M.client.change_view(7)
+		M.client.change_view(WORLD_VIEW)
 		M.client.pixel_x = 0
 		M.client.pixel_y = 0
 		is_active = FALSE
@@ -741,7 +741,7 @@ Currently only has the tank hardpoints
 	if(!M.client)
 		return
 	is_active = FALSE
-	M.client.change_view(7)
+	M.client.change_view(WORLD_VIEW)
 	M.client.pixel_x = 0
 	M.client.pixel_y = 0
 

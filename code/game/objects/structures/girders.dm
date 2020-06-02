@@ -105,7 +105,7 @@
 	if(user.action_busy)
 		return FALSE
 	var/obj/item/tool/weldingtool/welder = I
-	if(!welder.isOn()) 
+	if(!welder.isOn())
 		return FALSE
 	switch(girder_state)
 		if(GIRDER_BUILDING1_SECURED, GIRDER_BUILDING2_SECURED)
@@ -340,11 +340,11 @@
 
 /obj/structure/girder/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			deconstruct(FALSE)
-		if(2)
+		if(EXPLODE_HEAVY)
 			take_damage(200)
-		if(3)
+		if(EXPLODE_LIGHT)
 			take_damage(25)
 
 

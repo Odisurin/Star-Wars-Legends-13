@@ -12,6 +12,7 @@
 	resistance_flags = UNACIDABLE
 	obj_flags = CAN_BE_HIT
 	var/on_fire = FALSE
+	var/ignore_weed_destruction = FALSE //Set this to true if this object isn't destroyed when the weeds under it is.
 
 
 /obj/effect/alien/attackby(obj/item/I, mob/user, params)
@@ -34,11 +35,11 @@
 
 /obj/effect/alien/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			take_damage(500)
-		if(2)
+		if(EXPLODE_HEAVY)
 			take_damage((rand(140, 300)))
-		if(3)
+		if(EXPLODE_LIGHT)
 			take_damage((rand(50, 100)))
 
 /obj/effect/alien/effect_smoke(obj/effect/particle_effect/smoke/S)
@@ -46,7 +47,7 @@
 	if(!.)
 		return
 	if(CHECK_BITFIELD(S.smoke_traits, SMOKE_BLISTERING))
-		take_damage(rand(0.2, 2))
+		take_damage(rand(2, 20) * 0.1)
 
 /*
 * Resin
@@ -75,7 +76,9 @@
 	hit_sound = "alien_resin_move"
 	var/slow_amt = 8
 
-	
+	ignore_weed_destruction = TRUE
+
+
 /obj/effect/alien/resin/sticky/Crossed(atom/movable/AM)
 	. = ..()
 	if(!ishuman(AM))
@@ -83,7 +86,7 @@
 
 	var/mob/living/carbon/human/H = AM
 
-	if(H.lying)
+	if(H.lying_angle)
 		return
 
 	H.next_move_slowdown += slow_amt
@@ -95,6 +98,8 @@
 	desc = "A thin layer of disgusting sticky slime."
 	max_integrity = 6
 	slow_amt = 4
+
+	ignore_weed_destruction = FALSE
 
 
 //Carrier trap
@@ -146,10 +151,10 @@
 		return
 	var/mob/living/carbon/C = AM
 	if(C.can_be_facehugged(hugger))
-		playsound(loc, 'sound/effects/alien_resin_break1.ogg', 25)
+		playsound(src, "alien_resin_break", 25)
 		C.visible_message("<span class='warning'>[C] trips on [src]!</span>",\
 						"<span class='danger'>You trip on [src]!</span>")
-		C.knock_down(2)
+		C.Paralyze(40)
 		if(!QDELETED(linked_carrier) && linked_carrier.stat == CONSCIOUS && linked_carrier.z == z)
 			var/area/A = get_area(src)
 			if(A)
@@ -199,6 +204,7 @@
 
 
 /obj/effect/alien/resin/trap/Crossed(atom/A)
+	. = ..()
 	if(iscarbon(A))
 		HasProximity(A)
 
@@ -223,7 +229,7 @@
 
 /obj/structure/mineral_door/resin/Initialize()
 	. = ..()
-	
+
 	relativewall()
 	relativewall_neighbours()
 	if(!locate(/obj/effect/alien/weeds) in loc)
@@ -373,7 +379,7 @@
 	name = "egg"
 	icon_state = "Egg Growing"
 	density = FALSE
-
+	flags_atom = CRITICAL_ATOM
 	max_integrity = 80
 	var/obj/item/clothing/mask/facehugger/hugger = null
 	var/hugger_type = /obj/item/clothing/mask/facehugger/stasis
@@ -393,6 +399,13 @@
 /obj/effect/alien/egg/Destroy()
 	QDEL_LIST(egg_triggers)
 	return ..()
+
+/obj/effect/alien/egg/proc/transfer_to_hive(new_hivenumber)
+	if(hivenumber == new_hivenumber)
+		return
+	hivenumber = new_hivenumber
+	if(hugger)
+		hugger.hivenumber = new_hivenumber
 
 /obj/effect/alien/egg/proc/Grow()
 	if(status == EGG_GROWING)
@@ -417,7 +430,7 @@
 		return attack_hand(M)
 
 	if(!issamexenohive(M))
-		M.do_attack_animation(src)
+		M.do_attack_animation(src, ATTACK_EFFECT_SMASH)
 		M.visible_message("<span class='xenowarning'>[M] crushes \the [src]","<span class='xenowarning'>We crush \the [src]")
 		Burst(TRUE)
 		return
@@ -543,6 +556,7 @@
 
 
 /obj/effect/egg_trigger/Crossed(atom/A)
+	. = ..()
 	if(!linked_egg) //something went very wrong
 		qdel(src)
 	else if(get_dist(src, linked_egg) != 1 || !isturf(linked_egg.loc)) //something went wrong
@@ -614,11 +628,11 @@ TUNNEL
 
 /obj/structure/tunnel/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			take_damage(210)
-		if(2)
+		if(EXPLODE_HEAVY)
 			take_damage(140)
-		if(3)
+		if(EXPLODE_LIGHT)
 			take_damage(70)
 
 /obj/structure/tunnel/attackby(obj/item/I, mob/user, params)
@@ -627,7 +641,7 @@ TUNNEL
 	attack_alien(user)
 
 /obj/structure/tunnel/attack_alien(mob/living/carbon/xenomorph/M)
-	if(!istype(M) || M.stat || M.lying)
+	if(!istype(M) || M.stat || M.lying_angle)
 		return
 
 	if(M.a_intent == INTENT_HARM && M == creator)
@@ -653,7 +667,7 @@ TUNNEL
 		to_chat(M, "<span class='warning'>\The [src] doesn't seem to lead anywhere.</span>")
 		return
 
-	if(length(M.stomach_contents))
+	if(LAZYLEN(M.stomach_contents))
 		to_chat(M, "<span class='warning'>We must spit out the host inside of us first.</span>")
 		return
 

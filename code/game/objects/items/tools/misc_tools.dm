@@ -41,7 +41,7 @@
 	icon_state = "labeler[on]"
 	if(on)
 		to_chat(user, "<span class='notice'>You turn on \the [src].</span>")
-		var/str = copytext(sanitize(input(user,"What do you want to label things as?", "Label Text", "")), 1, MAX_NAME_LEN)
+		var/str = reject_bad_text(stripped_input(user, "Label text?", "Set label","", MAX_NAME_LEN))
 		if(!str)
 			to_chat(user, "<span class='notice'>Invalid label.</span>")
 			return
@@ -105,8 +105,6 @@
 	to_chat(user, "<span class='warning'>You stab [M] with the pen.</span>")
 //	to_chat(M, "<span class='warning'>You feel a tiny prick!</span>")
 	log_combat(user, M, "stabbed", src)
-	msg_admin_attack("[ADMIN_TPMONTY(usr)] used the [name] to stab [ADMIN_TPMONTY(M)].")
-	return
 
 
 /*
@@ -168,6 +166,9 @@
 	throw_speed = 7
 	throw_range = 15
 	attack_verb = list("stamped")
+
+/obj/item/tool/stamp/qm
+	name = "Quartermaster's Stamp"	
 
 /obj/item/tool/stamp/captain
 	name = "captain's rubber stamp"

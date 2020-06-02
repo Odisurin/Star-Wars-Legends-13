@@ -17,7 +17,7 @@
 	. = ..()
 
 /obj/item/explosive/plastique/attack_self(mob/user)
-	if(user.mind?.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_METAL)
+	if(user.skills.getRating("engineer") < SKILL_ENGINEER_METAL)
 		user.visible_message("<span class='notice'>[user] fumbles around figuring out how to use [src].</span>",
 		"<span class='notice'>You fumble around figuring out how to use [src].</span>")
 		var/fumbling_time = 2 SECONDS
@@ -36,14 +36,8 @@
 		return FALSE
 	if(istype(target, /obj/item) || isopenturf(target))
 		return FALSE
-	if(isobj(target))
-		var/obj/O = target
-		if(CHECK_BITFIELD(O.resistance_flags, INDESTRUCTIBLE))
-			return FALSE
-	if(iswallturf(target))
-		var/turf/closed/wall/W = target
-		if(W.hull)
-			return FALSE
+	if(target.resistance_flags & INDESTRUCTIBLE)
+		return FALSE
 	if(istype(target, /obj/structure/window))
 		var/obj/structure/window/W = target
 		if(!W.damageable)
@@ -52,7 +46,7 @@
 	if((locate(/obj/item/detpack) in target) || (locate(/obj/item/explosive/plastique) in target)) //This needs a refactor.
 		to_chat(user, "<span class='warning'>There is already a device attached to [target]</span>.")
 		return FALSE
-	if(user.mind?.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_METAL)
+	if(user.skills.getRating("engineer") < SKILL_ENGINEER_METAL)
 		user.visible_message("<span class='notice'>[user] fumbles around figuring out how to use [src].</span>",
 		"<span class='notice'>You fumble around figuring out how to use [src].</span>")
 		var/fumbling_time = 5 SECONDS
@@ -95,7 +89,7 @@
 
 /obj/item/explosive/plastique/attackby(obj/item/I, mob/user, params)
 	if(ismultitool(I) && armed)
-		if(user.mind?.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_METAL)
+		if(user.skills.getRating("engineer") < SKILL_ENGINEER_METAL)
 			user.visible_message("<span class='notice'>[user] fumbles around figuring out how to disarm [src].</span>",
 			"<span class='notice'>You fumble around figuring out how to disarm [src].</span>")
 			var/fumbling_time = 3 SECONDS
@@ -113,7 +107,7 @@
 			forceMove(plant_target)
 
 		deltimer(detonation_pending)
-		
+
 		user.visible_message("<span class='warning'>[user] disarmed [src] on [plant_target]!</span>",
 		"<span class='warning'>You disarmed [src] on [plant_target]!</span>")
 
@@ -130,15 +124,5 @@
 	if(QDELETED(plant_target))
 		qdel(src)
 		return
-	explosion(plant_target, -1, -1, 3)
-	if(QDELETED(plant_target))
-		qdel(src)
-		return
-	if(istype(plant_target,/turf/closed/wall))
-		var/turf/closed/wall/W = plant_target
-		W.ChangeTurf(/turf/open/floor/plating)
-	else if(istype(plant_target,/obj/machinery/door))
-		qdel(plant_target)
-	else
-		plant_target.ex_act(1)
+	plant_target.ex_act(EXPLODE_DEVASTATE)
 	qdel(src)

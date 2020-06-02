@@ -16,8 +16,8 @@
 #define MAX_GEAR_COST 5 //Custom loadout point limit.
 
 #define BE_ALIEN				(1<<0)
-#define BE_QUEEN				(1<<1)
-#define BE_SURVIVOR				(1<<2)
+#define BE_QUEEN				(1<<1) //Unused
+#define BE_SURVIVOR				(1<<2) //Unused
 #define BE_DEATHMATCH			(1<<3)
 #define BE_SQUAD_STRICT 		(1<<4)
 #define BE_ALIEN_UNREVIVABLE 	(1<<5)
@@ -48,7 +48,7 @@
 #define CHAT_GHOSTSIGHT		(1<<3)
 #define CHAT_PRAYER			(1<<4)
 #define CHAT_RADIO			(1<<5)
-#define CHAT_ATTACKLOGS		(1<<6)
+#define CHAT_ATTACKLOGS		(1<<6) //Unused
 #define CHAT_DEBUGLOGS		(1<<7)
 #define CHAT_GHOSTRADIO 	(1<<8)
 #define CHAT_FFATTACKLOGS 	(1<<9)
@@ -59,6 +59,9 @@
 
 #define TOGGLES_CHAT_DEFAULT (CHAT_OOC|CHAT_DEAD|CHAT_GHOSTEARS|CHAT_GHOSTSIGHT|CHAT_PRAYER|CHAT_RADIO|CHAT_DEBUGLOGS|CHAT_GHOSTRADIO|CHAT_FFATTACKLOGS|CHAT_GHOSTHIVEMIND|CHAT_STATISTICS|CHAT_LOOC)
 
+#define RADIAL_MEDICAL (1<<0)
+
+#define TOGGLES_GAMEPLAY_DEFAULT (RADIAL_MEDICAL)
 
 #define CITIZENSHIP_CHOICES list(\
 	"TerraGov",\
@@ -118,10 +121,8 @@
 	)
 
 #define BE_SPECIAL_FLAGS list(\
-	"Xenomorph" = BE_ALIEN,\
+	"Latejoin Xenomorph" = BE_ALIEN,\
 	"Xenomorph when unrevivable" = BE_ALIEN_UNREVIVABLE,\
-	"Xeno Queen" = BE_QUEEN,\
-	"Survivor" = BE_SURVIVOR,\
 	"End of Round Deathmatch" = BE_DEATHMATCH,\
 	"Prefer Squad over Role" = BE_SQUAD_STRICT\
 	)

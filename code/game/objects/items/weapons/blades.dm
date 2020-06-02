@@ -35,8 +35,17 @@
 	name = "\improper M2132 machete"
 	desc = "Latest issue of the TGMC Machete. Great for clearing out jungle or brush on outlying colonies. Found commonly in the hands of scouts and trackers, but difficult to carry with the usual kit."
 	icon_state = "machete"
-	force = 40
-	attack_speed = 9
+	force = 60
+	attack_speed = 12
+	w_class = WEIGHT_CLASS_BULKY
+
+/obj/item/weapon/claymore/mercsword/commissar_sword
+	name = "\improper commissars sword"
+	desc = "The pride of an imperial commissar, held high as they charge into battle."
+	icon_state = "comsword"
+	item_state = "comsword"
+	force = 80
+	attack_speed = 10
 	w_class = WEIGHT_CLASS_BULKY
 
 /obj/item/weapon/claymore/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
@@ -75,7 +84,7 @@
 	icon = 'icons/obj/items/weapons.dmi'
 	icon_state = "combat_knife"
 	item_state = "combat_knife"
-	desc = "The standard issue survival knife issued to TerraGov Marine Corps soldiers. You can slide this knife into your boots, and can be field-modified to attach to the end of a rifle."
+	desc = "A standard survival knife of decent quality. You can slide this knife into your boots, and can be field-modified to attach to the end of a rifle with cable coil."
 	flags_atom = CONDUCT
 	sharp = IS_SHARP_ITEM_ACCURATE
 	materials = list(/datum/material/metal = 200)

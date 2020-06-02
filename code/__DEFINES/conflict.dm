@@ -7,6 +7,7 @@
 #define CLICK_CD_HANDCUFFED 10
 #define CLICK_CD_GRABBING 10
 #define CLICK_CD_RESIST 10
+#define CLICK_CD_LONG 20
 #define CLICK_CD_RESIST_PSYCHIC_GRAB 30
 #define CLICK_CD_BREAKOUT 100
 
@@ -38,8 +39,8 @@
 //Ammo defines for gun/projectile related things.
 //flags_ammo_behavior
 #define AMMO_EXPLOSIVE 			(1<<0)
-#define AMMO_XENO_ACID 			(1<<1)
-#define AMMO_XENO_TOX			(1<<2)
+#define AMMO_XENO 				(1<<1)
+#define AMMO_XENO_TOX			(1<<2) //Unused value.
 #define AMMO_ENERGY 			(1<<3)
 #define AMMO_ROCKET				(1<<4)
 #define AMMO_SNIPER				(1<<5)
@@ -48,8 +49,9 @@
 #define AMMO_SKIPS_ALIENS 		(1<<8)
 #define AMMO_IS_SILENCED 		(1<<9) //Unused right now.
 #define AMMO_IGNORE_ARMOR		(1<<10)
-#define AMMO_IGNORE_RESIST		(1<<11)
+#define AMMO_IGNORE_RESIST		(1<<11) //Unused.
 #define AMMO_BALLISTIC			(1<<12)
+#define AMMO_SUNDERING			(1<<13)
 
 //Gun defines for gun related thing. More in the projectile folder.
 //flags_gun_features
@@ -113,10 +115,10 @@
 #define SNIPER_LASER_ARMOR_MULTIPLIER	1.5 //+50% penetration vs the aimed target
 #define SNIPER_LASER_SLOWDOWN_STACKS	3
 
-//Define lasgun
-#define M43_STANDARD_AMMO_COST			20
-#define M43_OVERCHARGE_AMMO_COST		80
-#define M43_OVERCHARGE_FIRE_DELAY		10
+//Define lasrifle
+#define ENERGY_STANDARD_AMMO_COST			20
+#define ENERGY_OVERCHARGE_AMMO_COST		80
+#define ENERGY_OVERCHARGE_FIRE_DELAY		10
 
 //Define smoke effects
 #define SMOKE_COUGH			(1<<0)
@@ -132,6 +134,12 @@
 #define SMOKE_XENO_ACID		(1<<10)
 #define SMOKE_XENO_NEURO	(1<<11)
 #define SMOKE_CHEM			(1<<12)
+
+
+//Incapacitated
+#define INCAPACITATED_IGNORE_RESTRAINED (1<<0)
+#define INCAPACITATED_IGNORE_GRAB (1<<1)
+
 
 //Restraints
 #define RESTRAINED_XENO_NEST (1<<0)

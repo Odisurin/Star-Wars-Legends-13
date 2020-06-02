@@ -334,6 +334,15 @@
 	dir = 2
 	},
 /area/lv624/lazarus/medbay)
+"abC" = (
+/obj/structure/cable/yellow{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/nuke_spawn,
+/turf/open/floor/tile/dark,
+/area/lv624/lazarus/secure_storage)
 "abD" = (
 /obj/effect/alien/weeds/node,
 /obj/structure/mineral_door/resin,
@@ -526,7 +535,7 @@
 /turf/open/floor/plating,
 /area/lv624/ground/sand2)
 "ace" = (
-/obj/effect/landmark/start/xeno_spawn,
+/obj/effect/landmark/start/job/xenomorph,
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/caves/central1)
 "acf" = (
@@ -924,12 +933,9 @@
 /turf/open/floor/tile/dark,
 /area/lv624/ground/caves/central1)
 "adk" = (
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/locked/free_access{
 	dir = 4;
-	icon_state = "door_locked";
-	locked = 1;
-	name = "Mining Storage";
-	req_access_txt = "0"
+	name = "\improper Mining Storage"
 	},
 /turf/open/floor/tile/dark,
 /area/lv624/ground/caves/central1)
@@ -1507,9 +1513,7 @@
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/sand5)
 "afw" = (
-/turf/open/floor{
-	icon_state = "floorscorched2"
-	},
+/turf/open/floor/scorched/two,
 /area/lv624/ground/sand6)
 "afx" = (
 /obj/structure/cargo_container/gorg{
@@ -1594,12 +1598,12 @@
 /turf/open/floor,
 /area/lv624/ground/sand5)
 "afN" = (
+/obj/machinery/power/apc/drained{
+	dir = 8
+	},
 /obj/structure/cable/yellow{
 	d2 = 8;
 	icon_state = "0-8"
-	},
-/obj/machinery/power/apc/drained{
-	dir = 8
 	},
 /turf/open/floor/tile/purple/taupepurple{
 	dir = 9
@@ -1755,9 +1759,7 @@
 	},
 /area/lv624/ground/sand5)
 "agr" = (
-/turf/open/floor{
-	icon_state = "floorscorched1"
-	},
+/turf/open/floor/scorched,
 /area/lv624/ground/sand6)
 "ags" = (
 /obj/structure/jungle/plantbot1/alien,
@@ -1805,9 +1807,7 @@
 /turf/open/floor,
 /area/lv624/ground/sand2)
 "agE" = (
-/turf/open/floor{
-	icon_state = "floorscorched2"
-	},
+/turf/open/floor/scorched/two,
 /area/lv624/ground/sand2)
 "agF" = (
 /obj/effect/decal/remains/human,
@@ -1921,9 +1921,7 @@
 /turf/open/floor,
 /area/lv624/ground/sand2)
 "ahb" = (
-/turf/open/floor{
-	icon_state = "floorscorched1"
-	},
+/turf/open/floor/scorched,
 /area/lv624/ground/sand2)
 "ahc" = (
 /obj/structure/catwalk,
@@ -2400,20 +2398,8 @@
 	d2 = 4;
 	icon_state = "0-4"
 	},
-/turf/open/floor{
-	icon_state = "red"
-	},
+/turf/open/floor/tile/red/redtaupe,
 /area/lv624/lazarus/security)
-"aiP" = (
-/obj/structure/cable/yellow{
-	d2 = 4;
-	icon_state = "0-4"
-	},
-/obj/machinery/power/apc{
-	dir = 1
-	},
-/turf/open/floor/tile/dark,
-/area/lv624/lazarus/armory)
 "aiQ" = (
 /obj/machinery/power/apc,
 /obj/structure/cable/yellow{
@@ -2423,11 +2409,11 @@
 /turf/open/floor/wood,
 /area/lv624/lazarus/hop)
 "aiR" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/power/apc/drained{
 	dir = 4
 	},
 /obj/structure/cable/yellow,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/tile/bar,
 /area/lv624/lazarus/canteen)
 "aiS" = (
@@ -2489,6 +2475,7 @@
 	dir = 4
 	},
 /obj/item/explosive/grenade/incendiary,
+/obj/docking_port/stationary/crashmode,
 /turf/open/floor/plating,
 /area/lv624/ground/sand2)
 "ajc" = (
@@ -3192,7 +3179,7 @@
 /turf/open/floor/wood,
 /area/lv624/ground/jungle8)
 "alN" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/wood,
 /area/lv624/ground/jungle8)
 "alP" = (
@@ -3477,7 +3464,7 @@
 /turf/open/floor,
 /area/lv624/ground/sand9)
 "amM" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/blue/whitebluecorner{
 	dir = 2
 	},
@@ -3574,10 +3561,9 @@
 /turf/open/floor,
 /area/lv624/ground/sand8)
 "ana" = (
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/free_access{
 	dir = 4;
-	name = "Water Filtration Plant";
-	req_access_txt = "0"
+	name = "\improper Water Filtration Plant"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -3617,10 +3603,9 @@
 	},
 /area/lv624/ground/sand8)
 "anf" = (
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/free_access{
 	dir = 4;
-	name = "Water Filtration Plant";
-	req_access_txt = "0"
+	name = "\improper Water Filtration Plant"
 	},
 /turf/open/floor/plating/platebot,
 /area/lv624/ground/sand8)
@@ -4149,7 +4134,7 @@
 /area/lv624/ground/jungle8)
 "aoW" = (
 /obj/structure/table/woodentable,
-/obj/item/reagent_container/food/drinks/bottle/whiskey{
+/obj/item/reagent_containers/food/drinks/bottle/whiskey{
 	pixel_x = -7
 	},
 /obj/item/clothing/head/boonie,
@@ -5906,7 +5891,7 @@
 "awH" = (
 /obj/structure/table,
 /obj/item/storage/surgical_tray,
-/obj/item/reagent_container/spray/surgery,
+/obj/item/reagent_containers/spray/surgery,
 /turf/open/floor/tile/blue/whitebluecorner{
 	dir = 2
 	},
@@ -5989,7 +5974,7 @@
 	},
 /area/lv624/lazarus/hydroponics)
 "awQ" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/green/greentaupe{
 	dir = 5
 	},
@@ -6121,11 +6106,11 @@
 /area/lv624/lazarus/medbay)
 "axl" = (
 /obj/structure/table,
-/obj/item/reagent_container/glass/bucket{
+/obj/item/reagent_containers/glass/bucket{
 	pixel_x = 6;
 	pixel_y = 6
 	},
-/obj/item/reagent_container/glass/bucket,
+/obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/tile/green/greentaupe{
 	dir = 5
 	},
@@ -6165,11 +6150,6 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
 /turf/open/floor/tile/red/redtaupecorner{
 	dir = 8
 	},
@@ -6178,8 +6158,7 @@
 /obj/machinery/door_control{
 	id = "secure_blast";
 	name = "Vault Access";
-	pixel_x = -25;
-	req_access_txt = "0"
+	pixel_x = -25
 	},
 /turf/open/floor/wood,
 /area/lv624/lazarus/internal_affairs)
@@ -6233,7 +6212,7 @@
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/jungle9)
 "axD" = (
-/obj/item/reagent_container/spray/surgery,
+/obj/item/reagent_containers/spray/surgery,
 /obj/machinery/door_control{
 	id = "OR2";
 	name = "OR2 Shutters";
@@ -6261,22 +6240,6 @@
 	dir = 1
 	},
 /area/lv624/lazarus/hydroponics)
-"axJ" = (
-/obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
-	icon_state = "2-4"
-	},
-/turf/open/floor/tile/red/full,
-/area/lv624/lazarus/security)
-"axK" = (
-/obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/open/floor/tile/red/full,
-/area/lv624/lazarus/security)
 "axL" = (
 /obj/structure/fence,
 /turf/open/floor/plating/ground/dirtgrassborder2/corner{
@@ -6364,11 +6327,6 @@
 /turf/open/floor/plating,
 /area/lv624/lazarus/medbay)
 "axY" = (
-/obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
 /turf/open/floor/tile/red/redtaupe{
 	dir = 8
 	},
@@ -6539,8 +6497,8 @@
 /area/lv624/lazarus/medbay)
 "ayz" = (
 /obj/structure/table,
-/obj/item/reagent_container/glass/beaker/large,
-/obj/item/reagent_container/glass/beaker{
+/obj/item/reagent_containers/glass/beaker/large,
+/obj/item/reagent_containers/glass/beaker{
 	pixel_x = 4
 	},
 /obj/structure/extinguisher_cabinet{
@@ -6561,37 +6519,11 @@
 	},
 /area/lv624/lazarus/medbay)
 "ayC" = (
-/obj/machinery/door/airlock/mainship/secure{
+/obj/machinery/door/airlock/mainship/secure/free_access{
 	locked = 1;
-	name = "\improper Nexus Dome Armory";
-	req_access_txt = "0"
-	},
-/obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
+	name = "\improper Nexus Dome Armory"
 	},
 /turf/open/floor/plating,
-/area/lv624/lazarus/armory)
-"ayD" = (
-/obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/open/floor/tile/red/redtaupe{
-	dir = 5
-	},
-/area/lv624/lazarus/security)
-"ayE" = (
-/obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/open/floor/tile/red/redtaupe{
-	dir = 9
-	},
 /area/lv624/lazarus/security)
 "ayF" = (
 /obj/structure/cable/yellow{
@@ -6641,11 +6573,9 @@
 /turf/open/floor/tile/dark,
 /area/lv624/lazarus/quartstorage)
 "ayL" = (
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Hydroponics Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Hydroponics Dome"
 	},
 /turf/open/floor/tile/green/greentaupe{
 	dir = 1
@@ -6683,38 +6613,24 @@
 	},
 /area/lv624/ground/jungle5)
 "ayU" = (
-/obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
 /turf/open/floor/tile/red/redtaupecorner{
 	dir = 4
 	},
 /area/lv624/lazarus/security)
 "ayV" = (
 /obj/machinery/light/small,
-/obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
 /turf/open/floor/tile/red/redtaupe{
 	dir = 1
 	},
 /area/lv624/lazarus/security)
 "ayW" = (
-/obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
-	icon_state = "1-8"
-	},
 /turf/open/floor/tile/red/redtaupe{
 	dir = 1
 	},
 /area/lv624/lazarus/security)
 "ayX" = (
 /obj/structure/flora/ausbushes/sparsegrass,
+/obj/docking_port/stationary/crashmode,
 /turf/open/ground/river,
 /area/lv624/ground/river1)
 "ayY" = (
@@ -6756,9 +6672,7 @@
 "azf" = (
 /obj/machinery/door/airlock/multi_tile/mainship/medidoor{
 	dir = 1;
-	name = "\improper Medical Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Medical Dome"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -6783,8 +6697,7 @@
 "azj" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Hydroponics Dome";
-	req_access_txt = "0"
+	name = "\improper Hydroponics Dome"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -6919,8 +6832,7 @@
 /obj/machinery/door_control{
 	id = "secure_blast";
 	name = "Vault Access";
-	pixel_x = 25;
-	req_access_txt = "0"
+	pixel_x = 25
 	},
 /obj/effect/decal/warning_stripes/thin{
 	dir = 1
@@ -7036,10 +6948,10 @@
 /area/lv624/lazarus/hydroponics)
 "aAg" = (
 /obj/structure/table,
-/obj/item/reagent_container/spray/plantbgone{
+/obj/item/reagent_containers/spray/plantbgone{
 	pixel_x = 12
 	},
-/obj/item/reagent_container/spray/plantbgone,
+/obj/item/reagent_containers/spray/plantbgone,
 /turf/open/floor/tile/green/greentaupe{
 	dir = 5
 	},
@@ -7186,7 +7098,7 @@
 /area/lv624/ground/jungle6)
 "aAK" = (
 /obj/structure/table,
-/obj/item/reagent_container/hypospray,
+/obj/item/reagent_containers/hypospray,
 /obj/item/tool/surgery/FixOVein,
 /turf/open/floor/tile/blue/whitebluecorner{
 	dir = 2
@@ -7383,7 +7295,7 @@
 /area/lv624/lazarus/hydroponics)
 "aBw" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/drinks/flask/vacuumflask,
+/obj/item/reagent_containers/food/drinks/flask/vacuumflask,
 /obj/machinery/light,
 /turf/open/floor/tile/green/greentaupe{
 	dir = 9
@@ -7463,7 +7375,7 @@
 /area/lv624/ground/jungle6)
 "aBQ" = (
 /obj/structure/table,
-/obj/item/reagent_container/hypospray/autoinjector/quickclot,
+/obj/item/reagent_containers/hypospray/autoinjector/quickclot,
 /obj/item/tool/surgery/bonegel,
 /turf/open/floor/tile/blue/whitebluecorner{
 	dir = 2
@@ -7478,7 +7390,7 @@
 	},
 /area/lv624/lazarus/medbay)
 "aBS" = (
-/obj/item/reagent_container/spray,
+/obj/item/reagent_containers/spray,
 /obj/item/healthanalyzer,
 /obj/structure/table,
 /turf/open/floor/tile/blue/whitebluecorner{
@@ -7528,10 +7440,6 @@
 "aCb" = (
 /obj/structure/girder/displaced,
 /turf/open/floor/plating/ground/dirt,
-/area/lv624/lazarus/quartstorage/outdoors)
-"aCc" = (
-/obj/structure/girder,
-/turf/open/floor/tile/dark,
 /area/lv624/lazarus/quartstorage/outdoors)
 "aCd" = (
 /obj/structure/window_frame/colony,
@@ -7607,11 +7515,9 @@
 /turf/open/floor/plating/ground/dirtgrassborder,
 /area/lv624/ground/compound/n)
 "aCB" = (
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 1;
-	name = "\improper Hydroponics Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Hydroponics Dome"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/tile/green/greentaupe{
@@ -7626,9 +7532,6 @@
 	dir = 1
 	},
 /area/lv624/ground/compound/ne)
-"aCF" = (
-/turf/open/floor/tile/dark,
-/area/lv624/lazarus/quartstorage/outdoors)
 "aCG" = (
 /turf/open/floor/plating/platebotc,
 /area/lv624/lazarus/quartstorage/outdoors)
@@ -7675,11 +7578,9 @@
 	},
 /area/lv624/ground/jungle6)
 "aCY" = (
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 1;
-	name = "\improper Medical Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Medical Dome"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/tile/blue/whitebluecorner{
@@ -7712,7 +7613,7 @@
 /area/lv624/lazarus/quartstorage/outdoors)
 "aDg" = (
 /obj/structure/barricade/wooden,
-/turf/open/floor/tile/dark,
+/turf/open/floor/plating/platebotc,
 /area/lv624/lazarus/quartstorage/outdoors)
 "aDh" = (
 /obj/structure/rack,
@@ -7742,7 +7643,7 @@
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/jungle7)
 "aDm" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/jungle5)
 "aDn" = (
@@ -7860,13 +7761,9 @@
 /turf/open/floor/plating,
 /area/lv624/lazarus/quartstorage)
 "aDN" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 0;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	icon_state = "door_open";
-	name = "\improper Storage Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Storage Dome"
 	},
 /turf/open/floor/tile/dark,
 /area/lv624/lazarus/quartstorage)
@@ -7995,11 +7892,9 @@
 	id = "science_blast";
 	name = "\improper Science Wing Blast Door"
 	},
-/obj/machinery/door/airlock/mainship/research{
+/obj/machinery/door/airlock/mainship/research/locked/free_access{
 	dir = 1;
-	locked = 1;
-	name = "\improper Research Dome";
-	req_access_txt = "0"
+	name = "\improper Research Dome"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/tile/white,
@@ -8123,11 +8018,9 @@
 /turf/open/floor/plating,
 /area/lv624/lazarus/fitness)
 "aFy" = (
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 1;
-	name = "\improper Leisure Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Leisure Dome"
 	},
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -8379,11 +8272,9 @@
 	},
 /area/lv624/lazarus/research)
 "aGy" = (
-/obj/machinery/door/airlock/mainship/research{
+/obj/machinery/door/airlock/mainship/research/locked/free_access{
 	dir = 4;
-	locked = 1;
-	name = "\improper Research Dome";
-	req_access_txt = "0"
+	name = "\improper Research Dome"
 	},
 /turf/open/floor/tile/purple/whitepurple{
 	dir = 5
@@ -8609,7 +8500,7 @@
 /area/lv624/lazarus/fitness)
 "aHo" = (
 /obj/item/toy/inflatable_duck,
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/ground/river,
 /area/lv624/lazarus/fitness)
 "aHp" = (
@@ -8642,16 +8533,12 @@
 /area/lv624/lazarus/quartstorage/outdoors)
 "aHv" = (
 /obj/structure/fence,
-/turf/open/floor/plating/ground/dirt,
+/turf/open/floor/plating/platebotc,
 /area/lv624/lazarus/quartstorage/outdoors)
 "aHx" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 1;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 4;
-	icon_state = "door_closed";
-	name = "\improper Storage Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Storage Dome"
 	},
 /turf/open/floor/tile/dark,
 /area/lv624/lazarus/quartstorage)
@@ -8715,35 +8602,25 @@
 /turf/open/floor/plating,
 /area/lv624/lazarus/robotics)
 "aHK" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 0;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	icon_state = "door_open";
-	name = "\improper Robotics Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Robotics Dome"
 	},
 /turf/open/floor/plating,
 /area/lv624/lazarus/robotics)
 "aHM" = (
-/obj/machinery/door/airlock/mainship/research{
+/obj/machinery/door/airlock/mainship/research/locked/free_access{
 	dir = 1;
-	locked = 1;
-	name = "\improper Research Dome";
-	req_access_txt = "0"
+	name = "\improper Research Dome"
 	},
 /turf/open/floor/tile/purple/whitepurple{
 	dir = 5
 	},
 /area/lv624/lazarus/research)
 "aHN" = (
-/obj/machinery/door/airlock/mainship/research{
-	density = 0;
+/obj/machinery/door/airlock/mainship/research/open/free_access{
 	dir = 1;
-	icon_state = "door_open";
-	name = "\improper Research Dome";
-	opacity = 0;
-	req_access_txt = "0"
+	name = "\improper Research Dome"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /turf/open/floor/tile/white,
@@ -9062,11 +8939,9 @@
 	id = "science_blast";
 	name = "\improper Science Wing Blast Door"
 	},
-/obj/machinery/door/airlock/mainship/research{
+/obj/machinery/door/airlock/mainship/research/locked/free_access{
 	dir = 4;
-	locked = 1;
-	name = "\improper Research Dome";
-	req_access_txt = "0"
+	name = "\improper Research Dome"
 	},
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/research)
@@ -9085,12 +8960,8 @@
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/research)
 "aJn" = (
-/obj/machinery/door/airlock/mainship/research{
-	density = 0;
-	icon_state = "door_open";
-	name = "\improper Research Dome";
-	opacity = 0;
-	req_access_txt = "0"
+/obj/machinery/door/airlock/mainship/research/open/free_access{
+	name = "\improper Research Dome"
 	},
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/research)
@@ -9122,9 +8993,8 @@
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/research)
 "aJr" = (
-/obj/machinery/door/airlock/mainship/research{
-	name = "\improper Research Dome";
-	req_access_txt = "0"
+/obj/machinery/door/airlock/mainship/research/free_access{
+	name = "\improper Research Dome"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -9161,12 +9031,8 @@
 	name = "\improper Forced Blast Door";
 	opacity = 0
 	},
-/obj/machinery/door/airlock/mainship/research{
-	density = 0;
-	icon_state = "door_open";
-	name = "\improper Research Dome";
-	opacity = 0;
-	req_access_txt = "0"
+/obj/machinery/door/airlock/mainship/research/open/free_access{
+	name = "\improper Research Dome"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -9309,10 +9175,8 @@
 /turf/open/floor/plating/platebot,
 /area/lv624/lazarus/robotics)
 "aJX" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Robotics Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Robotics Dome"
 	},
 /turf/open/floor/tile/vault{
 	dir = 8
@@ -9327,7 +9191,7 @@
 /turf/open/ground/grass,
 /area/lv624/ground/jungle6)
 "aKb" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/purple/whitepurple{
 	dir = 5
 	},
@@ -9367,12 +9231,8 @@
 	name = "\improper Forced Blast Door";
 	opacity = 0
 	},
-/obj/machinery/door/airlock/mainship/research{
-	density = 0;
-	icon_state = "door_open";
-	name = "\improper Research Dome";
-	opacity = 0;
-	req_access_txt = "0"
+/obj/machinery/door/airlock/mainship/research/open/free_access{
+	name = "\improper Research Dome"
 	},
 /turf/open/floor/tile/purple/whitepurple{
 	dir = 5
@@ -9385,8 +9245,7 @@
 "aKj" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Leisure Dome";
-	req_access_txt = "0"
+	name = "\improper Leisure Dome"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -9461,11 +9320,9 @@
 	},
 /area/lv624/lazarus/fitness)
 "aKq" = (
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 4;
-	name = "\improper Leisure Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Leisure Dome"
 	},
 /turf/open/floor/tile/purple/whitepurple{
 	dir = 5
@@ -9509,13 +9366,9 @@
 /turf/open/ground/grass,
 /area/lv624/ground/compound/ne)
 "aKy" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 1;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	icon_state = "door_closed";
-	name = "\improper Storage Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Storage Dome"
 	},
 /turf/open/floor/vault,
 /area/lv624/lazarus/quartstorage)
@@ -9605,13 +9458,9 @@
 /turf/open/ground/grass,
 /area/lv624/ground/jungle6)
 "aKT" = (
-/obj/machinery/door/airlock/mainship/research{
-	density = 0;
+/obj/machinery/door/airlock/mainship/research/open/free_access{
 	dir = 1;
-	icon_state = "door_open";
-	name = "\improper Research Dome";
-	opacity = 0;
-	req_access_txt = "0"
+	name = "\improper Research Dome"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/structure/cable/yellow{
@@ -9702,11 +9551,9 @@
 /turf/open/ground/grass,
 /area/lv624/ground/jungle6)
 "aLq" = (
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Robotics Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Robotics Dome"
 	},
 /turf/open/floor/plating/platebot,
 /area/lv624/lazarus/robotics)
@@ -9824,8 +9671,7 @@
 /area/lv624/lazarus/main_hall)
 "aLM" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Nexus Dome";
-	req_access_txt = "0"
+	name = "\improper Nexus Dome"
 	},
 /obj/machinery/door/poddoor/mainship{
 	density = 0;
@@ -10009,9 +9855,8 @@
 /turf/open/floor/freezer,
 /area/lv624/lazarus/research)
 "aMr" = (
-/obj/machinery/door/airlock/mainship/research{
-	name = "\improper Research Dome";
-	req_access_txt = "0"
+/obj/machinery/door/airlock/mainship/research/free_access{
+	name = "\improper Research Dome"
 	},
 /turf/open/floor/tile/purple/whitepurple{
 	dir = 5
@@ -10191,10 +10036,8 @@
 /turf/open/ground/river,
 /area/lv624/ground/jungle6)
 "aNa" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Robotics Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Robotics Dome"
 	},
 /turf/open/floor/plating,
 /area/lv624/lazarus/robotics)
@@ -10204,7 +10047,7 @@
 	},
 /area/lv624/lazarus/robotics)
 "aNc" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/vault{
 	dir = 8
 	},
@@ -10274,12 +10117,8 @@
 	},
 /area/lv624/lazarus/robotics)
 "aNj" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 0;
-	icon_state = "door_open";
-	name = "\improper Robotics Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Robotics Dome"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -10863,7 +10702,7 @@
 	},
 /area/lv624/lazarus/sleep_female)
 "aPs" = (
-/obj/item/reagent_container/food/snacks/donkpocket,
+/obj/item/reagent_containers/food/snacks/donkpocket,
 /obj/structure/flora/pottedplant,
 /obj/machinery/atmospherics/components/unary/vent_pump/layer1,
 /turf/open/floor/tile/purple/taupepurple{
@@ -10906,7 +10745,7 @@
 /obj/item/stack/sheet/wood{
 	amount = 2
 	},
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/plating,
 /area/lv624/lazarus/quartstorage)
 "aPy" = (
@@ -11150,7 +10989,7 @@
 /obj/structure/bed/chair/comfy/lime{
 	dir = 1
 	},
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/purple/taupepurple{
 	dir = 9
 	},
@@ -11189,13 +11028,9 @@
 /turf/open/floor/tile/dark,
 /area/lv624/lazarus/quartstorage)
 "aQx" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 1;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 4;
-	icon_state = "door_closed";
-	name = "\improper Storage Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Storage Dome"
 	},
 /turf/open/floor/vault,
 /area/lv624/lazarus/quartstorage)
@@ -11272,18 +11107,6 @@
 /obj/structure/largecrate,
 /obj/item/mecha_parts/part/gygax_armour,
 /turf/open/floor/plating/platebot,
-/area/lv624/lazarus/robotics)
-"aQO" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 0;
-	icon_state = "door_open";
-	name = "\improper Robotics Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
-	},
-/turf/open/floor/tile/vault{
-	dir = 8
-	},
 /area/lv624/lazarus/robotics)
 "aQP" = (
 /obj/structure/cable/yellow{
@@ -11373,7 +11196,6 @@
 /area/lv624/lazarus/sleep_male)
 "aQY" = (
 /obj/structure/bed/chair/wood/wings{
-	icon_state = "wooden_chair_wings";
 	dir = 4
 	},
 /turf/open/floor/tile/blue/taupebluecorner{
@@ -11389,8 +11211,7 @@
 "aRb" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Nexus Dome Male Dormitories";
-	req_access_txt = "0"
+	name = "\improper Nexus Dome Male Dormitories"
 	},
 /turf/open/floor/tile/blue/taupebluecorner{
 	dir = 2
@@ -11406,9 +11227,8 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1{
 	dir = 8
 	},
-/turf/open/floor{
-	dir = 2;
-	icon_state = "whitegreen"
+/turf/open/floor/tile/green/whitegreen{
+	dir = 2
 	},
 /area/lv624/lazarus/main_hall)
 "aRd" = (
@@ -11425,8 +11245,7 @@
 "aRe" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Nexus Dome Female Dormitories";
-	req_access_txt = "0"
+	name = "\improper Nexus Dome Female Dormitories"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -11613,7 +11432,6 @@
 /area/lv624/lazarus/sleep_male)
 "aRF" = (
 /obj/structure/bed/chair/wood/wings{
-	icon_state = "wooden_chair_wings";
 	dir = 1
 	},
 /turf/open/floor/tile/blue/taupebluecorner{
@@ -11641,15 +11459,7 @@
 	},
 /area/lv624/lazarus/main_hall)
 "aRJ" = (
-/obj/item/reagent_container/food/drinks/flask/barflask,
-/turf/open/floor/tile/purple/taupepurple{
-	dir = 9
-	},
-/area/lv624/lazarus/sleep_female)
-"aRK" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
+/obj/item/reagent_containers/food/drinks/flask/barflask,
 /turf/open/floor/tile/purple/taupepurple{
 	dir = 9
 	},
@@ -11783,10 +11593,9 @@
 /area/lv624/ground/jungle9)
 "aSh" = (
 /obj/structure/bed/chair/wood/wings{
-	icon_state = "wooden_chair_wings";
 	dir = 4
 	},
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/blue/taupebluecorner{
 	dir = 2
 	},
@@ -11900,6 +11709,9 @@
 	},
 /area/lv624/lazarus/sleep_female)
 "aSu" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
 /obj/structure/bed/chair/comfy/black,
 /turf/open/floor/tile/purple/taupepurple{
 	dir = 9
@@ -11979,13 +11791,9 @@
 /turf/open/ground/grass,
 /area/lv624/ground/jungle9)
 "aSN" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 0;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	icon_state = "door_open";
-	name = "\improper Robotics Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Robotics Dome"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2{
@@ -12287,7 +12095,7 @@
 	dir = 4
 	},
 /obj/structure/table,
-/obj/item/reagent_container/food/snacks/cheeseburger,
+/obj/item/reagent_containers/food/snacks/cheeseburger,
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/main_hall)
 "aTL" = (
@@ -12298,13 +12106,9 @@
 /turf/open/floor/plating,
 /area/lv624/lazarus/quart)
 "aTN" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 1;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	icon_state = "door_closed";
-	name = "\improper Storage Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Storage Dome"
 	},
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -12352,7 +12156,7 @@
 	},
 /area/lv624/ground/jungle4)
 "aTX" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/ground/grass/grass2,
 /area/lv624/ground/jungle4)
 "aTY" = (
@@ -12425,7 +12229,7 @@
 	icon_state = "coffin_open";
 	opened = 1
 	},
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/chapel{
 	dir = 1
 	},
@@ -12437,7 +12241,7 @@
 /area/lv624/lazarus/chapel)
 "aUm" = (
 /obj/structure/table/woodentable,
-/obj/item/reagent_container/food/drinks/bottle/whiskey,
+/obj/item/reagent_containers/food/drinks/bottle/whiskey,
 /turf/open/floor,
 /area/lv624/lazarus/chapel)
 "aUn" = (
@@ -12635,12 +12439,8 @@
 /turf/open/floor/plating/platebotc,
 /area/lv624/lazarus/chapel)
 "aUW" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 0;
-	icon_state = "door_open";
-	name = "\improper Nexus Cargo Storage";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Nexus Cargo Storage"
 	},
 /turf/open/floor/tile/whiteyellow/full,
 /area/lv624/lazarus/quart)
@@ -12700,13 +12500,9 @@
 /area/lv624/lazarus/quartstorage)
 "aVg" = (
 /obj/effect/decal/cleanable/blood/oil,
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 0;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	icon_state = "door_open";
-	name = "\improper Storage Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Storage Dome"
 	},
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone{
 	dir = 1
@@ -12856,13 +12652,9 @@
 /turf/open/floor/tile/whiteyellow/full,
 /area/lv624/lazarus/quart)
 "aVI" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 1;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 4;
-	icon_state = "door_closed";
-	name = "\improper Storage Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Storage Dome"
 	},
 /turf/open/floor/plating,
 /area/lv624/lazarus/quart)
@@ -13044,8 +12836,7 @@
 	},
 /area/shuttle/drop1/lz1)
 "aWr" = (
-/turf/open/floor{
-	icon_state = "warningcorner";
+/turf/open/floor/marking/warning/corner{
 	dir = 1
 	},
 /area/shuttle/drop1/lz1)
@@ -13188,24 +12979,16 @@
 /turf/open/floor/tile/whiteyellow/full,
 /area/lv624/lazarus/quart)
 "aWS" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 0;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	icon_state = "door_open";
-	name = "\improper Storage Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Storage Dome"
 	},
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/quartstorage)
 "aWT" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 0;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	icon_state = "door_open";
-	name = "\improper Storage Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Storage Dome"
 	},
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -13298,7 +13081,7 @@
 	pixel_x = 30
 	},
 /obj/item/explosive/grenade/chem_grenade/cleaner,
-/obj/item/reagent_container/spray/cleaner,
+/obj/item/reagent_containers/spray/cleaner,
 /turf/open/floor/freezer,
 /area/lv624/lazarus/toilet)
 "aXo" = (
@@ -13328,9 +13111,8 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor{
-	dir = 1;
-	icon_state = "whitegreen"
+/turf/open/floor/tile/green/whitegreen{
+	dir = 1
 	},
 /area/lv624/lazarus/main_hall)
 "aXt" = (
@@ -13409,8 +13191,7 @@
 	},
 /area/lv624/lazarus/console)
 "aXF" = (
-/turf/open/floor{
-	icon_state = "warningcorner";
+/turf/open/floor/marking/warning/corner{
 	dir = 4
 	},
 /area/shuttle/drop1/lz1)
@@ -13489,9 +13270,8 @@
 	name = "\improper Nexus Blast Door";
 	opacity = 0
 	},
-/turf/open/floor{
-	dir = 4;
-	icon_state = "whiteyellowcorner"
+/turf/open/floor/tile/whiteyellow/corner{
+	dir = 4
 	},
 /area/lv624/lazarus/main_hall)
 "aXV" = (
@@ -13501,8 +13281,7 @@
 "aXW" = (
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Nexus Dome Bathroom";
-	req_access_txt = "0"
+	name = "\improper Nexus Dome Bathroom"
 	},
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -13514,8 +13293,7 @@
 /area/lv624/lazarus/toilet)
 "aXX" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Nexus Dome Chapel";
-	req_access_txt = "0"
+	name = "\improper Nexus Dome Chapel"
 	},
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -13629,9 +13407,8 @@
 /area/lv624/lazarus/internal_affairs)
 "aYt" = (
 /obj/effect/spawner/random/toolbox,
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteblue"
+/turf/open/floor/tile/blue/whiteblue{
+	dir = 8
 	},
 /area/lv624/lazarus/internal_affairs)
 "aYu" = (
@@ -13649,8 +13426,7 @@
 "aYz" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Nexus Dome";
-	req_access_txt = "0"
+	name = "\improper Nexus Dome"
 	},
 /obj/machinery/door/poddoor/mainship{
 	density = 0;
@@ -13668,9 +13444,8 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/turf/open/floor{
-	dir = 4;
-	icon_state = "whiteyellowcorner"
+/turf/open/floor/tile/whiteyellow/corner{
+	dir = 4
 	},
 /area/lv624/lazarus/main_hall)
 "aYA" = (
@@ -13789,8 +13564,7 @@
 "aYS" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Nexus Dome";
-	req_access_txt = "0"
+	name = "\improper Nexus Dome"
 	},
 /obj/machinery/door/poddoor/mainship{
 	density = 0;
@@ -13877,9 +13651,8 @@
 /obj/machinery/light/small{
 	dir = 4
 	},
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteblue"
+/turf/open/floor/tile/blue/whiteblue{
+	dir = 8
 	},
 /area/lv624/lazarus/internal_affairs)
 "aZi" = (
@@ -13961,15 +13734,13 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor{
-	dir = 2;
-	icon_state = "whiteyellowcorner"
+/turf/open/floor/tile/whiteyellow/corner{
+	dir = 2
 	},
 /area/lv624/lazarus/main_hall)
 "aZA" = (
-/turf/open/floor{
-	dir = 2;
-	icon_state = "whiteyellow"
+/turf/open/floor/tile/whiteyellow{
+	dir = 2
 	},
 /area/lv624/lazarus/main_hall)
 "aZB" = (
@@ -13979,9 +13750,8 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteyellowcorner"
+/turf/open/floor/tile/whiteyellow/corner{
+	dir = 8
 	},
 /area/lv624/lazarus/main_hall)
 "aZC" = (
@@ -14037,15 +13807,13 @@
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/main_hall)
 "aZI" = (
-/turf/open/floor{
-	dir = 2;
-	icon_state = "whiteyellowcorner"
+/turf/open/floor/tile/whiteyellow/corner{
+	dir = 2
 	},
 /area/lv624/lazarus/main_hall)
 "aZJ" = (
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteyellowcorner"
+/turf/open/floor/tile/whiteyellow/corner{
+	dir = 8
 	},
 /area/lv624/lazarus/main_hall)
 "aZL" = (
@@ -14080,11 +13848,8 @@
 /area/lv624/lazarus/internal_affairs)
 "aZQ" = (
 /obj/machinery/door/airlock/mainship/generic/corporate{
-	density = 0;
 	dir = 4;
-	icon_state = "door_open";
-	name = "Corporate Dome";
-	opacity = 0
+	name = "Corporate Dome"
 	},
 /turf/open/floor/wood,
 /area/lv624/lazarus/internal_affairs)
@@ -14094,9 +13859,8 @@
 	},
 /area/lv624/lazarus/internal_affairs)
 "aZS" = (
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteblue"
+/turf/open/floor/tile/blue/whiteblue{
+	dir = 8
 	},
 /area/lv624/lazarus/internal_affairs)
 "aZU" = (
@@ -14183,9 +13947,8 @@
 	icon_state = "1-8"
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/turf/open/floor{
-	dir = 4;
-	icon_state = "whiteyellow"
+/turf/open/floor/tile/whiteyellow{
+	dir = 4
 	},
 /area/lv624/lazarus/main_hall)
 "baj" = (
@@ -14224,9 +13987,8 @@
 	icon_state = "1-8"
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer1,
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteyellow"
+/turf/open/floor/tile/whiteyellow{
+	dir = 8
 	},
 /area/lv624/lazarus/main_hall)
 "ban" = (
@@ -14252,9 +14014,8 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteblue"
+/turf/open/floor/tile/blue/whiteblue{
+	dir = 8
 	},
 /area/lv624/lazarus/main_hall)
 "bap" = (
@@ -14377,6 +14138,7 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
+/obj/docking_port/stationary/crashmode,
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/main_hall)
 "bax" = (
@@ -14388,9 +14150,8 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/turf/open/floor{
-	dir = 4;
-	icon_state = "whiteyellow"
+/turf/open/floor/tile/whiteyellow{
+	dir = 4
 	},
 /area/lv624/lazarus/main_hall)
 "bay" = (
@@ -14419,9 +14180,8 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
 	},
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteyellow"
+/turf/open/floor/tile/whiteyellow{
+	dir = 8
 	},
 /area/lv624/lazarus/main_hall)
 "baA" = (
@@ -14456,7 +14216,7 @@
 /turf/open/floor/wood,
 /area/lv624/lazarus/internal_affairs)
 "baE" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/wood,
 /area/lv624/lazarus/internal_affairs)
 "baF" = (
@@ -14551,21 +14311,18 @@
 	},
 /area/lv624/ground/compound/c)
 "baZ" = (
-/turf/open/floor{
-	dir = 4;
-	icon_state = "whiteyellowcorner"
+/turf/open/floor/tile/whiteyellow/corner{
+	dir = 4
 	},
 /area/lv624/lazarus/main_hall)
 "bba" = (
-/turf/open/floor{
-	dir = 1;
-	icon_state = "whiteyellow"
+/turf/open/floor/tile/whiteyellow{
+	dir = 1
 	},
 /area/lv624/lazarus/main_hall)
 "bbb" = (
-/turf/open/floor{
-	dir = 1;
-	icon_state = "whiteyellowcorner"
+/turf/open/floor/tile/whiteyellow/corner{
+	dir = 1
 	},
 /area/lv624/lazarus/main_hall)
 "bbc" = (
@@ -14583,9 +14340,8 @@
 	dir = 8
 	},
 /obj/item/ammo_casing,
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteblue"
+/turf/open/floor/tile/blue/whiteblue{
+	dir = 8
 	},
 /area/lv624/lazarus/main_hall)
 "bbf" = (
@@ -14625,9 +14381,8 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor{
-	dir = 1;
-	icon_state = "whiteyellow"
+/turf/open/floor/tile/whiteyellow{
+	dir = 1
 	},
 /area/lv624/lazarus/main_hall)
 "bbk" = (
@@ -14639,16 +14394,6 @@
 /obj/structure/jungle/vines,
 /turf/open/ground/grass,
 /area/lv624/ground/jungle9)
-"bbm" = (
-/obj/machinery/door/airlock/mainship/generic/corporate{
-	density = 0;
-	dir = 1;
-	icon_state = "door_open";
-	name = "Corporate Dome";
-	opacity = 0
-	},
-/turf/open/floor/wood,
-/area/lv624/lazarus/internal_affairs)
 "bbn" = (
 /obj/machinery/door/airlock/mainship/generic/corporate{
 	dir = 1;
@@ -14700,9 +14445,8 @@
 /area/lv624/lazarus/main_hall)
 "bbz" = (
 /obj/effect/decal/cleanable/blood/splatter/animated,
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteblue"
+/turf/open/floor/tile/blue/whiteblue{
+	dir = 8
 	},
 /area/lv624/lazarus/main_hall)
 "bbA" = (
@@ -14816,8 +14560,7 @@
 "bbU" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
 	dir = 1;
-	name = "\improper Nexus Dome";
-	req_access_txt = "0"
+	name = "\improper Nexus Dome"
 	},
 /obj/machinery/door/poddoor/mainship{
 	density = 0;
@@ -14827,14 +14570,10 @@
 	name = "\improper Nexus Blast Door";
 	opacity = 0
 	},
-/turf/open/floor{
-	dir = 4;
-	icon_state = "whiteyellowcorner"
+/turf/open/floor/tile/whiteyellow/corner{
+	dir = 4
 	},
 /area/lv624/lazarus/main_hall)
-"bbV" = (
-/turf/closed/wall/r_wall,
-/area/lv624/lazarus/armory)
 "bbW" = (
 /turf/closed/wall/r_wall,
 /area/lv624/lazarus/security)
@@ -14843,9 +14582,8 @@
 /turf/open/floor/plating,
 /area/lv624/lazarus/security)
 "bbY" = (
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteblue"
+/turf/open/floor/tile/blue/whiteblue{
+	dir = 8
 	},
 /area/lv624/lazarus/main_hall)
 "bbZ" = (
@@ -14877,8 +14615,7 @@
 /area/lv624/lazarus/canteen)
 "bce" = (
 /obj/machinery/door/airlock/multi_tile/mainship/generic{
-	name = "\improper Nexus Dome Canteen";
-	req_access_txt = "0"
+	name = "\improper Nexus Dome Canteen"
 	},
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/canteen)
@@ -15071,22 +14808,22 @@
 /obj/item/ammo_magazine/shotgun,
 /obj/item/weapon/gun/shotgun/pump/cmb,
 /turf/open/floor/tile/dark,
-/area/lv624/lazarus/armory)
+/area/lv624/lazarus/security)
 "bcM" = (
 /obj/effect/decal/cleanable/cobweb2,
-/obj/item/reagent_container/hypospray/autoinjector/tricordrazine,
+/obj/item/reagent_containers/hypospray/autoinjector/tricordrazine,
 /obj/structure/rack,
-/obj/item/reagent_container/hypospray/autoinjector/dexalinplus{
+/obj/item/reagent_containers/hypospray/autoinjector/dexalinplus{
 	pixel_x = -2;
 	pixel_y = -2
 	},
-/obj/item/reagent_container/hypospray/autoinjector/quickclot{
+/obj/item/reagent_containers/hypospray/autoinjector/quickclot{
 	pixel_x = 3;
 	pixel_y = 3
 	},
-/obj/item/reagent_container/hypospray/autoinjector/tricordrazine,
+/obj/item/reagent_containers/hypospray/autoinjector/tricordrazine,
 /turf/open/floor/tile/dark,
-/area/lv624/lazarus/armory)
+/area/lv624/lazarus/security)
 "bcN" = (
 /obj/item/target/syndicate,
 /obj/structure/target_stake,
@@ -15119,9 +14856,7 @@
 /obj/structure/table/reinforced,
 /obj/item/weapon/gun/shotgun/pump/cmb,
 /obj/item/ammo_magazine/shotgun/buckshot,
-/turf/open/floor{
-	icon_state = "red"
-	},
+/turf/open/floor/tile/red/redtaupe,
 /area/lv624/lazarus/security)
 "bcR" = (
 /obj/structure/cable/yellow{
@@ -15170,9 +14905,8 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/turf/open/floor{
-	dir = 2;
-	icon_state = "whitegreen"
+/turf/open/floor/tile/green/whitegreen{
+	dir = 2
 	},
 /area/lv624/lazarus/main_hall)
 "bcY" = (
@@ -15341,9 +15075,8 @@
 "bdA" = (
 /obj/item/flashlight,
 /obj/item/ammo_magazine/smg/mp5,
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteblue"
+/turf/open/floor/tile/blue/whiteblue{
+	dir = 8
 	},
 /area/lv624/lazarus/internal_affairs)
 "bdB" = (
@@ -15355,7 +15088,7 @@
 	},
 /area/lv624/lazarus/internal_affairs)
 "bdC" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/blue/whiteblue{
 	dir = 1
 	},
@@ -15369,12 +15102,6 @@
 "bdE" = (
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/lazarus/atmos/outside)
-"bdG" = (
-/obj/structure/grille/broken,
-/obj/structure/jungle/vines/heavy,
-/obj/structure/window_frame/colony,
-/turf/open/floor/plating,
-/area/lv624/lazarus/atmos)
 "bdH" = (
 /obj/structure/jungle/plantbot1,
 /obj/structure/jungle/vines,
@@ -15394,7 +15121,7 @@
 /obj/effect/decal/cleanable/cobweb,
 /obj/machinery/computer/nuke_disk_generator/green,
 /turf/open/floor/tile/dark,
-/area/lv624/lazarus/armory)
+/area/lv624/lazarus/security)
 "bdL" = (
 /obj/machinery/light/small{
 	dir = 1
@@ -15407,10 +15134,10 @@
 /obj/item/ammo_magazine/pistol/b92fs,
 /obj/item/ammo_magazine/pistol/b92fs,
 /turf/open/floor/tile/dark,
-/area/lv624/lazarus/armory)
+/area/lv624/lazarus/security)
 "bdM" = (
 /turf/open/floor/tile/dark,
-/area/lv624/lazarus/armory)
+/area/lv624/lazarus/security)
 "bdN" = (
 /obj/item/explosive/plastique{
 	pixel_x = 3;
@@ -15517,22 +15244,20 @@
 /turf/open/floor/tile/bar,
 /area/lv624/lazarus/canteen)
 "bea" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 10
+	},
 /obj/structure/cable/yellow{
 	d1 = 2;
 	d2 = 8;
 	icon_state = "2-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 10
-	},
 /turf/open/floor/tile/bar,
 /area/lv624/lazarus/canteen)
 "beb" = (
-/obj/machinery/door/airlock/mainship/medical/glass{
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
 	dir = 1;
-	name = "\improper Nexus Dome Canteen";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Nexus Dome Canteen"
 	},
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/canteen)
@@ -15614,7 +15339,7 @@
 "beu" = (
 /obj/machinery/deployable/barrier,
 /turf/open/floor/tile/dark,
-/area/lv624/lazarus/armory)
+/area/lv624/lazarus/security)
 "bev" = (
 /obj/structure/rack,
 /obj/item/weapon/gun/smg/mp5,
@@ -15624,7 +15349,7 @@
 /obj/item/ammo_magazine/smg/mp5,
 /obj/item/ammo_magazine/smg/mp5,
 /turf/open/floor/tile/dark,
-/area/lv624/lazarus/armory)
+/area/lv624/lazarus/security)
 "bew" = (
 /turf/open/floor/tile/red/redtaupe{
 	dir = 5
@@ -15646,10 +15371,8 @@
 	},
 /area/lv624/lazarus/security)
 "beC" = (
-/obj/machinery/door/airlock/mainship/security{
-	locked = 1;
-	name = "\improper Nexus Dome Marshal Office";
-	req_access_txt = "0"
+/obj/machinery/door/airlock/mainship/security/locked/free_access{
+	name = "\improper Nexus Dome Marshal Office"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -15717,20 +15440,20 @@
 	pixel_y = 30
 	},
 /obj/structure/table,
-/obj/item/reagent_container/food/snacks/donkpocket{
+/obj/item/reagent_containers/food/snacks/donkpocket{
 	pixel_x = 4;
 	pixel_y = 4
 	},
-/obj/item/reagent_container/food/snacks/donkpocket{
+/obj/item/reagent_containers/food/snacks/donkpocket{
 	pixel_x = -4;
 	pixel_y = -4
 	},
-/obj/item/reagent_container/food/snacks/donkpocket,
+/obj/item/reagent_containers/food/snacks/donkpocket,
 /turf/open/floor/tile/barber,
 /area/lv624/lazarus/kitchen)
 "beJ" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/snacks/grown/tomato,
+/obj/item/reagent_containers/food/snacks/grown/tomato,
 /turf/open/floor/tile/barber,
 /area/lv624/lazarus/kitchen)
 "beK" = (
@@ -15888,13 +15611,12 @@
 /obj/item/spacecash/c100{
 	pixel_x = -12
 	},
-/obj/item/reagent_container/food/drinks/bottle/sake,
+/obj/item/reagent_containers/food/drinks/bottle/sake,
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteblue"
+/turf/open/floor/tile/blue/whiteblue{
+	dir = 8
 	},
 /area/lv624/lazarus/internal_affairs)
 "bfl" = (
@@ -15906,7 +15628,7 @@
 /obj/item/storage/toolbox/syndicate,
 /obj/structure/rack,
 /turf/open/floor/tile/dark,
-/area/lv624/lazarus/armory)
+/area/lv624/lazarus/security)
 "bfp" = (
 /obj/structure/window/reinforced{
 	dir = 4
@@ -15943,9 +15665,7 @@
 "bfs" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/forensic_scanning,
-/turf/open/floor{
-	icon_state = "red"
-	},
+/turf/open/floor/tile/red/redtaupe,
 /area/lv624/lazarus/security)
 "bfv" = (
 /obj/structure/flora/grass/green,
@@ -15964,10 +15684,8 @@
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/main_hall)
 "bfx" = (
-/obj/machinery/door/airlock/mainship/medical/glass{
-	name = "\improper Nexus Dome Canteen";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/medical/glass/free_access{
+	name = "\improper Nexus Dome Canteen"
 	},
 /turf/open/floor/tile/barber,
 /area/lv624/lazarus/kitchen)
@@ -16085,9 +15803,8 @@
 /obj/item/spacecash/c200{
 	pixel_y = 4
 	},
-/turf/open/floor{
-	dir = 8;
-	icon_state = "whiteblue"
+/turf/open/floor/tile/blue/whiteblue{
+	dir = 8
 	},
 /area/lv624/lazarus/internal_affairs)
 "bfW" = (
@@ -16127,7 +15844,7 @@
 "bge" = (
 /obj/structure/jungle/vines,
 /turf/closed/wall/r_wall,
-/area/lv624/lazarus/armory)
+/area/lv624/lazarus/security)
 "bgl" = (
 /obj/structure/closet/lawcloset,
 /turf/open/floor/tile/red/redtaupe{
@@ -16169,7 +15886,7 @@
 /area/lv624/lazarus/canteen)
 "bgt" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/snacks/grown/banana,
+/obj/item/reagent_containers/food/snacks/grown/banana,
 /turf/open/floor/tile/bar,
 /area/lv624/lazarus/canteen)
 "bgu" = (
@@ -16260,11 +15977,9 @@
 /turf/open/floor/plating,
 /area/lv624/lazarus/comms)
 "bgK" = (
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Communications Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Communications Dome"
 	},
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -16356,7 +16071,7 @@
 /area/lv624/lazarus/kitchen)
 "bhb" = (
 /obj/structure/table,
-/obj/item/reagent_container/hypospray/autoinjector/quickclot,
+/obj/item/reagent_containers/hypospray/autoinjector/quickclot,
 /turf/open/floor/tile/bar,
 /area/lv624/lazarus/canteen)
 "bhd" = (
@@ -16404,6 +16119,11 @@
 	},
 /area/lv624/lazarus/atmos)
 "bhn" = (
+/obj/structure/cable/yellow{
+	d1 = 2;
+	d2 = 4;
+	icon_state = "2-4"
+	},
 /turf/open/ground/grass/beach/corner{
 	dir = 1
 	},
@@ -16434,7 +16154,7 @@
 /obj/machinery/chem_dispenser/beer{
 	pixel_y = 26
 	},
-/obj/item/reagent_container/hypospray/autoinjector/dexalinplus,
+/obj/item/reagent_containers/hypospray/autoinjector/dexalinplus,
 /turf/open/floor/grimy,
 /area/lv624/lazarus/captain)
 "bhu" = (
@@ -16454,7 +16174,7 @@
 /area/lv624/lazarus/captain)
 "bhx" = (
 /obj/structure/closet/cabinet,
-/obj/item/reagent_container/food/snacks/syndicake,
+/obj/item/reagent_containers/food/snacks/syndicake,
 /turf/open/floor/grimy,
 /area/lv624/lazarus/captain)
 "bhy" = (
@@ -16505,7 +16225,7 @@
 /turf/open/floor/grass,
 /area/lv624/lazarus/main_hall)
 "bhG" = (
-/obj/item/reagent_container/food/snacks/grown/banana,
+/obj/item/reagent_containers/food/snacks/grown/banana,
 /turf/open/floor/tile/barber,
 /area/lv624/lazarus/kitchen)
 "bhH" = (
@@ -16681,10 +16401,8 @@
 /turf/open/floor/grimy,
 /area/lv624/lazarus/captain)
 "biq" = (
-/obj/machinery/door/airlock/mainship/command{
-	locked = 1;
-	name = "\improper Nexus Dome Marshal's Quarter";
-	req_access_txt = "0"
+/obj/machinery/door/airlock/mainship/command/locked/free_access{
+	name = "\improper Nexus Dome Marshal's Quarter"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -16960,7 +16678,6 @@
 /area/lv624/lazarus/hop)
 "bjj" = (
 /obj/structure/bed/chair/wood/wings{
-	icon_state = "wooden_chair_wings";
 	dir = 4
 	},
 /turf/open/floor/wood,
@@ -17081,11 +16798,9 @@
 /area/lv624/lazarus/engineering)
 "bjI" = (
 /obj/structure/foamedmetal,
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Engineering Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Engineering Dome"
 	},
 /obj/structure/jungle/vines/heavy,
 /obj/structure/cable/yellow{
@@ -17147,9 +16862,8 @@
 /turf/open/floor/wood,
 /area/lv624/lazarus/hop)
 "bjQ" = (
-/obj/machinery/door/airlock/mainship/command{
-	name = "\improper Nexus Dome Command Quarter";
-	req_access_txt = "0"
+/obj/machinery/door/airlock/mainship/command/free_access{
+	name = "\improper Nexus Dome Command Quarter"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -17187,7 +16901,7 @@
 /area/lv624/lazarus/main_hall)
 "bjT" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/snacks/grilledcheese,
+/obj/item/reagent_containers/food/snacks/grilledcheese,
 /turf/open/floor/freezer,
 /area/lv624/lazarus/kitchen)
 "bjU" = (
@@ -17465,16 +17179,14 @@
 /area/lv624/lazarus/hop)
 "bkO" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/turf/open/floor{
-	dir = 1;
-	icon_state = "whitegreen"
+/turf/open/floor/tile/green/whitegreen{
+	dir = 1
 	},
 /area/lv624/lazarus/main_hall)
 "bkP" = (
 /obj/machinery/door/airlock/mainship/generic{
 	dir = 1;
-	name = "\improper Nexus Dome Freezer";
-	req_access_txt = "0"
+	name = "\improper Nexus Dome Freezer"
 	},
 /obj/structure/cable/yellow{
 	d1 = 1;
@@ -17495,8 +17207,8 @@
 /area/lv624/lazarus/canteen)
 "bkR" = (
 /obj/structure/table,
-/obj/item/reagent_container/food/condiment/saltshaker,
-/obj/item/reagent_container/food/condiment/peppermill{
+/obj/item/reagent_containers/food/condiment/saltshaker,
+/obj/item/reagent_containers/food/condiment/peppermill{
 	pixel_x = 4;
 	pixel_y = 4
 	},
@@ -17607,10 +17319,8 @@
 /turf/open/floor/plating,
 /area/lv624/lazarus/engineering)
 "blk" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Engineering Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Engineering Dome"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -17646,7 +17356,6 @@
 	icon_state = "0-2"
 	},
 /obj/machinery/power/terminal{
-	icon_state = "term";
 	dir = 1
 	},
 /turf/open/floor/plating/platebot,
@@ -17680,11 +17389,9 @@
 /turf/open/floor/grimy,
 /area/lv624/lazarus/hop)
 "bls" = (
-/obj/machinery/door/airlock/mainship/command{
+/obj/machinery/door/airlock/mainship/command/locked/free_access{
 	dir = 1;
-	locked = 1;
-	name = "\improper Nexus Dome Director's Quarter";
-	req_access_txt = "0"
+	name = "\improper Nexus Dome Director's Quarter"
 	},
 /turf/open/floor/plating,
 /area/lv624/lazarus/hop)
@@ -17793,10 +17500,8 @@
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/compound/sw)
 "blJ" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Communications Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Communications Dome"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -18434,7 +18139,7 @@
 /turf/open/floor/tile/white,
 /area/lv624/lazarus/main_hall)
 "bnA" = (
-/obj/item/reagent_container/food/snacks/grown/banana{
+/obj/item/reagent_containers/food/snacks/grown/banana{
 	pixel_x = -8
 	},
 /obj/structure/rack,
@@ -18581,10 +18286,8 @@
 /turf/open/floor/tile/dark,
 /area/lv624/lazarus/engineering)
 "bnW" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Engineering Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Engineering Dome"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
 	dir = 4
@@ -18691,6 +18394,7 @@
 	pixel_x = -28
 	},
 /obj/structure/jungle/vines,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/open/ground/grass,
 /area/lv624/ground/jungle3)
 "boo" = (
@@ -18732,7 +18436,6 @@
 /area/lv624/lazarus/secure_storage)
 "bot" = (
 /obj/structure/bed/chair/comfy{
-	icon_state = "comfychair";
 	dir = 4
 	},
 /turf/open/floor/tile/dark,
@@ -18744,7 +18447,6 @@
 /area/lv624/lazarus/secure_storage)
 "bov" = (
 /obj/structure/bed/chair/comfy{
-	icon_state = "comfychair";
 	dir = 8
 	},
 /turf/open/floor/tile/dark,
@@ -18765,7 +18467,7 @@
 /obj/structure/bed/chair/office/light{
 	dir = 1
 	},
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/brown{
 	dir = 9
 	},
@@ -18788,10 +18490,8 @@
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/lazarus/atmos/outside)
 "boC" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	name = "\improper Engineering Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+/obj/machinery/door/airlock/mainship/engineering/free_access{
+	name = "\improper Engineering Dome"
 	},
 /obj/structure/cable/yellow{
 	d1 = 4;
@@ -18999,6 +18699,7 @@
 	pixel_x = -28
 	},
 /obj/structure/jungle/vines/heavy,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
 /turf/open/ground/grass,
 /area/lv624/ground/jungle3)
 "bph" = (
@@ -19037,39 +18738,6 @@
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
-	},
-/turf/open/floor/tile/dark,
-/area/lv624/lazarus/secure_storage)
-"bpm" = (
-/obj/structure/bed/chair/comfy{
-	icon_state = "comfychair";
-	dir = 4
-	},
-/obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/turf/open/floor/tile/dark,
-/area/lv624/lazarus/secure_storage)
-"bpn" = (
-/obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
-	},
-/obj/structure/table/mainship,
-/turf/open/floor/tile/dark,
-/area/lv624/lazarus/secure_storage)
-"bpo" = (
-/obj/structure/bed/chair/comfy{
-	icon_state = "comfychair";
-	dir = 8
-	},
-/obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8"
 	},
 /turf/open/floor/tile/dark,
 /area/lv624/lazarus/secure_storage)
@@ -19221,11 +18889,9 @@
 	},
 /area/lv624/lazarus/engineering)
 "bpM" = (
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Engineering Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Engineering Dome"
 	},
 /turf/open/floor/tile/dark,
 /area/lv624/lazarus/engineering)
@@ -19473,11 +19139,9 @@
 /turf/open/ground/grass,
 /area/lv624/ground/jungle2)
 "bqP" = (
-/obj/machinery/door/airlock/mainship/engineering{
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	name = "\improper Communications Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Communications Dome"
 	},
 /turf/open/floor/tile/brown{
 	dir = 9
@@ -19502,7 +19166,7 @@
 /turf/open/floor/plating/platebot,
 /area/lv624/lazarus/engineering)
 "bqT" = (
-/obj/effect/landmark/start/surv_spawn,
+/obj/effect/landmark/start/job/survivor,
 /turf/open/floor/tile/dark,
 /area/lv624/lazarus/engineering)
 "bqU" = (
@@ -19903,6 +19567,12 @@
 	},
 /turf/open/ground/grass,
 /area/lv624/ground/jungle3)
+"bHr" = (
+/obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2{
+	dir = 1
+	},
+/turf/open/ground/grass,
+/area/lv624/ground/jungle9)
 "bHX" = (
 /obj/structure/jungle/vines/heavy,
 /turf/open/floor/plating/ground/dirtgrassborder2/corner{
@@ -19913,6 +19583,10 @@
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/open/floor/plating,
 /area/lv624/ground/sand5)
+"bOR" = (
+/obj/docking_port/stationary/crashmode,
+/turf/open/floor,
+/area/lv624/ground/river2)
 "bVE" = (
 /obj/structure/fence,
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2{
@@ -19922,12 +19596,10 @@
 	dir = 8
 	},
 /area/shuttle/drop2/lz2)
-"bXW" = (
+"cat" = (
 /obj/docking_port/stationary/crashmode,
-/turf/open/floor/tile/vault{
-	dir = 8
-	},
-/area/lv624/lazarus/robotics)
+/turf/closed/gm/dense,
+/area/lv624/ground/jungle7)
 "ciV" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2{
 	dir = 1
@@ -19963,6 +19635,11 @@
 	},
 /turf/open/floor/plating,
 /area/lv624/lazarus/quartstorage)
+"cTX" = (
+/obj/structure/jungle/vines/heavy,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/ground/grass,
+/area/lv624/ground/jungle3)
 "cYG" = (
 /obj/machinery/computer/nuke_disk_generator/blue,
 /turf/open/floor/wood,
@@ -19988,6 +19665,14 @@
 	dir = 4
 	},
 /area/shuttle/drop2/lz2)
+"dRM" = (
+/obj/docking_port/stationary/crashmode,
+/turf/closed/gm/dense,
+/area/lv624/ground/jungle9)
+"epV" = (
+/obj/docking_port/stationary/crashmode,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/sand2)
 "evP" = (
 /obj/structure/sign/atmosplaque{
 	dir = 1
@@ -20001,13 +19686,9 @@
 /turf/closed/mineral,
 /area/lv624/ground/sand4)
 "eLi" = (
-/obj/machinery/door/airlock/mainship/engineering{
-	density = 1;
+/obj/machinery/door/airlock/mainship/engineering/free_access{
 	dir = 1;
-	icon_state = "door_closed";
-	name = "\improper Storage Dome";
-	req_access_txt = "0";
-	req_one_access_txt = "0"
+	name = "\improper Storage Dome"
 	},
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone{
 	dir = 1
@@ -20032,14 +19713,26 @@
 	},
 /turf/open/ground/grass,
 /area/lv624/ground/jungle6)
+"fgu" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/wall/cult,
+/area/lv624/ground/caves/east1)
 "flw" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/mineral,
 /area/lv624/ground/caves/west1)
+"fvY" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/ground/grass,
+/area/lv624/ground/jungle3)
 "fwR" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/mineral,
 /area/lv624/ground/sand1)
+"fDX" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/caves/west1)
 "fHY" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/mineral,
@@ -20075,6 +19768,15 @@
 	dir = 5
 	},
 /area/lv624/lazarus/research)
+"gnh" = (
+/obj/machinery/miner/damaged,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/jungle6)
+"gwG" = (
+/obj/structure/jungle/vines,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/ground/grass,
+/area/lv624/ground/jungle3)
 "gyq" = (
 /obj/structure/window/framed/colony/reinforced,
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2{
@@ -20082,6 +19784,10 @@
 	},
 /turf/open/floor/plating,
 /area/lv624/lazarus/robotics)
+"gOx" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/wall/resin,
+/area/lv624/ground/caves/east2)
 "gWo" = (
 /obj/structure/fence,
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2{
@@ -20089,6 +19795,14 @@
 	},
 /turf/open/floor/plating/ground/dirt,
 /area/shuttle/drop2/lz2)
+"hzX" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/wall/cult,
+/area/lv624/ground/caves/west1)
+"hDA" = (
+/obj/docking_port/stationary/crashmode,
+/turf/closed/wall,
+/area/lv624/ground/river2)
 "hVU" = (
 /obj/structure/window/framed/colony,
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone{
@@ -20101,16 +19815,36 @@
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/caves/west1)
+"iEQ" = (
+/obj/docking_port/stationary/crashmode,
+/turf/open/floor/marking/bot,
+/area/shuttle/drop1/lz1)
+"iKI" = (
+/obj/machinery/miner/damaged,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/lazarus/quartstorage/outdoors)
 "iLV" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/wall/cult,
 /area/lv624/ground/sand4)
+"jeZ" = (
+/obj/docking_port/stationary/crashmode,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/sand3)
 "jgW" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone{
 	dir = 8
 	},
 /turf/closed/wall,
 /area/lv624/lazarus/main_hall)
+"jzY" = (
+/obj/docking_port/stationary/crashmode,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/sand4)
+"jAh" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/mineral,
+/area/lv624/ground/caves/east2)
 "jAE" = (
 /obj/structure/window/framed/colony/reinforced,
 /obj/machinery/door/poddoor/mainship{
@@ -20132,6 +19866,18 @@
 	},
 /turf/open/floor,
 /area/lv624/ground/compound/n)
+"jGu" = (
+/obj/structure/table,
+/obj/structure/cable/yellow{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/obj/docking_port/stationary/crashmode,
+/turf/open/floor/tile/purple/taupepurple{
+	dir = 9
+	},
+/area/lv624/lazarus/sleep_female)
 "jOz" = (
 /obj/structure/jungle/vines,
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2{
@@ -20139,6 +19885,18 @@
 	},
 /turf/closed/wall,
 /area/shuttle/drop2/lz2)
+"jUj" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/mineral,
+/area/lv624/ground/caves/west1)
+"jVV" = (
+/obj/docking_port/stationary/crashmode,
+/turf/open/ground/river,
+/area/lv624/ground/river2)
+"kir" = (
+/obj/docking_port/stationary/crashmode,
+/turf/closed/gm/dense,
+/area/lv624/ground/jungle6)
 "ktj" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/mineral,
@@ -20155,10 +19913,10 @@
 	dir = 8
 	},
 /area/lv624/ground/jungle6)
-"kUI" = (
-/obj/effect/landmark/nuke_spawn,
+"kPi" = (
+/obj/docking_port/stationary/crashmode,
 /turf/open/floor/plating/ground/dirt,
-/area/lv624/ground/caves/central2)
+/area/lv624/ground/sand5)
 "lda" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/mineral,
@@ -20169,12 +19927,20 @@
 	},
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/compound/n)
+"lgm" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/caves/east1)
 "lou" = (
 /obj/structure/sign/botany,
 /turf/open/floor/plating/ground/dirtgrassborder{
 	dir = 1
 	},
 /area/lv624/ground/jungle7)
+"lPP" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/mineral,
+/area/lv624/ground/caves/west2)
 "lXt" = (
 /obj/effect/landmark/xeno_silo_spawn,
 /turf/open/floor/plating/ground/dirt,
@@ -20201,6 +19967,14 @@
 	},
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/compound/n)
+"mrh" = (
+/obj/docking_port/stationary/crashmode,
+/turf/open/floor,
+/area/lv624/ground/sand2)
+"mvX" = (
+/obj/docking_port/stationary/crashmode,
+/turf/open/ground/grass,
+/area/lv624/ground/jungle7)
 "mGd" = (
 /obj/structure/jungle/vines,
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone{
@@ -20208,10 +19982,12 @@
 	},
 /turf/closed/wall/r_wall,
 /area/shuttle/drop1/lz1)
-"mOk" = (
-/obj/docking_port/stationary/crashmode,
-/turf/open/floor/plating/ground/dirt,
-/area/lv624/ground/compound/sw)
+"mGh" = (
+/obj/machinery/door/airlock/mainship/security/locked/free_access{
+	name = "\improper Nexus Dome Marshal Office"
+	},
+/turf/open/floor,
+/area/lv624/lazarus/security)
 "mWY" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/mineral,
@@ -20262,10 +20038,24 @@
 	},
 /turf/open/floor,
 /area/lv624/ground/compound/n)
+"oWX" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/wall/resin,
+/area/lv624/ground/caves/east1)
 "phD" = (
 /obj/effect/landmark/xeno_silo_spawn,
 /turf/open/floor/tile/whiteyellow/full,
 /area/lv624/ground/jungle3)
+"pkH" = (
+/obj/structure/mineral_door/resin,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/caves/east1)
+"pmS" = (
+/obj/effect/decal/cleanable/vomit,
+/obj/structure/window/framed/colony/reinforced,
+/turf/open/floor/tile/white,
+/area/lv624/lazarus/canteen)
 "prx" = (
 /obj/structure/flora/ausbushes/ppflowers,
 /obj/structure/sign/botany,
@@ -20280,11 +20070,28 @@
 	dir = 1
 	},
 /area/shuttle/drop2/lz2)
+"puV" = (
+/obj/structure/window/framed/colony,
+/obj/docking_port/stationary/crashmode,
+/turf/open/floor/plating,
+/area/lv624/lazarus/quartstorage)
 "pNb" = (
 /obj/structure/window/framed/colony/reinforced,
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2,
 /turf/open/floor/plating,
 /area/lv624/lazarus/robotics)
+"qGH" = (
+/obj/structure/flora/ausbushes/grassybush,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	d1 = 4;
+	d2 = 8;
+	icon_state = "4-8"
+	},
+/turf/open/floor/grass,
+/area/lv624/lazarus/main_hall)
 "qQj" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2,
 /turf/closed/wall,
@@ -20319,6 +20126,12 @@
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2,
 /turf/closed/wall/r_wall,
 /area/lv624/lazarus/internal_affairs)
+"rtr" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/dirtgrassborder/corner{
+	dir = 8
+	},
+/area/lv624/ground/jungle3)
 "rxi" = (
 /obj/machinery/door/poddoor/mainship{
 	dir = 1;
@@ -20335,10 +20148,18 @@
 	},
 /turf/open/floor/plating,
 /area/lv624/lazarus/internal_affairs)
+"rDw" = (
+/obj/docking_port/stationary/crashmode,
+/turf/closed/wall,
+/area/lv624/ground/river3)
 "rOf" = (
 /obj/docking_port/stationary/crashmode,
 /turf/open/floor/plating/platebotc,
 /area/lv624/lazarus/quartstorage/outdoors)
+"six" = (
+/obj/machinery/miner/damaged/platinum,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/caves/central1)
 "sGt" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone{
 	dir = 8
@@ -20346,7 +20167,7 @@
 /turf/closed/wall/r_wall,
 /area/lv624/lazarus/main_hall)
 "sUi" = (
-/obj/item/reagent_container/food/snacks/worm,
+/obj/item/reagent_containers/food/snacks/worm,
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/jungle7)
 "sWZ" = (
@@ -20364,6 +20185,33 @@
 	},
 /turf/open/floor/plating/ground/dirt,
 /area/shuttle/drop2/lz2)
+"teE" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/caves/east2)
+"tAN" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/caves/west2)
+"tTs" = (
+/obj/effect/landmark/lv624/fog_blocker,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/mineral,
+/area/lv624/ground/caves/east1)
+"tUO" = (
+/obj/docking_port/stationary/crashmode,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/caves/west1)
+"tWO" = (
+/obj/structure/mineral_door/resin,
+/obj/effect/alien/weeds/node,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/caves/west1)
+"ugM" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/dirtgrassborder/corner,
+/area/lv624/ground/jungle3)
 "usu" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2{
 	dir = 1
@@ -20376,25 +20224,49 @@
 	},
 /turf/closed/wall,
 /area/lv624/lazarus/quartstorage)
-"uCp" = (
-/obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+"uNG" = (
+/obj/structure/jungle/plantbot1/alien,
 /obj/docking_port/stationary/crashmode,
-/turf/open/floor/tile/barber,
-/area/lv624/lazarus/fitness)
+/turf/open/ground/river,
+/area/lv624/ground/river1)
+"uVd" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/dirtgrassborder{
+	dir = 4
+	},
+/area/lv624/ground/jungle3)
+"uYP" = (
+/obj/effect/spawner/random/toolbox,
+/obj/structure/rack,
+/turf/open/floor/tile/whiteyellow/full,
+/area/lv624/lazarus/quart)
+"veV" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/gm/dense,
+/area/lv624/ground/jungle3)
 "vkR" = (
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/caves/west1)
+"vof" = (
+/obj/structure/jungle/vines/heavy{
+	pixel_x = -28
+	},
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/ground/grass,
+/area/lv624/ground/jungle3)
 "vrA" = (
 /obj/structure/mineral_door/resin,
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/open/floor/plating/ground/dirt,
 /area/lv624/ground/sand4)
+"vuY" = (
+/obj/structure/jungle/vines,
+/obj/docking_port/stationary/crashmode,
+/turf/open/floor/plating/ground/dirtgrassborder{
+	dir = 4
+	},
+/area/shuttle/drop1/lz1)
 "vzU" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone{
 	dir = 2
@@ -20407,6 +20279,16 @@
 	},
 /turf/closed/wall/r_wall,
 /area/lv624/lazarus/internal_affairs)
+"vJf" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/docking_port/stationary/crashmode,
+/turf/open/floor,
+/area/lv624/ground/sand8)
+"vLs" = (
+/obj/structure/mineral_door/resin,
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/open/floor/plating/ground/dirt,
+/area/lv624/ground/caves/west1)
 "vTe" = (
 /obj/structure/flora/ausbushes/fullgrass,
 /obj/structure/sign/botany{
@@ -20430,6 +20312,10 @@
 /obj/effect/landmark/lv624/fog_blocker,
 /turf/closed/wall/cult,
 /area/lv624/ground/caves/central3)
+"xib" = (
+/obj/effect/landmark/lv624/fog_blocker/xeno_spawn,
+/turf/closed/mineral,
+/area/lv624/ground/caves/east1)
 "xsY" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone,
 /turf/closed/wall,
@@ -20449,6 +20335,15 @@
 	},
 /turf/open/ground/grass,
 /area/lv624/ground/jungle6)
+"xUE" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/structure/cable/yellow{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2"
+	},
+/turf/open/floor/tile/bar,
+/area/lv624/lazarus/canteen)
 "ybc" = (
 /obj/machinery/door/poddoor/timed_late/containment/landing_zone/lz2{
 	dir = 2
@@ -20860,6 +20755,7 @@ abb
 abb
 abb
 abb
+jUj
 abb
 abb
 abb
@@ -20876,8 +20772,7 @@ abb
 abb
 abb
 abb
-abb
-abb
+jUj
 abb
 abb
 abb
@@ -20956,7 +20851,7 @@ bcg
 bcg
 bcg
 bcg
-bcg
+veV
 bcg
 bcg
 bcg
@@ -21117,6 +21012,7 @@ abb
 abb
 abb
 abb
+jUj
 abb
 abb
 abb
@@ -21133,8 +21029,7 @@ abb
 abb
 abb
 abb
-abb
-abb
+jUj
 abb
 abb
 abb
@@ -21213,7 +21108,7 @@ bch
 bch
 bcg
 bcg
-bcg
+veV
 bcg
 bch
 bch
@@ -21374,6 +21269,7 @@ abb
 abb
 abb
 abb
+jUj
 abb
 abb
 abb
@@ -21390,8 +21286,7 @@ abb
 abb
 abb
 abb
-abb
-abb
+jUj
 abb
 abb
 abb
@@ -21470,7 +21365,7 @@ bch
 bch
 bch
 bck
-bch
+fvY
 beh
 beh
 bch
@@ -21631,6 +21526,7 @@ abb
 abb
 abb
 abb
+jUj
 abb
 abb
 abb
@@ -21647,8 +21543,7 @@ abb
 abb
 abb
 abb
-abb
-abb
+jUj
 abb
 abb
 abb
@@ -21727,7 +21622,7 @@ bcg
 bch
 bch
 bch
-bcg
+veV
 bnC
 bnC
 bmz
@@ -21888,6 +21783,7 @@ abb
 abb
 abb
 abb
+jUj
 abb
 abb
 abb
@@ -21904,8 +21800,7 @@ abb
 abb
 abb
 abb
-abb
-abb
+jUj
 abb
 abb
 abb
@@ -21984,7 +21879,7 @@ bch
 bch
 bch
 bch
-bcg
+veV
 bnC
 boi
 bnE
@@ -22145,6 +22040,7 @@ abb
 abb
 abb
 abb
+jUj
 abb
 abb
 abb
@@ -22161,8 +22057,7 @@ abb
 abb
 abb
 abb
-abb
-abb
+jUj
 abb
 abb
 abb
@@ -22241,7 +22136,7 @@ bcg
 bch
 bch
 bcg
-bcg
+veV
 bnC
 boj
 bnE
@@ -22402,24 +22297,24 @@ abb
 abb
 abb
 abb
+jUj
+abb
+abb
+abk
+abk
+abk
+abk
+abk
+abk
+abk
+abk
+abk
+abk
+abk
 abb
 abb
 abb
-abk
-abk
-abk
-abk
-abk
-abk
-abk
-abk
-abk
-abk
-abk
-abb
-abb
-abb
-abb
+jUj
 abb
 abb
 abb
@@ -22498,7 +22393,7 @@ bcg
 bcg
 bcg
 bcg
-bcg
+veV
 bnC
 bok
 bpe
@@ -22659,8 +22554,8 @@ abb
 abb
 abb
 abb
+jUj
 abb
-abb
 abk
 adp
 adp
@@ -22676,7 +22571,7 @@ abk
 abk
 abk
 abk
-abb
+jUj
 abb
 abc
 abc
@@ -22755,7 +22650,7 @@ bch
 bch
 bch
 bch
-bck
+gwG
 bnD
 boj
 bpe
@@ -22916,7 +22811,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abk
 adp
 adp
@@ -22933,7 +22828,7 @@ adp
 adp
 adp
 abk
-abc
+fDX
 abc
 abc
 abc
@@ -23012,7 +22907,7 @@ bch
 bch
 bch
 bch
-bch
+fvY
 bnD
 bol
 bpf
@@ -23173,7 +23068,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abk
 adp
 adp
@@ -23190,7 +23085,7 @@ adp
 adp
 adp
 abk
-abc
+fDX
 abc
 abc
 abc
@@ -23269,7 +23164,7 @@ bhR
 bch
 bch
 bch
-bcg
+veV
 bnC
 boj
 bpe
@@ -23430,7 +23325,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abk
 adp
 adz
@@ -23447,7 +23342,7 @@ adp
 adI
 adp
 abk
-abc
+fDX
 abc
 abc
 abc
@@ -23526,7 +23421,7 @@ bch
 bch
 bch
 bcg
-bcg
+veV
 bnC
 bol
 bpe
@@ -23687,7 +23582,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abu
 abk
 adp
@@ -23704,7 +23599,7 @@ adp
 adp
 adp
 abk
-abc
+fDX
 abc
 abc
 abc
@@ -23783,7 +23678,7 @@ bch
 bch
 bch
 bch
-bck
+gwG
 bnC
 boj
 bpe
@@ -23944,7 +23839,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abu
 abu
 abk
@@ -23961,7 +23856,7 @@ adp
 adp
 adp
 abk
-abc
+fDX
 abd
 abc
 abc
@@ -24040,7 +23935,7 @@ bch
 bcg
 bch
 bch
-beh
+cTX
 bnC
 bom
 bol
@@ -24201,9 +24096,9 @@ abb
 abb
 abb
 abb
+jUj
 abb
 abb
-abb
 abc
 abc
 abc
@@ -24218,7 +24113,7 @@ abk
 abk
 abk
 abk
-abc
+fDX
 abc
 abc
 abc
@@ -24297,7 +24192,7 @@ bcg
 bcg
 bch
 bch
-bcg
+veV
 bnC
 bnC
 bnC
@@ -24458,9 +24353,9 @@ abb
 abb
 abb
 abb
+jUj
 abb
 abb
-abb
 abc
 abc
 abc
@@ -24475,7 +24370,7 @@ abc
 abc
 abc
 abc
-abc
+fDX
 abc
 abc
 abc
@@ -24554,18 +24449,18 @@ bcg
 bcg
 bcg
 bcg
-bcg
-bcg
+veV
+veV
 bon
 bpg
-bpY
+vof
 bon
-bfL
-bmz
-beY
-bch
-bck
-bcg
+ugM
+uVd
+rtr
+fvY
+gwG
+veV
 aab
 "}
 (17,1,1) = {"
@@ -24715,7 +24610,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abb
 abb
 abk
@@ -24732,7 +24627,7 @@ abc
 abc
 abc
 abc
-abc
+fDX
 abc
 abc
 abc
@@ -24972,7 +24867,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abb
 abb
 abc
@@ -24989,7 +24884,7 @@ abc
 abc
 abd
 abc
-abc
+fDX
 abc
 abc
 abc
@@ -25229,7 +25124,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abb
 abb
 abc
@@ -25246,7 +25141,7 @@ aci
 ahr
 aci
 abc
-abc
+fDX
 abc
 abc
 abc
@@ -25375,29 +25270,29 @@ aaa
 aaa
 aaa
 aab
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
 aac
 aac
 aac
@@ -25486,7 +25381,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abb
 abb
 abb
@@ -25503,7 +25398,7 @@ ahr
 acl
 ahr
 aci
-abc
+fDX
 abc
 abc
 abc
@@ -25654,7 +25549,7 @@ aac
 aac
 aac
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -25743,7 +25638,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abb
 abb
 abb
@@ -25760,7 +25655,7 @@ acl
 aci
 acl
 ahr
-abc
+fDX
 abc
 abd
 abc
@@ -25911,7 +25806,7 @@ aah
 aac
 aac
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -26000,7 +25895,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abb
 abb
 abb
@@ -26017,7 +25912,7 @@ ahr
 acl
 ahr
 aci
-abc
+fDX
 abc
 abc
 abc
@@ -26168,7 +26063,7 @@ aah
 aah
 aac
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -26257,7 +26152,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abb
 abb
 abc
@@ -26274,7 +26169,7 @@ aci
 ahr
 aci
 abc
-abc
+fDX
 abc
 abc
 abc
@@ -26425,7 +26320,7 @@ aah
 aah
 aah
 aah
-aac
+lPP
 aac
 aah
 aah
@@ -26514,7 +26409,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abb
 abc
 abc
@@ -26531,7 +26426,7 @@ abc
 abc
 abc
 abc
-abc
+fDX
 abc
 abb
 abc
@@ -26682,7 +26577,7 @@ aah
 aah
 aah
 aah
-aah
+tAN
 aah
 aah
 aah
@@ -26771,8 +26666,8 @@ abb
 abb
 abb
 abb
+jUj
 abb
-abb
 abc
 abc
 abc
@@ -26788,7 +26683,7 @@ abc
 abc
 abc
 abc
-abb
+jUj
 abb
 abb
 abb
@@ -26939,7 +26834,7 @@ aah
 aah
 aah
 aah
-aah
+tAN
 aah
 aah
 aaN
@@ -27028,7 +26923,7 @@ abb
 abb
 abb
 abb
-abb
+jUj
 abb
 abc
 abc
@@ -27045,7 +26940,7 @@ abc
 abc
 abc
 abc
-abb
+jUj
 abb
 abk
 abk
@@ -27196,7 +27091,7 @@ aah
 aah
 aah
 aah
-aah
+tAN
 aah
 aah
 aah
@@ -27285,24 +27180,24 @@ abb
 abb
 abb
 abb
-abb
-abb
-abb
-abb
-abb
-abb
-abc
-abc
-abc
-abc
-abc
-abc
-abc
-abc
-abb
-abb
-abb
-abb
+jUj
+jUj
+jUj
+jUj
+jUj
+jUj
+fDX
+fDX
+fDX
+fDX
+fDX
+fDX
+fDX
+fDX
+jUj
+jUj
+jUj
+jUj
 abb
 abk
 abc
@@ -27335,7 +27230,7 @@ avO
 auH
 avd
 auJ
-axQ
+kir
 axQ
 axQ
 axQ
@@ -27453,7 +27348,7 @@ aah
 aah
 aah
 aah
-aah
+tAN
 aah
 aah
 aah
@@ -27710,7 +27605,7 @@ aah
 aah
 aah
 aah
-aah
+tAN
 aah
 aah
 aah
@@ -27967,7 +27862,7 @@ aac
 aac
 aac
 aac
-aac
+lPP
 aac
 aah
 aah
@@ -28224,7 +28119,7 @@ aac
 aac
 aac
 aac
-aac
+lPP
 aac
 aac
 aah
@@ -28264,15 +28159,15 @@ abc
 abc
 abc
 abc
-abb
-abk
-abk
-abk
-abk
-abb
-abb
-abb
-abb
+jUj
+hzX
+hzX
+hzX
+hzX
+jUj
+jUj
+jUj
+jUj
 abb
 abb
 abb
@@ -28481,10 +28376,10 @@ aac
 aac
 aac
 aac
+lPP
 aac
 aac
 aac
-aac
 aah
 aah
 aah
@@ -28521,7 +28416,7 @@ abc
 abc
 abc
 abc
-ahr
+vLs
 abc
 abc
 abc
@@ -28529,7 +28424,7 @@ abk
 abk
 abb
 abb
-abb
+jUj
 abb
 abb
 abb
@@ -28738,7 +28633,7 @@ aac
 aac
 aac
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -28778,7 +28673,7 @@ abc
 abc
 abc
 abc
-ahr
+vLs
 abc
 abc
 abc
@@ -28786,7 +28681,7 @@ abc
 abk
 abk
 abb
-abb
+jUj
 abb
 abb
 abb
@@ -28995,7 +28890,7 @@ aac
 aac
 aac
 aac
-aac
+lPP
 aac
 aac
 aaX
@@ -29035,7 +28930,7 @@ abd
 abc
 abc
 abc
-acu
+tWO
 abc
 abc
 abc
@@ -29043,7 +28938,7 @@ abd
 abc
 abk
 abk
-abb
+jUj
 abb
 abb
 abb
@@ -29252,7 +29147,7 @@ aac
 aac
 aac
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -29292,7 +29187,7 @@ abc
 abc
 abc
 abc
-abk
+hzX
 abc
 abc
 abc
@@ -29300,7 +29195,7 @@ abc
 abc
 abc
 abk
-abb
+jUj
 abb
 abb
 abb
@@ -29509,7 +29404,7 @@ aac
 aac
 aac
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -29549,7 +29444,7 @@ abc
 abc
 abc
 abb
-abk
+hzX
 abc
 abc
 abc
@@ -29557,7 +29452,7 @@ abc
 abc
 abc
 abk
-abb
+jUj
 abb
 abb
 abb
@@ -29656,7 +29551,7 @@ axx
 aIZ
 aBP
 aKK
-aCr
+gnh
 aEa
 auU
 aNR
@@ -29760,13 +29655,13 @@ aac
 aac
 aac
 aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
 aac
 aac
 aac
@@ -29806,7 +29701,7 @@ abc
 abc
 abb
 abb
-abk
+hzX
 abd
 abc
 abc
@@ -29814,7 +29709,7 @@ xLJ
 abc
 abc
 abk
-abb
+jUj
 abb
 abb
 abb
@@ -29954,7 +29849,7 @@ bmw
 bna
 bnJ
 bot
-bpm
+bpp
 bot
 bnJ
 bro
@@ -30017,7 +29912,7 @@ aac
 aac
 aac
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -30063,7 +29958,7 @@ abu
 abc
 abb
 abb
-abk
+hzX
 abc
 abc
 abc
@@ -30071,7 +29966,7 @@ abc
 abc
 abc
 abk
-abb
+jUj
 abb
 abb
 abb
@@ -30211,7 +30106,7 @@ bmw
 bnb
 bnJ
 bou
-bpn
+abC
 bou
 bnJ
 brp
@@ -30274,7 +30169,7 @@ aac
 aac
 aac
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -30320,7 +30215,7 @@ abc
 abc
 abc
 abb
-abk
+hzX
 abc
 abc
 abc
@@ -30328,7 +30223,7 @@ abc
 abc
 abc
 abk
-abb
+jUj
 abb
 abb
 abb
@@ -30468,7 +30363,7 @@ bmw
 bnc
 bnJ
 bov
-bpo
+bpp
 bov
 bnJ
 brq
@@ -30531,7 +30426,7 @@ aac
 aac
 aac
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -30577,7 +30472,7 @@ abc
 abc
 abc
 abb
-abk
+hzX
 abc
 abc
 abc
@@ -30585,7 +30480,7 @@ abc
 abc
 abk
 abk
-abb
+jUj
 abb
 abb
 abb
@@ -30788,7 +30683,7 @@ aah
 aac
 aac
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -30834,15 +30729,15 @@ abc
 abc
 abc
 abc
-abk
-abk
+hzX
+hzX
 abc
 abc
 abd
 abc
 abk
 abb
-abb
+jUj
 abb
 abb
 abb
@@ -30938,7 +30833,7 @@ axQ
 axQ
 axQ
 axQ
-axQ
+kir
 axQ
 axQ
 auJ
@@ -31045,7 +30940,7 @@ aah
 aah
 aac
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -31092,14 +30987,14 @@ abc
 abc
 abc
 aci
-abk
-abk
+hzX
+hzX
 abc
 abc
 abk
 abk
 abb
-abb
+jUj
 abb
 abb
 abb
@@ -31302,7 +31197,7 @@ aah
 aah
 aah
 aac
-aac
+lPP
 aac
 aac
 aac
@@ -31350,13 +31245,13 @@ abd
 abc
 aci
 aci
-abk
-abk
-abk
-abk
-abb
-abb
-abb
+hzX
+hzX
+hzX
+hzX
+jUj
+jUj
+jUj
 abb
 abb
 abb
@@ -31559,7 +31454,7 @@ aah
 aah
 aah
 aah
-aac
+lPP
 aac
 aac
 aac
@@ -31715,7 +31610,7 @@ avd
 avd
 axb
 eXq
-aES
+bHr
 aES
 aES
 aFD
@@ -31816,7 +31711,7 @@ aah
 aah
 aah
 aah
-aac
+lPP
 aac
 aac
 aac
@@ -32073,7 +31968,7 @@ aah
 aah
 aah
 aah
-aac
+lPP
 aac
 aac
 aah
@@ -32330,7 +32225,7 @@ aah
 aah
 aah
 aah
-aah
+tAN
 aah
 aah
 aah
@@ -32587,7 +32482,7 @@ aac
 aah
 aah
 aah
-aah
+tAN
 aah
 aah
 aah
@@ -32844,7 +32739,7 @@ aac
 aac
 aah
 aah
-aah
+tAN
 aah
 aah
 aah
@@ -33019,7 +32914,7 @@ qYr
 aZc
 aZP
 baE
-bbm
+bbn
 bbG
 bct
 aZR
@@ -33101,7 +32996,7 @@ aac
 aac
 aac
 aac
-aah
+tAN
 aah
 aah
 aah
@@ -33342,23 +33237,23 @@ aaa
 aaa
 aaa
 aab
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
-aac
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
+lPP
 aah
 aah
 aah
@@ -33436,7 +33331,7 @@ abc
 abc
 abc
 abc
-abc
+tUO
 abc
 abc
 abc
@@ -33739,7 +33634,7 @@ aqD
 aqD
 aqD
 auZ
-atA
+uNG
 are
 are
 atz
@@ -33766,7 +33661,7 @@ avd
 aHK
 aIq
 aJe
-bXW
+aJe
 aJe
 aJe
 aJe
@@ -33971,7 +33866,7 @@ abc
 iuG
 aht
 ahu
-aht
+jzY
 aht
 aht
 aht
@@ -34288,7 +34183,7 @@ aNg
 aJY
 aHI
 aHI
-aQO
+aJX
 aHI
 aHI
 aHI
@@ -38350,7 +38245,7 @@ amT
 alm
 alm
 ajj
-ajj
+bOR
 ajS
 apQ
 amw
@@ -39707,7 +39602,7 @@ aZl
 aZl
 aZl
 aZl
-mOk
+aZl
 bgJ
 bnN
 bnN
@@ -40935,7 +40830,7 @@ arW
 atI
 auK
 arW
-arW
+mvX
 avV
 awn
 awn
@@ -40989,9 +40884,9 @@ baK
 aZr
 aZr
 bie
-bdG
+aZv
 bep
-bdG
+aZv
 bie
 aZr
 bgI
@@ -41318,7 +41213,7 @@ aai
 aaf
 aal
 aao
-kUI
+aao
 aao
 aao
 aao
@@ -41412,7 +41307,7 @@ afR
 aen
 agv
 agv
-agv
+epV
 agv
 agv
 agv
@@ -43488,7 +43383,7 @@ akH
 aln
 amX
 anw
-anw
+vJf
 aoF
 apg
 apC
@@ -44556,7 +44451,7 @@ aAc
 aFy
 aGi
 aGJ
-uCp
+aGJ
 aGJ
 aGJ
 aGJ
@@ -46128,10 +46023,10 @@ bah
 aNB
 aNB
 aNB
-bbV
-bbV
-bbV
-bbV
+bbW
+bbW
+bbW
+bbW
 bet
 aFB
 aFB
@@ -46385,12 +46280,12 @@ aRd
 aNC
 aNz
 aNz
-bbV
+bbW
 bdK
 bdM
-bbV
+bbW
 bge
-bbV
+bbW
 aFB
 aFB
 aFB
@@ -46641,13 +46536,13 @@ aNB
 aRd
 aNB
 bbw
-bbV
-bbV
+bbW
+bbW
 bdL
 bdM
 beu
 beu
-bbV
+bbW
 bhs
 bhs
 aFB
@@ -46898,13 +46793,13 @@ aNz
 aRd
 aNz
 aNz
-bbV
+bbW
 bcL
 bdM
 bdM
 bdM
 bdM
-bbV
+bbW
 bht
 bhs
 bjc
@@ -47088,7 +46983,7 @@ amU
 ajR
 akq
 aoz
-ajz
+jVV
 amw
 ajz
 ajz
@@ -47155,13 +47050,13 @@ aNz
 aRd
 aNz
 aNz
-bbV
+bbW
 bcM
 bdN
 bev
 bfo
-aiP
-bbV
+bdM
+bbW
 bhu
 bim
 bhs
@@ -47412,13 +47307,13 @@ aZz
 bai
 baZ
 aNz
-bbV
-bbV
-bbV
-bbV
-bbV
+bbW
+bbW
+bbW
+bbW
+bbW
 ayC
-bbV
+bbW
 azh
 bin
 aiS
@@ -47674,7 +47569,7 @@ bcN
 bdO
 bew
 bfp
-ayD
+bew
 bbW
 bhw
 bio
@@ -47931,7 +47826,7 @@ bcO
 bdP
 bdP
 bfq
-ayE
+bdP
 bbW
 bhx
 bip
@@ -48188,7 +48083,7 @@ bbX
 bbX
 bbX
 bbX
-beC
+mGh
 bbW
 bhs
 biq
@@ -48410,7 +48305,7 @@ aEy
 aEW
 aFG
 aGn
-aFB
+dRM
 aFB
 aFB
 aGo
@@ -48841,7 +48736,7 @@ abe
 abe
 abe
 mWY
-abf
+six
 acS
 acS
 acS
@@ -48864,7 +48759,7 @@ adR
 adR
 adR
 agy
-agy
+mrh
 agy
 agy
 aho
@@ -48958,7 +48853,7 @@ bbX
 bfs
 bdS
 bey
-axJ
+bdR
 ayW
 bbW
 bhA
@@ -49215,7 +49110,7 @@ bbX
 bcS
 bdT
 bez
-axK
+bdR
 bgl
 bbW
 bhB
@@ -49472,7 +49367,7 @@ bbW
 bbX
 bbW
 aiO
-axK
+bdR
 bgM
 bbW
 bhC
@@ -49881,7 +49776,7 @@ aen
 aen
 aen
 aen
-aen
+kPi
 aen
 afu
 aen
@@ -51726,7 +51621,7 @@ arW
 asW
 arW
 atl
-atl
+cat
 atl
 atl
 auL
@@ -52740,7 +52635,7 @@ amg
 amH
 ane
 aei
-alS
+hDA
 ajz
 akp
 ajz
@@ -53306,7 +53201,7 @@ aNG
 aMH
 aPs
 aQs
-aRi
+jGu
 aPr
 aSt
 aTh
@@ -54054,6 +53949,7 @@ arW
 azK
 aAk
 aAk
+iKI
 aAk
 aAk
 aAk
@@ -54061,43 +53957,42 @@ aAk
 aAk
 aAk
 aAk
-aAk
-aCF
+aCG
 aCG
 aCG
 aHv
 aIN
 aIN
+aHZ
 aJF
 aHZ
 aJF
 aJF
-aHZ
 aHZ
 aMH
 aPu
 aPr
 afN
-aRK
+aPr
 aSu
 aTj
 aTM
 aUt
 aVe
 aVH
-aWn
+uYP
 aVH
 aVH
 aTL
 aYO
 aZA
-bal
+qGH
 bba
-bbD
-bcd
+aNz
+pmS
 bdd
 bea
-bdc
+xUE
 bdc
 bdc
 bdc
@@ -54106,8 +54001,9 @@ biB
 bdb
 bjZ
 bjZ
+bdb
 bec
-bec
+bhe
 bdh
 bdk
 bdk
@@ -54116,7 +54012,6 @@ bdk
 bhe
 bdi
 bdi
-bdk
 bdk
 bdk
 bdk
@@ -54318,8 +54213,8 @@ aCb
 aCb
 aAk
 aAk
-aAk
-aCF
+aCG
+aCG
 aCG
 aCG
 azJ
@@ -54574,9 +54469,9 @@ aCb
 aCa
 aAk
 aAk
-aAk
-aAk
-aCF
+aCG
+aCG
+aCG
 aCG
 aGO
 aCG
@@ -54830,10 +54725,10 @@ aAk
 aCb
 aCa
 aDf
-aAk
-aAk
-aAk
-aCF
+aCG
+aCG
+aCG
+aCG
 aCG
 aGP
 aCG
@@ -55087,10 +54982,10 @@ aCa
 aCa
 aCb
 aAk
-aCF
-aCF
+aCG
+aCG
 aDg
-aCF
+aCG
 aCG
 aGQ
 aCH
@@ -55344,7 +55239,7 @@ aCb
 aCb
 aDf
 aAk
-aCF
+aCG
 aCG
 aCG
 aCG
@@ -55601,7 +55496,7 @@ aCa
 aAk
 aAk
 aAk
-aCF
+aCG
 aCG
 aCG
 aCG
@@ -55854,11 +55749,11 @@ azK
 aAm
 aAk
 aAk
-aCc
-aCF
+aCH
+aCG
 aDg
-aCF
-aCF
+aCG
+aCG
 aCG
 aCG
 aCG
@@ -55899,7 +55794,7 @@ eNq
 beQ
 mGd
 bgw
-bgw
+vuY
 bgw
 biF
 bju
@@ -56853,7 +56748,7 @@ amK
 ani
 anQ
 aol
-aoS
+rDw
 aoS
 aoS
 aoS
@@ -57607,7 +57502,7 @@ aft
 afA
 ahh
 ahh
-ahh
+jeZ
 ahh
 ahh
 ahf
@@ -57692,7 +57587,7 @@ aYi
 aWs
 aYi
 aWs
-aYi
+iEQ
 aWs
 aSB
 aWs
@@ -58438,7 +58333,7 @@ aEk
 aEk
 aDL
 aEj
-aEj
+puV
 aEj
 aDL
 aAn
@@ -58785,29 +58680,29 @@ aaa
 aaa
 aaa
 aab
-aae
-aae
-aae
-aae
-aae
-aae
-aae
-aae
-aae
-aas
-aas
-aas
-aas
-aas
-aas
-aas
-aas
-aas
-aae
-aae
-aae
-aae
-aaq
+jAh
+jAh
+jAh
+jAh
+jAh
+jAh
+jAh
+jAh
+jAh
+teE
+teE
+teE
+teE
+teE
+teE
+teE
+teE
+teE
+jAh
+jAh
+jAh
+jAh
+gOx
 aas
 aas
 aas
@@ -59064,7 +58959,7 @@ aae
 aae
 aae
 aae
-aaq
+gOx
 aas
 aas
 aas
@@ -59321,7 +59216,7 @@ aae
 aae
 aae
 aaq
-aas
+teE
 aas
 aas
 aas
@@ -59578,7 +59473,7 @@ aas
 aas
 aas
 aas
-aas
+teE
 aas
 aas
 aas
@@ -59835,7 +59730,7 @@ aas
 aas
 aas
 aas
-aas
+teE
 aas
 aas
 aas
@@ -60092,7 +59987,7 @@ aas
 aas
 aas
 aas
-aas
+teE
 aas
 aas
 aas
@@ -60116,14 +60011,14 @@ aae
 aae
 abg
 abg
-abg
-abg
-abg
-abg
-abg
-abi
-abi
-abi
+xib
+xib
+xib
+xib
+xib
+lgm
+lgm
+lgm
 abo
 abi
 abi
@@ -60349,7 +60244,7 @@ aas
 aas
 aas
 aas
-aas
+teE
 aas
 aas
 aas
@@ -60373,14 +60268,14 @@ aae
 aae
 abg
 abg
-abg
+xib
 abg
 abg
 abg
 abi
 abi
 abi
-abi
+lgm
 abi
 abi
 abi
@@ -60606,7 +60501,7 @@ aas
 aas
 aau
 aas
-aas
+teE
 aas
 aau
 aas
@@ -60630,14 +60525,14 @@ aae
 aae
 abg
 abg
-abg
+xib
 abg
 abg
 abp
 abr
 abp
 abi
-abi
+lgm
 abi
 abi
 abi
@@ -60663,18 +60558,18 @@ abg
 abg
 abg
 abg
-abg
-abg
-abg
-abG
-abG
-abG
-abG
-abi
-abi
-abg
-abg
-ohY
+xib
+xib
+xib
+pkH
+pkH
+pkH
+pkH
+lgm
+lgm
+xib
+xib
+tTs
 abg
 aft
 aft
@@ -60863,7 +60758,7 @@ aas
 aas
 aas
 aas
-aas
+teE
 aas
 aas
 aas
@@ -60887,14 +60782,14 @@ aae
 aae
 abg
 abg
-abg
+xib
 abg
 abp
 abr
 abr
 abr
 abp
-abi
+lgm
 abi
 abi
 abi
@@ -60920,10 +60815,10 @@ abg
 abg
 abg
 abg
+xib
 abg
 abg
 abg
-abg
 abi
 abi
 abi
@@ -60931,7 +60826,7 @@ abi
 abi
 abi
 abg
-ohY
+tTs
 abg
 aft
 aft
@@ -61120,7 +61015,7 @@ aas
 aas
 aas
 aas
-aas
+teE
 aas
 aas
 aas
@@ -61144,14 +61039,14 @@ aae
 aae
 abg
 abg
-abg
+xib
 abp
 abr
 abt
 abr
 wDI
 abr
-abp
+fgu
 abi
 abo
 abi
@@ -61177,7 +61072,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 abg
 abg
 abq
@@ -61188,7 +61083,7 @@ abi
 abo
 abi
 abg
-ohY
+tTs
 abg
 aft
 aft
@@ -61377,7 +61272,7 @@ aas
 aas
 aau
 aas
-aas
+teE
 aas
 aas
 aas
@@ -61401,14 +61296,14 @@ aae
 aae
 abg
 abg
-abg
+xib
 abp
 abr
 abr
 abw
 abr
 abr
-abp
+fgu
 abi
 abi
 abi
@@ -61434,7 +61329,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 abg
 abg
 abq
@@ -61445,7 +61340,7 @@ abi
 abi
 abi
 abg
-ohY
+tTs
 abg
 aft
 aft
@@ -61634,7 +61529,7 @@ aas
 aas
 aas
 aas
-aas
+teE
 aas
 aas
 aas
@@ -61658,14 +61553,14 @@ aae
 aae
 abg
 abg
-abg
+xib
 abp
 abr
 abr
 abt
 abr
 abr
-abp
+fgu
 abi
 abi
 abi
@@ -61691,7 +61586,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 abg
 abq
 abz
@@ -61702,7 +61597,7 @@ abi
 abi
 abG
 abz
-ohY
+tTs
 abg
 aft
 aft
@@ -61891,7 +61786,7 @@ aas
 aas
 aas
 aas
-aas
+teE
 aas
 aas
 aau
@@ -61915,14 +61810,14 @@ aae
 aae
 abg
 abg
-abg
+xib
 abq
 abp
 abr
 abr
 abr
 abp
-abq
+oWX
 abi
 abi
 abi
@@ -61948,7 +61843,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 abg
 abq
 abG
@@ -61959,7 +61854,7 @@ abi
 abi
 abi
 abG
-ohY
+tTs
 abg
 abg
 acI
@@ -62148,7 +62043,7 @@ aae
 aas
 aas
 aas
-aas
+teE
 aas
 aas
 aas
@@ -62172,14 +62067,14 @@ aae
 aae
 abg
 abg
-abg
-abq
-abq
-abp
-abp
-abp
-abq
-abq
+xib
+oWX
+oWX
+fgu
+fgu
+fgu
+oWX
+oWX
 abi
 abi
 abi
@@ -62205,7 +62100,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 abg
 abq
 abo
@@ -62216,7 +62111,7 @@ abi
 abi
 abi
 abi
-abg
+xib
 ohY
 abg
 acI
@@ -62405,7 +62300,7 @@ aae
 aae
 aas
 aas
-aas
+teE
 aas
 aas
 aas
@@ -62462,7 +62357,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 abq
 abz
 abG
@@ -62474,7 +62369,7 @@ abi
 abi
 abG
 abz
-abg
+xib
 ohY
 acI
 afB
@@ -62662,7 +62557,7 @@ aae
 aae
 aae
 aae
-aae
+jAh
 aae
 aae
 aae
@@ -62719,7 +62614,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 abq
 abG
 abi
@@ -62731,7 +62626,7 @@ abi
 abi
 abi
 abG
-abg
+xib
 ohY
 acI
 aft
@@ -62919,7 +62814,7 @@ aae
 aae
 aae
 aae
-aae
+jAh
 aae
 aae
 aae
@@ -62976,7 +62871,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 abg
 abz
 abG
@@ -62988,7 +62883,7 @@ abi
 abi
 abG
 abz
-abg
+xib
 ohY
 acI
 afC
@@ -63176,7 +63071,7 @@ aae
 aae
 aae
 aae
-aae
+jAh
 aae
 aae
 aae
@@ -63233,7 +63128,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 abg
 abg
 abi
@@ -63245,7 +63140,7 @@ abi
 abG
 abi
 abg
-abg
+xib
 ohY
 acI
 aft
@@ -63433,7 +63328,7 @@ aae
 aae
 aae
 aae
-aae
+jAh
 aae
 aae
 aae
@@ -63490,7 +63385,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 abg
 abg
 abg
@@ -63502,7 +63397,7 @@ abG
 abz
 abg
 abg
-abg
+xib
 ohY
 acI
 afB
@@ -63690,7 +63585,7 @@ aae
 aae
 aae
 aae
-aae
+jAh
 aae
 aae
 aae
@@ -63747,7 +63642,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 abg
 abg
 abg
@@ -63759,7 +63654,7 @@ abg
 abg
 abg
 abg
-abg
+xib
 ohY
 acI
 aft
@@ -63947,7 +63842,7 @@ aae
 aae
 aae
 aae
-aae
+jAh
 aae
 aae
 aae
@@ -64004,6 +63899,7 @@ abg
 abg
 abg
 abg
+xib
 abg
 abg
 abg
@@ -64015,8 +63911,7 @@ abg
 abg
 abg
 abg
-abg
-abg
+xib
 ohY
 acI
 afB
@@ -64204,7 +64099,7 @@ aae
 aae
 aae
 aae
-aae
+jAh
 aae
 aae
 aae
@@ -64261,6 +64156,7 @@ abg
 abg
 abg
 abg
+xib
 abg
 abg
 abg
@@ -64272,8 +64168,7 @@ abg
 abg
 abg
 abg
-abg
-abg
+xib
 ohY
 acI
 acI
@@ -64461,7 +64356,7 @@ aae
 aae
 aae
 aae
-aae
+jAh
 aae
 aae
 aae
@@ -64518,6 +64413,7 @@ abg
 abg
 abg
 abg
+xib
 abg
 abg
 abg
@@ -64529,8 +64425,7 @@ abg
 abg
 abg
 abg
-abg
-abg
+xib
 ohY
 acI
 acI
@@ -64718,7 +64613,7 @@ aae
 aae
 aae
 aae
-aae
+jAh
 aae
 aae
 aae
@@ -64775,6 +64670,7 @@ abg
 abg
 abg
 abg
+xib
 abg
 abg
 abg
@@ -64786,8 +64682,7 @@ abg
 abg
 abg
 abg
-abg
-abg
+xib
 ohY
 acI
 acI
@@ -64975,6 +64870,7 @@ aae
 aae
 aae
 aae
+jAh
 aae
 aae
 aae
@@ -64996,7 +64892,6 @@ aae
 aae
 aae
 aae
-aae
 abg
 abg
 abg
@@ -65032,6 +64927,7 @@ abg
 abg
 abg
 abg
+xib
 abg
 abg
 abg
@@ -65043,8 +64939,7 @@ abg
 abg
 abg
 abg
-abg
-abg
+xib
 ohY
 acI
 acI

@@ -7,7 +7,6 @@
 	icon = 'icons/Marine/mortar.dmi'
 	icon_state = "mortar_m402"
 	anchored = TRUE
-	resistance_flags = UNACIDABLE|INDESTRUCTIBLE
 	density = TRUE
 	layer = ABOVE_MOB_LAYER //So you can't hide it under corpses
 	var/targ_x = 0 //Initial target coordinates
@@ -26,10 +25,10 @@
 	. = ..()
 	if(.)
 		return
-	if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_ENGI)
+	if(user.skills.getRating("engineer") < SKILL_ENGINEER_ENGI)
 		user.visible_message("<span class='notice'>[user] fumbles around figuring out how to use [src].</span>",
 		"<span class='notice'>You fumble around figuring out how to use [src].</span>")
-		var/fumbling_time = 50 * ( SKILL_ENGINEER_ENGI - user.mind.cm_skills.engineer )
+		var/fumbling_time = 50 * ( SKILL_ENGINEER_ENGI - user.skills.getRating("engineer") )
 		if(!do_after(user, fumbling_time, TRUE, src, BUSY_ICON_UNSKILLED))
 			return
 	if(busy)
@@ -113,10 +112,10 @@
 	if(istype(I, /obj/item/mortal_shell))
 		var/obj/item/mortal_shell/mortar_shell = I
 
-		if(user.mind?.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_ENGI)
+		if(user.skills.getRating("engineer") < SKILL_ENGINEER_ENGI)
 			user.visible_message("<span class='notice'>[user] fumbles around figuring out how to fire [src].</span>",
 			"<span class='notice'>You fumble around figuring out how to fire [src].</span>")
-			var/fumbling_time = 30 * ( SKILL_ENGINEER_ENGI - user.mind.cm_skills.engineer )
+			var/fumbling_time = 3 SECONDS * ( SKILL_ENGINEER_ENGI - user.skills.getRating("engineer") )
 			if(!do_after(user, fumbling_time, TRUE, src, BUSY_ICON_UNSKILLED))
 				return
 
@@ -178,10 +177,10 @@
 				firing = FALSE
 
 	else if(iswrench(I))
-		if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_ENGI)
+		if(user.skills.getRating("engineer") < SKILL_ENGINEER_ENGI)
 			user.visible_message("<span class='notice'>[user] fumbles around figuring out how to undeploy [src].</span>",
 			"<span class='notice'>You fumble around figuring out how to undeploy [src].</span>")
-			var/fumbling_time = 50 * ( SKILL_ENGINEER_ENGI - user.mind.cm_skills.engineer )
+			var/fumbling_time = 5 SECONDS * ( SKILL_ENGINEER_ENGI - user.skills.getRating("engineer"))
 			if(!do_after(user, fumbling_time, TRUE, src, BUSY_ICON_UNSKILLED))
 				return
 
@@ -202,7 +201,7 @@
 		"<span class='notice'>You start undeploying [src].")
 		if(!do_after(user, 40, TRUE, src, BUSY_ICON_BUILD))
 			return
-		
+
 		user.visible_message("<span class='notice'>[user] undeploys [src].",
 		"<span class='notice'>You undeploy [src].")
 		playsound(loc, 'sound/items/deconstruct.ogg', 25, 1)
@@ -226,10 +225,10 @@
 
 /obj/item/mortar_kit/attack_self(mob/user)
 
-	if(user.mind && user.mind.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_ENGI)
+	if(user.skills.getRating("engineer") < SKILL_ENGINEER_ENGI)
 		user.visible_message("<span class='notice'>[user] fumbles around figuring out how to deploy [src].</span>",
 		"<span class='notice'>You fumble around figuring out how to deploy [src].</span>")
-		var/fumbling_time = 50 * ( SKILL_ENGINEER_ENGI - user.mind.cm_skills.engineer )
+		var/fumbling_time = 5 SECONDS * ( SKILL_ENGINEER_ENGI - user.skills.getRating("engineer") )
 		if(!do_after(user, fumbling_time, TRUE, src, BUSY_ICON_UNSKILLED))
 			return
 	if(!is_ground_level(user.z))
@@ -269,7 +268,7 @@
 
 /obj/item/mortal_shell/he/detonate(turf/T)
 
-	explosion(T, 0, 3, 5, 7)
+	explosion(T, 0, 3, 6, 7)
 
 /obj/item/mortal_shell/incendiary
 	name = "\improper 80mm incendiary mortar shell"
@@ -278,7 +277,7 @@
 
 /obj/item/mortal_shell/incendiary/detonate(turf/T)
 
-	explosion(T, 0, 2, 4, 7)
+	explosion(T, 0, 2, 5, 7, throw_range = 0)
 	flame_radius(3, T)
 	playsound(T, 'sound/weapons/guns/fire/flamethrower2.ogg', 35, 1, 4)
 
@@ -294,7 +293,7 @@
 
 /obj/item/mortal_shell/smoke/detonate(turf/T)
 
-	explosion(T, 0, 1, 2, 7)
+	explosion(T, 0, 1, 3, 7, throw_range = 0)
 	playsound(T, 'sound/effects/smoke.ogg', 25, 1, 4)
 	forceMove(T) //AAAAAAAA
 	smoke.set_up(6, T, 7)
@@ -309,7 +308,7 @@
 
 /obj/item/mortal_shell/flash/detonate(turf/T)
 
-	explosion(T, 0, 1, 2, 7)
+	explosion(T, 0, 1, 2, 7, throw_range = 0)
 	var/obj/item/explosive/grenade/flashbang/flash = new(T)
 	flash.icon_state = ""
 	flash.prime()
@@ -386,13 +385,21 @@
 	new /obj/item/mortal_shell/he(src)
 	new /obj/item/mortal_shell/he(src)
 	new /obj/item/mortal_shell/he(src)
+	new /obj/item/mortal_shell/he(src)
+	new /obj/item/mortal_shell/he(src)
+	new /obj/item/mortal_shell/he(src)
+	new /obj/item/mortal_shell/he(src)
+	new /obj/item/mortal_shell/he(src)
+	new /obj/item/mortal_shell/he(src)
 	new /obj/item/mortal_shell/incendiary(src)
 	new /obj/item/mortal_shell/incendiary(src)
 	new /obj/item/mortal_shell/incendiary(src)
-	new /obj/item/mortal_shell/flare(src)
-	new /obj/item/mortal_shell/flare(src)
-	new /obj/item/mortal_shell/smoke(src)
-	new /obj/item/mortal_shell/smoke(src)
+	new /obj/item/mortal_shell/incendiary(src)
+	new /obj/item/mortal_shell/incendiary(src)
+	new /obj/item/mortal_shell/incendiary(src)
+	new /obj/item/mortal_shell/incendiary(src)
+	new /obj/item/mortal_shell/incendiary(src)
+	new /obj/item/mortal_shell/incendiary(src)
 	new /obj/item/encryptionkey/engi(src)
 	new /obj/item/encryptionkey/engi(src)
 	new /obj/item/binoculars/tactical/range(src)

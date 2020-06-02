@@ -13,14 +13,12 @@
 	amount_grown = 0
 	max_grown = 10
 	plasma_stored = 300
-	speed = 0.6
 	pixel_x = -16
 	old_x = -16
 	mob_size = MOB_SIZE_BIG
 	drag_delay = 6 //pulling a big dead xeno is hard
 	tier = XENO_TIER_FOUR //Queen doesn't count towards population limit.
 	upgrade = XENO_UPGRADE_ZERO
-	job = ROLE_XENO_QUEEN
 
 	var/breathing_counter = 0
 	var/queen_ability_cooldown = 0
@@ -82,18 +80,18 @@
 // ***************************************
 /mob/living/carbon/xenomorph/queen/generate_name()
 	switch(upgrade)
-		if(XENO_UPGRADE_ZERO) 
+		if(XENO_UPGRADE_ZERO)
 			name = "[hive.prefix]Queen"			 //Young
-		if(XENO_UPGRADE_ONE) 
+		if(XENO_UPGRADE_ONE)
 			name = "[hive.prefix]Elder Queen"	 //Mature
-		if(XENO_UPGRADE_TWO) 
+		if(XENO_UPGRADE_TWO)
 			name = "[hive.prefix]Elder Empress"	 //Elder
-		if(XENO_UPGRADE_THREE) 
+		if(XENO_UPGRADE_THREE)
 			name = "[hive.prefix]Ancient Empress" //Ancient
 
 	real_name = name
-	if(mind) 
-		mind.name = name 
+	if(mind)
+		mind.name = name
 
 // ***************************************
 // *********** Icon

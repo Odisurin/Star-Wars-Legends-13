@@ -8,9 +8,6 @@
 		//Mutations and radiation
 		handle_mutations_and_radiation()
 
-		//effects of being grabbed aggressively by another mob
-		if(pulledby && pulledby.grab_level)
-			handle_grabbed()
 	else
 		SSmobs.stop_processing(src)
 
@@ -41,8 +38,8 @@
 
 		if (radiation > 100)
 			radiation = 100
-			knock_down(10)
-			if(!lying)
+			Paralyze(20 SECONDS)
+			if(!lying_angle)
 				to_chat(src, "<span class='warning'>You feel weak.</span>")
 				emote("collapse")
 
@@ -57,8 +54,8 @@
 				adjustToxLoss(1)
 				if(prob(5))
 					radiation -= 5
-					knock_down(3)
-					if(!lying)
+					Paralyze(60)
+					if(!lying_angle)
 						to_chat(src, "<span class='warning'>You feel weak.</span>")
 						emote("collapse")
 
@@ -118,9 +115,9 @@
 		if(GAS_TYPE_N2O) //Anesthetic
 			var/SA_pp = air_info[3]
 			if(SA_pp > 30)
-				sleeping(10)
+				Sleeping(20 SECONDS)
 			else if(SA_pp > 20) // Enough to make us paralysed for a bit
-				knock_out(3) // 3 gives them one second to wake up and run away a bit!
+				Unconscious(60) 
 				//Enough to make us sleep as well
 			else if(SA_pp > 1)	// There is sleeping gas in their lungs, but only a little, so give them a bit of a warning
 				if(prob(10))
@@ -195,7 +192,7 @@
 	//Account for massive pressure differences
 	switch(env_pressure)
 		if(HAZARD_HIGH_PRESSURE to INFINITY)
-			adjustBruteLoss( min( ( (env_pressure / HAZARD_HIGH_PRESSURE) -1 )*PRESSURE_DAMAGE_COEFFICIENT , MAX_HIGH_PRESSURE_DAMAGE) )
+			adjustBruteLoss(min( ( (env_pressure / HAZARD_HIGH_PRESSURE) -1 )*PRESSURE_DAMAGE_COEFFICIENT , MAX_HIGH_PRESSURE_DAMAGE) )
 			pressure_alert = 2
 		if(WARNING_HIGH_PRESSURE to HAZARD_HIGH_PRESSURE)
 			pressure_alert = 1

@@ -15,7 +15,7 @@
 	//1 = select event
 	//2 = authenticate
 	anchored = TRUE
-	use_power = 1
+	use_power = IDLE_POWER_USE
 	idle_power_usage = 2
 	active_power_usage = 6
 	power_channel = ENVIRON
@@ -35,7 +35,7 @@
 		if(active && event_source)
 			event_source.confirmed = TRUE
 			event_source.event_confirmed_by = user
-			
+
 		else if(screen == 2)
 			event_triggered_by = user
 			broadcast_request() //This is the device making the initial event request. It needs to broadcast to other devices
@@ -88,7 +88,7 @@
 	if(href_list["triggerevent"])
 		event = href_list["triggerevent"]
 		screen = 2
-	
+
 	if(href_list["reset"])
 		reset()
 

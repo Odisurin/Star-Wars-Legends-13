@@ -7,16 +7,16 @@
 
 /datum/armor
 	datum_flags = DF_USE_TAG
-	var/melee
-	var/bullet
-	var/laser
-	var/energy
-	var/bomb
-	var/bio
-	var/rad
-	var/fire
-	var/acid
-	var/magic
+	var/melee = 0
+	var/bullet = 0
+	var/laser = 0
+	var/energy = 0
+	var/bomb = 0
+	var/bio = 0
+	var/rad = 0
+	var/fire = 0
+	var/acid = 0
+	var/magic = 0
 
 /datum/armor/New(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0, fire = 0, acid = 0, magic = 0)
 	src.melee = melee
@@ -36,6 +36,11 @@
 
 /datum/armor/proc/modifyAllRatings(modifier = 0)
 	return getArmor(melee+modifier, bullet+modifier, laser+modifier, energy+modifier, bomb+modifier, bio+modifier, rad+modifier, fire+modifier, acid+modifier, magic+modifier)
+
+/datum/armor/proc/scaleAllRatings(modifier = 1, round_to = 0)
+	if(round_to >= 1)
+		return getArmor(round(melee*modifier,round_to), round(bullet*modifier,round_to), round(laser*modifier,round_to), round(energy*modifier,round_to), round(bomb*modifier,round_to), round(bio*modifier,round_to), round(rad*modifier,round_to), round(fire*modifier,round_to), round(acid*modifier,round_to), round(magic*modifier,round_to))
+	return getArmor(melee*modifier, bullet*modifier, laser*modifier, energy*modifier, bomb*modifier, bio*modifier, rad*modifier, fire*modifier, acid*modifier, magic*modifier)
 
 /datum/armor/proc/setRating(melee, bullet, laser, energy, bomb, bio, rad, fire, acid, magic)
 	return getArmor((isnull(melee) ? src.melee : melee),\

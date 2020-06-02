@@ -20,9 +20,9 @@
 
 /obj/effect/landmark/supplyspawner/weapons
 	name = "weapon supplies"
-	supply = list(/obj/structure/largecrate/supply/weapons/m41a = 2,
+	supply = list(/obj/structure/largecrate/supply/weapons/standard_carbine = 2,
 				/obj/structure/largecrate/supply/weapons/shotgun = 2,
-				/obj/structure/largecrate/supply/weapons/m39 = 2,
+				/obj/structure/largecrate/supply/weapons/standard_smg = 2,
 				/obj/structure/largecrate/supply/weapons/pistols = 2,
 				/obj/structure/largecrate/supply/weapons/flamers = 2,
 				/obj/structure/largecrate/supply/weapons/hpr = 2,
@@ -36,7 +36,7 @@
 	supply = list(/obj/structure/largecrate/supply/ammo/m41a = 4,
 				/obj/structure/largecrate/supply/ammo/m41a_box = 4,
 				/obj/structure/largecrate/supply/ammo/shotgun = 4,
-				/obj/structure/largecrate/supply/ammo/m39 = 4,
+				/obj/structure/largecrate/supply/ammo/standard_smg = 4,
 				/obj/structure/largecrate/supply/ammo/pistol = 4
 				)
 
@@ -96,25 +96,25 @@
 	name = "weapons chest"
 	icon_state = "chest"
 
-/obj/structure/largecrate/supply/weapons/m41a
-	name = "\improper M41A1 pulse rifle weapons chest (x10)"
-	desc = "A weapons chest containing ten M41A1 rifles."
-	supplies = list(/obj/item/weapon/gun/rifle/m41a = 10)
+/obj/structure/largecrate/supply/weapons/standard_carbine
+	name = "\improper T-18 Carbine weapons chest (x10)"
+	desc = "A weapons chest containing ten T-18 Carbines."
+	supplies = list(/obj/item/weapon/gun/rifle/standard_carbine = 10)
 
 /obj/structure/largecrate/supply/weapons/shotgun
-	name = "\improper M37A2 pump action shotgun weapons chest (x10)"
-	desc = "A weapons chest containing ten M37A2 pump shotguns."
-	supplies = list(/obj/item/weapon/gun/shotgun/pump = 10)
+	name = "\improper T-35 pump action shotgun weapons chest (x10)"
+	desc = "A weapons chest containing ten T-35 pump shotguns."
+	supplies = list(/obj/item/weapon/gun/shotgun/pump/t35 = 10)
 
-/obj/structure/largecrate/supply/weapons/m39
-	name = "\improper M39 sub machinegun weapons chest (x8)"
-	desc = "A weapons chest containing eight M39 submachine guns."
-	supplies = list(/obj/item/weapon/gun/smg/m39 = 8)
+/obj/structure/largecrate/supply/weapons/standard_smg
+	name = "\improper T-90 sub machinegun weapons chest (x8)"
+	desc = "A weapons chest containing eight T-90 submachine guns."
+	supplies = list(/obj/item/weapon/gun/smg/standard_smg = 8)
 
 /obj/structure/largecrate/supply/weapons/pistols
 	name = "sidearm weapons chest (x20)"
-	desc = "A weapons chest containing eight M44 revolvers, and twelve M4A3 service pistols."
-	supplies = list(/obj/item/weapon/gun/revolver/m44 = 6, /obj/item/weapon/gun/pistol/m4a3 = 12)
+	desc = "A weapons chest containing eight TP-44 revolvers, and twelve TP-14 service pistols."
+	supplies = list(/obj/item/weapon/gun/revolver/standard_revolver = 6, /obj/item/weapon/gun/pistol/standard_pistol = 12)
 
 /obj/structure/largecrate/supply/weapons/flamers
 	name = "\improper M240A1 incinerator weapons chest (x4)"
@@ -122,9 +122,9 @@
 	supplies = list(/obj/item/weapon/gun/flamer = 4)
 
 /obj/structure/largecrate/supply/weapons/hpr
-	name = "\improper M41AE2 heavy pulse rifle weapons chest (x2)"
-	desc = "A weapons chest containing two M41AE2 heavy pulse rifles."
-	supplies = list(/obj/item/weapon/gun/rifle/lmg = 2)
+	name = "\improper T-42 LMG weapons chest (x2)"
+	desc = "A weapons chest containing two T-42 LMG."
+	supplies = list(/obj/item/weapon/gun/rifle/standard_lmg = 2)
 
 /obj/structure/largecrate/supply/weapons/sentries
 	name = "\improper UA 571-C sentry chest (x2)"
@@ -157,15 +157,15 @@
 	desc = "An ammunition case containing eight boxes of slugs, eight boxes of buckshot, and eight boxes of flechette rounds."
 	supplies = list(/obj/item/ammo_magazine/shotgun = 8, /obj/item/ammo_magazine/shotgun/buckshot = 8, /obj/item/ammo_magazine/shotgun/flechette = 8)
 
-/obj/structure/largecrate/supply/ammo/m39
-	name = "\improper M39 magazine case (x16)"
-	desc = "An ammunition case containing sixteen M39 magazines."
-	supplies = list(/obj/item/ammo_magazine/smg/m39 = 16)
+/obj/structure/largecrate/supply/ammo/standard_smg
+	name = "\improper T-90 magazine case (x16)"
+	desc = "An ammunition case containing sixteen T-90 magazines."
+	supplies = list(/obj/item/ammo_magazine/smg/standard_smg = 16)
 
 /obj/structure/largecrate/supply/ammo/pistol
 	name = "sidearm ammunition case (x40)"
-	desc = "An ammunition case containing sixteen M44 speedloaders, and twenty-four M4A3 magazines."
-	supplies = list(/obj/item/ammo_magazine/revolver = 16, /obj/item/ammo_magazine/pistol = 24)
+	desc = "An ammunition case containing sixteen TP-44 speedloaders, and twenty-four TP-14 magazines."
+	supplies = list(/obj/item/ammo_magazine/revolver/standard_revolver = 16, /obj/item/ammo_magazine/pistol/standard_pistol = 24)
 
 /obj/structure/largecrate/supply/ammo/sentry
 	name = "\improper UA 571-C ammunition drum case (x6)"
@@ -247,7 +247,7 @@
 /obj/structure/largecrate/supply/supplies/water
 	name = "\improper NT Bottled Water crate (x50)"
 	desc = "A crate containing fifty Nanotrasen Bottled Spring Water bottles."
-	supplies = list(/obj/item/reagent_container/food/drinks/cans/waterbottle = 50)
+	supplies = list(/obj/item/reagent_containers/food/drinks/cans/waterbottle = 50)
 
 /obj/structure/largecrate/supply/powerloader
 	name = "\improper Caterpillar P-5000 Work Loader crate"
@@ -283,7 +283,7 @@
 /obj/structure/largecrate/supply/medicine/blood
 	name = "blood supply crate (x12)"
 	desc = "A medical supply crate containing twelve bags of type O- blood."
-	supplies = list(/obj/item/reagent_container/blood/OMinus = 12)
+	supplies = list(/obj/item/reagent_containers/blood/OMinus = 12)
 
 /obj/structure/largecrate/supply/medicine/iv
 	name = "\improper IV stand crate (x3)"
@@ -293,7 +293,7 @@
 /obj/structure/largecrate/supply/medicine/optable
 	name = "medical operation crate (x1)"
 	desc = "A crate containing an operating table, two tanks of anasthetic, a surgery kit, some anasthetic injectors, and some space cleaner."
-	supplies = list(/obj/machinery/optable = 1, /obj/item/storage/surgical_tray = 1, /obj/item/tank/anesthetic = 2, /obj/item/reagent_container/spray/cleaner = 1)
+	supplies = list(/obj/machinery/optable = 1, /obj/item/storage/surgical_tray = 1, /obj/item/tank/anesthetic = 2, /obj/item/reagent_containers/spray/cleaner = 1)
 
 /obj/structure/largecrate/supply/medicine/medivend
 	name = "\improper NanotrasenMed Plus crate (x1)"

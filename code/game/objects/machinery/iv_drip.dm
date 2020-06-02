@@ -7,7 +7,7 @@
 
 	var/mob/living/carbon/human/attached = null
 	var/mode = 1 // 1 is injecting, 0 is taking blood.
-	var/obj/item/reagent_container/beaker = null
+	var/obj/item/reagent_containers/beaker = null
 
 /obj/machinery/iv_drip/update_icon()
 	if(src.attached)
@@ -40,7 +40,7 @@
 
 	if(ishuman(usr))
 		var/mob/living/carbon/human/H = usr
-		if(H.stat || get_dist(H, src) > 1 || is_blind(H) || H.lying)
+		if(H.stat || get_dist(H, src) > 1 || is_blind(H) || H.lying_angle)
 			return
 
 		if(attached)
@@ -61,13 +61,13 @@
 
 /obj/machinery/iv_drip/attackby(obj/item/I, mob/user, params)
 	. = ..()
-	
-	if(istype(I, /obj/item/reagent_container))
+
+	if(istype(I, /obj/item/reagent_containers))
 		if(beaker)
 			to_chat(user, "<span class='warning'>There is already a reagent container loaded!</span>")
 			return
 
-		if((!istype(I, /obj/item/reagent_container/blood) && !istype(I, /obj/item/reagent_container/glass)) || istype(I, /obj/item/reagent_container/glass/bucket))
+		if((!istype(I, /obj/item/reagent_containers/blood) && !istype(I, /obj/item/reagent_containers/glass)) || istype(I, /obj/item/reagent_containers/glass/bucket))
 			to_chat(user, "<span class='warning'>That won't fit!</span>")
 			return
 
@@ -103,7 +103,7 @@
 	if(mode)
 		if(beaker.volume > 0)
 			var/transfer_amount = REAGENTS_METABOLISM
-			if(istype(beaker, /obj/item/reagent_container/blood))
+			if(istype(beaker, /obj/item/reagent_containers/blood))
 				// speed up transfer on blood packs
 				transfer_amount = 4
 			attached.inject_blood(beaker, transfer_amount)
@@ -115,13 +115,13 @@
 		amount = min(amount, 4)
 		// If the beaker is full, ping
 		if(amount == 0)
-			if(prob(5)) 
+			if(prob(5))
 				visible_message("\The [src] pings.")
 			return
 
 		var/mob/living/carbon/human/T = attached
 
-		if(!istype(T)) 
+		if(!istype(T))
 			return
 		if(!T.blood_type)
 			return
@@ -130,7 +130,7 @@
 			return
 
 		// If the human is losing too much blood, beep.
-		if(T.blood_volume < BLOOD_VOLUME_SAFE && prob(5)) 
+		if(T.blood_volume < BLOOD_VOLUME_SAFE && prob(5))
 			visible_message("\The [src] beeps loudly.")
 
 		T.take_blood(beaker, amount)
@@ -154,7 +154,7 @@
 	if(!isliving(usr))
 		return
 
-	if(usr.stat || usr.lying)
+	if(usr.stat || usr.lying_angle)
 		return
 
 	mode = !mode

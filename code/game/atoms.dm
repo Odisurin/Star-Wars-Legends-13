@@ -13,6 +13,8 @@
 	var/flags_pass = NONE
 	var/throwpass = FALSE
 
+	var/resistance_flags = NONE
+
 	var/germ_level = GERM_LEVEL_AMBIENT // The higher the germ level, the more germ on the atom.
 
 	var/list/priority_overlays	//overlays that should remain on top and not normally removed when using cut_overlay functions, like c4.
@@ -26,10 +28,25 @@
 
 	var/list/image/hud_list //This atom's HUD (med/sec, etc) images. Associative list.
 
+	///How much does this atom block the explosion's shock wave.
+	var/explosion_block = 0
+
+	var/list/managed_overlays //overlays managed by update_overlays() to prevent removing overlays that weren't added by the same proc
+
 	var/datum/component/orbiter/orbiters
 	var/datum/proximity_monitor/proximity_monitor
 
 	var/datum/wires/wires = null
+
+	// popup chat messages
+
+	/// Last name used to calculate a color for the chatmessage overlays
+	var/chat_color_name
+	/// Last color calculated for the the chatmessage overlays
+	var/chat_color
+	/// A luminescence-shifted value of the last color calculated for chatmessage overlays
+	var/chat_color_darkened
+
 
 /*
 We actually care what this returns, since it can return different directives.
@@ -182,6 +199,7 @@ directive is properly returned.
 
 
 /atom/proc/examine(mob/user)
+	SHOULD_CALL_PARENT(1)
 	if(!istype(src, /obj/item))
 		to_chat(user, "[icon2html(src, user)] That's \a [src].")
 
@@ -224,7 +242,7 @@ directive is properly returned.
 			else if(CHECK_BITFIELD(reagents.reagent_flags, AMOUNT_SKILLCHECK))
 				if(isxeno(user))
 					return
-				if(!user.mind || !user.mind.cm_skills || user.mind.cm_skills.medical >= SKILL_MEDICAL_NOVICE) // If they have no skillset(admin-spawn, etc), or are properly skilled.
+				if(user.skills.getRating("medical") >= SKILL_MEDICAL_NOVICE)
 					to_chat(user, "It contains these reagents:")
 					if(reagents.reagent_list.len)
 						for(var/datum/reagent/R in reagents.reagent_list)
@@ -234,7 +252,7 @@ directive is properly returned.
 				else
 					to_chat(user, "You don't know what's in it.")
 			else if(reagents.reagent_flags & AMOUNT_ESTIMEE)
-				var/obj/item/reagent_container/C = src
+				var/obj/item/reagent_containers/C = src
 				if(!reagents.total_volume)
 					to_chat(user, "<span class='notice'>\The [src] is empty!</span>")
 				else if (reagents.total_volume<= C.volume*0.3)
@@ -249,21 +267,47 @@ directive is properly returned.
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user)
 
 
+/// Updates the icon of the atom
+/atom/proc/update_icon()
+	var/signalOut = SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_ICON)
+
+	if(!(signalOut & COMSIG_ATOM_NO_UPDATE_ICON_STATE))
+		update_icon_state()
+
+	if(!(signalOut & COMSIG_ATOM_NO_UPDATE_OVERLAYS))
+		var/list/new_overlays = update_overlays()
+		if(managed_overlays)
+			cut_overlay(managed_overlays)
+			managed_overlays = null
+		if(length(new_overlays))
+			managed_overlays = new_overlays
+			add_overlay(new_overlays)
+
+/// Updates the icon state of the atom
+/atom/proc/update_icon_state()
+
+/// Updates the overlays of the atom
+/atom/proc/update_overlays()
+	SHOULD_CALL_PARENT(TRUE)
+	. = list()
+	SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_OVERLAYS, .)
+
 // called by mobs when e.g. having the atom as their machine, pulledby, loc (AKA mob being inside the atom) or buckled var set.
 // see code/modules/mob/mob_movement.dm for more.
 /atom/proc/relaymove()
 	return
 
-/atom/proc/ex_act(severity, target)
-	contents_explosion(severity, target)
-	SEND_SIGNAL(src, COMSIG_ATOM_EX_ACT, severity, target)
+/atom/proc/ex_act(severity, epicenter_dist, impact_range)
+	if(!(flags_atom & PREVENT_CONTENTS_EXPLOSION))
+		contents_explosion(severity, epicenter_dist, impact_range)
+	SEND_SIGNAL(src, COMSIG_ATOM_EX_ACT, severity, epicenter_dist, impact_range)
 
 /atom/proc/fire_act()
 	return
 
 /atom/proc/hitby(atom/movable/AM)
 	if(density)
-		AM.throwing = FALSE
+		AM.set_throwing(FALSE)
 	return
 
 
@@ -275,7 +319,7 @@ directive is properly returned.
 	return FALSE
 
 
-/atom/proc/contents_explosion(severity, target)
+/atom/proc/contents_explosion(severity)
 	return //For handling the effects of explosions on contents that would not normally be effected
 
 
@@ -372,7 +416,7 @@ Proc for attack log creation, because really why not
 	user.log_message(message, LOG_ATTACK, color = "#f46666")
 
 	if(target && user != target)
-		var/reverse_message = "has been [what_done] by [ssource][postfix]"
+		var/reverse_message = "has been [what_done] by [ssource][postfix] in [AREACOORD(user)]"
 		target.log_message(reverse_message, LOG_ATTACK, color = "#eabd7e", log_globally = FALSE)
 
 
@@ -465,10 +509,11 @@ Proc for attack log creation, because really why not
 
 	if(light_power && light_range)
 		update_light()
-
-	if(opacity && isturf(loc))
-		var/turf/T = loc
-		T.has_opaque_atom = TRUE // No need to recalculate it in this case, it's guaranteed to be on afterwards anyways.
+	if(loc)
+		SEND_SIGNAL(loc, COMSIG_ATOM_INITIALIZED_ON, src) //required since spawning something doesn't call Move hence it doesn't call Entered.
+		if(isturf(loc) && opacity)
+			var/turf/T = loc
+			T.has_opaque_atom = TRUE // No need to recalculate it in this case, it's guaranteed to be on afterwards anyways.
 
 	return INITIALIZE_HINT_NORMAL
 
@@ -522,31 +567,6 @@ Proc for attack log creation, because really why not
 
 /atom/proc/recalculate_storage_space()
 	return //Nothing to see here.
-
-// Tool behavior procedure. Redirects to tool-specific procs by default.
-// You can override it to catch all tool interactions, for use in complex deconstruction procs.
-// Just don't forget to return ..() in the end.
-/atom/proc/tool_act(mob/living/user, obj/item/I, tool_type)
-	switch(tool_type)
-		if(TOOL_CROWBAR)
-			return crowbar_act(user, I)
-		if(TOOL_MULTITOOL)
-			return multitool_act(user, I)
-		if(TOOL_SCREWDRIVER)
-			return screwdriver_act(user, I)
-		if(TOOL_WRENCH)
-			return wrench_act(user, I)
-		if(TOOL_WIRECUTTER)
-			return wirecutter_act(user, I)
-		if(TOOL_WELDER)
-			return welder_act(user, I)
-		if(TOOL_WELD_CUTTER)
-			return weld_cut_act(user, I)
-		if(TOOL_ANALYZER)
-			return analyzer_act(user, I)
-		if(TOOL_FULTON)
-			return fulton_act(user, I)
-
 
 // Tool-specific behavior procs. To be overridden in subtypes.
 /atom/proc/crowbar_act(mob/living/user, obj/item/I)
@@ -634,7 +654,7 @@ Proc for attack log creation, because really why not
 		if(laststamppos)
 			LAZYSET(fingerprints, M.key, copytext(fingerprints[M.key], 1, laststamppos))
 		fingerprints[M.key] += " Last: [M.real_name] | [current_time] | [type] [special ? " | [special]" : ""]"
-	
+
 	return TRUE
 
 
@@ -670,8 +690,13 @@ Proc for attack log creation, because really why not
 
 	if((interaction_flags & INTERACT_REQUIRES_DEXTERITY) && !user.dextrous)
 		return FALSE
-	
+
 	if((interaction_flags & INTERACT_CHECK_INCAPACITATED) && user.incapacitated())
 		return FALSE
-	
+
 	return TRUE
+
+
+// For special click interactions (take first item out of container, quick-climb, etc.)
+/atom/proc/specialclick(mob/living/carbon/user)
+	return

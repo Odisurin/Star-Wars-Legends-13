@@ -1,4 +1,6 @@
 #define RESTART_COUNTER_PATH "data/round_counter.txt"
+#define MAX_TOPIC_LEN 100
+#define TOPIC_BANNED 1
 
 
 GLOBAL_VAR(restart_counter)
@@ -6,6 +8,11 @@ GLOBAL_VAR(restart_counter)
 //This happens after the Master subsystem new(s) (it's a global datum)
 //So subsystems globals exist, but are not initialised
 /world/New()
+	var/extools = world.GetConfig("env", "EXTOOLS_DLL") || "./byond-extools.dll"
+	if(fexists(extools))
+		call(extools, "maptick_initialize")()
+	enable_debugger()
+
 	log_world("World loaded at [time_stamp()]!")
 
 	GLOB.config_error_log = GLOB.world_qdel_log = GLOB.world_manifest_log = GLOB.sql_error_log = GLOB.world_telecomms_log = GLOB.world_href_log = GLOB.world_runtime_log = GLOB.world_attack_log = GLOB.world_game_log = "data/logs/config_error.[GUID()].log" //temporary file used to record errors with loading config, moved to log directory once logging is set
@@ -16,8 +23,10 @@ GLOBAL_VAR(restart_counter)
 
 	config.Load(params[OVERRIDE_CONFIG_DIRECTORY_PARAMETER])
 
+	load_admins()
+
 	SetupExternalRSC()
-	
+
 	populate_seed_list()
 	populate_gear_list()
 	make_datum_references_lists()
@@ -29,7 +38,8 @@ GLOBAL_VAR(restart_counter)
 	SetupLogs()
 
 	LoadVerbs(/datum/verbs/menu)
-	load_admins()
+	if(CONFIG_GET(flag/usewhitelist))
+		load_whitelist()
 
 	if(fexists(RESTART_COUNTER_PATH))
 		GLOB.restart_counter = text2num(trim(file2text(RESTART_COUNTER_PATH)))
@@ -117,9 +127,35 @@ GLOBAL_VAR(restart_counter)
 	log_runtime(GLOB.revdata.get_log_message())
 
 /world/Topic(T, addr, master, key)
+	var/static/list/bannedsourceaddrs = list()
+
+	var/static/list/lasttimeaddr = list()
+	var/static/list/topic_handlers = TopicHandlers()
+
+	//LEAVE THIS COOLDOWN HANDLING IN PLACE, OR SO HELP ME I WILL MAKE YOU SUFFER
+	if (bannedsourceaddrs[addr])
+		return
+
+	var/list/filtering_whitelist = CONFIG_GET(keyed_list/topic_filtering_whitelist)
+	var/host = splittext(addr, ":")
+	if(!filtering_whitelist[host[1]]) // We only ever check the host, not the port (if provided)
+		if(length(T) >= MAX_TOPIC_LEN)
+			log_admin_private("[addr] banned from topic calls for a round for too long status message")
+			bannedsourceaddrs[addr] = TOPIC_BANNED
+			return
+
+		if(lasttimeaddr[addr])
+			var/lasttime = lasttimeaddr[addr]
+			if(world.time < lasttime)
+				log_admin_private("[addr] banned from topic calls for a round for too frequent messages")
+				bannedsourceaddrs[addr] = TOPIC_BANNED
+				return
+
+		lasttimeaddr[addr] = world.time + 2 SECONDS
+
+
 	TGS_TOPIC	//redirect to server tools if necessary
 
-	var/static/list/topic_handlers = TopicHandlers()
 
 	var/list/input = params2list(T)
 	var/datum/world_topic/handler
@@ -223,36 +259,37 @@ GLOBAL_VAR(restart_counter)
 
 
 /world/proc/update_status()
-	//Note: Hub content is limited to 254 characters, including HTML/CSS. Image width is limited to 450 pixels.
-	var/s = ""
-	var/shipname = length(SSmapping?.configs) && SSmapping.configs[SHIP_MAP] ? SSmapping.configs[SHIP_MAP].map_name : null
+	var/server_name = CONFIG_GET(string/server_name)
+	if(!server_name || Master?.current_runlevel == RUNLEVEL_INIT)
+		// If you didn't see a server name, or the master controller
+		// is stilling initing, we don't update the hub.
+		return
 
-	if(CONFIG_GET(string/server_name))
-		if(CONFIG_GET(string/discordurl))
-			s += "<a href=\"[CONFIG_GET(string/discordurl)]\"><b>[CONFIG_GET(string/server_name)] &#8212; [shipname]</a></b>"
-		else
-			s += "<b>[CONFIG_GET(string/server_name)] &#8212; [shipname]</b>"
-		var/map_name = length(SSmapping.configs) ? SSmapping.configs[GROUND_MAP].map_name : null
-		if(Master?.current_runlevel && GLOB.master_mode)
-			switch(map_name)
-				if("Ice Colony")
-					s += "<br>Map: <a href='[CONFIG_GET(string/icecolonyurl)]'><b>[map_name]</a></b>"
-				if("LV624")
-					s += "<br>Map: <a href='[CONFIG_GET(string/lv624url)]'><b>[map_name]</a></b>"
-				if("Big Red")
-					s += "<br>Map: <a href='[CONFIG_GET(string/bigredurl)]'><b>[map_name]</a></b>"
-				if("Prison Station")
-					s += "<br>Map: <a href='[CONFIG_GET(string/prisonstationurl)]'><b>[map_name]</a></b>"
-				if("Whiskey Outpost")
-					s += "<br>Map: <a href='[CONFIG_GET(string/whiskeyoutposturl)]'><b>[map_name]</a></b>"
-				else
-					s += "<br>Map: <b>[map_name ? map_name : "Loading..."]</b>"
-			s += "<br>Mode: <b>[SSticker.mode ? SSticker.mode.name : "Lobby"]</b>"
-			s += "<br>Round time: <b>[duration2text()]</b>"
-		else
-			s += "<br>Map: <b>[map_name ? map_name : "Loading..."]</b>"
+	// Start generating the hub status
+	// Note: Hub content is limited to 254 characters, including HTML/CSS. Image width is limited to 450 pixels.
+	// Current outputt should look like
+	/*
+	Something — Lost in space...	|	TerraGov Marine Corps — Sulaco
+	Map: Loading...					|	Map: Icy Caves
+	Mode: Lobby						|	Mode: Crash
+	Round time: 0:0					|	Round time: 4:54
+	*/
+	var/discord_url = CONFIG_GET(string/discordurl)
+	var/webmap_host = CONFIG_GET(string/webmap_host)
+	var/full_server_name = discord_url ? "<a href='[discord_url]'>[server_name]</a>" : "[server_name]"
+	var/shipname = length(SSmapping?.configs) && SSmapping.configs[SHIP_MAP] ? SSmapping.configs[SHIP_MAP].map_name : "Lost in space..."
+	var/ship_map_file = length(SSmapping?.configs) && SSmapping.configs[SHIP_MAP] ? SSmapping.configs[SHIP_MAP].map_file : ""
+	var/map_name = length(SSmapping.configs) && SSmapping.configs[GROUND_MAP] ? SSmapping.configs[GROUND_MAP].map_name : "Loading..."
+	var/ground_map_file = length(SSmapping.configs) && SSmapping.configs[GROUND_MAP] ? SSmapping.configs[GROUND_MAP].map_file : ""
 
-		status = s
+	var/new_status = ""
+	new_status += "<b>[full_server_name] &#8212; <a href='[webmap_host][ship_map_file]'>[shipname]</a></b>"
+	new_status += "<br>Map: <a href='[webmap_host][ground_map_file]'><b>[map_name]</a></b>"
+	new_status += "<br>Mode: <b>[SSticker.mode ? SSticker.mode.name : "Lobby"]</b>"
+	new_status += "<br>Round time: <b>[gameTimestamp("hh:mm")]</b>"
+
+	// Finally set the new status
+	status = new_status
 
 
 /world/proc/incrementMaxZ()
@@ -286,3 +323,6 @@ GLOBAL_VAR(restart_counter)
 	fps = new_value
 
 	SStimer?.reset_buckets()
+
+#undef MAX_TOPIC_LEN
+#undef TOPIC_BANNED

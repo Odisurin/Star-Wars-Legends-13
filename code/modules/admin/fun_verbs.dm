@@ -5,12 +5,16 @@
 	if(!check_rights(R_FUN))
 		return
 
-	if(usr.client.view != world.view)
-		usr.client.change_view(world.view)
+	if(usr.client.view != WORLD_VIEW)
+		usr.client.change_view(WORLD_VIEW)
 		return
 
 	var/newview = input("Select view range:", "Change View Range", 7) as null|num
-	if(!newview || newview == usr.client.view)
+	if(!newview)
+		return
+
+	newview = VIEW_NUM_TO_STRING(newview)
+	if(newview == usr.client.view)
 		return
 
 	usr.client.change_view(newview)
@@ -76,7 +80,7 @@
 	if(!SSticker)
 		return
 
-	check_hive_status()
+	check_hive_status(usr)
 
 	log_admin("[key_name(usr)] checked the hive status.")
 
@@ -331,7 +335,7 @@
 	var/web_sound_input = input("Enter content URL (supported sites only)", "Play Internet Sound via youtube-dl") as text|null
 	if(!istext(web_sound_input) || !length(web_sound_input))
 		return
-	
+
 	web_sound_input = trim(web_sound_input)
 
 	if(findtext(web_sound_input, ":") && !findtext(web_sound_input, GLOB.is_http_protocol))
@@ -343,12 +347,12 @@
 	var/list/music_extra_data = list()
 	var/title
 	var/show = FALSE
-	
+
 	var/list/output = world.shelleo("[ytdl] --format \"bestaudio\[ext=mp3]/best\[ext=mp4]\[height<=360]/bestaudio\[ext=m4a]/bestaudio\[ext=aac]\" --dump-single-json --no-playlist -- \"[shell_url_scrub(web_sound_input)]\"")
 	var/errorlevel = output[SHELLEO_ERRORLEVEL]
 	var/stdout = output[SHELLEO_STDOUT]
 	var/stderr = output[SHELLEO_STDERR]
-	
+
 	if(errorlevel)
 		to_chat(usr, "<span class='warning'>Youtube-dl URL retrieval FAILED: [stderr]</span>")
 		return
@@ -359,7 +363,7 @@
 	catch(var/exception/e)
 		to_chat(usr, "<span class='warning'>Youtube-dl JSON parsing FAILED: [e]: [stdout]</span>")
 		return
-	
+
 	if(data["url"])
 		web_sound_url = data["url"]
 		title = data["title"]
@@ -429,7 +433,7 @@
 	for(var/i in GLOB.clients)
 		var/client/C = i
 		if(!C?.chatOutput.loaded || !C.chatOutput.working)
-			continue	
+			continue
 		C.chatOutput.stopMusic()
 
 
@@ -453,7 +457,7 @@
 
 	log_admin("Announce: [key_name(usr)] : [message]")
 	message_admins("[ADMIN_TPMONTY(usr)] Announces:")
-	to_chat(world, "<span class='notice'><b>[usr.client.holder.fakekey ? "Administrator" : "[usr.client.key] ([usr.client.holder.rank])"] Announces:</b>\n [message]</span>")
+	to_chat(world, "<span class='event_announcement'><b>[usr.client.holder.fakekey ? "Administrator" : "[usr.client.key] ([usr.client.holder.rank])"] Announces:</b>\n [message]</span>")
 
 
 /datum/admins/proc/force_distress()
@@ -553,33 +557,98 @@
 	if(!check_rights(R_FUN))
 		return
 
-	var/choice = input("What size explosion would you like to produce?", "Drop Bomb") as null|anything in list("CANCEL", "Small Bomb", "Medium Bomb", "Big Bomb", "Custom Bomb")
+	var/choice = input("What size explosion would you like to produce?", "Drop Bomb") as null|anything in list("CANCEL", "CAS: Widow Maker", "CAS: Banshee", "CAS: Keeper", "CAS: Fatty", "CAS: Napalm", "Small Bomb", "Medium Bomb", "Big Bomb", "Maxcap", "Custom Bomb")
 	switch(choice)
-		if("CANCEL")
-			return
+		if("CAS: Widow Maker")
+			playsound(usr.loc, 'sound/machines/hydraulics_2.ogg', 70, TRUE)
+			new /obj/effect/overlay/temp/blinking_laser (usr.loc)
+			addtimer(CALLBACK(GLOBAL_PROC, .proc/delayed_detonate_bomb, get_turf(usr.loc), 2, 4, 6, 0, 0, 0, 3), 1 SECONDS)
+		if("CAS: Banshee")
+			playsound(usr.loc, 'sound/machines/hydraulics_2.ogg', 70, TRUE)
+			new /obj/effect/overlay/temp/blinking_laser (usr.loc)
+			addtimer(CALLBACK(GLOBAL_PROC, .proc/delayed_detonate_bomb, get_turf(usr.loc), 2, 4, 7, 6, 7, 0, 3), 1 SECONDS)
+		if("CAS: Keeper")
+			playsound(usr.loc, 'sound/machines/hydraulics_2.ogg', 70, TRUE)
+			new /obj/effect/overlay/temp/blinking_laser (usr.loc)
+			addtimer(CALLBACK(GLOBAL_PROC, .proc/delayed_detonate_bomb, get_turf(usr.loc), 4, 5, 5, 6, 0, 0, 3), 1 SECONDS)
+		if("CAS: Fatty")
+			playsound(usr.loc, 'sound/machines/hydraulics_2.ogg', 70, TRUE)
+			new /obj/effect/overlay/temp/blinking_laser (usr.loc)
+			addtimer(CALLBACK(GLOBAL_PROC, .proc/delayed_detonate_bomb_fatty, get_turf(usr.loc)), 1 SECONDS)
+		if("CAS: Napalm")
+			playsound(usr.loc, 'sound/machines/hydraulics_2.ogg', 70, TRUE)
+			new /obj/effect/overlay/temp/blinking_laser (usr.loc)
+			addtimer(CALLBACK(GLOBAL_PROC, .proc/delayed_detonate_bomb_napalm, get_turf(usr.loc)), 1 SECONDS)
 		if("Small Bomb")
 			explosion(usr.loc, 1, 2, 3, 3)
 		if("Medium Bomb")
 			explosion(usr.loc, 2, 3, 4, 4)
 		if("Big Bomb")
 			explosion(usr.loc, 3, 5, 7, 5)
+		if("Maxcap")
+			explosion(usr.loc, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
 		if("Custom Bomb")
-			var/devastation_range = input("Devastation range (in tiles):", "Drop Bomb") as null|num
-			var/heavy_impact_range = input("Heavy impact range (in tiles):", "Drop Bomb") as null|num
-			var/light_impact_range = input("Light impact range (in tiles):", "Drop Bomb") as null|num
-			var/flash_range = input("Flash range (in tiles):", "Drop Bomb") as null|num
-			if(isnull(devastation_range) || isnull(heavy_impact_range) || isnull(light_impact_range) || isnull(flash_range))
+			var/input_devastation_range = input("Devastation range (in tiles):", "Drop Bomb") as null|num
+			var/input_heavy_impact_range = input("Heavy impact range (in tiles):", "Drop Bomb") as null|num
+			var/input_light_impact_range = input("Light impact range (in tiles):", "Drop Bomb") as null|num
+			var/input_flash_range = input("Flash range (in tiles):", "Drop Bomb") as null|num
+			var/input_flame_range = input("Flame range (in tiles):", "Drop Bomb") as null|num
+			var/input_throw_range = input("Throw range (in tiles):", "Drop Bomb") as null|num
+			if(input_devastation_range < 1 && input_heavy_impact_range < 1 && input_light_impact_range < 1 && input_flash_range < 1 && input_flame_range < 1 && input_throw_range < 1)
 				return
-			devastation_range = CLAMP(devastation_range, -1, 10000)
-			heavy_impact_range = CLAMP(heavy_impact_range, -1, 10000)
-			light_impact_range = CLAMP(light_impact_range, -1, 10000)
-			flash_range = CLAMP(flash_range, -1, 10000)
-			explosion(usr.loc, devastation_range, heavy_impact_range, light_impact_range, flash_range)
+			var/world_max = max(world.maxy, world.maxy)
+			input_devastation_range = CLAMP(input_devastation_range, 0, world_max)
+			input_heavy_impact_range = CLAMP(input_heavy_impact_range, 0, world_max)
+			input_light_impact_range = CLAMP(input_light_impact_range, 0, world_max)
+			input_flash_range = CLAMP(input_flash_range, 0, world_max)
+			input_flame_range = CLAMP(input_flame_range, 0, world_max)
+			switch(tgalert(usr, "Deploy payload?", "DIR: [input_devastation_range] | HIR: [input_heavy_impact_range] | LIR: [input_light_impact_range] | FshR: [input_flash_range] | FlmR: [input_flame_range] | ThR: [input_throw_range]", "Launch!", "Cancel"))
+				if("Launch!")
+					explosion(usr.loc, input_devastation_range, input_heavy_impact_range, input_light_impact_range, input_flash_range, input_flame_range, input_throw_range)
+				else
+					return
+			choice = "[choice] ([input_devastation_range], [input_heavy_impact_range], [input_light_impact_range], [input_flash_range], [input_flame_range])" //For better logging.
 		else
 			return
 
-	log_admin("[key_name(usr)] dropped a bomb at [AREACOORD(usr.loc)].")
-	message_admins("[ADMIN_TPMONTY(usr)] dropped a bomb at [ADMIN_VERBOSEJMP(usr.loc)].")
+	log_admin("[key_name(usr)] dropped a [choice] at [AREACOORD(usr.loc)].")
+	message_admins("[ADMIN_TPMONTY(usr)] dropped a [choice] at [ADMIN_VERBOSEJMP(usr.loc)].")
+
+/proc/delayed_detonate_bomb(turf/impact, input_devastation_range, input_heavy_impact_range, input_light_impact_range, input_flash_range, input_flame_range, input_throw_range, ceiling_debris)
+	if(ceiling_debris)
+		impact.ceiling_debris_check(ceiling_debris)
+	explosion(impact, input_devastation_range, input_heavy_impact_range, input_light_impact_range, input_flash_range, input_flame_range, input_throw_range)
+
+/proc/delayed_detonate_bomb_fatty(turf/impact)
+	impact.ceiling_debris_check(2)
+	explosion(impact, 2, 3, 4)
+	addtimer(CALLBACK(GLOBAL_PROC, .proc/delayed_detonate_bomb_fatty_final, impact), 3 SECONDS)
+
+/proc/delayed_detonate_bomb_fatty_final(turf/impact)
+	var/list/impact_coords = list(list(-3,3),list(0,4),list(3,3),list(-4,0),list(4,0),list(-3,-3),list(0,-4), list(3,-3))
+	for(var/i in 1 to 8)
+		var/list/coords = impact_coords[i]
+		var/turf/detonation_target = locate(impact.x+coords[1],impact.y+coords[2],impact.z)
+		detonation_target.ceiling_debris_check(2)
+		explosion(detonation_target, 2, 3, 4, adminlog = FALSE)
+
+/proc/delayed_detonate_bomb_napalm(turf/impact)
+	impact.ceiling_debris_check(3)
+	explosion(impact, 2, 3, 4, 6)
+	flame_radius(5, impact, 60, 30)
+
+
+/datum/admins/proc/drop_dynex_bomb()
+	set category = "Fun"
+	set name = "Drop DynEx Bomb"
+	set desc = "Cause an explosion of varying strength at your location."
+
+	var/ex_power = input("Explosive Power:") as null|num
+	var/turf/epicenter = usr.loc
+	if(ex_power && epicenter)
+		dyn_explosion(epicenter, ex_power)
+		message_admins("[ADMIN_LOOKUPFLW(usr)] creating an admin explosion of power [ex_power] at [epicenter.loc].")
+		log_admin("[key_name(usr)] created a admin explosion of power [ex_power] at [epicenter.loc].")
 
 
 /datum/admins/proc/change_security_level()
@@ -614,17 +683,17 @@
 
 	if(!H.mind)
 		dat += "No mind! <a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=createmind;mob=[REF(H)]'>Create</a><br>"
-		dat += "Take-over job: [H.job ? H.job : "None"] <a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=rank;mob=[REF(H)]'>Edit</a><br>"
-		if(H.job in GLOB.jobs_marines)
+		dat += "Take-over job: [H.job ? H.job.title : "None"] <a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=rank;mob=[REF(H)]'>Edit</a><br>"
+		if(ismarinejob(H.job))
 			dat += "Squad: [H.assigned_squad] <a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=squad;mob=[REF(H)]'>Edit</a><br>"
 	else
-		dat += "Job: [H.mind.assigned_role] <a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=rank;mob=[REF(H)]'>Edit</a> "
+		dat += "Job: [H.job ? H.job.title : "Unassigned"] <a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=rank;mob=[REF(H)]'>Edit</a> "
 		dat += "<a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=rank;doequip=1;mob=[REF(H)]'>Edit and Equip</a> "
 		dat += "<a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=rank;doset=1;mob=[REF(H)]'>Edit and Set</a><br>"
 		dat += "<br>"
-		dat += "Skillset: [H.mind.cm_skills.name] <a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=skills;mob=[REF(H)]'>Edit</a><br>"
-		dat += "Comms title: [H.mind.comm_title] <a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=commstitle;mob=[REF(H)]'>Edit</a><br>"
-		if(H.mind.assigned_role in GLOB.jobs_marines)
+		dat += "Skillset: [H.skills.name] <a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=skills;mob=[REF(H)]'>Edit</a><br>"
+		dat += "Comms title: [H.comm_title] <a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=commstitle;mob=[REF(H)]'>Edit</a><br>"
+		if(ismarinejob(H.job))
 			dat += "Squad: [H.assigned_squad] <a href='?src=[REF(usr.client.holder)];[HrefToken()];rank=squad;mob=[REF(H)]'>Edit</a><br>"
 	if(istype(C))
 		dat += "<br>"
@@ -1024,16 +1093,26 @@
 
 	var/obj/docking_port/stationary/target = valid_docks[dock]
 	if(!target)
+		to_chat(usr, "<span class='warning'>No valid dock found!</span>")
 		return
 
 	var/instant = FALSE
 	if(alert("Do you want to move the [D.name] instantly?", "Force Dropship", "Yes", "No") == "Yes")
 		instant = TRUE
 
-	SSshuttle.moveShuttleToDock(D.id, target, !instant)
+	var/success = SSshuttle.moveShuttleToDock(D.id, target, !instant)
+	switch(success)
+		if(0)
+			success = "successfully"
+		if(1)
+			success = "failing to find the shuttle"
+		if(2)
+			success = "failing to dock"
+		else
+			success = "failing somehow"
 
-	log_admin("[key_name(usr)] has moved [D.name] ([D.id]) to [target] ([target.id])[instant ? " instantly" : ""].")
-	message_admins("[ADMIN_TPMONTY(usr)] has moved [D.name] ([D.id]) to [target] ([target.id])[instant ? " instantly" : ""].")
+	log_admin("[key_name(usr)] has moved [D.name] ([D.id]) to [target] ([target.id])[instant ? " instantly" : ""] [success].")
+	message_admins("[ADMIN_TPMONTY(usr)] has moved [D.name] ([D.id]) to [target] ([target.id])[instant ? " instantly" : ""] [success].")
 
 
 /datum/admins/proc/play_cinematic()

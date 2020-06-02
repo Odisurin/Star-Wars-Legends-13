@@ -14,14 +14,13 @@
 		to_chat(src, "Guests may not use OOC.")
 		return
 
-	if(!check_rights(R_ADMIN, FALSE))
-		msg = trim(copytext(sanitize(msg), 1, MAX_MESSAGE_LEN))
-	else
-		msg = noscript(msg)
+	msg = copytext_char(sanitize(msg), 1, MAX_MESSAGE_LEN)
 
 	if(!msg)
 		return
 
+	msg = emoji_parse(msg)
+	
 	if(!(prefs.toggles_chat & CHAT_OOC))
 		to_chat(src, "<span class='warning'>You have OOC muted.</span>")
 		return
@@ -50,51 +49,58 @@
 
 	mob.log_talk(msg, LOG_OOC)
 
-	var/display_colour = "#002eb8"
+	var/display_colour
+	var/display_class = "colorooc"
 	if(holder?.rank && !holder.fakekey)
 		switch(holder.rank.name)
 			if("Host")
-				display_colour = "#000000"	//black
+				display_class = "hostooc"
 			if("Project Lead")
-				display_colour = "#800080"	//dark purple
+				display_class = "projleadooc"
 			if("Headcoder")
-				display_colour = "#800080"	//dark blue
+				display_class = "headcoderooc"
 			if("Headmin")
-				display_colour = "#640000"	//dark red
+				display_class = "headminooc"
 			if("Headmentor")
-				display_colour = "#004100"	//dark green
+				display_class = "headmentorooc"
 			if("Admin")
-				display_colour = "#b4001e"	//red
+				display_class = "adminooc"
 			if("Trial Admin")
-				display_colour = "#f03200"	//darker orange
-			if("Admin Candidate")
-				display_colour = "#ff5a1e"	//lighter orange
-			if("Admin Observer")
-				display_colour = "#1e4cd6"	//VERY slightly different light blue
+				display_class = "trialminooc"
+			if("Admin Candidate", "Admin Observer")
+				display_class = "candiminooc"
 			if("Mentor")
-				display_colour = "#008000"	//green
+				display_class = "mentorooc"
 			if("Maintainer")
-				display_colour = "#0064ff"	//different light blue
-			if("Debugger")
-				display_colour = "#0064ff"	//different light blue
-			if("Contributor")
-				display_colour = "#1e4cd6"	//VERY slightly different light blue
+				display_class = "maintainerooc"
+			if("Debugger", "Contributor")
+				display_class = "contributorooc"
 			else
-				display_colour = "#643200"	//brown, mostly /tg/ folks
+				display_class = "otherooc"
 
 		if(check_rights(R_COLOR))
 			if(CONFIG_GET(flag/allow_admin_ooccolor))
 				display_colour = prefs.ooccolor
 
 	for(var/client/C in GLOB.clients)
-		if(C.prefs.toggles_chat & CHAT_OOC)
-			var/display_name = key
-			if(holder?.fakekey)
-				if(check_other_rights(C, R_ADMIN, FALSE))
-					display_name = "[holder.fakekey]/([key])"
-				else
-					display_name = holder.fakekey
+		if(!(C.prefs.toggles_chat & CHAT_OOC))
+			continue
+
+		var/display_name = key
+		if(holder?.fakekey)
+			if(check_other_rights(C, R_ADMIN, FALSE))
+				display_name = "[holder.fakekey]/([key])"
+			else
+				display_name = holder.fakekey
+
+		// Admins open straight to player panel
+		if(check_other_rights(C, R_ADMIN, FALSE))
+			display_name = "<a class='hidelink' href='?_src_=holder;[HrefToken(TRUE)];playerpanel=[REF(usr)]'>[display_name]</a>"
+
+		if(display_colour)
 			to_chat(C, "<font color='[display_colour]'><span class='ooc'><span class='prefix'>OOC: [display_name]</span>: <span class='message linkify'>[msg]</span></span></font>")
+		else
+			to_chat(C, "<span class='[display_class]'><span class='prefix'>OOC: [display_name]</span>: <span class='message linkify'>[msg]</span></span>")
 
 
 /client/verb/looc_wrapper()
@@ -120,10 +126,7 @@
 		to_chat(src, "Guests may not use LOOC.")
 		return
 
-	if(!admin)
-		msg = trim(copytext(sanitize(msg), 1, MAX_MESSAGE_LEN))
-	else
-		msg = noscript(msg)
+	msg = copytext_char(sanitize(msg), 1, MAX_MESSAGE_LEN)
 
 	if(!msg)
 		return
@@ -156,11 +159,11 @@
 	var/message
 
 	if(admin && isobserver(mob))
-		message = "<font color='#6699CC'><span class='ooc'><span class='prefix'>LOOC:</span> [usr.client.holder.fakekey ? "Administrator" : usr.client.key]: <span class='message'>[msg]</span></span></font>"
+		message = "<span class='looc'><span class='prefix'>LOOC:</span> [usr.client.holder.fakekey ? "Administrator" : usr.client.key]: <span class='message'>[msg]</span></span>"
 		for(var/mob/M in range(mob))
 			to_chat(M, message)
 	else
-		message = "<font color='#6699CC'><span class='ooc'><span class='prefix'>LOOC:</span> [mob.name]: <span class='message'>[msg]</span></span></font>"
+		message = "<span class='looc'><span class='prefix'>LOOC:</span> [mob.name]: <span class='message'>[msg]</span></span>"
 		for(var/mob/M in range(mob))
 			to_chat(M, message)
 
@@ -218,7 +221,7 @@
 		return
 
 	browse_messages(null, ckey, null, TRUE)
-	
+
 
 /client/verb/fit_viewport()
 	set name = "Fit Viewport"
@@ -265,6 +268,123 @@
 
 		pct += delta
 		winset(src, "mainwindow.split", "splitter=[pct]")
+
+
+/client/verb/policy()
+	set name = "Show Policy"
+	set desc = "Show special server rules related to your current character."
+	set category = "OOC"
+
+	//Collect keywords
+	var/list/keywords = mob.get_policy_keywords()
+	var/header = get_policy(POLICY_VERB_HEADER)
+	var/list/policytext = list(header,"<hr>")
+	var/anything = FALSE
+	for(var/keyword in keywords)
+		var/p = get_policy(keyword)
+		if(p)
+			policytext += p
+			policytext += "<hr>"
+			anything = TRUE
+	if(!anything)
+		policytext += "No related rules found."
+
+	var/datum/browser/popup = new(usr, "policy")
+	popup.set_content(policytext.Join(""))
+	popup.open(FALSE)
+
+
+/client/verb/fix_chat()
+	set name = "Fix chat"
+	set category = "OOC"
+
+	var/action = alert(src, "Select desired action", "Options", "Troubleshoot Goonchat", "Revert to old chat", "Cancel")
+	switch(action)
+		if("Revert to old chat")
+			winset(src, "output", "is-visible=true;is-disabled=false")
+			winset(src, "browseroutput", "is-visible=false")
+			return
+		if("Cancel")
+			return
+
+	if(!istype(chatOutput))
+		action = alert(src, "Invalid Chat Output data found!\nRecreate data?", "Recreate Chat Output data", "Yes", "Cancel")
+		if(action != "Yes")
+			return
+		chatOutput = new /datum/chatOutput(src)
+		chatOutput.start()
+		action = alert(src, "Goon chat reloading, wait a bit and state if it's fixed", "Fixed", "Yes", "No")
+		if(action == "Yes")
+			log_game("GOONCHAT: [key_name(src)] Had to fix their goonchat by re-creating the chatOutput datum")
+			return
+		chatOutput.load()
+		action = alert(src, "How about now? (give it a moment (it may also try to load twice))", "Loaded", "Yes", "No")
+		if(action == "Yes")
+			log_game("GOONCHAT: [key_name(src)] Had to fix their goonchat by re-creating the chatOutput datum and forcing a load()")
+			return
+		action = alert(src, "Reloading failed. Try closing the game, clearing the Internet Explorer and BYOND caches, and reconnecting.\nWe could also disable fancy chat and re-enable oldchat", "Close or Switch", "Close", "Switch to old chat")
+		if(action == "Switch to old chat")
+			winset(src, "output", "is-visible=true ; is-disabled=false")
+			winset(src, "browseroutput", "is-visible=false")
+		log_game("GOONCHAT: [key_name(src)] Failed to fix their goonchat window after recreating the chatOutput and forcing a load()")
+		return
+
+	if(chatOutput.loaded)
+		action = alert(src, "ChatOutput seems to be loaded\nForce a reload, wiping the chat log, or just refresh the chat window because it broke/went away?", "Reload or Refresh", "Force Reload", "Refresh", "Cancel")
+		switch(action)
+			if("Force Reload")
+				chatOutput.loaded = FALSE
+				chatOutput.start() //this is likely to fail since it asks , but we should try it anyways so we know.
+				action = alert(src, "Goon chat reloading, wait a bit and state if it's fixed", "Fixed", "Yes", "No")
+				if(action == "Yes")
+					log_game("GOONCHAT: [key_name(src)] Had to fix their goonchat by forcing a start()")
+					return
+				chatOutput.load()
+				action = alert(src, "How about now? (give it a moment (it may also try to load twice))", "Loaded", "Yes", "No")
+				if(action == "Yes")
+					log_game("GOONCHAT: [key_name(src)] Had to fix their goonchat by forcing a load()")
+					return
+				action = alert(src, "Reloading failed. Try closing the game, clearing the Internet Explorer and BYOND caches, and reconnecting.\nWe could also disable fancy chat and re-enable oldchat", "Close or Switch", "Close", "Switch to old chat")
+				if(action == "Switch to old chat")
+					winset(src, "output", "is-visible=true ; is-disabled=false")
+					winset(src, "browseroutput", "is-visible=false")
+				log_game("GOONCHAT: [key_name(src)] Failed to fix their goonchat window forcing a start() and forcing a load()")
+				return
+
+			if("Refresh")
+				chatOutput.showChat()
+				action = alert(src, "Goon chat refreshing, wait a bit and state if it's fixed", "Fixed", "Yes", "No, force a reload")
+				if(action == "Yes")
+					log_game("GOONCHAT: [key_name(src)] Had to fix their goonchat by forcing a show()")
+					return
+				chatOutput.loaded = FALSE
+				chatOutput.load()
+				action = alert(src, "How about now? (give it a moment)", "Loaded", "Yes", "No")
+				if(action == "Yes")
+					log_game("GOONCHAT: [key_name(src)] Had to fix their goonchat by forcing a load()")
+					return
+				action = alert(src, "Reloading failed. Try closing the game, clearing the Internet Explorer and BYOND caches, and reconnecting.\nWe could also disable fancy chat and re-enable oldchat", "Close or Switch", "Close", "Switch to old chat")
+				if(action == "Switch to old chat")
+					winset(src, "output", "is-visible=true;is-disabled=false")
+					winset(src, "browseroutput", "is-visible=false")
+				log_game("GOONCHAT: [key_name(src)] Failed to fix their goonchat window forcing a show() and forcing a load()")
+		return
+
+	chatOutput.start()
+	action = alert(src, "Manually loading Chat, wait a bit and state if it's fixed", "Fixed", "Yes", "No")
+	if(action == "Yes")
+		log_game("GOONCHAT: [key_name(src)] Had to fix their goonchat by manually calling start()")
+		return
+	chatOutput.load()
+	action = alert(src, "How about now? (give it a moment)", "Loaded", "Yes", "No")
+	if(action == "Yes")
+		log_game("GOONCHAT: [key_name(src)] Had to fix their goonchat by manually calling start() and forcing a load()")
+		return
+	action = alert(src, "Reloading failed. Try closing the game, clearing the Internet Explorer and BYOND caches, and reconnecting.\nWe could also disable fancy chat and re-enable oldchat", "Close or Switch", "Close", "Switch to old chat")
+	if(action == "Switch to old chat")
+		winset(src, "output", list2params(list("on-show" = "", "is-disabled" = "false", "is-visible" = "true")))
+		winset(src, "browseroutput", "is-disabled=true;is-visible=false")
+	log_game("GOONCHAT: [key_name(src)] Failed to fix their goonchat window after manually calling start() and forcing a load()")
 
 
 /client/verb/update_ping(time as num)

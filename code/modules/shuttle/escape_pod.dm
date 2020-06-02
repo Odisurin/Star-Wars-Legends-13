@@ -12,6 +12,13 @@
 	var/list/cryopods = list()
 	var/max_capacity // set this to override determining capacity by number of cryopods
 
+/obj/docking_port/mobile/escape_pod/escape_shuttle
+	name = "escape shuttle"
+	dir = EAST
+	dwidth = 3
+	width = 7
+	height = 9
+
 /obj/docking_port/mobile/escape_pod/register()
 	. = ..()
 	SSshuttle.escape_pods += src
@@ -53,7 +60,7 @@
 /obj/docking_port/mobile/escape_pod/proc/explode()
 	var/turf/T = return_center_turf()
 	var/average_dimension = (width+height)*0.25
-	explosion(T, -1, -1, average_dimension, average_dimension)
+	explosion(T, 0, 0, average_dimension, average_dimension)
 	launch_status = NOLAUNCH
 	open_all_doors()
 	SSshuttle.escape_pods -= src // no longer a valid pod
@@ -90,6 +97,16 @@
 
 	roundstart_template = /datum/map_template/shuttle/escape_pod
 
+/obj/docking_port/stationary/escape_pod/escape_shuttle
+	name = "escape shuttle"
+	id = "escape hangar"
+	dir = EAST
+	dwidth = 3
+	width = 7
+	height = 9
+
+	roundstart_template = /datum/map_template/shuttle/escape_shuttle
+
 /obj/docking_port/stationary/escape_pod/right
 	dir = WEST
 
@@ -105,6 +122,9 @@
 	icon_state = "airlock_control_standby"
 	power_channel = ENVIRON
 	density = FALSE
+
+/obj/machinery/computer/shuttle/escape_pod/escape_shuttle
+	name = "escape shuttle controller"
 
 /obj/machinery/computer/shuttle/escape_pod/ui_interact(mob/user)
 	var/dat = "<A href='?src=[REF(src)];launch=1'>Launch</A><br>"
@@ -153,7 +173,7 @@
 		linked_to_shuttle = TRUE
 
 /obj/machinery/cryopod/evacuation/ex_act(severity)
-	return FALSE
+	return
 
 /obj/machinery/cryopod/evacuation/attackby(obj/item/grab/G, mob/user)
 	if(istype(G))
@@ -188,7 +208,7 @@
 /obj/machinery/cryopod/evacuation/go_out() //When the system ejects the occupant.
 	if(occupant)
 		occupant.forceMove(get_turf(src))
-		occupant.in_stasis = FALSE
+		REMOVE_TRAIT(occupant, TRAIT_STASIS, CRYOPOD_TRAIT)
 		occupant = null
 		icon_state = orient_right ? "body_scanner_0-r" : "body_scanner_0"
 
@@ -235,11 +255,10 @@
 	if(occupant)
 		to_chat(M, "<span class='warning'>The cryogenic pod is already in use. You will need to find another.</span>")
 		return FALSE
-		return
 	M.forceMove(src)
 	to_chat(M, "<span class='notice'>You feel cool air surround you as your mind goes blank and the pod locks.</span>")
 	occupant = M
-	occupant.in_stasis = STASIS_IN_CRYO_CELL
+	ADD_TRAIT(occupant, TRAIT_STASIS, CRYOPOD_TRAIT)
 	icon_state = orient_right ? "body_scanner_1-r" : "body_scanner_1"
 
 /obj/machinery/door/airlock/evacuation

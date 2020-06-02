@@ -10,10 +10,9 @@
 	if (A != src) return ..()
 	var/mob/living/carbon/human/H = A
 
-	if(cooldowns[COOLDOWN_CHEW])
+	if(COOLDOWN_CHECK(src, COOLDOWN_CHEW))
 		to_chat(H, "<span class='warning'>You can't bite your hand again yet...</span>")
 		return
-
 
 	if (!H.handcuffed)
 		return
@@ -36,11 +35,11 @@
 	if(O.take_damage_limb(1, 0, TRUE, TRUE))
 		H.UpdateDamageIcon()
 
-	cooldowns[COOLDOWN_CHEW] = addtimer(VARSET_LIST_CALLBACK(cooldowns, COOLDOWN_CHEW, null), 7.5 SECONDS)
+	COOLDOWN_START(src, COOLDOWN_CHEW, 7.5 SECONDS)
 
 
 /mob/living/carbon/human/UnarmedAttack(atom/A, proximity)
-	if(lying) //No attacks while laying down
+	if(lying_angle) //No attacks while laying down
 		return FALSE
 
 	var/obj/item/clothing/gloves/G = gloves // not typecast specifically enough in defines
@@ -56,15 +55,5 @@
 		to_chat(src, "<span class='notice'>You try to move your [temp.display_name], but cannot!")
 		return
 
-	changeNext_move(CLICK_CD_MELEE)
 	SEND_SIGNAL(src, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, A)
 	A.attack_hand(src)
-
-
-/atom/proc/attack_hand(mob/living/user)
-	. = FALSE
-	if(QDELETED(src))
-		CRASH("attack_hand on a qdeleted atom")
-	add_fingerprint(user, "attack_hand")
-	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_HAND, user) & COMPONENT_NO_ATTACK_HAND)
-		. = TRUE

@@ -35,6 +35,7 @@
 
 
 /obj/structure/bush/Crossed(atom/movable/AM)
+	. = ..()
 	if(!stump)
 		if(isliving(AM))
 			var/mob/living/L = AM
@@ -91,7 +92,7 @@
 GLOBAL_LIST_INIT(fruit_icon_states, list("badrecipe","kudzupod","reishi","lime","grapes","boiledrorocore","chocolateegg"))
 GLOBAL_LIST_INIT(reagent_effects, list(/datum/reagent/toxin,/datum/reagent/medicine/dylovene,/datum/reagent/toxin/sleeptoxin,/datum/reagent/space_drugs,/datum/reagent/toxin/mindbreaker,/datum/reagent/impedrezene))
 
-/obj/item/reagent_container/food/snacks/grown/jungle_fruit
+/obj/item/reagent_containers/food/snacks/grown/jungle_fruit
 	name = "jungle fruit"
 	desc = "It smells weird and looks off."
 	icon = 'icons/obj/structures/jungle.dmi'
@@ -131,7 +132,7 @@ GLOBAL_LIST_INIT(reagent_effects, list(/datum/reagent/toxin,/datum/reagent/medic
 		fruits_left--
 		to_chat(user, "<span class='notice'>You pick a fruit off [src].</span>")
 
-		var/obj/item/reagent_container/food/snacks/grown/jungle_fruit/J = new (src.loc)
+		var/obj/item/reagent_containers/food/snacks/grown/jungle_fruit/J = new (src.loc)
 		J.potency = plant_strength
 		J.icon_state = GLOB.fruit_icon_states[fruit_type]
 		J.reagents.add_reagent(GLOB.reagent_effects[fruit_type], 1+round((plant_strength / 20), 1))
@@ -144,4 +145,4 @@ GLOBAL_LIST_INIT(reagent_effects, list(/datum/reagent/toxin,/datum/reagent/medic
 		overlays += fruit_overlay
 	else
 		to_chat(user, "<span class='warning'> There are no fruit left on [src].</span>")
-		
+

@@ -89,13 +89,24 @@
 	opacity = FALSE
 	glass = TRUE
 
+/obj/machinery/door/airlock/multi_tile/mainship/generic/canteen
+	name = "\improper Canteen"
+
+/obj/machinery/door/airlock/multi_tile/mainship/generic/cryo
+	name = "\improper Cryogenics Bay"	
+
+/obj/machinery/door/airlock/multi_tile/mainship/generic/garden
+	name = "\improper Garden"	
+
 /obj/machinery/door/airlock/multi_tile/mainship/medidoor
 	name = "\improper Medical Airlock"
 	icon = 'icons/obj/doors/mainship/2x1medidoor.dmi'
 	opacity = FALSE
 	glass = TRUE
-	req_access_txt = "0"
-	req_one_access_txt =  "2;8;19"
+
+/obj/machinery/door/airlock/multi_tile/mainship/medidoor/medbay
+	name = "\improper Medical Bay"
+	req_access = list(ACCESS_MARINE_MEDBAY)
 
 /obj/machinery/door/airlock/multi_tile/mainship/research
 	name = "\improper Research Airlock"
@@ -109,7 +120,14 @@
 	icon = 'icons/obj/doors/mainship/2x1comdoor.dmi'
 	opacity = FALSE
 	glass = TRUE
-	req_access_txt = "19"
+	req_access = list(ACCESS_MARINE_BRIDGE)
+
+/obj/machinery/door/airlock/multi_tile/mainship/comdoor/free_access
+	req_access = null
+
+/obj/machinery/door/airlock/multi_tile/mainship/comdoor/cargopads
+	name = "\improper Cargo Pads"
+	req_access = list(ACCESS_NT_CORPORATE)
 
 /obj/machinery/door/airlock/multi_tile/mainship/secdoor
 	name = "\improper Security Airlock"

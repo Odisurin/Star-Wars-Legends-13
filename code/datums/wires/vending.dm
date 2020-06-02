@@ -25,11 +25,11 @@
 
 /datum/wires/vending/get_status()
 	var/obj/machinery/vending/V = holder
-	var/status
-	status += "The orange light is [V.seconds_electrified ? "on" : "off"].<br>"
-	status += "The red light is [V.shoot_inventory ? "off" : "blinking"].<br>"
-	status += "The green light is [V.extended_inventory ? "on" : "off"].<br>"
-	status += "A [V.scan_id ? "purple" : "yellow"] light is on.<br>"
+	var/list/status = list()
+	status += "The orange light is [V.seconds_electrified ? "on" : "off"]."
+	status += "The red light is [V.shoot_inventory ? "off" : "blinking"]."
+	status += "The green light is [V.extended_inventory ? "on" : "off"]."
+	status += "A [V.scan_id ? "purple" : "yellow"] light is on."
 	status += "The speaker light is [V.shut_up ? "off" : "on"]."
 	return status
 
@@ -49,7 +49,7 @@
 			V.shut_up = !V.shut_up
 
 
-/datum/wires/vending/on_cut(wire, mend)		
+/datum/wires/vending/on_cut(wire, mend)
 	var/obj/machinery/vending/V = holder
 	switch(wire)
 		if(WIRE_THROW)

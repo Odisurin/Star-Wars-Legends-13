@@ -15,15 +15,14 @@
 
 
 /datum/emergency_call/deathsquad/create_member(datum/mind/M)
-	var/turf/spawn_loc = get_spawn_point()
-	var/mob/original = M.current
-
-	if(!istype(spawn_loc))
+	. = ..()
+	if(!.)
 		return
 
-	var/mob/living/carbon/human/H = new /mob/living/carbon/human(spawn_loc)
+	var/mob/original = M.current
+	var/mob/living/carbon/human/H = .
 
-	H.name = pick(SSstrings.get_list_from_file("greek_letters"))
+	H.name = pick(SSstrings.get_list_from_file("names/death_squad"))
 	H.real_name = H.name
 
 	M.transfer_to(H, TRUE)
@@ -37,12 +36,16 @@
 	if(!leader)
 		leader = H
 		var/datum/job/J = SSjob.GetJobType(/datum/job/deathsquad/leader)
-		SSjob.AssignRole(H, J.title)
-		J.assign_equip(H)
+		H.apply_assigned_role_to_spawn(J)
 		to_chat(H, "<span class='notice'>You are the leader of the elite Asset Protection commando squad.</span>")
 		return
 
+	if(prob(50))
+		var/datum/job/J = SSjob.GetJobType(/datum/job/deathsquad/standard/energy)
+		H.apply_assigned_role_to_spawn(J)
+		to_chat(H, "<span class='notice'>You are a member of the elite Asset Protection commando squad.</span>")
+		return
+
 	var/datum/job/J = SSjob.GetJobType(/datum/job/deathsquad/standard)
-	SSjob.AssignRole(H, J.title)
-	J.assign_equip(H)
+	H.apply_assigned_role_to_spawn(J)
 	to_chat(H, "<span class='notice'>You are a member of the elite Asset Protection commando squad.</span>")

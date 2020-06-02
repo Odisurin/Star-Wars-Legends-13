@@ -1,5 +1,5 @@
 /obj/item/circuitboard
-	w_class = WEIGHT_CLASS_SMALL
+	w_class = WEIGHT_CLASS_TINY
 	name = "Circuit board"
 	icon = 'icons/obj/items/circuitboards.dmi'
 	icon_state = "id_mod"
@@ -44,7 +44,7 @@
 
 //Called when a computer is deconstructed to produce a circuitboard.
 //Only used by computers, as other machines store their circuitboard instance.
-/obj/item/circuitboard/deconstruct(obj/machinery/M)
+/obj/item/circuitboard/proc/decon(obj/machinery/M)
 	if (istype(M, build_path))
 		return 1
 	return 0
@@ -83,7 +83,6 @@
 /obj/item/circuitboard/airlock
 	name = "airlock electronics"
 	icon_state = "door_electronics"
-	w_class = WEIGHT_CLASS_SMALL //It should be tiny! -Agouri
 	req_access = list(ACCESS_CIVILIAN_ENGINEERING)
 	var/list/conf_access = null
 	var/one_access = 0 //if set to 1, door would receive req_one_access instead of req_access

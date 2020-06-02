@@ -22,9 +22,9 @@
 
 /datum/wires/apc/get_status()
 	var/obj/machinery/power/apc/A = holder
-	var/status
-	status += "The interface light is [A.locked ? "red" : "green"].<br>"
-	status += "The short indicator is [A.shorted ? "lit" : "off"].<br>"
+	var/list/status = list()
+	status += "The interface light is [A.locked ? "red" : "green"]."
+	status += "The short indicator is [A.shorted ? "lit" : "off"]."
 	status += "The AI connection light is [!A.aidisabled ? "on" : "off"]."
 	return status
 
@@ -45,7 +45,7 @@
 				addtimer(CALLBACK(A, /obj/machinery/power/apc.proc/reset, wire), 10)
 
 
-/datum/wires/apc/on_cut(index, mend)	
+/datum/wires/apc/on_cut(index, mend)
 	var/obj/machinery/power/apc/A = holder
 	var/charge_percent = CLAMP(round(A.cell?.percent()), 0, 100)
 	switch(index)

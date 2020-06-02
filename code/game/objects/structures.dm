@@ -17,14 +17,14 @@
 	if(CHECK_BITFIELD(resistance_flags, INDESTRUCTIBLE))
 		return
 	switch(severity)
-		if(1.0)
+		if(EXPLODE_DEVASTATE)
 			qdel(src)
 			return
-		if(2.0)
+		if(EXPLODE_HEAVY)
 			if(prob(50))
 				qdel(src)
 				return
-		if(3.0)
+		if(EXPLODE_LIGHT)
 			return
 
 /obj/structure/Initialize()
@@ -40,6 +40,10 @@
 	set src in oview(1)
 
 	do_climb(usr)
+
+/obj/structure/specialclick(mob/living/carbon/user)
+	. = ..()
+	do_climb(user)
 
 /obj/structure/MouseDrop_T(mob/target, mob/user)
 	. = ..()
@@ -113,6 +117,9 @@
 	if(!do_after(user, climb_delay, FALSE, src, BUSY_ICON_GENERIC, extra_checks = CALLBACK(src, .proc/can_climb, user)))
 		return
 
+	for(var/m in user.buckled_mobs)
+		user.unbuckle_mob(m)
+
 	if(!(flags_atom & ON_BORDER)) //If not a border structure or we are not on its tile, assume default behavior
 		user.forceMove(get_turf(src))
 
@@ -146,21 +153,22 @@
 
 	for(var/mob/living/M in get_turf(src))
 
-		if(M.lying)
+		if(M.lying_angle)
 			return //No spamming this on people.
 
-		M.knock_down(5)
+		M.Paralyze(10 SECONDS)
 		to_chat(M, "<span class='warning'>You topple as \the [src] moves under you!</span>")
 
 		if(prob(25))
 
 			var/damage = rand(15,30)
-			var/mob/living/carbon/human/H = M
-			if(!istype(H))
-				to_chat(H, "<span class='danger'>You land heavily!</span>")
+			if(!ishuman(M))
+				to_chat(M, "<span class='danger'>You land heavily!</span>")
 				M.apply_damage(damage, BRUTE)
+				UPDATEHEALTH(M)
 				return
 
+			var/mob/living/carbon/human/H = M
 			var/datum/limb/affecting
 
 			switch(pick(list("ankle","wrist","head","knee","elbow")))
@@ -182,9 +190,8 @@
 				to_chat(H, "<span class='danger'>You land heavily!</span>")
 				H.apply_damage(damage, BRUTE)
 
+			UPDATEHEALTH(H)
 			H.UpdateDamageIcon()
-			H.updatehealth()
-	return
 
 
 /obj/structure/can_interact(mob/user)

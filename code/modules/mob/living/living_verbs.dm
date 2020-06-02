@@ -1,7 +1,7 @@
 /mob/living/verb/resist()
 	set name = "Resist"
 	set category = "IC"
-	
+
 	if(next_move > world.time)
 		return
 
@@ -22,7 +22,7 @@
 	else if(action_busy)
 		to_chat(src, "<span class='warning'>You are still in the process of standing up.</span>")
 		return
-	else if(do_mob(src, src, 2 SECONDS, uninterruptible = TRUE))
+	else if(do_mob(src, src, 2 SECONDS, ignore_flags = (IGNORE_LOC_CHANGE|IGNORE_HAND)))
 		get_up()
 
 /mob/living/proc/get_up()
@@ -32,17 +32,26 @@
 		to_chat(src, "<span class='notice'>You fail to get up.</span>")
 
 /mob/living/proc/set_resting(rest, silent = TRUE)
-	if(!silent)
-		if(rest)
-			to_chat(src, "<span class='notice'>You are now resting.</span>")
-		else
-			to_chat(src, "<span class='notice'>You get up.</span>")
+	if(status_flags & INCORPOREAL)
+		return
+	if(rest == resting)
+		return
+	. = resting
 	resting = rest
+	if(resting)
+		ADD_TRAIT(src, TRAIT_FLOORED, RESTING_TRAIT)
+		if(!silent)
+			to_chat(src, "<span class='notice'>You are now resting.</span>")
+	else
+		REMOVE_TRAIT(src, TRAIT_FLOORED, RESTING_TRAIT)
+		if(!silent)
+			to_chat(src, "<span class='notice'>You get up.</span>")
 	update_resting()
+
 
 /mob/living/proc/update_resting()
 	hud_used?.rest_icon?.update_icon(src)
-	update_canmove()
+
 
 /mob/living/verb/ghost()
 	set category = "OOC"
@@ -63,20 +72,20 @@
 		ghost.timeofdeath = world.time
 
 
-/mob/living/verb/point_to(atom/A in view(client.view + client.get_offset(), loc))
+/mob/living/verb/point_to(atom/A in view(client.view, loc))
 	set name = "Point To"
 	set category = "Object"
 
 	if(!isturf(loc))
 		return FALSE
 
-	if(!(A in view(client.view + client.get_offset(), loc))) //Target is no longer visible to us.
+	if(!(A in view(client.view, loc))) //Target is no longer visible to us.
 		return FALSE
 
 	if(!A.mouse_opacity) //Can't click it? can't point at it.
 		return FALSE
 
-	if(incapacitated() || (status_flags & FAKEDEATH)) //Incapacitated, can't point.
+	if(incapacitated() || HAS_TRAIT(src, TRAIT_FAKEDEATH)) //Incapacitated, can't point.
 		return FALSE
 
 	var/tile = get_turf(A)
@@ -86,7 +95,7 @@
 	if(next_move > world.time)
 		return FALSE
 
-	if(cooldowns[COOLDOWN_POINT])
+	if(COOLDOWN_CHECK(src, COOLDOWN_POINT))
 		return FALSE
 
 	next_move = world.time + 2

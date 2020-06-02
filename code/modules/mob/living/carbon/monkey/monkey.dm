@@ -85,22 +85,19 @@
 
 	if(gender == NEUTER)
 		gender = pick(MALE, FEMALE)
-
+	AddComponent(/datum/component/footstep, FOOTSTEP_MOB_BAREFOOT, 0.4, 1)
 	return ..()
 
-/mob/living/carbon/monkey/movement_delay()
+
+/mob/living/carbon/monkey/updatehealth()
 	. = ..()
+	var/health_deficiency = max((maxHealth - health), staminaloss)
+	
+	if(health_deficiency >= 40)
+		add_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN, TRUE, 0, NONE, TRUE, health_deficiency * 0.04)
+	else
+		remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
 
-	if(reagents)
-		if(reagents.has_reagent(/datum/reagent/medicine/hyperzine)) . -= 1
-
-	var/health_deficiency = (100 - health)
-	if(health_deficiency >= 45) . += (health_deficiency / 25)
-
-	if(bodytemperature < 283.222)
-		. += (283.222 - bodytemperature) / 10 * 1.75
-
-	. += CONFIG_GET(number/outdated_movedelay/monkey_delay)
 
 /mob/living/carbon/monkey/get_permeability_protection()
 	var/protection = 0
@@ -187,10 +184,10 @@
 			if(H.a_intent == INTENT_HARM)//Stungloves. Any contact will stun the alien.
 				if(G.cell.charge >= 2500)
 					G.cell.use(2500)
-					knock_down(5)
+					Paralyze(10 SECONDS)
 					if (stuttering < 5)
 						stuttering = 5
-					stun(5)
+					Stun(10 SECONDS)
 
 					visible_message("<span class='danger'>[src] has been touched with the stun gloves by [H]!</span>", "<span class='warning'> You hear someone fall</span>")
 					return
@@ -210,14 +207,13 @@
 				var/damage = rand(5, 10)
 				if (prob(40))
 					damage = rand(10, 15)
-					if (knocked_out < 5)
-						knock_out(rand(10, 15))
+					if (!IsUnconscious())
+						Unconscious(rand(20 SECONDS, 30 SECONDS))
 						visible_message("<span class='danger'>[H] has knocked out [src]!</span>")
 
 				adjustBruteLoss(damage)
 
 				log_combat(H, src, "[pick(attack.attack_verb)]ed")
-				msg_admin_attack("[key_name(H)] [pick(attack.attack_verb)]ed [key_name(src)]")
 
 				updatehealth()
 			else
@@ -231,9 +227,9 @@
 				H.start_pulling(src)
 				return 1
 			else
-				if (!( knocked_out ))
+				if (!IsUnconscious())
 					if (prob(25))
-						knock_out(2)
+						Unconscious(40)
 						playsound(loc, 'sound/weapons/thudswoosh.ogg', 25, 1)
 						visible_message("<span class='danger'>[H] has pushed down [src]!</span>")
 					else
@@ -263,7 +259,7 @@
 /mob/living/carbon/monkey/Stat()
 	. = ..()
 
-	if(statpanel("Stats"))
+	if(statpanel("Game"))
 		stat(null, text("Intent: []", a_intent))
 		stat(null, text("Move Mode: []", m_intent))
 
@@ -284,26 +280,24 @@
 	return ..()
 
 /mob/living/carbon/monkey/ex_act(severity)
-	flash_eyes()
+	flash_act()
 
 	switch(severity)
-		if(1.0)
-			if (stat != DEAD)
+		if(EXPLODE_DEVASTATE)
+			if(stat != DEAD)
 				adjustBruteLoss(200)
-				health = 100 - getOxyLoss() - getToxLoss() - getFireLoss() - getBruteLoss()
-		if(2.0)
-			if (stat != DEAD)
+				UPDATEHEALTH(src)
+		if(EXPLODE_HEAVY)
+			if(stat != DEAD)
 				adjustBruteLoss(60)
 				adjustFireLoss(60)
-				health = 100 - getOxyLoss() - getToxLoss() - getFireLoss() - getBruteLoss()
-		if(3.0)
-			if (stat != DEAD)
+				UPDATEHEALTH(src)
+		if(EXPLODE_LIGHT)
+			if(stat != DEAD)
 				adjustBruteLoss(30)
-				health = 100 - getOxyLoss() - getToxLoss() - getFireLoss() - getBruteLoss()
-			if (prob(50))
-				knock_out(10)
-		else
-	return
+				UPDATEHEALTH(src)
+				if(prob(50))
+					Unconscious(20 SECONDS)
 
 
 /mob/living/carbon/monkey/get_idcard(hand_first)
@@ -316,7 +310,7 @@
 	if(istype(id_card, /obj/item/storage/wallet))
 		var/obj/item/storage/wallet/W = id_card
 		id_card = W.front_id
-	
+
 	return istype(id_card) ? id_card : null
 
 

@@ -34,7 +34,10 @@
 	description = "A ubiquitous chemical substance that is composed of hydrogen and oxygen."
 	reagent_state = LIQUID
 	color = "#0064C8" // rgb: 0, 100, 200
-	custom_metabolism = 0.01
+	overdose_threshold = REAGENTS_OVERDOSE*2
+	custom_metabolism = REAGENTS_METABOLISM * 5 //1.0/tick
+	purge_list = list(/datum/reagent/toxin, /datum/reagent/medicine, /datum/reagent/consumable)
+	purge_rate = 1
 	taste_description = "water"
 
 /datum/reagent/water/reaction_turf(turf/T, volume)
@@ -42,8 +45,8 @@
 		T.wet_floor(FLOOR_WET_WATER)
 
 /datum/reagent/water/reaction_obj(obj/O, volume)
-	if(istype(O,/obj/item/reagent_container/food/snacks/monkeycube))
-		var/obj/item/reagent_container/food/snacks/monkeycube/cube = O
+	if(istype(O,/obj/item/reagent_containers/food/snacks/monkeycube))
+		var/obj/item/reagent_containers/food/snacks/monkeycube/cube = O
 		if(!cube.package)
 			cube.Expand()
 
@@ -53,6 +56,22 @@
 		L.adjust_fire_stacks(-(volume / 10))
 		if(L.fire_stacks <= 0)
 			L.ExtinguishMob()
+
+
+/datum/reagent/water/on_mob_life(mob/living/L,metabolism)
+	switch(current_cycle)
+		if(4 to 5) //1 sip, starting at the end
+			L.adjustStaminaLoss(-4*REM)
+			L.heal_limb_damage(2*REM, 2*REM)
+		if(6 to 10) //sip 2
+			L.adjustStaminaLoss(-REM)
+			L.heal_limb_damage(0.2*REM, 0.2*REM)
+	return ..()
+
+/datum/reagent/water/overdose_process(mob/living/L, metabolism)
+	if(prob(10))
+		L.adjustStaminaLoss(100*REM)
+		to_chat(L, "<span class='warning'>You cramp up! Too much water!</span>")
 
 /datum/reagent/water/holywater
 	name = "Holy Water"
@@ -102,13 +121,13 @@
 /datum/reagent/space_drugs/overdose_process(mob/living/L, metabolism)
 	L.apply_damage(0.5, TOX)
 	if(prob(5) && !L.stat)
-		L.knock_out(5)
+		L.Unconscious(10 SECONDS)
 	L.hallucination += 2
 
 /datum/reagent/space_drugs/overdose_crit_process(mob/living/L, metabolism)
 	L.apply_damage(1, TOX)
 	if(prob(10) && !L.stat)
-		L.knock_out(5)
+		L.Unconscious(10 SECONDS)
 		L.dizzy(8)
 
 /datum/reagent/serotrotium
@@ -124,18 +143,18 @@
 	if(prob(7))
 		L.emote(pick("twitch","drool","moan","gasp","yawn"))
 	if(prob(2))
-		L.drowsyness += 5
+		L.adjustDrowsyness(5)
 	return ..()
 
 /datum/reagent/serotrotium/overdose_process(mob/living/L, metabolism)
 	L.apply_damage(0.3, TOX)
-	L.drowsyness = max(L.drowsyness, 5)
+	L.setDrowsyness(max(L.drowsyness, 5))
 
 /datum/reagent/serotrotium/overdose_crit_process(mob/living/L, metabolism)
 	L.apply_damage(0.7, TOX)
 	if(prob(10) && !L.stat)
-		L.sleeping(30)
-	L.drowsyness = max(L.drowsyness, 30)
+		L.Sleeping(1 MINUTES)
+	L.setDrowsyness(max(L.drowsyness, 30))
 
 /datum/reagent/oxygen
 	name = "Oxygen"
@@ -144,7 +163,7 @@
 	color = "#808080" // rgb: 128, 128, 128
 	taste_multi = 0
 
-	custom_metabolism = 0.01
+	custom_metabolism = REAGENTS_METABOLISM * 0.05
 
 /datum/reagent/oxygen/on_mob_life(mob/living/L, metabolism)
 	if(metabolism & IS_VOX)
@@ -157,7 +176,7 @@
 	color = "#6E3B08" // rgb: 110, 59, 8
 	taste_description = "metal"
 
-	custom_metabolism = 0.01
+	custom_metabolism = REAGENTS_METABOLISM * 0.05
 
 /datum/reagent/nitrogen
 	name = "Nitrogen"
@@ -166,7 +185,7 @@
 	color = "#808080" // rgb: 128, 128, 128
 	taste_multi = 0
 
-	custom_metabolism = 0.01
+	custom_metabolism = REAGENTS_METABOLISM * 0.05
 
 /datum/reagent/nitrogen/on_mob_life(mob/living/L, metabolism)
 	if(metabolism & IS_VOX)
@@ -178,7 +197,7 @@
 	description = "A colorless, odorless, nonmetallic, tasteless, highly combustible diatomic gas."
 	reagent_state = GAS
 	color = "#808080" // rgb: 128, 128, 128
-	custom_metabolism = 0.01
+	custom_metabolism = REAGENTS_METABOLISM * 0.05
 	taste_multi = 0
 
 /datum/reagent/potassium
@@ -187,7 +206,7 @@
 	color = "#A0A0A0" // rgb: 160, 160, 160
 	taste_description = "sweetness"
 
-	custom_metabolism = 0.01
+	custom_metabolism = REAGENTS_METABOLISM * 0.05
 
 /datum/reagent/mercury
 	name = "Mercury"
@@ -208,14 +227,14 @@
 	name = "Sulfur"
 	description = "A chemical element with a pungent smell."
 	color = "#BF8C00" // rgb: 191, 140, 0
-	custom_metabolism = 0.01
+	custom_metabolism = REAGENTS_METABOLISM * 0.05
 	taste_description = "rotten eggs"
 
 /datum/reagent/carbon
 	name = "Carbon"
 	description = "A chemical element, the builing block of life."
 	color = "#1C1300" // rgb: 30, 20, 0
-	custom_metabolism = 0.01
+	custom_metabolism = REAGENTS_METABOLISM * 0.05
 	taste_description = "sour chalk"
 
 /datum/reagent/carbon/reaction_turf(turf/T, volume)
@@ -270,13 +289,13 @@
 	description = "A chemical element, readily reacts with water."
 	color = "#808080" // rgb: 128, 128, 128
 	taste_description = "salty metal"
-	custom_metabolism = 0.01
+	custom_metabolism = REAGENTS_METABOLISM * 0.05
 
 /datum/reagent/phosphorus
 	name = "Phosphorus"
 	description = "A chemical element, the backbone of biological energy carriers."
 	color = "#832828" // rgb: 131, 40, 40
-	custom_metabolism = 0.01
+	custom_metabolism = REAGENTS_METABOLISM * 0.05
 	taste_description = "vinegar"
 
 /datum/reagent/lithium
@@ -296,17 +315,17 @@
 	return ..()
 
 /datum/reagent/lithium/overdose_process(mob/living/L, metabolism)
-	L.apply_damage(1, TOX) //Overdose starts getting bad
+	L.apply_damage(1, TOX)
 
 /datum/reagent/lithium/overdose_crit_process(mob/living/L, metabolism)
-	L.apply_damage(2, TOX) //Overdose starts getting bad
+	L.apply_damage(2, TOX)
 
 /datum/reagent/glycerol
 	name = "Glycerol"
 	description = "Glycerol is a simple polyol compound. Glycerol is sweet-tasting and of low toxicity."
 	reagent_state = LIQUID
 	color = "#808080" // rgb: 128, 128, 128
-	custom_metabolism = 0.01
+	custom_metabolism = REAGENTS_METABOLISM * 0.05
 
 /datum/reagent/nitroglycerin
 	name = "Nitroglycerin"
@@ -314,7 +333,7 @@
 	reagent_state = LIQUID
 	color = "#808080" // rgb: 128, 128, 128
 
-	custom_metabolism = 0.01
+	custom_metabolism = REAGENTS_METABOLISM * 0.05
 	trait_flags = TACHYCARDIC
 
 /datum/reagent/radium
@@ -325,7 +344,7 @@
 	taste_description = "the colour blue and regret"
 
 /datum/reagent/radium/on_mob_life(mob/living/L, metabolism)
-	L.apply_effect(2*REM/L.metabolism_efficiency,IRRADIATE,0)
+	L.apply_effect(2*REM/L.metabolism_efficiency, IRRADIATE)
 	return ..()
 
 /datum/reagent/radium/reaction_turf(turf/T, volume)
@@ -335,21 +354,6 @@
 	if(!glow)
 		new /obj/effect/decal/cleanable/greenglow(T)
 
-/datum/reagent/thermite
-	name = "Thermite"
-	description = "Thermite produces an aluminothermic reaction known as a thermite reaction. Can be used to melt walls."
-	color = "#673910" // rgb: 103, 57, 16
-	taste_description = "sweet tasting metal"
-
-/datum/reagent/thermite/reaction_turf(turf/T, volume)
-	if(volume >= 5 && iswallturf(T))
-		var/turf/closed/wall/W = T
-		W.thermite = TRUE
-		W.add_overlay(image('icons/effects/effects.dmi',icon_state = "#673910"))
-
-/datum/reagent/thermite/on_mob_life(mob/living/L, metabolism)
-	L.adjustFireLoss(1)
-	return ..()
 
 /datum/reagent/iron
 	name = "Iron"
@@ -391,7 +395,7 @@
 	taste_description = "the inside of a reactor"
 
 /datum/reagent/uranium/on_mob_life(mob/living/L, metabolism)
-	L.apply_effect(1/L.metabolism_efficiency,IRRADIATE,0)
+	L.apply_effect(1/L.metabolism_efficiency, IRRADIATE)
 	return ..()
 
 /datum/reagent/uranium/reaction_turf(turf/T, reac_volume)
@@ -511,7 +515,7 @@
 
 /datum/reagent/cryptobiolin/on_mob_life(mob/living/L, metabolism)
 	L.dizzy(2)
-	L.confused = max(L.confused, 20)
+	L.Confused(40 SECONDS)
 	return ..()
 
 /datum/reagent/cryptobiolin/overdose_process(mob/living/L, metabolism)
@@ -534,16 +538,16 @@
 	if(prob(80))
 		L.adjustBrainLoss(2*REM, TRUE)
 	if(prob(50))
-		L.drowsyness = max(L.drowsyness, 3)
+		L.setDrowsyness(max(L.drowsyness, 3))
 	if(prob(10))
 		L.emote("drool")
 	return ..()
 
 /datum/reagent/impedrezene/overdose_process(mob/living/L, metabolism)
-	L.apply_damage(1, TOX) //Overdose starts getting bad
+	L.apply_damage(1, TOX)
 
 /datum/reagent/impedrezene/overdose_crit_process(mob/living/L, metabolism)
-	L.apply_damage(1, TOX) //Overdose starts getting bad
+	L.apply_damage(1, TOX)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -618,7 +622,7 @@
 	var/mob/living/carbon/C = L
 	if(C.nutrition > 50)
 		C.overeatduration = 0
-		C.nutrition -= 10
+		C.adjust_nutrition(-10)
 	if(prob(20))
 		C.adjustToxLoss(0.1)
 	else
@@ -630,7 +634,7 @@
 	if(iscarbon(L))
 		var/mob/living/carbon/C = L
 		if(C.nutrition > 100)
-			C.nutrition -= 10
+			C.adjust_nutrition(-10)
 
 /datum/reagent/consumable/lipozine/overdose_crit_process(mob/living/L, metabolism)
 	L.apply_damages(1, 3, 1)

@@ -16,8 +16,11 @@
 		forceMove(get_turf(A))
 
 
-/mob/dead/observer/ClickOn(atom/A, params)
+/mob/dead/observer/ClickOn(atom/A, location, params)
 	if(check_click_intercept(params, A))
+		return
+
+	if(SEND_SIGNAL(src, COMSIG_OBSERVER_CLICKON, A, params) & COMSIG_MOB_CLICK_CANCELED)
 		return
 
 	var/list/modifiers = params2list(params)
@@ -27,15 +30,12 @@
 	if(modifiers["shift"] && modifiers["ctrl"])
 		CtrlShiftClickOn(A)
 		return
-	if(modifiers["middle"])
-		MiddleClickOn(A)
+	if(modifiers["middle"] && MiddleClickOn(A))
 		return
-	if(modifiers["shift"])
-		ShiftClickOn(A)
+	if(modifiers["shift"] && ShiftClickOn(A))
 		return
 	if(modifiers["alt"])
-		AltClickNoInteract(src, A)
-		return
+		return //Disabled for now. Need to sanitize the AltClickOn procs.
 	if(modifiers["ctrl"])
 		CtrlClickOn(A)
 		return
@@ -49,13 +49,12 @@
 /mob/dead/observer/MouseWheelOn(atom/A, delta_x, delta_y, params)
 	var/list/modifier = params2list(params)
 	if(modifier["shift"])
-		var/view = client.view
+		var/view_change = 0
 		if(delta_y > 0)
-			view--
+			view_change = -1
 		else
-			view++
-		view = CLAMP(view, world.view, 14)
-		client.change_view(view)
+			view_change = 1
+		add_view_range(view_change)
 
 
 // Oh by the way this didn't work with old click code which is why clicking shit didn't spam you

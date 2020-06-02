@@ -1,8 +1,10 @@
 /mob/Logout()
+	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_MOB_LOGOUT, src)
 	SEND_SIGNAL(src, COMSIG_MOB_LOGOUT)
-	SSnano.user_logout(src) // this is used to clean up (remove) this user's Nano UIs
-	if(interactee) 
-		unset_interaction()	
+	SStgui.on_logout(src)
+	unset_machine()
+	if(interactee)
+		unset_interaction()
 	remove_typing_indicator()
 	GLOB.player_list -= src
 	log_message("[key_name(src)] has left mob [src]([type]).", LOG_OOC)

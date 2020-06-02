@@ -1,7 +1,30 @@
 /obj/item/clothing
 	name = "clothing"
 	var/eye_protection = 0 //used for headgear, masks, and glasses, to see how much they protect eyes from bright lights.
-	var/tint = TINT_NONE // headgear, mask and glasses, forvision impairment overlays
+	var/accuracy_mod = 0
+
+
+/obj/item/clothing/equipped(mob/user, slot)
+	. = ..()
+	if(!(flags_equip_slot & slotdefine2slotbit(slot)))
+		return
+	if(!ishuman(user))
+		return
+	if(accuracy_mod)
+		var/mob/living/carbon/human/human_user = user
+		human_user.adjust_mob_accuracy(accuracy_mod)
+
+
+/obj/item/clothing/unequipped(mob/unequipper, slot)
+	if(!(flags_equip_slot & slotdefine2slotbit(slot)))
+		return ..()
+	if(!ishuman(unequipper))
+		return ..()
+	if(accuracy_mod)
+		var/mob/living/carbon/human/human_unequipper = unequipper
+		human_unequipper.adjust_mob_accuracy(-accuracy_mod)
+	return ..()
+
 
 //Updates the icons of the mob wearing the clothing item, if any.
 /obj/item/clothing/proc/update_clothing_icon()
@@ -34,15 +57,17 @@
 /obj/item/clothing/suit
 	icon = 'icons/obj/clothing/suits.dmi'
 	name = "suit"
-	var/fire_resist = T0C+100
 	flags_armor_protection = CHEST|GROIN|ARMS|LEGS
 	allowed = list(/obj/item/tank/emergency_oxygen)
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
+	soft_armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
 	flags_equip_slot = ITEM_SLOT_OCLOTHING
-	var/blood_overlay_type = "suit"
-	var/list/supporting_limbs = null
 	siemens_coefficient = 0.9
 	w_class = WEIGHT_CLASS_NORMAL
+	var/supporting_limbs = NONE
+	var/blood_overlay_type = "suit"
+	var/fire_resist = T0C + 100
+	var/shield_state = "shield-blue"
+
 
 /obj/item/clothing/suit/update_clothing_icon()
 	if(ismob(loc))
@@ -115,7 +140,7 @@
 	sprite_sheets = list("Vox" = 'icons/mob/species/vox/masks.dmi')
 	var/anti_hug = 0
 	var/toggleable = FALSE
-	var/active = TRUE
+	active = TRUE
 
 /obj/item/clothing/mask/update_clothing_icon()
 	if (ismob(src.loc))

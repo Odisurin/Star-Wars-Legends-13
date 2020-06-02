@@ -9,7 +9,7 @@
 	flags_atom = CONDUCT
 	layer = OBJ_LAYER
 	resistance_flags = XENO_DAMAGEABLE
-	armor = list("melee" = 50, "bullet" = 70, "laser" = 70, "energy" = 100, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 0, "acid" = 0)
+	soft_armor = list("melee" = 50, "bullet" = 70, "laser" = 70, "energy" = 100, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 0, "acid" = 0)
 	max_integrity = 10
 	var/destroyed = FALSE
 
@@ -71,7 +71,7 @@
 	if(istype(mover) && CHECK_BITFIELD(mover.flags_pass, PASSGRILLE))
 		return TRUE
 	else
-		if(istype(mover, /obj/item/projectile))
+		if(istype(mover, /obj/projectile))
 			return prob(90)
 		else
 			return !density
@@ -140,7 +140,7 @@
 		var/wtype = ST.created_window
 		if(!ST.use(1))
 			return
-			
+
 		var/obj/structure/window/WD = new wtype(loc, dir_to_set, 1)
 		to_chat(user, "<span class='notice'>You place the [WD] on [src].</span>")
 		WD.update_icon()

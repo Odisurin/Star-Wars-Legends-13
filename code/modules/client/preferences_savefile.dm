@@ -1,5 +1,34 @@
-#define SAVEFILE_VERSION_MIN	20
-#define SAVEFILE_VERSION_MAX	38
+//This is the lowest supported version, anything below this is completely obsolete and the entire savefile will be wiped.
+#define SAVEFILE_VERSION_MIN	38
+//This is the current version, anything below this will attempt to update (if it's not obsolete)
+//	You do not need to raise this if you are adding new values that have sane defaults.
+//	Only raise this value when changing the meaning/format/name/layout of an existing value
+//	where you would want the updater procs below to run
+#define SAVEFILE_VERSION_MAX	41
+
+/datum/preferences/proc/savefile_needs_update(savefile/S)
+	var/savefile_version
+	READ_FILE(S["version"], savefile_version)
+
+	if(savefile_version < SAVEFILE_VERSION_MIN)
+		S.dir.Cut()
+		return -2
+	if(savefile_version < SAVEFILE_VERSION_MAX)
+		return savefile_version
+	return -1
+
+//should these procs get fairly long
+//just increase SAVEFILE_VERSION_MIN so it's not as far behind
+//SAVEFILE_VERSION_MAX and then delete any obsolete if clauses
+//from these procs.
+//This only really meant to avoid annoying frequent players
+//if your savefile is 3 months out of date, then 'tough shit'.
+
+/datum/preferences/proc/update_preferences(current_version, savefile/S)
+	if(current_version < 39)
+		key_bindings = (!focus_chat) ? deepCopyList(GLOB.hotkey_keybinding_list_by_key) : deepCopyList(GLOB.classic_keybinding_list_by_key)
+		parent.update_movement_keys(src)
+		to_chat(parent, "<span class='userdanger'>Empty keybindings, setting default to [!focus_chat ? "Hotkey" : "Classic"] mode</span>")
 
 //handles converting savefiles to new formats
 //MAKE SURE YOU KEEP THIS UP TO DATE!
@@ -14,83 +43,19 @@
 		for(var/ckey in GLOB.preferences_datums)
 			var/datum/preferences/D = GLOB.preferences_datums[ckey]
 			if(D == src)
-				var/delpath = "data/player_saves/[copytext(ckey, 1, 2)]/[ckey]/"
+				var/delpath = "data/player_saves/[ckey[1]]/[ckey]/"
 				if(delpath && fexists(delpath))
 					fdel(delpath)
 				break
 		return FALSE
 
-	if(savefile_version < 22)
-		WRITE_FILE(S["windowflashing"], TRUE)
+	if(savefile_version < 39)
+		WRITE_FILE(S["toggles_gameplay"], toggles_gameplay)
 
-	if(savefile_version < 23)
-		WRITE_FILE(S["focus_chat"], TRUE)
-
-	if(savefile_version < 24)
-		WRITE_FILE(S["menuoptions"], list())
-
-	if(savefile_version < 25)
-		WRITE_FILE(S["ghost_vision"], TRUE)
-		WRITE_FILE(S["ghost_orbit"], GHOST_ORBIT_CIRCLE)
-		WRITE_FILE(S["ghost_form"], GHOST_DEFAULT_FORM)
-		WRITE_FILE(S["ghost_others"], GHOST_OTHERS_DEFAULT_OPTION)
-
-	if(savefile_version < 26)
-		WRITE_FILE(S["key_bindings"], null)
-
-	if(savefile_version < 27)
-		switch(S["ui_style"])
-			if("Orange")
-				WRITE_FILE(S["ui_style"], "Plasmafire")
-			if("old")
-				WRITE_FILE(S["ui_style"], "Retro")
-		if(S["ui_style_alpha"] > 230)
-			WRITE_FILE(S["ui_style_alpha"], 230)
-
-	if(savefile_version < 28)
-		WRITE_FILE(S["tooltips"], TRUE)
-
-	if(savefile_version < 29)
-		WRITE_FILE(S["metadata"], null)
-		WRITE_FILE(S["jobs_low"], null)
-		WRITE_FILE(S["jobs_medium"], null)
-		WRITE_FILE(S["jobs_high"], null)
-		WRITE_FILE(S["job_preferences"], list())
-
-	if(savefile_version < 30)
-		WRITE_FILE(S["key_bindings"], null)
-
-	if(savefile_version < 31)
-		WRITE_FILE(S["key_bindings"], null)
-
-	if(savefile_version < 32)
-		WRITE_FILE(S["observer_actions"], TRUE)
-
-	if(savefile_version < 33)
-		if(!length(S["key_bindings"]))
-			WRITE_FILE(S["key_bindings"], deepCopyList(GLOB.hotkey_keybinding_list_by_key))
-
-	if(savefile_version < 34)
-		READ_FILE(S["key_bindings"], key_bindings)
-		if(key_bindings)
-			key_bindings = sanitize_islist(key_bindings, list())
-			key_bindings["T"] = list(1 = "say")
-			key_bindings["M"] = list(1 = "me")
-			key_bindings["O"] = list(1 = "ooc")
-			key_bindings["L"] = list(1 = "looc")
-			WRITE_FILE(S["key_bindings"], key_bindings)
-
-	if(savefile_version < 35)
-		WRITE_FILE(S["focus_chat"], FALSE)
-
-	if(savefile_version < 36)
-		WRITE_FILE(S["clientfps"], 0)
-
-	if(savefile_version < 37)
-		WRITE_FILE(S["ai_name"], "ARES v3.2")
-
-	if(savefile_version < 38)
-		WRITE_FILE(S["menuoptions"], list())
+	if(savefile_version < 41)
+		WRITE_FILE(S["chat_on_map"], chat_on_map)
+		WRITE_FILE(S["max_chat_length"], max_chat_length)
+		WRITE_FILE(S["see_chat_non_mob"], see_chat_non_mob)
 
 	savefile_version = SAVEFILE_VERSION_MAX
 	return TRUE
@@ -100,10 +65,7 @@
 	ckey = ckey(ckey)
 	if(!ckey)
 		return
-	path = "data/player_saves/[copytext(ckey, 1, 2)]/[ckey]/[filename]"
-
-	if(savefile_version < 21)
-		muted << NONE
+	path = "data/player_saves/[ckey[1]]/[ckey]/[filename]"
 
 	savefile_version = SAVEFILE_VERSION_MAX
 
@@ -117,6 +79,10 @@
 	if(!S)
 		return FALSE
 	S.cd = "/"
+
+	var/needs_update = savefile_needs_update(S)
+	if(needs_update == -2)		//fatal, can't load any data
+		return FALSE
 
 	READ_FILE(S["version"], savefile_version)
 	if(!savefile_version || !isnum(savefile_version) || savefile_version != SAVEFILE_VERSION_MAX)
@@ -136,9 +102,11 @@
 
 	READ_FILE(S["toggles_chat"], toggles_chat)
 	READ_FILE(S["toggles_sound"], toggles_sound)
+	READ_FILE(S["toggles_gameplay"], toggles_gameplay)
 	READ_FILE(S["show_typing"], show_typing)
 	READ_FILE(S["ghost_hud"], ghost_hud)
 	READ_FILE(S["windowflashing"], windowflashing)
+	READ_FILE(S["auto_fit_viewport"], auto_fit_viewport)
 	READ_FILE(S["menuoptions"], menuoptions)
 	READ_FILE(S["ghost_vision"], ghost_vision)
 	READ_FILE(S["ghost_orbit"], ghost_orbit)
@@ -150,20 +118,32 @@
 	READ_FILE(S["tooltips"], tooltips)
 	READ_FILE(S["key_bindings"], key_bindings)
 
+	// Runechat options
+	READ_FILE(S["chat_on_map"], chat_on_map)
+	READ_FILE(S["max_chat_length"], max_chat_length)
+	READ_FILE(S["see_chat_non_mob"], see_chat_non_mob)
+
+
+	//try to fix any outdated data if necessary
+	if(needs_update >= 0)
+		update_preferences(needs_update, S)		//needs_update = savefile_version if we need an update (positive integer)
+
 	default_slot	= sanitize_integer(default_slot, 1, MAX_SAVE_SLOTS, initial(default_slot))
 	lastchangelog	= sanitize_text(lastchangelog, initial(lastchangelog))
-	ooccolor		= sanitize_hexcolor(ooccolor, initial(ooccolor))
+	ooccolor		= sanitize_hexcolor(ooccolor, 6, TRUE, initial(ooccolor))
 	be_special		= sanitize_integer(be_special, NONE, MAX_BITFLAG, initial(be_special))
 
 	ui_style		= sanitize_inlist(ui_style, UI_STYLES, initial(ui_style))
-	ui_style_color	= sanitize_hexcolor(ui_style_color, initial(ui_style_color))
+	ui_style_color	= sanitize_hexcolor(ui_style_color, 6, TRUE, initial(ui_style_color))
 	ui_style_alpha	= sanitize_integer(ui_style_alpha, 0, 255, initial(ui_style_alpha))
 
 	toggles_chat	= sanitize_integer(toggles_chat, NONE, MAX_BITFLAG, initial(toggles_chat))
 	toggles_sound	= sanitize_integer(toggles_sound, NONE, MAX_BITFLAG, initial(toggles_sound))
+	toggles_gameplay= sanitize_integer(toggles_gameplay, NONE, MAX_BITFLAG, initial(toggles_gameplay))
 	show_typing		= sanitize_integer(show_typing, FALSE, TRUE, initial(show_typing))
 	ghost_hud 		= sanitize_integer(ghost_hud, NONE, MAX_BITFLAG, initial(ghost_hud))
 	windowflashing	= sanitize_integer(windowflashing, FALSE, TRUE, initial(windowflashing))
+	auto_fit_viewport= sanitize_integer(auto_fit_viewport, FALSE, TRUE, initial(auto_fit_viewport))
 	ghost_vision	= sanitize_integer(ghost_vision, FALSE, TRUE, initial(ghost_vision))
 	ghost_orbit		= sanitize_inlist(ghost_orbit, GLOB.ghost_orbits, initial(ghost_orbit))
 	ghost_form		= sanitize_inlist_assoc(ghost_form, GLOB.ghost_forms, initial(ghost_form))
@@ -174,6 +154,10 @@
 	tooltips		= sanitize_integer(tooltips, FALSE, TRUE, initial(tooltips))
 
 	key_bindings 	= sanitize_islist(key_bindings, list())
+
+	chat_on_map			= sanitize_integer(chat_on_map, FALSE, TRUE, initial(chat_on_map))
+	max_chat_length		= sanitize_integer(max_chat_length, 1, CHAT_MESSAGE_MAX_LENGTH, initial(max_chat_length))
+	see_chat_non_mob	= sanitize_integer(see_chat_non_mob, FALSE, TRUE, initial(see_chat_non_mob))
 
 	return TRUE
 
@@ -196,17 +180,19 @@
 
 	default_slot	= sanitize_integer(default_slot, 1, MAX_SAVE_SLOTS, initial(default_slot))
 	lastchangelog	= sanitize_text(lastchangelog, initial(lastchangelog))
-	ooccolor		= sanitize_hexcolor(ooccolor, initial(ooccolor))
+	ooccolor		= sanitize_hexcolor(ooccolor, 6, TRUE, initial(ooccolor))
 
 	ui_style		= sanitize_inlist(ui_style, UI_STYLES, initial(ui_style))
-	ui_style_color	= sanitize_hexcolor(ui_style_color, initial(ui_style_color))
+	ui_style_color	= sanitize_hexcolor(ui_style_color, 6, TRUE, initial(ui_style_color))
 	ui_style_alpha	= sanitize_integer(ui_style_alpha, 0, 255, initial(ui_style_alpha))
 
 	toggles_chat	= sanitize_integer(toggles_chat, NONE, MAX_BITFLAG, initial(toggles_chat))
 	toggles_sound	= sanitize_integer(toggles_sound, NONE, MAX_BITFLAG, initial(toggles_sound))
+	toggles_gameplay= sanitize_integer(toggles_gameplay, NONE, MAX_BITFLAG, initial(toggles_gameplay))
 	show_typing		= sanitize_integer(show_typing, FALSE, TRUE, initial(show_typing))
 	ghost_hud 		= sanitize_integer(ghost_hud, NONE, MAX_BITFLAG, initial(ghost_hud))
 	windowflashing	= sanitize_integer(windowflashing, FALSE, TRUE, initial(windowflashing))
+	auto_fit_viewport= sanitize_integer(auto_fit_viewport, FALSE, TRUE, initial(auto_fit_viewport))
 	key_bindings	= sanitize_islist(key_bindings, list())
 	ghost_vision	= sanitize_integer(ghost_vision, FALSE, TRUE, initial(ghost_vision))
 	ghost_orbit		= sanitize_inlist(ghost_orbit, GLOB.ghost_orbits, initial(ghost_orbit))
@@ -216,6 +202,11 @@
 	focus_chat		= sanitize_integer(focus_chat, FALSE, TRUE, initial(focus_chat))
 	clientfps		= sanitize_integer(clientfps, 0, 240, initial(clientfps))
 	tooltips		= sanitize_integer(tooltips, FALSE, TRUE, initial(tooltips))
+
+	// Runechat
+	chat_on_map			= sanitize_integer(chat_on_map, FALSE, TRUE, initial(chat_on_map))
+	max_chat_length		= sanitize_integer(max_chat_length, 1, CHAT_MESSAGE_MAX_LENGTH, initial(max_chat_length))
+	see_chat_non_mob	= sanitize_integer(see_chat_non_mob, FALSE, TRUE, initial(see_chat_non_mob))
 
 	WRITE_FILE(S["default_slot"], default_slot)
 	WRITE_FILE(S["lastchangelog"], lastchangelog)
@@ -227,9 +218,11 @@
 
 	WRITE_FILE(S["toggles_chat"], toggles_chat)
 	WRITE_FILE(S["toggles_sound"], toggles_sound)
+	WRITE_FILE(S["toggles_gameplay"], toggles_gameplay)
 	WRITE_FILE(S["show_typing"], show_typing)
 	WRITE_FILE(S["ghost_hud"], ghost_hud)
 	WRITE_FILE(S["windowflashing"], windowflashing)
+	WRITE_FILE(S["auto_fit_viewport"], auto_fit_viewport)
 	WRITE_FILE(S["menuoptions"], menuoptions)
 	WRITE_FILE(S["key_bindings"], key_bindings)
 	WRITE_FILE(S["ghost_vision"], ghost_vision)
@@ -240,6 +233,11 @@
 	WRITE_FILE(S["focus_chat"], focus_chat)
 	WRITE_FILE(S["clientfps"], clientfps)
 	WRITE_FILE(S["tooltips"], tooltips)
+
+	// Runechat options
+	WRITE_FILE(S["chat_on_map"], chat_on_map)
+	WRITE_FILE(S["max_chat_length"], max_chat_length)
+	WRITE_FILE(S["see_chat_non_mob"], see_chat_non_mob)
 
 	return TRUE
 

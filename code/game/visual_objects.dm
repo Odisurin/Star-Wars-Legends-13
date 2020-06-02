@@ -26,6 +26,13 @@
 	icon_state = "fmode_burst_auto"
 
 
+/atom/movable/vis_obj/action/bump_attack_active
+	icon_state = "bumpattack_on"
+
+/atom/movable/vis_obj/action/bump_attack_inactive
+	icon_state = "bumpattack_off"
+
+
 /atom/movable/vis_obj/effect/muzzle_flash
 	icon = 'icons/obj/items/projectiles.dmi'
 	icon_state = "muzzle_flash"
@@ -33,6 +40,10 @@
 	plane = GAME_PLANE
 	var/applied = FALSE
 
+/atom/movable/vis_obj/effect/muzzle_flash/Initialize(mapload, new_icon_state)
+	. = ..()
+	if(new_icon_state)
+		icon_state = new_icon_state
 
 /atom/movable/vis_obj/fulton_baloon
 	appearance_flags = RESET_COLOR|RESET_ALPHA|RESET_TRANSFORM

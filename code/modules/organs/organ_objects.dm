@@ -158,7 +158,6 @@
 
 	if(organ_data.vital)
 		log_combat(user, target, "removed a vital organ ([src])", addition="(INTENT: [uppertext(user.a_intent)])")
-		msg_admin_attack("[ADMIN_TPMONTY(usr)] removed a vital organ ([src]) from [ADMIN_TPMONTY(target)].")
 		target.death()
 
 /obj/item/organ/eyes/removed(mob/living/target,mob/living/user)
@@ -210,7 +209,7 @@
 
 
 	user.temporarilyRemoveItemFromInventory(src)
-	var/obj/item/reagent_container/food/snacks/organ/O = new(get_turf(src))
+	var/obj/item/reagent_containers/food/snacks/organ/O = new(get_turf(src))
 	O.name = name
 	O.icon_state = dead_icon ? dead_icon : icon_state
 

@@ -15,11 +15,11 @@
 
 /obj/structure/fence/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			deconstruct(FALSE)
-		if(2)
+		if(EXPLODE_HEAVY)
 			deconstruct(FALSE)
-		if(3)
+		if(EXPLODE_LIGHT)
 			take_damage(rand(25, 55))
 
 
@@ -27,10 +27,10 @@
 	. = ..()
 
 	if(istype(I, /obj/item/stack/rods) && obj_integrity < max_integrity)
-		if(user.mind?.cm_skills && user.mind.cm_skills.construction < SKILL_CONSTRUCTION_PLASTEEL)
+		if(user.skills.getRating("construction") < SKILL_CONSTRUCTION_PLASTEEL)
 			user.visible_message("<span class='notice'>[user] fumbles around figuring out how to fix [src]'s wiring.</span>",
 			"<span class='notice'>You fumble around figuring out how to fix [src]'s wiring.</span>")
-			var/fumbling_time = 100 - 20 * user.mind.cm_skills.construction
+			var/fumbling_time = 10 SECONDS - 2 SECONDS * user.skills.getRating("construction")
 			if(!do_after(user, fumbling_time, TRUE, src, BUSY_ICON_UNSKILLED))
 				return
 
@@ -72,23 +72,26 @@
 			return
 
 		var/mob/living/M = G.grabbed_thing
-		var/state = user.grab_level
+		var/state = user.grab_state
 		user.drop_held_item()
 		switch(state)
 			if(GRAB_PASSIVE)
 				M.visible_message("<span class='warning'>[user] slams [M] against \the [src]!</span>")
 				M.apply_damage(7)
+				UPDATEHEALTH(M)
 				take_damage(10)
 			if(GRAB_AGGRESSIVE)
 				M.visible_message("<span class='danger'>[user] bashes [M] against \the [src]!</span>")
 				if(prob(50))
-					M.knock_down(1)
+					M.Paralyze(20)
 				M.apply_damage(10)
+				UPDATEHEALTH(M)
 				take_damage(25)
 			if(GRAB_NECK)
 				M.visible_message("<span class='danger'><big>[user] crushes [M] against \the [src]!</big></span>")
-				M.knock_down(5)
+				M.Paralyze(10 SECONDS)
 				M.apply_damage(20)
+				UPDATEHEALTH(M)
 				take_damage(50)
 
 	else if(iswirecutter(I))
@@ -105,6 +108,7 @@
 
 
 /obj/structure/fence/deconstruct(disassembled = TRUE)
+	SHOULD_CALL_PARENT(FALSE)
 	if(disassembled)
 		new /obj/item/stack/rods(loc)
 	cut = TRUE
@@ -114,7 +118,7 @@
 
 /obj/structure/fence/Initialize(mapload, start_dir)
 	. = ..()
-	
+
 	if(start_dir)
 		setDir(start_dir)
 

@@ -24,6 +24,7 @@
 	if(swirlie)
 		user.visible_message("<span class='danger'>[user] slams the toilet seat onto [swirlie.name]'s head!</span>", "<span class='notice'>You slam the toilet seat onto [swirlie.name]'s head!</span>", "You hear reverberating porcelain.")
 		swirlie.apply_damage(8, BRUTE)
+		UPDATEHEALTH(swirlie)
 		return
 
 	if(cistern && !open)
@@ -70,7 +71,7 @@
 
 		var/mob/living/carbon/C = G.grabbed_thing
 
-		if(user.grab_level <= GRAB_PASSIVE)
+		if(user.grab_state <= GRAB_PASSIVE)
 			to_chat(user, "<span class='notice'>You need a tighter grip.</span>")
 			return
 
@@ -86,15 +87,14 @@
 
 			user.visible_message("<span class='danger'>[user] gives [C] a swirlie!</span>", "<span class='notice'>You give [C] a swirlie!</span>", "You hear a toilet flushing.")
 			log_combat(user, C, "given a swirlie")
-			msg_admin_attack("[key_name(user)] gave [key_name(C)] a swirlie.")
 			if(!C.internal)
 				C.adjustOxyLoss(5)
 			swirlie = null
 		else
 			user.visible_message("<span class='danger'>[user] slams [C] into the [src]!</span>", "<span class='notice'>You slam [C] into the [src]!</span>")
 			log_combat(user, C, "slammed", "", "into the \the [src]")
-			msg_admin_attack("[key_name(user)] slammed [key_name(C)] into the \the [src].")
 			C.apply_damage(8, BRUTE)
+			UPDATEHEALTH(C)
 
 	else if(cistern && !issilicon(user)) //STOP PUTTING YOUR MODULES IN THE TOILET.
 		if(I.w_class > 3)
@@ -135,7 +135,7 @@
 			return
 
 		var/mob/living/GM = G.grabbed_thing
-		if(user.grab_level <= GRAB_PASSIVE)
+		if(user.grab_state <= GRAB_PASSIVE)
 			to_chat(user, "<span class='notice'>You need a tighter grip.</span>")
 			return
 
@@ -145,8 +145,7 @@
 
 		user.visible_message("<span class='danger'>[user] slams [GM] into the [src]!</span>", "<span class='notice'>You slam [GM] into the [src]!</span>")
 		GM.apply_damage(8, BRUTE)
-
-
+		UPDATEHEALTH(GM)
 
 
 /obj/machinery/shower
@@ -242,7 +241,7 @@
 				ismist = 0
 
 /obj/machinery/shower/Crossed(atom/movable/O)
-	..()
+	. = ..()
 	wash(O)
 	if(ismob(O))
 		mobpresent += 1
@@ -433,7 +432,7 @@
 		to_chat(user, "<span class='warning'>Someone's already washing here.</span>")
 		return
 
-	var/obj/item/reagent_container/RG = I
+	var/obj/item/reagent_containers/RG = I
 	if(istype(RG) && RG.is_open_container() && RG.reagents.total_volume < RG.reagents.maximum_volume)
 		RG.reagents.add_reagent(/datum/reagent/water, min(RG.volume - RG.reagents.total_volume, RG.amount_per_transfer_from_this))
 		user.visible_message("<span class='notice'> [user] fills \the [RG] using \the [src].</span>","<span class='notice'> You fill \the [RG] using \the [src].</span>")
@@ -453,9 +452,9 @@
 		var/mob/living/L = user
 
 		flick("baton_active", src)
-		L.stun(10)
+		L.Stun(20 SECONDS)
 		L.stuttering = 10
-		L.knock_down(10)
+		L.Paralyze(20 SECONDS)
 		L.visible_message("<span class='danger'>[L] was stunned by [L.p_their()] wet [I]!</span>")
 
 	if(I.flags_item & ITEM_ABSTRACT)

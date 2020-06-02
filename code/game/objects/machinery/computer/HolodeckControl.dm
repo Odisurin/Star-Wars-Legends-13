@@ -28,12 +28,12 @@
 			return
 
 		var/mob/living/L = G.grabbed_thing
-		if(user.grab_level < GRAB_AGGRESSIVE)
+		if(user.grab_state < GRAB_AGGRESSIVE)
 			to_chat(user, "<span class='warning'>You need a better grip to do that!</span>")
 			return
 
 		L.forceMove(loc)
-		L.knock_down(5)
+		L.Paralyze(10 SECONDS)
 		user.visible_message("<span class='danger'>[user] puts [L] on the table.</span>")
 
 	else
@@ -91,18 +91,18 @@
 
 /obj/structure/holohoop/attackby(obj/item/I, mob/user, params)
 	. = ..()
-	
+
 	if(istype(I, /obj/item/grab) && get_dist(src, user) <= 1)
 		var/obj/item/grab/G = I
 		if(!isliving(G.grabbed_thing))
 			return
 
 		var/mob/living/L = G.grabbed_thing
-		if(user.grab_level < GRAB_AGGRESSIVE)
+		if(user.grab_state < GRAB_AGGRESSIVE)
 			to_chat(user, "<span class='warning'>You need a better grip to do that!</span>")
 			return
 		L.forceMove(loc)
-		L.knock_down(5)
+		L.Paralyze(10 SECONDS)
 		for(var/obj/machinery/scoreboard/X in GLOB.machines)
 			if(X.id == id)
 				X.score(side, 3)// 3 points for dunking a mob
@@ -119,8 +119,6 @@
 /obj/structure/holohoop/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover,/obj/item) && mover.throwing)
 		var/obj/item/I = mover
-		if(istype(I, /obj/item/projectile))
-			return
 		if(prob(50))
 			I.loc = src.loc
 			for(var/obj/machinery/scoreboard/X in GLOB.machines)

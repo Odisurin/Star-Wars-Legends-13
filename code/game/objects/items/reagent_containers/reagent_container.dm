@@ -1,4 +1,4 @@
-/obj/item/reagent_container
+/obj/item/reagent_containers
 	name = "Container"
 	desc = ""
 	icon = 'icons/obj/items/chemistry.dmi'
@@ -15,42 +15,42 @@
 	var/list/list_reagents
 
 
-/obj/item/reagent_container/Initialize()
+/obj/item/reagent_containers/Initialize()
 	. = ..()
 	create_reagents(volume, init_reagent_flags, list_reagents)
 	if(!possible_transfer_amounts)
-		verbs -= /obj/item/reagent_container/verb/set_APTFT
+		verbs -= /obj/item/reagent_containers/verb/set_APTFT
 
 
-/obj/item/reagent_container/interact(mob/user)
+/obj/item/reagent_containers/interact(mob/user)
 	. = ..()
 	if(.)
 		return
 
 	if(!length(possible_transfer_amounts))
 		return
-	
+
 	var/N = input("Amount per transfer from this:", "[src]") as null|anything in possible_transfer_amounts
 	if(!N)
 		return
-	
+
 	amount_per_transfer_from_this = N
 
 
-/obj/item/reagent_container/verb/set_APTFT()
+/obj/item/reagent_containers/verb/set_APTFT()
 	set name = "Set transfer amount"
 	set category = "Object"
 	set src in view(1)
-	
+
 	var/N = input("Amount per transfer from this:", "[src]") as null|anything in possible_transfer_amounts
 	if(!N)
 		return
-		
+
 	amount_per_transfer_from_this = N
 
 
 //returns a text listing the reagents (and their volume) in the atom. Used by Attack logs for reagents in pills
-/obj/item/reagent_container/proc/get_reagent_list_text()
+/obj/item/reagent_containers/proc/get_reagent_list_text()
 	if(reagents.reagent_list && reagents.reagent_list.len)
 		var/datum/reagent/R = reagents.reagent_list[1]
 		. = "[R.name]([R.volume]u)"

@@ -5,6 +5,7 @@
 	maxHealth = 20
 	status_flags = CANPUSH
 	gender = PLURAL
+	buckle_flags = NONE
 
 	//Icons
 	var/icon_living = ""
@@ -58,6 +59,8 @@
 		gender = pick(MALE, FEMALE)
 	if(!real_name)
 		real_name = name
+	if(speed)
+		update_simplemob_varspeed()
 
 
 /mob/living/simple_animal/Destroy()
@@ -91,7 +94,7 @@
 		if(health <= 0)
 			death()
 		else
-			stat = CONSCIOUS
+			set_stat(CONSCIOUS)
 	med_hud_set_status()
 
 
@@ -151,6 +154,17 @@
 	new /obj/effect/overlay/temp/gib_animation/animal(loc, src, icon_gib)
 
 
+/mob/living/simple_animal/proc/set_varspeed(var_value)
+	speed = var_value
+	update_simplemob_varspeed()
+
+
+/mob/living/simple_animal/proc/update_simplemob_varspeed()
+	if(speed == 0)
+		remove_movespeed_modifier(MOVESPEED_ID_SIMPLEMOB_VARSPEED, TRUE)
+	add_movespeed_modifier(MOVESPEED_ID_SIMPLEMOB_VARSPEED, TRUE, 100, multiplicative_slowdown = speed, override = TRUE)
+
+
 /mob/living/simple_animal/update_transform()
 	var/matrix/ntransform = matrix(transform) //aka transform.Copy()
 	var/changed = FALSE
@@ -164,7 +178,7 @@
 		animate(src, transform = ntransform, time = 2, easing = EASE_IN|EASE_OUT)
 
 
-/mob/living/simple_animal/bullet_act(obj/item/projectile/Proj)
+/mob/living/simple_animal/bullet_act(obj/projectile/Proj)
 	if(!Proj || Proj.damage <= 0)
 		return FALSE
 
@@ -186,12 +200,16 @@
 
 		if(INTENT_HARM, INTENT_DISARM)
 			user.do_attack_animation(src)
-			visible_message("<span class='danger'>[user] [response_harm] [src]!</span>",\
+			if(!prob(user.melee_accuracy))
+				user.visible_message("<span class='danger'>[user] misses [src]!</span>", null, null, 5)
+				return FALSE
+			user.do_attack_animation(src, ATTACK_EFFECT_KICK)
+			visible_message("<span class='danger'>[user] [response_harm] [src]!</span>",
 			"<span class='userdanger'>[user] [response_harm] [src]!</span>")
 			playsound(loc, attacked_sound, 25, 1, -1)
 			attack_threshold_check(harm_intent_damage)
+			UPDATEHEALTH(src)
 			log_combat(user, src, "attacked")
-			updatehealth()
 			return TRUE
 
 
@@ -214,30 +232,25 @@
 	return TRUE
 
 
-/mob/living/simple_animal/movement_delay()
-	. = ..()
-	. += speed
-	. += CONFIG_GET(number/outdated_movedelay/animal_delay)
-
-
 /mob/living/simple_animal/Stat()
 	. = ..()
 
-	if(statpanel("Stats"))
-		stat(null, "Health: [round((health / maxHealth) * 100)]%")
+	if(statpanel("Game"))
+		stat("Health:", "[round((health / maxHealth) * 100)]%")
 
 
 /mob/living/simple_animal/ex_act(severity)
-	flash_eyes()
+	flash_act()
 
 	switch(severity)
-		if(1)
-			adjustBruteLoss(500)
+		if(EXPLODE_DEVASTATE)
 			gib()
-		if(2)
+		if(EXPLODE_HEAVY)
 			adjustBruteLoss(60)
-		if(3)
+			UPDATEHEALTH(src)
+		if(EXPLODE_LIGHT)
 			adjustBruteLoss(30)
+			UPDATEHEALTH(src)
 
 
 /mob/living/simple_animal/get_idcard(hand_first)
@@ -262,6 +275,7 @@
 		return FALSE
 	else
 		apply_damage(damage, damagetype, null, getarmor(null, armorcheck))
+		UPDATEHEALTH(src)
 		return TRUE
 
 

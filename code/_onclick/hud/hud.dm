@@ -41,6 +41,7 @@
 	var/obj/screen/toxin_icon
 	var/obj/screen/internals
 	var/obj/screen/healths
+	var/obj/screen/stamina_hud/staminas
 	var/obj/screen/fire_icon
 	var/obj/screen/bodytemp_icon
 
@@ -119,6 +120,7 @@
 	toxin_icon = null
 	internals = null
 	healths = null
+	staminas = null
 	fire_icon = null
 	bodytemp_icon = null
 
@@ -218,6 +220,7 @@
 	hud_version = display_hud_version
 	persistent_inventory_update(screenmob)
 	mymob.update_action_buttons(TRUE)
+	reorganize_alerts(screenmob)
 	mymob.reload_fullscreens()
 
 	// ensure observers get an accurate and up-to-date view

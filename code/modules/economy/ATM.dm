@@ -20,7 +20,7 @@ log transactions
 	icon = 'icons/obj/terminals.dmi'
 	icon_state = "atm"
 	anchored = TRUE
-	use_power = 1
+	use_power = IDLE_POWER_USE
 	idle_power_usage = 10
 	var/datum/money_account/authenticated_account
 	var/number_incorrect_tries = 0
@@ -114,7 +114,7 @@ log transactions
 
 	if(ticks_left_locked_down > 0)
 		dat += "<span class='alert'>Maximum number of pin attempts exceeded! Access to this ATM has been temporarily disabled.</span>"
-	
+
 	else if(authenticated_account)
 		if(authenticated_account.suspended)
 			dat += "<span class='warning'><b>Access to this account has been suspended, and the funds within frozen.</b></span>"

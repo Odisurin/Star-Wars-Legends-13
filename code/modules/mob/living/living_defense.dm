@@ -8,10 +8,8 @@
 	Returns
 	The armour percentage which is deducted om the damage.
 */
-/mob/living/proc/run_armor_check(def_zone = null, attack_flag = "melee", absorb_text = null, soften_text = null)
-	var/armor = 0.00 //Define our float
-	armor = getarmor(def_zone, attack_flag) * 0.01 //Change the armour into a %
-	return armor
+/mob/living/proc/run_armor_check(def_zone = null, attack_flag = "melee")
+	return getarmor(def_zone, attack_flag)
 
 
 //if null is passed for def_zone, then this should return something appropriate for all zones (e.g. area effect damage)
@@ -19,12 +17,25 @@
 	return 0
 
 //Handles the effects of "stun" weapons
+/**
+	stun_effect_act(stun_amount, agony_amount, def_zone)
+
+	Handle the effects of a "stun" weapon
+
+	Arguments
+		stun_amount {int} applied as Stun and Paralyze
+		agony_amount {int} dealt as HALLOSS damage to the def_zone
+		def_zone {enum} which body part to target
+*/
 /mob/living/proc/stun_effect_act(stun_amount, agony_amount, def_zone)
+	if(status_flags & GODMODE)
+		return FALSE
+
 	flash_pain()
 
-	if (stun_amount)
-		stun(stun_amount)
-		knock_down(stun_amount)
+	if(stun_amount)
+		Stun(stun_amount * 20) // TODO: replace these amounts in stun_effect_stun() calls
+		Paralyze(stun_amount * 20)
 		apply_effect(STUTTER, stun_amount)
 		apply_effect(EYE_BLUR, stun_amount)
 
@@ -32,6 +43,7 @@
 		apply_damage(agony_amount, HALLOSS, def_zone)
 		apply_effect(STUTTER, agony_amount/10)
 		apply_effect(EYE_BLUR, agony_amount/10)
+
 
 /mob/living/proc/electrocute_act(shock_damage, obj/source, siemens_coeff = 1.0)
 	return 0 //only carbon liveforms have this proc
@@ -72,15 +84,13 @@
 		if(CHECK_BITFIELD(O.resistance_flags, ON_FIRE))
 			IgniteMob()
 
-		O.throwing = 0		//it hit, so stop moving
+		O.set_throwing(FALSE) //it hit, so stop moving
 
 		if(ismob(O.thrower))
 			var/mob/M = O.thrower
 			var/client/assailant = M.client
 			if(assailant)
 				log_combat(M, src, "hit", O, "(thrown)")
-				if(!istype(src, /mob/living/simple_animal/mouse))
-					msg_admin_attack("[ADMIN_TPMONTY(usr)] was hit by a [O], thrown by [ADMIN_TPMONTY(M)].")
 
 		// Begin BS12 momentum-transfer code.
 		if(O.throw_source && speed >= 15)
@@ -157,6 +167,7 @@
 	if(!on_fire)
 		return FALSE
 	on_fire = FALSE
+	adjust_bodytemperature(-80, 300)
 	fire_stacks = 0
 	update_fire()
 	UnregisterSignal(src, COMSIG_LIVING_DO_RESIST)
@@ -165,6 +176,10 @@
 /mob/living/carbon/xenomorph/ExtinguishMob()
 	. = ..()
 	set_light(0) //Reset lighting
+
+/mob/living/carbon/xenomorph/boiler/ExtinguishMob()
+	. = ..()
+	updateBoilerGlow()
 
 /mob/living/proc/update_fire()
 	return
@@ -190,7 +205,15 @@
 
 /mob/living/proc/resist_fire(datum/source)
 	fire_stacks = max(fire_stacks - rand(3, 6), 0)
-	knock_down(4, TRUE)
+	Paralyze(80)
+
+	var/turf/T = get_turf(src)
+	if(istype(T, /turf/open/floor/plating/ground/snow))
+		visible_message("<span class='danger'>[src] rolls in the snow, putting themselves out!</span>", \
+		"<span class='notice'>You extinguish yourself in the snow!</span>", null, 5)
+		ExtinguishMob()
+		return
+
 	visible_message("<span class='danger'>[src] rolls on the floor, trying to put themselves out!</span>", \
 	"<span class='notice'>You stop, drop, and roll!</span>", null, 5)
 	if(fire_stacks <= 0)
@@ -226,7 +249,8 @@
 /mob/living/proc/smoke_contact(obj/effect/particle_effect/smoke/S)
 	var/protection = max(1 - get_permeability_protection() * S.bio_protection)
 	if(CHECK_BITFIELD(S.smoke_traits, SMOKE_BLISTERING))
-		adjustFireLoss(5 * protection)
+		adjustFireLoss(15 * protection)
+		to_chat(src, "<span class='danger'>It feels as if you've been dumped into an open fire!</span>")
 	if(CHECK_BITFIELD(S.smoke_traits, SMOKE_XENO_ACID))
 		if(prob(25 * protection))
 			to_chat(src, "<span class='danger'>Your skin feels like it is melting away!</span>")
@@ -234,3 +258,18 @@
 	if(CHECK_BITFIELD(S.smoke_traits, SMOKE_CHEM))
 		S.reagents?.reaction(src, TOUCH, S.fraction)
 	return protection
+
+/mob/living/proc/check_shields(attack_type, damage, damage_type = "melee", silent)
+	if(!damage)
+		stack_trace("check_shields called without a damage value")
+		return 0
+	. = damage
+	var/list/affecting_shields = list()
+	SEND_SIGNAL(src, COMSIG_LIVING_SHIELDCALL, affecting_shields, damage_type)
+	if(length(affecting_shields) > 1)
+		sortTim(affecting_shields, /proc/cmp_numeric_dsc, associative = TRUE)
+	for(var/shield in affecting_shields)
+		var/datum/callback/shield_check = shield
+		. = shield_check.Invoke(attack_type, ., damage_type, silent)
+		if(!.)
+			break

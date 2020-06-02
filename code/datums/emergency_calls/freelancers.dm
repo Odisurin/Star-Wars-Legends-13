@@ -12,16 +12,12 @@
 
 
 /datum/emergency_call/freelancers/create_member(datum/mind/M)
-	var/turf/spawn_loc = get_spawn_point()
-	var/mob/original = M.current
-
-	if(!istype(spawn_loc))
+	. = ..()
+	if(!.)
 		return
 
-	var/mob/living/carbon/human/H = new /mob/living/carbon/human(spawn_loc)
-
-	H.name = GLOB.namepool[/datum/namepool/clf].random_name(H)
-	H.real_name = H.name
+	var/mob/original = M.current
+	var/mob/living/carbon/human/H = .
 
 	M.transfer_to(H, TRUE)
 	H.fully_replace_character_name(M.name, H.real_name)
@@ -34,20 +30,17 @@
 	if(!leader)
 		leader = H
 		var/datum/job/J = SSjob.GetJobType(/datum/job/freelancer/leader)
-		SSjob.AssignRole(H, J.title)
-		J.assign_equip(H)
+		H.apply_assigned_role_to_spawn(J)
 		to_chat(H, "<span class='notice'>You are the Freelancer mercenary assigned to lead this group in responding to the TGMC distress signal sent nearby. Keep your team in one piece to make sure they earn their payment!</notice>")
 		return
 
 	if(medics < max_medics)
 		var/datum/job/J = SSjob.GetJobType(/datum/job/freelancer/medic)
-		SSjob.AssignRole(H, J.title)
-		J.assign_equip(H)
+		H.apply_assigned_role_to_spawn(J)
 		medics++
 		to_chat(H, "<span class='notice'>You are a Freelancer mercenary medic assigned to this group to respond to the TGMC distress signal sent nearby. Do not let your teammates fall in battle!</notice>")
 		return
 
 	var/datum/job/J = SSjob.GetJobType(/datum/job/freelancer/standard)
-	SSjob.AssignRole(H, J.title)
-	J.assign_equip(H)
+	H.apply_assigned_role_to_spawn(J)
 	to_chat(H, "<span class='notice'>You are a Freelancer mercenary assigned to this group to respond to the TGMC distress signal sent nearby. Don't let you and your team's guard down!</notice>")

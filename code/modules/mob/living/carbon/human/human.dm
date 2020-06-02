@@ -15,6 +15,7 @@
 	GLOB.human_mob_list += src
 	GLOB.alive_human_list += src
 	GLOB.round_statistics.total_humans_created++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "total_humans_created")
 
 	var/datum/action/skill/toggle_orders/toggle_orders_action = new
 	toggle_orders_action.give_action(src)
@@ -34,6 +35,8 @@
 	RegisterSignal(src, list(COMSIG_KB_QUICKEQUIP, COMSIG_CLICK_QUICKEQUIP), .proc/do_quick_equip)
 	RegisterSignal(src, COMSIG_KB_HOLSTER, .proc/do_holster)
 	RegisterSignal(src, COMSIG_KB_UNIQUEACTION, .proc/do_unique_action)
+	AddComponent(/datum/component/footstep, FOOTSTEP_MOB_HUMAN)
+
 
 /mob/living/carbon/human/vv_get_dropdown()
 	. = ..()
@@ -49,11 +52,10 @@
 	med_hud_set_health()
 	med_hud_set_status()
 	sec_hud_set_security_status()
-	hud_set_squad()
 	hud_set_order()
 	//and display them
 	add_to_all_mob_huds()
-	
+
 	var/datum/atom_hud/hud_to_add = GLOB.huds[DATA_HUD_BASIC]
 	hud_to_add.add_hud_to(src)
 
@@ -70,7 +72,7 @@
 /mob/living/carbon/human/Stat()
 	. = ..()
 
-	if(statpanel("Stats"))
+	if(statpanel("Game"))
 		var/eta_status = SSevacuation?.get_status_panel_eta()
 		if(eta_status)
 			stat("Evacuation in:", eta_status)
@@ -94,85 +96,50 @@
 			stat(null, "You are affected by a FOCUS order.")
 
 /mob/living/carbon/human/ex_act(severity)
-	flash_eyes()
+	if(status_flags & GODMODE)
+		return
 
-	var/b_loss = null
-	var/f_loss = null
-	var/armor = max(0, 1 - getarmor(null, "bomb"))
+	var/b_loss = 0
+	var/f_loss = 0
+	var/armor = getarmor(null, "bomb") * 0.01
+
 	switch(severity)
-		if(1)
-			b_loss += rand(160, 200) * armor	//Probably instant death
-			f_loss += rand(160, 200) * armor	//Probably instant death
-
-			var/atom/target = get_edge_target_turf(src, get_dir(src, get_step_away(src, src)))
-			throw_at(target, 200, 4)
+		if(EXPLODE_DEVASTATE)
+			b_loss += rand(160, 200)
+			f_loss += rand(160, 200)
 
 			if(!istype(wear_ear, /obj/item/clothing/ears/earmuffs))
-				adjust_ear_damage(60 * armor, 240 * armor)
+				adjust_ear_damage(60 - (60 * armor), 240 - (240 * armor))
 
-			adjust_stagger(12 * armor)
-			add_slowdown(round(12 * armor,0.1))
-			knock_out(8 * armor) //This should kill you outright, so if you're somehow alive I don't feel too bad if you get KOed
+			adjust_stagger(12 - (12 * armor))
+			add_slowdown((120 - round(120 * armor, 1)) * 0.01)
 
-		if(2)
-			b_loss += (rand(80, 100) * armor)	//Ouchie time. Armor makes it survivable
-			f_loss += (rand(80, 100) * armor)	//Ouchie time. Armor makes it survivable
-
-			if(!istype(wear_ear, /obj/item/clothing/ears/earmuffs))
-				adjust_ear_damage(30 * armor, 120 * armor)
-
-			adjust_stagger(6 * armor)
-			add_slowdown(round(6 * armor,0.1))
-			knock_down(4 * armor)
-
-		if(3)
-			b_loss += (rand(40, 50) * armor)
-			f_loss += (rand(40, 50) * armor)
+		if(EXPLODE_HEAVY)
+			b_loss += rand(80, 100)
+			f_loss += rand(80, 100)
 
 			if(!istype(wear_ear, /obj/item/clothing/ears/earmuffs))
-				adjust_ear_damage(10 * armor, 30 * armor)
+				adjust_ear_damage(30 - (30 * armor), 120 - (120 * armor))
 
-			adjust_stagger(3 * armor)
-			add_slowdown(round(3 * armor,0.1))
-			knock_down(2 * armor)
+			adjust_stagger(6 - (6 * armor))
+			add_slowdown((60 - round(60 * armor, 1)) * 0.1)
 
-	var/update = 0
+		if(EXPLODE_LIGHT)
+			b_loss += rand(40, 50)
+			f_loss += rand(40, 50)
+
+			if(!istype(wear_ear, /obj/item/clothing/ears/earmuffs))
+				adjust_ear_damage(10 - (10 * armor), 30 - (30 * armor))
+
+			adjust_stagger(3 - (3 * armor))
+			add_slowdown((30 - round(30 * armor, 1)) * 0.1)
+
 	#ifdef DEBUG_HUMAN_ARMOR
-	to_chat(src, "DEBUG EX_ACT: armor: [armor], b_loss: [b_loss], f_loss: [f_loss]")
+	to_chat(world, "DEBUG EX_ACT: armor: [armor * 100], b_loss: [b_loss], f_loss: [f_loss]")
 	#endif
-	//Focus half the blast on one organ
-	var/datum/limb/take_blast = pick(limbs)
-	update |= take_blast.take_damage_limb(b_loss * 0.5, f_loss * 0.5)
 
-	//Distribute the remaining half all limbs equally
-	b_loss *= 0.5
-	f_loss *= 0.5
-
-	for(var/datum/limb/temp in limbs)
-		switch(temp.name)
-			if("head")
-				update |= temp.take_damage_limb(b_loss * 0.2, f_loss * 0.2)
-			if("chest")
-				update |= temp.take_damage_limb(b_loss * 0.4, f_loss * 0.4)
-			if("l_arm")
-				update |= temp.take_damage_limb(b_loss * 0.05, f_loss * 0.05)
-			if("r_arm")
-				update |= temp.take_damage_limb(b_loss * 0.05, f_loss * 0.05)
-			if("l_leg")
-				update |= temp.take_damage_limb(b_loss * 0.05, f_loss * 0.05)
-			if("r_leg")
-				update |= temp.take_damage_limb(b_loss * 0.05, f_loss * 0.05)
-			if("r_foot")
-				update |= temp.take_damage_limb(b_loss * 0.05, f_loss * 0.05)
-			if("l_foot")
-				update |= temp.take_damage_limb(b_loss * 0.05, f_loss * 0.05)
-			if("r_arm")
-				update |= temp.take_damage_limb(b_loss * 0.05, f_loss * 0.05)
-			if("l_arm")
-				update |= temp.take_damage_limb(b_loss * 0.05, f_loss * 0.05)
-	if(update)	UpdateDamageIcon()
-	return 1
-
+	take_overall_damage(b_loss, f_loss, armor * 100)
+	UPDATEHEALTH(src)
 
 /mob/living/carbon/human/attack_animal(mob/living/M as mob)
 	if(M.melee_damage == 0)
@@ -186,9 +153,9 @@
 		var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
 		var/datum/limb/affecting = get_limb(ran_zone(dam_zone))
 		var/armor = run_armor_check(affecting, "melee")
-		apply_damage(damage, BRUTE, affecting, armor)
-		if(armor >= 1) //Complete negation
-			return
+		if(apply_damage(damage, BRUTE, affecting, armor))
+			UPDATEHEALTH(src)
+
 
 /mob/living/carbon/human/show_inv(mob/living/user)
 	var/obj/item/clothing/under/suit
@@ -229,6 +196,7 @@
 // called when something steps onto a human
 // this handles mulebots and vehicles
 /mob/living/carbon/human/Crossed(atom/movable/AM)
+	. = ..()
 	if(istype(AM, /obj/machinery/bot/mulebot))
 		var/obj/machinery/bot/mulebot/MB = AM
 		MB.RunOver(src)
@@ -320,7 +288,7 @@
 	if(istype(id_card, /obj/item/storage/wallet))
 		var/obj/item/storage/wallet/W = id_card
 		id_card = W.front_id
-			
+
 	return istype(id_card) ? id_card : null
 
 //Removed the horrible safety parameter. It was only being used by ninja code anyways.
@@ -366,7 +334,7 @@
 						to_chat(usr, "<span class='warning'>Someone's already taken [src]'s information tag.</span>")
 					return
 			//police skill lets you strip multiple items from someone at once.
-			if(!usr.action_busy || (!usr.mind || !usr.mind.cm_skills || usr.mind.cm_skills.police >= SKILL_POLICE_MP))
+			if(!usr.action_busy || usr.skills.getRating("police") >= SKILL_POLICE_MP)
 				var/obj/item/what = get_item_by_slot(slot)
 				if(what)
 					usr.stripPanelUnequip(what,src,slot)
@@ -463,7 +431,7 @@
 					for(var/organ in list("l_leg","r_leg","l_arm","r_arm","r_hand","l_hand","r_foot","l_foot","chest","head","groin"))
 						var/datum/limb/o = get_limb(organ)
 						if (o && o.limb_status & LIMB_SPLINTED)
-							o.limb_status &= ~LIMB_SPLINTED
+							o.remove_limb_flags(LIMB_SPLINTED)
 							limbcount++
 					if(limbcount)
 						new /obj/item/stack/medical/splint(loc, limbcount)
@@ -510,7 +478,7 @@
 						var/newfireteam = input(usr, "Assign this marine to a fireteam.", "Fire Team Assignment") as null|anything in list("None", "Fire Team 1", "Fire Team 2", "Fire Team 3")
 						if(H.incapacitated() || get_dist(H, src) > 7 || !hasHUD(H,"squadleader")) return
 						ID = get_idcard()
-						if(ID && ID.rank in GLOB.jobs_marines)//still a marine with an ID
+						if(ID && (ID.rank in GLOB.jobs_marines))//still a marine with an ID
 							if(assigned_squad == H.assigned_squad) //still same squad
 								switch(newfireteam)
 									if("None") ID.assigned_fireteam = 0
@@ -620,7 +588,7 @@
 					for (var/datum/data/record/R in GLOB.datacore.security)
 						if (R.fields["id"] == E.fields["id"])
 							if(hasHUD(usr,"security"))
-								var/t1 = copytext(sanitize(input("Add Comment:", "Sec. records", null, null)  as message),1,MAX_MESSAGE_LEN)
+								var/t1 = stripped_input(usr, "Add Comment:", "Sec. records")
 								if ( !(t1) || usr.stat || usr.restrained() || !(hasHUD(usr,"security")) )
 									return
 								var/counter = 1
@@ -729,7 +697,7 @@
 					for (var/datum/data/record/R in GLOB.datacore.medical)
 						if (R.fields["id"] == E.fields["id"])
 							if(hasHUD(usr,"medical"))
-								var/t1 = copytext(sanitize(input("Add Comment:", "Med. records", null, null)  as message),1,MAX_MESSAGE_LEN)
+								var/t1 = stripped_input(usr, "Add Comment:", "Med. records")
 								if ( !(t1) || usr.stat || usr.restrained() || !(hasHUD(usr,"medical")) )
 									return
 								var/counter = 1
@@ -782,6 +750,42 @@
 			I.examine(usr)
 
 	return ..()
+
+
+/mob/living/carbon/human/mouse_buckle_handling(atom/movable/dropping, mob/living/user)
+	. = ..()
+	if(!isliving(.))
+		return
+	if(pulling == . && grab_state >= GRAB_AGGRESSIVE && stat == CONSCIOUS && user != . && can_be_firemanned(.))
+		//If you dragged them to you and you're aggressively grabbing try to fireman carry them
+		fireman_carry(.)
+		return TRUE
+	return FALSE
+
+//src is the user that will be carrying, target is the mob to be carried
+/mob/living/carbon/human/proc/can_be_firemanned(mob/living/carbon/target)
+	return (ishuman(target) && !target.canmove)
+
+/mob/living/carbon/human/proc/fireman_carry(mob/living/carbon/target)
+	if(!can_be_firemanned(target) || incapacitated(restrained_flags = RESTRAINED_NECKGRAB))
+		to_chat(src, "<span class='warning'>You can't fireman carry [target] while they're standing!</span>")
+		return
+	visible_message("<span class='notice'>[src] starts lifting [target] onto [p_their()] back...</span>",
+	"<span class='notice'>You start to lift [target] onto your back...</span>")
+	if(!do_mob(src, target, 5 SECONDS, target_display = BUSY_ICON_HOSTILE))
+		visible_message("<span class='warning'>[src] fails to fireman carry [target]!</span>")
+		return
+	//Second check to make sure they're still valid to be carried
+	if(!can_be_firemanned(target) || incapacitated(restrained_flags = RESTRAINED_NECKGRAB))
+		return
+	buckle_mob(target, TRUE, TRUE, 90, 1, 0)
+
+/mob/living/carbon/human/buckle_mob(mob/living/buckling_mob, force = FALSE, check_loc = TRUE, lying_buckle = FALSE, hands_needed = 0, target_hands_needed = 0, silent)
+	if(!force)//humans are only meant to be ridden through piggybacking and special cases
+		return FALSE
+	LoadComponent(/datum/component/riding/human)
+	return ..()
+
 
 ///get_eye_protection()
 ///Returns a number between -1 to 2
@@ -873,7 +877,7 @@
 
 	to_chat(usr, "You must[self ? "" : " both"] remain still until counting is finished.")
 
-	if(!do_mob(usr, src, 6 SECONDS, extra_checks = CALLBACK(usr, .proc/incapacitated)))
+	if(!do_mob(usr, src, 6 SECONDS))
 		to_chat(usr, "<span class='warning'>You failed to check the pulse. Try again.</span>")
 		return
 
@@ -947,10 +951,13 @@
 	INVOKE_ASYNC(src, .proc/update_body)
 	INVOKE_ASYNC(src, .proc/restore_blood)
 
-	if(species)
-		return 1
-	else
-		return 0
+	if(!(species.species_flags & NO_STAMINA))
+		AddComponent(/datum/component/stamina_behavior)
+		max_stamina_buffer = species.max_stamina_buffer
+		setStaminaLoss(-max_stamina_buffer)
+
+	add_movespeed_modifier(MOVESPEED_ID_SPECIES, TRUE, 0, NONE, TRUE, species.slowdown)
+	return TRUE
 
 
 /mob/living/carbon/human/reagent_check(datum/reagent/R)
@@ -982,8 +989,11 @@
 			S.turn_off_light(src)
 			light_off++
 	if(guns)
-		for(var/obj/item/weapon/gun/G in contents)
-			G.set_light(0)
+		for(var/obj/item/weapon/gun/lit_gun in contents)
+			if(!isattachmentflashlight(lit_gun.rail))
+				continue
+			var/obj/item/attachable/flashlight/lit_rail_flashlight = lit_gun.rail
+			lit_rail_flashlight.activate_attachment(turn_off = TRUE)
 			light_off++
 	if(flares)
 		for(var/obj/item/flashlight/flare/F in contents)
@@ -1030,20 +1040,6 @@
 			else
 				to_chat(src, "<span class='notice'>Your sources of light shorts out.</span>")
 		return TRUE
-
-
-/mob/living/carbon/human/get_total_tint()
-	. = ..()
-	var/obj/item/clothing/C
-	if(istype(head, /obj/item/clothing/head))
-		C = head
-		. += C.tint
-	if(istype(wear_mask, /obj/item/clothing/mask))
-		C = wear_mask
-		. += C.tint
-	if(istype(glasses, /obj/item/clothing/glasses))
-		C = glasses
-		. += C.tint
 
 
 /mob/living/carbon/human/proc/randomize_appearance()
@@ -1146,43 +1142,18 @@
 	regenerate_icons()
 
 
-/mob/living/carbon/human/verb/check_skills()
+/mob/living/carbon/human/verb/show_skills()
 	set category = "IC"
-	set name = "Check Skills"
+	set name = "Show Skills"
 
-	var/dat
-	if(!mind)
-		dat += "You have no mind!"
-	else if(!mind.cm_skills)
-		dat += "You don't have any skills restrictions. Enjoy."
-	else
-		var/datum/skills/S = mind.cm_skills
-		for(var/i = 1 to length(S.values))
-			var/index = S.values[i]
-			var/value = max(S.values[index], 0)
-			dat += "[index]: [value]<br>"
+	var/list/dat = list()
+	var/list/skill_list = skills.getList()
+	for(var/i in skill_list)
+		dat += "[i]: [skill_list[i]]"
 
 	var/datum/browser/popup = new(src, "skills", "<div align='center'>Skills</div>", 300, 600)
-	popup.set_content(dat)
+	popup.set_content(dat.Join("<br>"))
 	popup.open(FALSE)
-
-
-
-/mob/living/carbon/human/proc/set_rank(rank)
-	if(!rank)
-		return FALSE
-
-	if(!mind)
-		job = rank
-		return FALSE
-
-	var/datum/job/J = SSjob.GetJob(rank)
-	if(!J)
-		return FALSE
-
-	J.assign(src)
-
-	return TRUE
 
 
 /mob/living/carbon/human/proc/set_equipment(equipment)
@@ -1211,16 +1182,8 @@
 	return TRUE
 
 
-/mob/living/carbon/human/take_over(mob/M)
-	. = ..()
-
-	var/datum/job/J = SSjob.GetJob(job)
-	J?.assign(src)
-	change_squad(assigned_squad?.name)
-
-
 /mob/living/carbon/human/proc/change_squad(squad)
-	if(!squad || !(job in GLOB.jobs_marines))
+	if(!squad || !ismarinejob(job))
 		return FALSE
 
 	var/datum/squad/S = SSjob.squads[squad]
@@ -1250,7 +1213,7 @@
 		C.registered_name = real_name
 		C.update_label()
 
-	if(!GLOB.datacore.manifest_update(oldname, newname, job))
+	if(job && !GLOB.datacore.manifest_update(oldname, newname, job.title))
 		GLOB.datacore.manifest_inject(src)
 
 	return TRUE

@@ -45,6 +45,12 @@ SUBSYSTEM_DEF(mapping)
 			if(!configs || configs[i].defaulted)
 				to_chat(world, "<span class='boldannounce'>Unable to load next or default map config, defaulting.</span>")
 				configs[i] = old_config
+
+	if(configs[GROUND_MAP])
+		for(var/i in config.votable_modes)
+			if(!(i in configs[GROUND_MAP].gamemodes))
+				config.votable_modes -= i // remove invalid modes
+
 	loadWorld()
 	repopulate_sorted_areas()
 	preloadTemplates()
@@ -168,6 +174,10 @@ SUBSYSTEM_DEF(mapping)
 		query_round_map_name.Execute()
 		qdel(query_round_map_name)
 
+	// Also saving this as a feedback var as we don't have ship_name in the round table.
+	SSblackbox.record_feedback("text", "ground_map", 1, ground_map.map_name)
+	SSblackbox.record_feedback("text", "ship_map", 1, ship_map.map_name)
+
 	if(LAZYLEN(FailedZs))	//but seriously, unless the server's filesystem is messed up this will never happen
 		var/msg = "RED ALERT! The following map files failed to load: [FailedZs[1]]"
 		if(FailedZs.len > 1)
@@ -218,7 +228,7 @@ SUBSYSTEM_DEF(mapping)
 		t = trim(t)
 		if (length(t) == 0)
 			continue
-		else if (copytext(t, 1, 2) == "#")
+		else if (t[1] == "#")
 			continue
 
 		var/pos = findtext(t, " ")

@@ -10,13 +10,13 @@
 	density = TRUE
 	anchored = TRUE
 
-	use_power = 1
+	use_power = IDLE_POWER_USE
 	idle_power_usage = 60
-	active_power_usage = 10000	//10 kW. It's a big all-body scanner.
+	active_power_usage = 16000	//16 kW. It's a big all-body scanner - This is used on scan / examine
 
 
 /obj/machinery/bodyscanner/relaymove(mob/user)
-	if(user.incapacitated(TRUE)) 
+	if(user.incapacitated(TRUE))
 		return
 	go_out()
 
@@ -44,9 +44,9 @@
 	icon_state = "body_scanner_1"
 	for(var/obj/O in src)
 		qdel(O)
-		
+
 /obj/machinery/bodyscanner/MouseDrop_T(mob/M, mob/user)
-	if(!isliving(M))
+	if(!isliving(M) || !ishuman(user))
 		return
 	move_inside_wrapper(M, user)
 
@@ -56,6 +56,11 @@
 	set name = "Enter Body Scanner"
 
 	move_inside_wrapper(usr, usr)
+
+/obj/machinery/bodyscanner/Destroy()
+	locked = FALSE
+	go_out()
+	return ..()
 
 /obj/machinery/bodyscanner/proc/go_out()
 	if (!occupant || locked)
@@ -81,7 +86,7 @@
 		var/obj/item/healthanalyzer/J = I
 		J.attack(occupant, user)
 		return
-		
+
 	var/mob/M
 	if(!istype(I, /obj/item/grab))
 		return
@@ -118,7 +123,7 @@
 
 /obj/machinery/bodyscanner/ex_act(severity)
 	switch(severity)
-		if(1.0)
+		if(EXPLODE_DEVASTATE)
 			for(var/atom/movable/A as mob|obj in src)
 				A.loc = src.loc
 				ex_act(severity)
@@ -126,7 +131,7 @@
 			//SN src = null
 			qdel(src)
 			return
-		if(2.0)
+		if(EXPLODE_HEAVY)
 			if (prob(50))
 				for(var/atom/movable/A as mob|obj in src)
 					A.loc = src.loc
@@ -135,7 +140,7 @@
 				//SN src = null
 				qdel(src)
 				return
-		if(3.0)
+		if(EXPLODE_LIGHT)
 			if (prob(25))
 				for(var/atom/movable/A as mob|obj in src)
 					A.loc = src.loc
@@ -150,29 +155,25 @@
 /obj/machinery/body_scanconsole/ex_act(severity)
 
 	switch(severity)
-		if(1.0)
-			//SN src = null
+		if(EXPLODE_DEVASTATE)
 			qdel(src)
-			return
-		if(2.0)
+		if(EXPLODE_HEAVY)
 			if (prob(50))
-				//SN src = null
 				qdel(src)
-				return
-		else
-	return
+
 
 /obj/machinery/body_scanconsole
-	var/obj/machinery/bodyscanner/connected
-	var/known_implants = list(/obj/item/implant/neurostim)
-	var/delete
-	var/temphtml
 	name = "Body Scanner Console"
 	icon = 'icons/obj/machines/cryogenics.dmi'
 	icon_state = "body_scannerconsole"
 	density = FALSE
 	anchored = TRUE
-
+	use_power = IDLE_POWER_USE
+	idle_power_usage = 3
+	var/obj/machinery/bodyscanner/connected
+	var/known_implants = list(/obj/item/implant/neurostim)
+	var/delete
+	var/temphtml
 
 /obj/machinery/body_scanconsole/Initialize()
 	. = ..()

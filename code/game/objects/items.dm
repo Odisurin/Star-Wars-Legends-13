@@ -12,7 +12,7 @@
 	var/force = 0
 	var/damtype = BRUTE
 	var/attack_speed = 11
-	var/list/attack_verb = list() //Used in attackby() to say how something was attacked "[x] has been [z.attack_verb] by [y] with [z]"
+	var/list/attack_verb //Used in attackby() to say how something was attacked "[x] has been [z.attack_verb] by [y] with [z]"
 
 	var/sharp = FALSE		// whether this item cuts
 	var/edge = FALSE		// whether this item is more likely to dismember
@@ -78,6 +78,8 @@
 	var/toolspeed = 1
 	var/usesound = null
 
+	var/active = FALSE
+
 
 /obj/item/Initialize()
 	. = ..()
@@ -108,6 +110,10 @@
 	embedding = null
 	embedded_into = null //Should have been removed by temporarilyRemoveItemFromInventory, but let's play it safe.
 	return ..()
+
+
+/obj/item/proc/update_item_state(mob/user)
+	item_state = "[initial(icon_state)][flags_item & WIELDED ? "_w" : ""]"
 
 
 //user: The mob that is suiciding
@@ -156,12 +162,10 @@
 		var/obj/item/storage/S = loc
 		S.remove_from_storage(src, user.loc)
 
-	throwing = FALSE
+	set_throwing(FALSE)
 
 	if(loc == user && !user.temporarilyRemoveItemFromInventory(src))
 		return
-
-	user.changeNext_move(CLICK_CD_RAPID)
 
 	if(QDELETED(src))
 		return
@@ -219,10 +223,6 @@
 	if(user?.client && zoom) //Dropped when disconnected, whoops
 		zoom(user, 11, 12)
 
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.remove_action(user)
-
 	SEND_SIGNAL(src, COMSIG_ITEM_DROPPED, user)
 
 	if(flags_item & DELONDROP)
@@ -249,13 +249,12 @@
 			if(!affected_limbs.Find(X.name) )
 				continue
 			armor_block = H.run_armor_check(X, "acid")
-			if(istype(X) && X.take_damage_limb(0, rand(raw_damage * 0.75, raw_damage * 1.25), FALSE, FALSE, armor_block))
+			if(istype(X) && X.take_damage_limb(0, rand(raw_damage * 0.75, raw_damage * 1.25), blocked = armor_block))
 				H.UpdateDamageIcon()
 			limb_count++
-		H.updatehealth()
+		UPDATEHEALTH(H)
 		qdel(current_acid)
 		current_acid = null
-	user.changeNext_move(CLICK_CD_RAPID)
 	return
 
 
@@ -279,11 +278,51 @@
 // for items that can be placed in multiple slots
 // note this isn't called during the initial dressing of a player
 /obj/item/proc/equipped(mob/user, slot)
+	SHOULD_CALL_PARENT(TRUE) // no exceptions
 	SEND_SIGNAL(src, COMSIG_ITEM_EQUIPPED, user, slot)
+
+	var/equipped_to_slot = flags_equip_slot & slotdefine2slotbit(slot)
+	if(equipped_to_slot) // flags_equip_slot is a bitfield
+		SEND_SIGNAL(src, COMSIG_ITEM_EQUIPPED_TO_SLOT, user)
+	else
+		SEND_SIGNAL(src, COMSIG_ITEM_EQUIPPED_NOT_IN_SLOT, user, slot)
+
 	for(var/X in actions)
 		var/datum/action/A = X
 		if(item_action_slot_check(user, slot)) //some items only give their actions buttons when in a specific slot.
 			A.give_action(user)
+
+	if(!equipped_to_slot)
+		return
+
+	if(ishuman(user))
+		var/mob/living/carbon/human/human_user = user
+		if(flags_armor_protection)
+			human_user.add_limb_armor(src)
+		if(slowdown)
+			human_user.add_movespeed_modifier(type, TRUE, 0, NONE, TRUE, slowdown)
+
+
+///Called when an item is removed from an equipment slot. The loc should still be in the unequipper.
+/obj/item/proc/unequipped(mob/unequipper, slot)
+	SHOULD_CALL_PARENT(TRUE)
+	SEND_SIGNAL(src, COMSIG_ITEM_UNEQUIPPED, unequipper, slot)
+
+	var/equipped_from_slot = flags_equip_slot & slotdefine2slotbit(slot)
+
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.remove_action(unequipper)
+
+	if(!equipped_from_slot)
+		return
+
+	if(ishuman(unequipper))
+		var/mob/living/carbon/human/human_unequipper = unequipper
+		if(flags_armor_protection)
+			human_unequipper.remove_limb_armor(src)
+		if(slowdown)
+			human_unequipper.remove_movespeed_modifier(type)
 
 
 //sometimes we only want to grant the item's action if it's equipped in a specific slot.
@@ -298,7 +337,7 @@
 /obj/item/proc/mob_can_equip(mob/M, slot, warning = TRUE)
 	if(!slot)
 		return FALSE
-	
+
 	if(!M)
 		return FALSE
 
@@ -447,13 +486,6 @@
 				if(!U || U.hastie)
 					return FALSE
 				return TRUE
-			if(SLOT_IN_BOOT)
-				if(!istype(src, /obj/item/weapon/combat_knife) && !istype(src, /obj/item/weapon/throwing_knife))
-					return FALSE
-				var/obj/item/clothing/shoes/marine/B = H.shoes
-				if(!B || !istype(B) || B.knife)
-					return FALSE
-				return TRUE
 			if(SLOT_IN_BACKPACK)
 				if (!H.back || !istype(H.back, /obj/item/storage/backpack))
 					return FALSE
@@ -562,17 +594,22 @@
 
 
 /obj/item/proc/update_item_sprites()
-	switch(SSmapping.configs[GROUND_MAP].map_name)
-		if(MAP_LV_624)
+	switch(SSmapping.configs[GROUND_MAP].armor_style)
+		if(MAP_ARMOR_STYLE_JUNGLE)
 			if(flags_item_map_variant & ITEM_JUNGLE_VARIANT)
 				icon_state = "m_[icon_state]"
 				item_state = "m_[item_state]"
-		if(MAP_ICE_COLONY)
+		if(MAP_ARMOR_STYLE_ICE)
 			if(flags_item_map_variant & ITEM_ICE_VARIANT)
 				icon_state = "s_[icon_state]"
 				item_state = "s_[item_state]"
-			if(flags_item_map_variant & ITEM_ICE_PROTECTION)
-				min_cold_protection_temperature = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE
+		if(MAP_ARMOR_STYLE_PRISON)
+			if(flags_item_map_variant & ITEM_PRISON_VARIANT)
+				icon_state = "k_[icon_state]"
+				item_state = "k_[item_state]"
+
+	if(SSmapping.configs[GROUND_MAP].environment_traits[MAP_COLD] && (flags_item_map_variant & ITEM_ICE_PROTECTION))
+		min_cold_protection_temperature = ICE_PLANET_MIN_COLD_PROTECTION_TEMPERATURE
 
 
 /obj/item/verb/verb_pickup()
@@ -595,9 +632,9 @@
 /obj/item/proc/ui_action_click(mob/user, datum/action/item_action/action)
 	attack_self(user)
 
-
-/obj/item/proc/IsShield()
-	return FALSE
+/obj/item/proc/toggle_item_state(mob/user)
+	SHOULD_CALL_PARENT(TRUE)
+	SEND_SIGNAL(src, COMSIG_ITEM_TOGGLE_ACTION, user)
 
 
 /mob/living/carbon/verb/showoff()
@@ -632,7 +669,7 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 		to_chat(user, "<span class='warning'>You do not have the dexterity to use \the [zoom_device].</span>")
 		return
 
-	if(!zoom && user.get_total_tint() >= TINT_HEAVY)
+	if(!zoom && user.tinttotal >= TINT_5)
 		to_chat(user, "<span class='warning'>Your vision is too obscured for you to look through \the [zoom_device].</span>")
 		return
 
@@ -644,25 +681,24 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 		user.visible_message("<span class='notice'>[user] looks up from [zoom_device].</span>",
 		"<span class='notice'>You look up from [zoom_device].</span>")
 		zoom = FALSE
-		user.cooldowns[COOLDOWN_ZOOM] = addtimer(VARSET_LIST_CALLBACK(user.cooldowns, COOLDOWN_ZOOM, null), 2 SECONDS)
-		if(user.client.click_intercept)
-			user.client.click_intercept = null
-		
+		COOLDOWN_START(user, COOLDOWN_ZOOM, 2 SECONDS)
+
 		if(user.interactee == src)
 			user.unset_interaction()
 
 		if(user.client)
-			user.client.change_view(world.view)
+			user.client.click_intercept = null
+			user.client.change_view(WORLD_VIEW)
 			user.client.pixel_x = 0
 			user.client.pixel_y = 0
 
 	else //Otherwise we want to zoom in.
-		if(user.cooldowns[COOLDOWN_ZOOM]) //If we are spamming the zoom, cut it out
+		if(COOLDOWN_CHECK(user, COOLDOWN_ZOOM)) //If we are spamming the zoom, cut it out
 			return
-		user.cooldowns[COOLDOWN_ZOOM] = addtimer(VARSET_LIST_CALLBACK(user.cooldowns, COOLDOWN_ZOOM, null), 2 SECONDS)
+		COOLDOWN_START(user, COOLDOWN_ZOOM, 2 SECONDS)
 
 		if(user.client)
-			user.client.change_view(viewsize)
+			user.client.change_view(VIEW_NUM_TO_STRING(viewsize))
 
 			var/tilesize = 32
 			var/viewoffset = tilesize * tileoffset
@@ -923,3 +959,12 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 		return
 
 	interact(user)
+
+/obj/item/proc/toggle_active(new_state)
+	if(!isnull(new_state))
+		if(new_state == active)
+			return
+		new_state = active
+	else
+		active = !active
+	SEND_SIGNAL(src, COMSIG_ITEM_TOGGLE_ACTIVE, active)

@@ -1,24 +1,23 @@
 /datum/job/upp
 	access = ALL_ANTAGONIST_ACCESS
 	minimal_access = ALL_ANTAGONIST_ACCESS
-	skills_type = /datum/skills/pfc/crafty
-	faction = "Union of Progressive People"
+	skills_type = /datum/skills/crafty
+	faction = "United Space Lepidoptera"
 
-
-//UPP Standard
+//USL Gunner
 /datum/job/upp/standard
-	title = "UPP Standard"
+	title = "USL Gunner"
 	paygrade = "UPP1"
 	outfit = /datum/outfit/job/upp/standard
 
 
 /datum/outfit/job/upp/standard
-	name = "UPP Standard"
+	name = "USL Gunner"
 	jobtype = /datum/job/upp/standard
 
 	id = /obj/item/card/id/silver
 	belt = /obj/item/storage/belt/marine/upp/full
-	ears = /obj/item/radio/headset/distress/wolves
+	ears = /obj/item/radio/headset/distress/usl
 	w_uniform = /obj/item/clothing/under/marine/veteran/UPP
 	shoes = /obj/item/clothing/shoes/marine
 	wear_suit = /obj/item/clothing/suit/storage/faction/UPP
@@ -37,12 +36,12 @@
 	H.equip_to_slot_or_del(new /obj/item/explosive/grenade/frag/upp, SLOT_IN_SUIT)
 
 	H.equip_to_slot_or_del(new /obj/item/stack/sheet/metal/medium_stack, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/autoinjector/tricordrazine, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/autoinjector/tricordrazine, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/autoinjector/tramadol, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/autoinjector/tricordrazine, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/autoinjector/tricordrazine, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/autoinjector/tramadol, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/stack/medical/bruise_pack, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/stack/medical/splint, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/food/snacks/upp, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/food/snacks/upp, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/radio, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/storage/box/m94, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/tool/crowbar/red, SLOT_IN_BACKPACK)
@@ -62,21 +61,21 @@
 	H.equip_to_slot_or_del(new /obj/item/weapon/combat_knife/upp, SLOT_IN_BOOT)
 
 
-//UPP Medic
+//SL Surgeon
 /datum/job/upp/medic
-	title = "UPP Medic"
+	title = "USL Surgeon"
 	paygrade = "UPP2"
 	skills_type = /datum/skills/combat_medic/crafty
 	outfit = /datum/outfit/job/upp/medic
 
 
 /datum/outfit/job/upp/medic
-	name = "UPP Medic"
+	name = "USL Surgeon"
 	jobtype = /datum/job/upp/medic
 
 	id = /obj/item/card/id/silver
 	belt = /obj/item/storage/belt/combatLifesaver/upp
-	ears = /obj/item/radio/headset/distress/wolves
+	ears = /obj/item/radio/headset/distress/usl
 	w_uniform = /obj/item/clothing/under/marine/veteran/UPP/medic
 	shoes = /obj/item/clothing/shoes/marine
 	wear_suit = /obj/item/clothing/suit/storage/faction/UPP
@@ -97,8 +96,8 @@
 	H.equip_to_slot_or_del(new /obj/item/defibrillator, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/healthanalyzer, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/roller, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/food/snacks/upp, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/food/snacks/upp, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/food/snacks/upp, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/food/snacks/upp, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/radio, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/storage/box/m94, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/tool/crowbar/red, SLOT_IN_BACKPACK)
@@ -110,28 +109,28 @@
 
 	H.equip_to_slot_or_del(new /obj/item/storage/firstaid/adv, SLOT_IN_R_POUCH)
 
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/advanced/oxycodone, SLOT_IN_L_POUCH)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/advanced/tricordrazine, SLOT_IN_L_POUCH)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/glass/bottle/tricordrazine, SLOT_IN_L_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/advanced/oxycodone, SLOT_IN_L_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/advanced/tricordrazine, SLOT_IN_L_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/glass/bottle/tricordrazine, SLOT_IN_L_POUCH)
 
 	H.equip_to_slot_or_del(new /obj/item/weapon/combat_knife/upp, SLOT_IN_BOOT)
 
 
-//UPP Heavy
+//USL Powder Monkey
 /datum/job/upp/heavy
-	title = "UPP Heavy"
+	title = "USL Powder Monkey"
 	paygrade = "UPP3"
 	skills_type = /datum/skills/specialist/upp
 	outfit = /datum/outfit/job/upp/heavy
 
 
 /datum/outfit/job/upp/heavy
-	name = "UPP Heavy"
+	name = "USL Powder Monkey"
 	jobtype = /datum/job/upp/heavy
 
 	id = /obj/item/card/id/silver
 	belt = /obj/item/storage/belt/marine/upp/full
-	ears = /obj/item/radio/headset/distress/wolves
+	ears = /obj/item/radio/headset/distress/usl
 	w_uniform = /obj/item/clothing/under/marine/veteran/UPP
 	shoes = /obj/item/clothing/shoes/marine
 	wear_suit = /obj/item/clothing/suit/storage/faction/UPP/heavy
@@ -149,8 +148,8 @@
 	H.equip_to_slot_or_del(new /obj/item/explosive/grenade/frag/upp, SLOT_IN_SUIT)
 
 	H.equip_to_slot_or_del(new /obj/item/stack/sheet/metal/small_stack, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/food/snacks/upp, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/food/snacks/upp, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/food/snacks/upp, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/food/snacks/upp, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/radio, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/storage/box/m94, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/tool/crowbar/red, SLOT_IN_BACKPACK)
@@ -168,21 +167,21 @@
 	H.equip_to_slot_or_del(new /obj/item/weapon/combat_knife/upp, SLOT_IN_BOOT)
 
 
-//UPP Leader
+//USL Captain
 /datum/job/upp/leader
-	title = "UPP Leader"
+	title = "USL Captain"
 	paygrade = "UPP4"
 	skills_type = /datum/skills/SL/upp
 	outfit = /datum/outfit/job/upp/leader
 
 
 /datum/outfit/job/upp/leader
-	name = "UPP Leader"
+	name = "USL Captain"
 	jobtype = /datum/job/upp/leader
 
 	id = /obj/item/card/id/silver
 	belt = /obj/item/storage/belt/gun/korovin/standard
-	ears = /obj/item/radio/headset/distress/wolves
+	ears = /obj/item/radio/headset/distress/usl
 	w_uniform = /obj/item/clothing/under/marine/veteran/UPP
 	shoes = /obj/item/clothing/shoes/marine
 	wear_suit = /obj/item/clothing/suit/storage/faction/UPP/heavy
@@ -201,8 +200,8 @@
 
 	H.equip_to_slot_or_del(new /obj/item/stack/sheet/metal/medium_stack, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/stack/sheet/plasteel/small_stack, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/food/snacks/upp, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/food/snacks/upp, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/food/snacks/upp, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/food/snacks/upp, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/radio, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/storage/box/m94, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/tool/crowbar/red, SLOT_IN_BACKPACK)

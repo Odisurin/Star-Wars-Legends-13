@@ -14,7 +14,7 @@
 	response_help  = "pets"
 	response_disarm = "gently pushes aside"
 	response_harm   = "kicks"
-	faction = "Neutral"
+	faction = FACTION_NEUTRAL
 	attack_same = TRUE
 	attacktext = "kicks"
 	attack_sound = 'sound/weapons/punch1.ogg'
@@ -58,7 +58,7 @@
 
 
 /mob/living/simple_animal/hostile/retaliate/goat/attackby(obj/item/I, mob/user, params)
-	if(stat == CONSCIOUS && istype(I, /obj/item/reagent_container/glass))
+	if(stat == CONSCIOUS && istype(I, /obj/item/reagent_containers/glass))
 		udder.milkAnimal(I, user)
 		return TRUE
 	else
@@ -101,7 +101,7 @@
 
 
 /mob/living/simple_animal/cow/attackby(obj/item/I, mob/user, params)
-	if(stat == CONSCIOUS && istype(I, /obj/item/reagent_container/glass))
+	if(stat == CONSCIOUS && istype(I, /obj/item/reagent_containers/glass))
 		udder.milkAnimal(I, user)
 		return TRUE
 	else
@@ -119,7 +119,7 @@
 		user.visible_message("<span class='warning'>[user] tips over [src].</span>",
 			"<span class='notice'>You tip over [src].</span>")
 		to_chat(src, "<span class='userdanger'>You are tipped over by [user]!</span>")
-		knock_down(10)
+		Paralyze(20 SECONDS)
 		icon_state = icon_dead
 		spawn(rand(20, 50))
 			if(!stat && user)
@@ -203,8 +203,8 @@
 	density = FALSE
 	speak_chance = 2
 	turns_per_move = 3
-	var/egg_type = /obj/item/reagent_container/food/snacks/egg
-	var/food_type = /obj/item/reagent_container/food/snacks/grown/wheat
+	var/egg_type = /obj/item/reagent_containers/food/snacks/egg
+	var/food_type = /obj/item/reagent_containers/food/snacks/grown/wheat
 	response_help  = "pets"
 	response_disarm = "gently pushes aside"
 	response_harm   = "kicks"
@@ -267,11 +267,11 @@
 				START_PROCESSING(SSobj, E)
 
 
-/obj/item/reagent_container/food/snacks/egg
+/obj/item/reagent_containers/food/snacks/egg
 	var/amount_grown = 0
 
 
-/obj/item/reagent_container/food/snacks/egg/process()
+/obj/item/reagent_containers/food/snacks/egg/process()
 	if(isturf(loc))
 		amount_grown += rand(1, 2)
 		if(amount_grown >= 100)
@@ -299,7 +299,7 @@
 
 
 /obj/item/udder/proc/milkAnimal(obj/O, mob/user)
-	var/obj/item/reagent_container/glass/G = O
+	var/obj/item/reagent_containers/glass/G = O
 	if(G.reagents.total_volume >= G.volume)
 		to_chat(user, "<span class='danger'>[O] is full.</span>")
 		return

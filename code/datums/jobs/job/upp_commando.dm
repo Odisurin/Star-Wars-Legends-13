@@ -2,23 +2,23 @@
 	access = ALL_ANTAGONIST_ACCESS
 	minimal_access = ALL_ANTAGONIST_ACCESS
 	skills_type = /datum/skills/commando
-	faction = "Union of Progressive People"
+	faction = "United Space Lepidoptera"
 
 
-//UPP Commando Standard
+//USL Elite Powder Monkey
 /datum/job/upp/commando/standard
-	title = "UPP Commando Standard"
+	title = "USL Elite Powder Monkey"
 	paygrade = "UPPC1"
 	outfit = /datum/outfit/job/upp/commando/standard
 
 
 /datum/outfit/job/upp/commando/standard
-	name = "UPP Commando Standard"
+	name = "USL Elite Powder Monkey"
 	jobtype = /datum/job/upp/commando/standard
 
 	id = /obj/item/card/id/silver
 	belt = /obj/item/storage/belt/marine/upp/full
-	ears = /obj/item/radio/headset/distress/wolves
+	ears = /obj/item/radio/headset/distress/usl
 	w_uniform = /obj/item/clothing/under/marine/veteran/UPP
 	shoes = /obj/item/clothing/shoes/marine
 	wear_suit = /obj/item/clothing/suit/storage/faction/UPP/commando
@@ -38,8 +38,8 @@
 	H.equip_to_slot_or_del(new /obj/item/explosive/grenade/frag/upp, SLOT_IN_SUIT)
 
 	H.equip_to_slot_or_del(new /obj/item/stack/sheet/metal/medium_stack, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/food/snacks/upp, SLOT_IN_BACKPACK)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/food/snacks/upp, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/food/snacks/upp, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/food/snacks/upp, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/radio, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/tool/crowbar/red, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/explosive/grenade/cloakbomb, SLOT_IN_BACKPACK)
@@ -50,28 +50,28 @@
 	H.equip_to_slot_or_del(new /obj/item/binoculars, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/restraints/handcuffs, SLOT_IN_BACKPACK)
 
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/advanced, SLOT_IN_R_POUCH)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/glass/bottle/chloralhydrate, SLOT_IN_R_POUCH)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/glass/bottle/sleeptoxin, SLOT_IN_R_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/advanced, SLOT_IN_R_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/glass/bottle/chloralhydrate, SLOT_IN_R_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/glass/bottle/sleeptoxin, SLOT_IN_R_POUCH)
 
 	H.equip_to_slot_or_del(new /obj/item/weapon/combat_knife/upp, SLOT_IN_BOOT)
 
 
-//UPP Commando Medic
+//USL Elite Surgeon
 /datum/job/upp/commando/medic
-	title = "UPP Commando Medic"
+	title = "USL Elite Surgeon"
 	paygrade = "UPPC2"
 	skills_type = /datum/skills/commando/medic
 	outfit = /datum/outfit/job/upp/commando/medic
 
 
 /datum/outfit/job/upp/commando/medic
-	name = "UPP Commando Medic"
+	name = "USL Elite Surgeon"
 	jobtype = /datum/job/upp/commando/medic
 
 	id = /obj/item/card/id/silver
 	belt = /obj/item/storage/belt/combatLifesaver/upp
-	ears = /obj/item/radio/headset/distress/wolves
+	ears = /obj/item/radio/headset/distress/usl
 	w_uniform = /obj/item/clothing/under/marine/veteran/UPP/medic
 	shoes = /obj/item/clothing/shoes/marine
 	wear_suit = /obj/item/clothing/suit/storage/faction/UPP/commando
@@ -107,28 +107,28 @@
 
 	H.equip_to_slot_or_del(new /obj/item/storage/firstaid/adv, SLOT_IN_R_POUCH)
 
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/advanced/oxycodone, SLOT_IN_L_POUCH)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/advanced/tricordrazine, SLOT_IN_L_POUCH)
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/glass/bottle/tricordrazine, SLOT_IN_L_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/advanced/oxycodone, SLOT_IN_L_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/advanced/tricordrazine, SLOT_IN_L_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/glass/bottle/tricordrazine, SLOT_IN_L_POUCH)
 
 	H.equip_to_slot_or_del(new /obj/item/weapon/combat_knife/upp, SLOT_IN_BOOT)
 
 
-//UPP Commando Leader
+//USL Elite Captain
 /datum/job/upp/commando/leader
-	title = "UPP Commando Leader"
+	title = "USL Elite Captain"
 	paygrade = "UPPC3"
 	skills_type = /datum/skills/commando/leader
 	outfit = /datum/outfit/job/upp/commando/leader
 
 
 /datum/outfit/job/upp/commando/leader
-	name = "UPP Commando Leader"
+	name = "USL Elite Captain"
 	jobtype = /datum/job/upp/commando/leader
 
 	id = /obj/item/card/id/silver
 	belt = /obj/item/storage/belt/gun/korovin/tranq
-	ears = /obj/item/radio/headset/distress/wolves
+	ears = /obj/item/radio/headset/distress/usl
 	w_uniform = /obj/item/clothing/under/marine/veteran/UPP
 	shoes = /obj/item/clothing/shoes/marine
 	wear_suit = /obj/item/clothing/suit/storage/faction/UPP/commando
@@ -147,7 +147,7 @@
 	H.equip_to_slot_or_del(new /obj/item/explosive/grenade/frag/upp, SLOT_IN_SUIT)
 	H.equip_to_slot_or_del(new /obj/item/explosive/grenade/frag/upp, SLOT_IN_SUIT)
 
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/food/snacks/upp, SLOT_IN_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/food/snacks/upp, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/radio, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/tool/crowbar/red, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/explosive/grenade/phosphorus/upp, SLOT_IN_BACKPACK)

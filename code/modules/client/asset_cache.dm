@@ -395,6 +395,18 @@ GLOBAL_LIST_EMPTY(asset_datums)
 
 //DEFINITIONS FOR ASSET DATUMS START HERE.
 
+/datum/asset/simple/tgui
+	assets = list(
+		"tgui.bundle.js" = 'tgui/packages/tgui/public/tgui.bundle.js',
+		"tgui.bundle.css" = 'tgui/packages/tgui/public/tgui.bundle.css',
+	)
+
+/datum/asset/group/tgui
+	children = list(
+		/datum/asset/simple/tgui,
+		/datum/asset/simple/fontawesome
+	)
+
 /datum/asset/simple/changelog
 	assets = list(
 		"88x31.png" = 'html/images/88x31.png',
@@ -426,6 +438,16 @@ GLOBAL_LIST_EMPTY(asset_datums)
 		/datum/asset/spritesheet/goonchat
 	)
 
+/datum/asset/simple/fontawesome
+	verify = FALSE
+	assets = list(
+		"fa-regular-400.eot"  = 'html/font-awesome/webfonts/fa-regular-400.eot',
+		"fa-regular-400.woff" = 'html/font-awesome/webfonts/fa-regular-400.woff',
+		"fa-solid-900.eot"    = 'html/font-awesome/webfonts/fa-solid-900.eot',
+		"fa-solid-900.woff"   = 'html/font-awesome/webfonts/fa-solid-900.woff',
+		"font-awesome.css"    = 'html/font-awesome/css/all.min.css',
+		"v4shim.css"          = 'html/font-awesome/css/v4-shims.min.css'
+	)
 
 /datum/asset/simple/jquery
 	verify = FALSE
@@ -443,8 +465,9 @@ GLOBAL_LIST_EMPTY(asset_datums)
 		"fontawesome-webfont.svg"  = 'code/modules/goonchat/fonts/fontawesome-webfont.svg',
 		"fontawesome-webfont.ttf"  = 'code/modules/goonchat/fonts/fontawesome-webfont.ttf',
 		"fontawesome-webfont.woff" = 'code/modules/goonchat/fonts/fontawesome-webfont.woff',
-		"font-awesome.css"	       = 'code/modules/goonchat/font-awesome.css',
-		"browserOutput.css"	       = 'code/modules/goonchat/browserOutput.css'
+		"goonchatfont-awesome.css" = 'code/modules/goonchat/font-awesome.css',
+		"browserOutput.css"	       = 'code/modules/goonchat/browserOutput.css',
+		"browserOutput_white.css"  = 'code/modules/goonchat/browserOutput_white.css',
 	)
 
 
@@ -453,6 +476,8 @@ GLOBAL_LIST_EMPTY(asset_datums)
 
 
 /datum/asset/spritesheet/goonchat/register()
+	InsertAll("emoji", 'icons/misc/emoji.dmi')
+
 	// pre-loading all lanugage icons also helps to avoid meta
 	InsertAll("language", 'icons/misc/language.dmi')
 	// catch languages which are pulling icons from another file
@@ -488,52 +513,9 @@ GLOBAL_LIST_EMPTY(asset_datums)
 		"minor_button.png" = 'html/images/minor_button.png',
 		"none_button.png" = 'html/images/none_button.png',
 	)
-	
+
 /datum/asset/simple/logo
 	assets = list(
 		"ntlogo.png"	= 'html/images/ntlogo.png',
 		"tgmclogo.png"	= 'html/images/tgmclogo.png'
 	)
-
-
-/datum/asset/nanoui
-	var/list/common = list()
-
-	var/list/common_dirs = list(
-		"nano/css/",
-		"nano/images/",
-		"nano/js/"
-	)
-	var/list/uncommon_dirs = list(
-		"nano/templates/"
-	)
-
-
-/datum/asset/nanoui/register()
-	// Crawl the directories to find files.
-	for(var/path in common_dirs)
-		var/list/filenames = flist(path)
-		for(var/filename in filenames)
-			if(copytext(filename, length(filename)) == "/") // Ignore directories.
-				continue
-			if(!fexists(path + filename))
-				continue
-			common[filename] = fcopy_rsc(path + filename)
-			register_asset(filename, common[filename])
-	
-	for(var/path in uncommon_dirs)
-		var/list/filenames = flist(path)
-		for(var/filename in filenames)
-			if(copytext(filename, length(filename)) == "/") // Ignore directories.
-				continue
-			if(!fexists(path + filename))
-				continue
-			register_asset(filename, fcopy_rsc(path + filename))
-
-
-/datum/asset/nanoui/send(client, uncommon)
-	if(!islist(uncommon))
-		uncommon = list(uncommon)
-
-	send_asset_list(client, uncommon, FALSE)
-	send_asset_list(client, common, TRUE)

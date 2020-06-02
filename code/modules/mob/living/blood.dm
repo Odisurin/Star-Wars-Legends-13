@@ -70,7 +70,7 @@
 				if(prob(10) && stat == UNCONSCIOUS)
 					adjustToxLoss(1)
 				if(prob(15))
-					knock_out(rand(1,3))
+					Unconscious(rand(20,60))
 					var/word = pick("dizzy","woozy","faint")
 					to_chat(src, "<span class='warning'>You feel extremely [word]</span>")
 			if(BLOOD_VOLUME_SURVIVE to BLOOD_VOLUME_BAD)
@@ -85,21 +85,25 @@
 
 		// Without enough blood you slowly go hungry.
 		if(blood_volume < BLOOD_VOLUME_SAFE)
-			if(nutrition >= 300)
-				nutrition -= 10
-			else if(nutrition >= 200)
-				nutrition -= 3
+			switch(nutrition)
+				if(300 to INFINITY)
+					adjust_nutrition(-10)
+				if(200 to 300)
+					adjust_nutrition(-3)
 
 		//Bleeding out
 		var/blood_max = 0
-		for(var/datum/limb/temp in limbs)
+		for(var/l in limbs)
+			var/datum/limb/temp = l
 			if(!(temp.limb_status & LIMB_BLEEDING) || temp.limb_status & LIMB_ROBOT)
 				continue
-			for(var/datum/wound/W in temp.wounds)
-				if(W.bleeding())
-					blood_max += (W.damage / 40)
 			if(temp.limb_status & LIMB_DESTROYED && !(temp.limb_status & LIMB_AMPUTATED))
 				blood_max += 5 //Yer missing a fucking limb.
+				continue
+			for(var/w in temp.wounds)
+				var/datum/wound/W = w
+				if(W.bleeding())
+					blood_max += (W.damage / 40)
 			if (temp.surgery_open_stage)
 				blood_max += 0.6  //Yer stomach is cut open
 
@@ -124,7 +128,7 @@
 				add_splatter_floor(loc, 1)
 
 /mob/living/carbon/human/drip(amt)
-	if(in_stasis) // stasis now stops bloodloss
+	if(HAS_TRAIT(src, TRAIT_STASIS)) // stasis now stops bloodloss
 		return
 	if(NO_BLOOD in species.species_flags)
 		return
@@ -180,7 +184,7 @@
 
 
 //Transfers blood from container to mob
-/mob/living/carbon/proc/inject_blood(obj/item/reagent_container/container, amount)
+/mob/living/carbon/proc/inject_blood(obj/item/reagent_containers/container, amount)
 	for(var/datum/reagent/R in container.reagents.reagent_list)
 		reagents.add_reagent(R.type, amount, R.data)
 		reagents.update_total()
@@ -188,7 +192,7 @@
 
 
 //Transfers blood from container to human, respecting blood types compatability.
-/mob/living/carbon/human/inject_blood(obj/item/reagent_container/container, amount)
+/mob/living/carbon/human/inject_blood(obj/item/reagent_containers/container, amount)
 	var/b_id = get_blood_id()
 	for(var/datum/reagent/R in container.reagents.reagent_list)
 		// If its blood, lets check its compatible or not and cause some toxins.

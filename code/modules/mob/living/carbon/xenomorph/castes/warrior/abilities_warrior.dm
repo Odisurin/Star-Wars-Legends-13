@@ -21,13 +21,14 @@
 	X.agility = !X.agility
 
 	GLOB.round_statistics.warrior_agility_toggles++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "warrior_agility_toggles")
 	if (X.agility)
 		to_chat(X, "<span class='xenowarning'>We lower ourselves to all fours and loosen our armored scales to ease our movement.</span>")
-		X.speed_modifier--
+		X.add_movespeed_modifier(type, TRUE, 0, NONE, TRUE, -0.6)
 		X.armor_bonus -= WARRIOR_AGILITY_ARMOR
 	else
 		to_chat(X, "<span class='xenowarning'>We raise ourselves to stand on two feet, hard scales setting back into place.</span>")
-		X.speed_modifier++
+		X.remove_movespeed_modifier(type)
 		X.armor_bonus += WARRIOR_AGILITY_ARMOR
 	X.update_icons()
 	add_cooldown()
@@ -41,8 +42,8 @@
 	action_icon_state = "lunge"
 	mechanics_text = "Pounce up to 5 tiles and grab a target, knocking them down and putting them in your grasp."
 	ability_name = "lunge"
-	plasma_cost = 10
-	cooldown_timer = 10 SECONDS
+	plasma_cost = 25
+	cooldown_timer = 20 SECONDS
 	keybind_signal = COMSIG_XENOABILITY_LUNGE
 
 /datum/action/xeno_action/activable/lunge/proc/neck_grab(mob/living/owner, mob/living/L)
@@ -81,6 +82,18 @@
 	if(!CHECK_BITFIELD(flags_to_check, XACT_IGNORE_DEAD_TARGET) && H.stat == DEAD)
 		return FALSE
 
+/datum/action/xeno_action/activable/lunge/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/activable/lunge/ai_should_use(target)
+	if(!iscarbon(target))
+		return ..()
+	if(get_dist(target, owner) > 2)
+		return ..()
+	if(!can_use_ability(target, override_flags = XACT_IGNORE_SELECTED_ABILITY))
+		return ..()
+	return TRUE
+
 /datum/action/xeno_action/activable/lunge/on_cooldown_finish()
 	var/mob/living/carbon/xenomorph/X = owner
 	to_chat(X, "<span class='notice'>We get ready to lunge again.</span>")
@@ -90,6 +103,7 @@
 	var/mob/living/carbon/xenomorph/X = owner
 
 	GLOB.round_statistics.warrior_lunges++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "warrior_lunges")
 	X.visible_message("<span class='xenowarning'>\The [X] lunges towards [A]!</span>", \
 	"<span class='xenowarning'>We lunge at [A]!</span>")
 
@@ -117,8 +131,8 @@
 	action_icon_state = "fling"
 	mechanics_text = "Knock a target flying up to 5 tiles."
 	ability_name = "Fling"
-	plasma_cost = 30
-	cooldown_timer = 6 SECONDS
+	plasma_cost = 18
+	cooldown_timer = 20 SECONDS
 	keybind_signal = COMSIG_XENOABILITY_FLING
 
 /datum/action/xeno_action/activable/fling/on_cooldown_finish()
@@ -143,6 +157,7 @@
 	var/mob/living/carbon/xenomorph/X = owner
 	var/mob/living/carbon/human/H = A
 	GLOB.round_statistics.warrior_flings++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "warrior_flings")
 
 	X.visible_message("<span class='xenowarning'>\The [X] effortlessly flings [H] to the side!</span>", \
 	"<span class='xenowarning'>We effortlessly fling [H] to the side!</span>")
@@ -161,11 +176,22 @@
 		if (!temp)
 			break
 		T = temp
-	X.do_attack_animation(H)
-	X.flick_attack_overlay(H, "disarm")
+	X.do_attack_animation(H, ATTACK_EFFECT_DISARM2)
 	H.throw_at(T, fling_distance, 1, X, 1)
 
 	add_cooldown()
+
+/datum/action/xeno_action/activable/fling/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/activable/fling/ai_should_use(target)
+	if(!iscarbon(target))
+		return ..()
+	if(get_dist(target, owner) > 1)
+		return ..()
+	if(!can_use_ability(target, override_flags = XACT_IGNORE_SELECTED_ABILITY))
+		return ..()
+	return TRUE
 
 // ***************************************
 // *********** Punch
@@ -175,8 +201,8 @@
 	action_icon_state = "punch"
 	mechanics_text = "Strike a target up to 1 tile away with a chance to break bones."
 	ability_name = "punch"
-	plasma_cost = 20
-	cooldown_timer = 6 SECONDS
+	plasma_cost = 12
+	cooldown_timer = 10 SECONDS
 	keybind_signal = COMSIG_XENOABILITY_PUNCH
 
 /datum/action/xeno_action/activable/punch/on_cooldown_finish()
@@ -200,9 +226,11 @@
 	var/mob/living/carbon/xenomorph/X = owner
 	var/mob/living/M = A
 	if(X.issamexenohive(M))
+		X.changeNext_move(CLICK_CD_MELEE) // Add a delaay in to avoid spam
 		return M.attack_alien(X) //harmless nibbling.
 
 	GLOB.round_statistics.warrior_punches++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "warrior_punches")
 
 	var/S = pick('sound/weapons/punch1.ogg','sound/weapons/punch2.ogg','sound/weapons/punch3.ogg','sound/weapons/punch4.ogg')
 	var/target_zone = check_zone(X.zone_selected)
@@ -213,15 +241,16 @@
 	playsound(M, S, 50, 1)
 
 	M.punch_act(X, damage, target_zone)
-	X.do_attack_animation(M)
-	X.flick_attack_overlay(M, "punch")
+	X.do_attack_animation(M, ATTACK_EFFECT_YELLOWPUNCH)
 	shake_camera(M, 2, 1)
 	step_away(M, X, 2)
 
 	add_cooldown()
 
+
 /mob/living/proc/punch_act(mob/living/carbon/xenomorph/X, damage, target_zone)
 	apply_damage(damage, BRUTE, target_zone, run_armor_check(target_zone))
+	UPDATEHEALTH(src)
 
 /mob/living/carbon/human/punch_act(mob/living/carbon/xenomorph/X, damage, target_zone)
 	var/datum/limb/L = get_limb(target_zone)
@@ -233,7 +262,7 @@
 		"<span class='xenowarning'>We hit [src] in the [L.display_name] with a devastatingly powerful punch!</span>")
 
 	if(L.limb_status & LIMB_SPLINTED) //If they have it splinted, the splint won't hold.
-		L.limb_status &= ~LIMB_SPLINTED
+		L.remove_limb_flags(LIMB_SPLINTED)
 		to_chat(src, "<span class='danger'>The splint on your [L.display_name] comes apart!</span>")
 
 	L.take_damage_limb(damage, 0, FALSE, FALSE, run_armor_check(target_zone))
@@ -241,7 +270,20 @@
 	adjust_stagger(3)
 	add_slowdown(3)
 
-	apply_damage(damage, HALLOSS) //Armor penetrating halloss also applies.
+	apply_damage(damage, STAMINA) //Armor penetrating halloss also applies.
+	UPDATEHEALTH(src)
+
+/datum/action/xeno_action/activable/punch/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/activable/punch/ai_should_use(target)
+	if(!iscarbon(target))
+		return ..()
+	if(get_dist(target, owner) > 1)
+		return ..()
+	if(!can_use_ability(target, override_flags = XACT_IGNORE_SELECTED_ABILITY))
+		return ..()
+	return TRUE
 
 // ***************************************
 // *********** Rip limb
@@ -275,6 +317,7 @@
 		to_chat(src, "<span class='xenowarning'>We can't rip off that limb.</span>")
 		return FALSE
 	GLOB.round_statistics.warrior_limb_rips++
+	SSblackbox.record_feedback("tally", "round_statistics", 1, "warrior_limb_rips")
 	var/limb_time = rand(40,60)
 
 	visible_message("<span class='xenowarning'>\The [src] begins pulling on [M]'s [L.display_name] with incredible strength!</span>", \

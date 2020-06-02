@@ -4,12 +4,31 @@
 /datum/action/xeno_action/activable/charge
 	name = "Eviscerating Charge"
 	action_icon_state = "charge"
-	mechanics_text = "Charge up to 7 tiles and viciously attack your target."
+	mechanics_text = "Charge up to 4 tiles and viciously attack your target."
 	ability_name = "charge"
-	cooldown_timer = 30 SECONDS
-	plasma_cost = 80
+	cooldown_timer = 6 SECONDS //Balanced by the inability to use either ability more than twice in a row without needing a lengthy plasma charge
+	plasma_cost = 250
 	keybind_flags = XACT_KEYBIND_USE_ABILITY | XACT_IGNORE_SELECTED_ABILITY
 	keybind_signal = COMSIG_XENOABILITY_RAVAGER_CHARGE
+
+/datum/action/xeno_action/activable/charge/proc/charge_complete()
+	UnregisterSignal(owner, list(COMSIG_XENO_OBJ_THROW_HIT, COMSIG_XENO_NONE_THROW_HIT, COMSIG_XENO_LIVING_THROW_HIT))
+
+/datum/action/xeno_action/activable/charge/proc/obj_hit(datum/source, obj/target, speed)
+	var/mob/living/carbon/xenomorph/ravager/X = owner
+	if(istype(target, /obj/structure/table) || istype(target, /obj/structure/rack))
+		var/obj/structure/S = target
+		X.visible_message("<span class='danger'>[X] plows straight through [S]!</span>", null, null, 5)
+		S.deconstruct(FALSE) //We want to continue moving, so we do not reset throwing.
+		return //stay registered
+	else
+		target.hitby(X, speed) //This resets throwing.
+	charge_complete()
+
+/datum/action/xeno_action/activable/charge/proc/mob_hit(datum/source, mob/M)
+	if(M.stat || isxeno(M))
+		return
+	return COMPONENT_KEEP_THROWING //Ravagers plow straight through humans; we only stop on hitting a dense turf
 
 /datum/action/xeno_action/activable/charge/can_use_ability(atom/A, silent = FALSE, override_flags)
 	. = ..()
@@ -28,6 +47,10 @@
 /datum/action/xeno_action/activable/charge/use_ability(atom/A)
 	var/mob/living/carbon/xenomorph/ravager/X = owner
 
+	RegisterSignal(X, COMSIG_XENO_OBJ_THROW_HIT, .proc/obj_hit)
+	RegisterSignal(X, COMSIG_XENO_NONE_THROW_HIT, .proc/charge_complete)
+	RegisterSignal(X, COMSIG_XENO_LIVING_THROW_HIT, .proc/mob_hit)
+
 	X.visible_message("<span class='danger'>[X] charges towards \the [A]!</span>", \
 	"<span class='danger'>We charge towards \the [A]!</span>" )
 	X.emote("roar") //heheh
@@ -38,17 +61,30 @@
 
 	add_cooldown()
 
+/datum/action/xeno_action/activable/charge/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/activable/charge/ai_should_use(target)
+	if(!iscarbon(target))
+		return ..()
+	if(get_dist(target, owner) > 4)
+		return ..()
+	if(!can_use_ability(target, override_flags = XACT_IGNORE_SELECTED_ABILITY))
+		return ..()
+	return TRUE
+
+
 // ***************************************
 // *********** Ravage
 // ***************************************
 /datum/action/xeno_action/activable/ravage
+
 	name = "Ravage"
 	action_icon_state = "ravage"
-	mechanics_text = "Release all of your rage in a vicious melee attack against a single target. The more rage you have, the more damage is done."
+	mechanics_text = "Attacks and knockbacks enemies in the direction your facing."
 	ability_name = "ravage"
-	plasma_cost = 40
-	var/last_victim_count = 0
-	cooldown_timer = 10 SECONDS
+	plasma_cost = 250
+	cooldown_timer = 6 SECONDS
 	keybind_flags = XACT_KEYBIND_USE_ABILITY | XACT_IGNORE_SELECTED_ABILITY
 	keybind_signal = COMSIG_XENOABILITY_RAVAGE
 
@@ -57,84 +93,43 @@
 	playsound(owner, "sound/effects/xeno_newlarva.ogg", 50, 0, 1)
 	return ..()
 
-/datum/action/xeno_action/activable/ravage/get_cooldown()
-	return CLAMP(cooldown_timer - (last_victim_count * 30),10,100) //10 second cooldown base, minus 3 seconds per victim
-
 /datum/action/xeno_action/activable/ravage/use_ability(atom/A)
 	var/mob/living/carbon/xenomorph/ravager/X = owner
 
 	X.emote("roar")
-	GLOB.round_statistics.ravager_ravages++
 	X.visible_message("<span class='danger'>\The [X] thrashes about in a murderous frenzy!</span>", \
 	"<span class='xenowarning'>We thrash about in a murderous frenzy!</span>")
 
 	X.face_atom(A)
 	var/sweep_range = 1
-	var/list/L = orange(sweep_range, X)		// Not actually the fruit
+	var/list/L = orange(sweep_range, X) // Not actually the fruit
 	var/victims = 0
 	var/target_facing
-	for (var/mob/living/carbon/human/H in L)
+	for(var/mob/living/carbon/human/H in L)
 		if(victims >= 3) //Max 3 victims
 			break
 		target_facing = get_dir(X, H)
 		if(target_facing != X.dir && target_facing != turn(X.dir,45) && target_facing != turn(X.dir,-45) ) //Have to be actually facing the target
 			continue
-		if(H.stat != DEAD && !isnestedhost(H) ) //No bully
-			var/extra_dam = X.xeno_caste.melee_damage * round(RAV_RAVAGE_DAMAGE_MULITPLIER + X.rage * RAV_RAVAGE_RAGE_MULITPLIER, 0.01)
-			H.attack_alien(X, extra_dam, FALSE, TRUE, FALSE, TRUE, INTENT_HARM)
+		if(H.stat != DEAD && !isnestedhost(H)) //No bully
+			H.attack_alien(X, X.xeno_caste.melee_damage * 0.25, FALSE, TRUE, FALSE, TRUE, INTENT_HARM)
 			victims++
-			GLOB.round_statistics.ravager_ravage_victims++
 			step_away(H, X, sweep_range, 2)
 			shake_camera(H, 2, 1)
-			H.knock_down(1, 1)
-
-	victims = CLAMP(victims,0,3) //Just to be sure
-	X.rage = (0 + 10 * victims) //rage resets to 0, though we regain 10 rage per victim.
+			H.Paralyze(2 SECONDS)
 
 	succeed_activate()
-	last_victim_count = victims
-	add_cooldown()
-	X.reset_movement()
-
-// ***************************************
-// *********** Second wind
-// ***************************************
-/datum/action/xeno_action/second_wind
-	name = "Second Wind"
-	action_icon_state = "second_wind"
-	mechanics_text = "A channeled ability to restore health that uses plasma and rage. Must stand still for it to work."
-	cooldown_timer = 240 SECONDS
-	var/last_rage = 0
-	keybind_signal = COMSIG_XENOABILITY_SECOND_WIND
-
-/datum/action/xeno_action/second_wind/get_cooldown()
-	return cooldown_timer * round((1 - (last_rage * 0.015) ),0.01)
-
-/datum/action/xeno_action/second_wind/on_cooldown_finish()
-	to_chat(owner, "<span class='xenodanger'>We gather enough strength to use Second Wind again.</span>")
-	playsound(owner, "sound/effects/xeno_newlarva.ogg", 50, 0, 1)
-	return ..()
-
-/datum/action/xeno_action/second_wind/action_activate(atom/A)
-	var/mob/living/carbon/xenomorph/ravager/X = owner
-
-	to_chat(X, "<span class='xenodanger'>Our coursing adrenaline stimulates tissues into a spat of rapid regeneration...</span>")
-	var/current_rage = CLAMP(X.rage,0,RAVAGER_MAX_RAGE) //lock in the value at the time we use it; min 0, max 50.
-	X.do_jitter_animation(1000)
-	if(!do_after(X, 50, FALSE))
-		return fail_activate()
-	X.do_jitter_animation(1000)
-	playsound(X, "sound/effects/alien_drool2.ogg", 50, 0)
-	to_chat(X, "<span class='xenodanger'>We recoup our health, our tapped rage restoring our body, flesh and chitin reknitting themselves...</span>")
-	X.adjustFireLoss(-CLAMP( (X.getFireLoss()) * (0.25 + current_rage * 0.015), 0, X.getFireLoss()) )//Restore HP equal to 25% + 1.5% of the difference between min and max health per rage
-	X.adjustBruteLoss(-CLAMP( (X.getBruteLoss()) * (0.25 + current_rage * 0.015), 0, X.getBruteLoss()) )//Restore HP equal to 25% + 1.5% of the difference between min and max health per rage
-	X.plasma_stored += CLAMP( (X.xeno_caste.plasma_max - X.plasma_stored) * (0.25 + current_rage * 0.015), 0, X.xeno_caste.plasma_max - X.plasma_stored) //Restore Plasma equal to 25% + 1.5% of the difference between min and max health per rage
-	X.updatehealth()
-	X.hud_set_plasma()
-
-	GLOB.round_statistics.ravager_second_winds++
-
-	last_rage = current_rage
 	add_cooldown()
 
-	X.rage = 0
+
+/datum/action/xeno_action/activable/ravage/ai_should_start_consider()
+	return TRUE
+
+/datum/action/xeno_action/activable/ravage/ai_should_use(target)
+	if(!iscarbon(target))
+		return ..()
+	if(get_dist(target, owner) > 1)
+		return ..()
+	if(!can_use_ability(target, override_flags = XACT_IGNORE_SELECTED_ABILITY))
+		return ..()
+	return TRUE

@@ -1,7 +1,7 @@
 /mob/living/carbon/human/proc/do_quick_equip()
 	. = COMSIG_KB_ACTIVATED //The return value must be a flag compatible with the signals triggering this.
-	
-	if(incapacitated() || lying || istype(loc, /obj/vehicle/multitile/root/cm_armored))
+
+	if(incapacitated() || lying_angle || istype(loc, /obj/vehicle/multitile/root/cm_armored))
 		return
 
 	var/obj/item/I = get_active_held_item()
@@ -123,15 +123,18 @@
 		return FALSE
 	. = ..()
 
-/mob/living/carbon/human/doUnEquip(obj/item/I, atom/newloc, nomoveupdate, force)
+/mob/living/carbon/human/doUnEquip(obj/item/I)
 	. = ..()
-	if(!. || !I)
-		return FALSE
-
+	switch(.)
+		if(ITEM_UNEQUIP_DROPPED)
+			return
+		if(ITEM_UNEQUIP_UNEQUIPPED)
+			return
 	if(I == wear_suit)
 		if(s_store)
 			dropItemToGround(s_store)
 		wear_suit = null
+		I.unequipped(src, SLOT_WEAR_SUIT)
 		if(I.flags_inv_hide & HIDESHOES)
 			update_inv_shoes()
 		if(I.flags_inv_hide & (HIDEALLHAIR|HIDETOPHAIR|HIDELOWHAIR) )
@@ -139,6 +142,7 @@
 		if(I.flags_inv_hide & HIDEJUMPSUIT)
 			update_inv_w_uniform()
 		update_inv_wear_suit()
+		. = ITEM_UNEQUIP_UNEQUIPPED
 	else if(I == w_uniform)
 		if(r_store)
 			dropItemToGround(r_store)
@@ -149,13 +153,16 @@
 		if(wear_suit && istype(wear_suit, /obj/item/clothing/suit))
 			dropItemToGround(wear_suit)
 		w_uniform = null
+		I.unequipped(src, SLOT_W_UNIFORM)
 		update_suit_sensors()
 		update_inv_w_uniform()
+		. = ITEM_UNEQUIP_UNEQUIPPED
 	else if(I == head)
 		var/updatename = 0
 		if(head.flags_inv_hide & HIDEFACE)
 			updatename = 1
 		head = null
+		I.unequipped(src, SLOT_HEAD)
 		if(updatename)
 			name = get_visible_name()
 		if(I.flags_inv_hide & (HIDEALLHAIR|HIDETOPHAIR|HIDELOWHAIR))
@@ -166,47 +173,58 @@
 			update_inv_wear_mask()
 		if(I.flags_inv_hide & HIDEEYES)
 			update_inv_glasses()
-		update_tint()
 		update_inv_head()
+		. = ITEM_UNEQUIP_UNEQUIPPED
 	else if (I == gloves)
 		gloves = null
+		I.unequipped(src, SLOT_GLOVES)
 		update_inv_gloves()
+		. = ITEM_UNEQUIP_UNEQUIPPED
 	else if (I == glasses)
 		glasses = null
+		I.unequipped(src, SLOT_GLASSES)
 		var/obj/item/clothing/glasses/G = I
-		if(G.tint)
-			update_tint()
 		if(G.vision_flags || G.darkness_view || G.invis_override || G.invis_view || !isnull(G.lighting_alpha))
 			update_sight()
 		if(!QDELETED(src))
 			update_inv_glasses()
+		. = ITEM_UNEQUIP_UNEQUIPPED
 	else if (I == wear_ear)
 		wear_ear = null
+		I.unequipped(src, SLOT_EARS)
 		update_inv_ears()
+		. = ITEM_UNEQUIP_UNEQUIPPED
 	else if (I == shoes)
 		shoes = null
+		I.unequipped(src, SLOT_SHOES)
 		update_inv_shoes()
+		. = ITEM_UNEQUIP_UNEQUIPPED
 	else if (I == belt)
 		belt = null
+		I.unequipped(src, SLOT_BELT)
 		update_inv_belt()
+		. = ITEM_UNEQUIP_UNEQUIPPED
 	else if (I == wear_id)
 		wear_id = null
-		hud_set_squad()
+		I.unequipped(src, SLOT_WEAR_ID)
 		update_inv_wear_id()
 		name = get_visible_name()
+		. = ITEM_UNEQUIP_UNEQUIPPED
 	else if (I == r_store)
 		r_store = null
+		I.unequipped(src, SLOT_R_STORE)
 		update_inv_pockets()
+		. = ITEM_UNEQUIP_UNEQUIPPED
 	else if (I == l_store)
 		l_store = null
+		I.unequipped(src, SLOT_L_STORE)
 		update_inv_pockets()
+		. = ITEM_UNEQUIP_UNEQUIPPED
 	else if (I == s_store)
 		s_store = null
+		I.unequipped(src, SLOT_S_STORE)
 		update_inv_s_store()
-
-	if(I.flags_armor_protection)
-		remove_limb_armor(I)
-
+		. = ITEM_UNEQUIP_UNEQUIPPED
 
 
 /mob/living/carbon/human/wear_mask_update(obj/item/I, equipping)
@@ -232,6 +250,7 @@
 
 	if(W == l_hand)
 		l_hand = null
+		W.unequipped(src, SLOT_L_HAND)
 		update_inv_l_hand()
 		//removes item's actions, may be readded once re-equipped to the new slot
 		for(var/X in W.actions)
@@ -240,6 +259,7 @@
 
 	else if(W == r_hand)
 		r_hand = null
+		W.unequipped(src, SLOT_R_HAND)
 		update_inv_r_hand()
 		//removes item's actions, may be readded once re-equipped to the new slot
 		for(var/X in W.actions)
@@ -280,7 +300,6 @@
 		if(SLOT_WEAR_ID)
 			wear_id = W
 			W.equipped(src, slot)
-			hud_set_squad()
 			update_inv_wear_id()
 			name = get_visible_name()
 		if(SLOT_EARS)
@@ -291,8 +310,6 @@
 			glasses = W
 			W.equipped(src, slot)
 			var/obj/item/clothing/glasses/G = W
-			if(G.tint)
-				update_tint()
 			if(G.vision_flags || G.darkness_view || G.invis_override || G.invis_view || !isnull(G.lighting_alpha))
 				update_sight()
 			update_inv_glasses()
@@ -313,7 +330,6 @@
 			if(head.flags_inv_hide & HIDEEYES)
 				update_inv_glasses()
 			W.equipped(src, slot)
-			update_tint()
 			update_inv_head()
 		if(SLOT_SHOES)
 			shoes = W
@@ -397,9 +413,6 @@
 			S.handle_item_insertion(W, FALSE, src)
 		else
 			CRASH("[src] tried to equip [W] to [slot] in equip_to_slot().")
-
-	if(W.flags_armor_protection)
-		add_limb_armor(W)
 
 	return TRUE
 

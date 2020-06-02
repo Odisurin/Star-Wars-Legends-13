@@ -7,9 +7,9 @@
 	anchored = TRUE
 	var/broken = 0
 	var/processing = 0
-	use_power = 1
+	use_power = IDLE_POWER_USE
 	idle_power_usage = 5
-	active_power_usage = 50
+	active_power_usage = 500
 
 
 
@@ -25,28 +25,28 @@
 
 	/* objs */
 	meat
-		input = /obj/item/reagent_container/food/snacks/meat
-		output = /obj/item/reagent_container/food/snacks/meatball
+		input = /obj/item/reagent_containers/food/snacks/meat
+		output = /obj/item/reagent_containers/food/snacks/meatball
 
 	potato
-		input = /obj/item/reagent_container/food/snacks/grown/potato
-		output = /obj/item/reagent_container/food/snacks/rawsticks
+		input = /obj/item/reagent_containers/food/snacks/grown/potato
+		output = /obj/item/reagent_containers/food/snacks/rawsticks
 
 	carrot
-		input = /obj/item/reagent_container/food/snacks/grown/carrot
-		output = /obj/item/reagent_container/food/snacks/carrotfries
+		input = /obj/item/reagent_containers/food/snacks/grown/carrot
+		output = /obj/item/reagent_containers/food/snacks/carrotfries
 
 	soybeans
-		input = /obj/item/reagent_container/food/snacks/grown/soybeans
-		output = /obj/item/reagent_container/food/snacks/soydope
+		input = /obj/item/reagent_containers/food/snacks/grown/soybeans
+		output = /obj/item/reagent_containers/food/snacks/soydope
 
 	wheat
-		input = /obj/item/reagent_container/food/snacks/grown/wheat
-		output = /obj/item/reagent_container/food/snacks/flour
+		input = /obj/item/reagent_containers/food/snacks/grown/wheat
+		output = /obj/item/reagent_containers/food/snacks/flour
 
 	spaghetti
-		input = /obj/item/reagent_container/food/snacks/flour
-		output = /obj/item/reagent_container/food/snacks/spagetti
+		input = /obj/item/reagent_containers/food/snacks/flour
+		output = /obj/item/reagent_containers/food/snacks/spagetti
 
 	/* mobs */
 	mob
@@ -63,7 +63,7 @@
 							"You jump out from the processor", \
 							"You hear chimp")
 					return
-				var/obj/item/reagent_container/glass/bucket/bucket_of_blood = new(loc)
+				var/obj/item/reagent_containers/glass/bucket/bucket_of_blood = new(loc)
 				var/datum/reagent/blood/B = new()
 				B.holder = bucket_of_blood
 				B.volume = 70
@@ -135,7 +135,7 @@
 			"You turn on [src].", \
 			"You hear a food processor.")
 		playsound(src.loc, 'sound/machines/blender.ogg', 25, 1)
-		use_power(500)
+		use_power(active_power_usage)
 		sleep(P.time)
 		P.process(src.loc, O)
 		src.processing = 0

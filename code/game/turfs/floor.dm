@@ -6,7 +6,7 @@
 	icon_state = "floor"
 
 	baseturfs = /turf/open/floor/plating
-	
+
 	var/icon_regular_floor = "floor" //Used to remember what icon the tile should have by default
 	var/icon_plating = "plating"
 	var/broken = 0
@@ -30,7 +30,7 @@ GLOBAL_LIST_INIT(icons_to_ignore_at_floor_init, list("damaged1", "damaged2", "da
 											"damaged5", "panelscorched", "floorscorched1", "floorscorched2", "platingdmg1", "platingdmg2",
 											"platingdmg3", "plating", "light_on", "light_on_flicker1", "light_on_flicker2",
 											"light_on_clicker3", "light_on_clicker4", "light_on_clicker5", "light_broken",
-											"light_on_broken", "light_off", "wall_thermite", "grass1", "grass2", "grass3", "grass4",
+											"light_on_broken", "light_off", "grass1", "grass2", "grass3", "grass4",
 											"asteroid", "asteroid_dug",
 											"asteroid0", "asteroid1", "asteroid2", "asteroid3", "asteroid4",
 											"asteroid5", "asteroid6", "asteroid7", "asteroid8", "asteroid9",
@@ -52,18 +52,20 @@ GLOBAL_LIST_INIT(wood_icons, list("wood", "wood-broken"))
 
 /turf/open/floor/ex_act(severity)
 	if(hull_floor)
-		return
+		return ..()
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			break_tile_to_plating()
-		if(2)
+		if(EXPLODE_HEAVY)
 			if(prob(80))
 				break_tile_to_plating()
 			else
 				break_tile()
-		if(3)
+		if(EXPLODE_LIGHT)
 			if(prob(50))
 				break_tile()
+	return ..()
+
 
 /turf/open/floor/fire_act(exposed_temperature, exposed_volume)
 	if(hull_floor)
@@ -110,6 +112,9 @@ GLOBAL_LIST_INIT(wood_icons, list("wood", "wood-broken"))
 		if(!broken && !burnt)
 			if(!(icon_state in list("grass1", "grass2", "grass3", "grass4")))
 				icon_state = "grass[pick("1", "2", "3", "4")]"
+		shoefootstep = FOOTSTEP_GRASS
+		barefootstep = FOOTSTEP_GRASS
+		mediumxenofootstep = FOOTSTEP_GRASS
 	else if(is_carpet_floor())
 		if(!broken && !burnt)
 			if(icon_state != "carpetsymbol")
@@ -153,11 +158,17 @@ GLOBAL_LIST_INIT(wood_icons, list("wood", "wood-broken"))
 							diagonalconnect |= 8
 
 				icon_state = "carpet[connectdir]-[diagonalconnect]"
+		shoefootstep = FOOTSTEP_CARPET
+		barefootstep = FOOTSTEP_CARPET
+		mediumxenofootstep = FOOTSTEP_CARPET
 
 	else if(is_wood_floor())
 		if(!broken && !burnt)
 			if(!(icon_state in GLOB.wood_icons))
 				icon_state = "wood"
+		shoefootstep = FOOTSTEP_WOOD
+		barefootstep = FOOTSTEP_WOOD
+		mediumxenofootstep = FOOTSTEP_WOOD
 
 /turf/open/floor/return_siding_icon_state()
 	..()
@@ -346,7 +357,7 @@ GLOBAL_LIST_INIT(wood_icons, list("wood", "wood-broken"))
 	levelupdate()
 
 //This proc will make a turf into a wood floor. Fun eh? Insert the wood tile to be used as the argument
-//If no argument is given a new one will be made.
+//If no argument is given a new one will be made. SOMEONE FIX THIS COPYPASTE BULLSHIT!!
 /turf/open/floor/proc/make_wood_floor(obj/item/stack/tile/wood/T = null)
 	broken = 0
 	burnt = 0
@@ -438,7 +449,7 @@ GLOBAL_LIST_INIT(wood_icons, list("wood", "wood-broken"))
 		if(!do_after(user, 30, TRUE, src, BUSY_ICON_BUILD) || !is_plating())
 			return
 
-		if(!R?.use(2)) 
+		if(!R?.use(2))
 			return
 
 		ChangeTurf(/turf/open/floor/engine)
@@ -524,7 +535,6 @@ GLOBAL_LIST_INIT(wood_icons, list("wood", "wood-broken"))
 			if(wet_overlay)
 				overlays -= wet_overlay
 				wet_overlay = null
-
 
 
 

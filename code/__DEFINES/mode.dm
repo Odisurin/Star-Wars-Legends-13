@@ -40,6 +40,8 @@
 #define MODE_INFECTION			(1<<4)
 #define MODE_HUMAN_ANTAGS		(1<<5)
 #define MODE_LZ_SHUTTERS		(1<<6)
+#define MODE_XENO_SPAWN_PROTECT	(1<<7)
+#define MODE_XENO_RULER			(1<<8)
 
 #define MODE_LANDMARK_RANDOM_ITEMS			(1<<0)
 #define MODE_LANDMARK_SPAWN_XENO_TUNNELS	(1<<1)
@@ -97,9 +99,6 @@
 
 #define MAX_TUNNELS_PER_MAP 	10
 
-#define QUEEN_DEATH_COUNTDOWN 	15 MINUTES
-#define QUEEN_DEATH_NOLARVA		7.5 MINUTES
-
 #define FOG_DELAY_INTERVAL		40 MINUTES
 
 #define EVACUATION_TIME_LOCK	30 MINUTES
@@ -114,5 +113,14 @@
 
 #define XENO_AFK_TIMER			5 MINUTES
 
-#define DEATHTIME_CHECK(M) ((world.time - M.timeofdeath) > GLOB.respawntime) && check_other_rights(M.client, R_ADMIN, FALSE)
+#define DEATHTIME_CHECK(M) ((world.time - M.timeofdeath) < GLOB.respawntime)
 #define DEATHTIME_MESSAGE(M) to_chat(M, "<span class='warning'>You have been dead for [(world.time - M.timeofdeath) * 0.1] second\s.</span><br><span class='warning'>You must wait [GLOB.respawntime * 0.1] seconds before rejoining the game!</span>")
+
+#define XENODEATHTIME_CHECK(M) ((world.time - M.timeofdeath) < GLOB.xenorespawntime)
+#define XENODEATHTIME_MESSAGE(M) to_chat(M, "<span class='warning'>You have been dead for [(world.time - M.timeofdeath) * 0.1] second\s.</span><br><span class='warning'>You must wait [GLOB.xenorespawntime * 0.1] seconds before rejoining the game as a xenomorph!</span>")
+
+#define COUNT_IGNORE_HUMAN_SSD		(1<<0)
+#define COUNT_IGNORE_XENO_SSD		(1<<1)
+#define COUNT_IGNORE_XENO_SPECIAL_AREA	(1<<2)
+
+#define COUNT_IGNORE_ALIVE_SSD (COUNT_IGNORE_HUMAN_SSD|COUNT_IGNORE_XENO_SSD)

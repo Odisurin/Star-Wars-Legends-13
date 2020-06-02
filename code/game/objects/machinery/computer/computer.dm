@@ -3,7 +3,7 @@
 	icon = 'icons/obj/machines/computer.dmi'
 	density = TRUE
 	anchored = TRUE
-	use_power = 1
+	use_power = IDLE_POWER_USE
 	layer = BELOW_OBJ_LAYER
 	idle_power_usage = 300
 	active_power_usage = 300
@@ -35,10 +35,10 @@
 	if(CHECK_BITFIELD(resistance_flags, INDESTRUCTIBLE))
 		return FALSE
 	switch(severity)
-		if(1.0)
+		if(EXPLODE_DEVASTATE)
 			qdel(src)
 			return
-		if(2.0)
+		if(EXPLODE_HEAVY)
 			if (prob(25))
 				qdel(src)
 				return
@@ -46,15 +46,14 @@
 				for(var/x in verbs)
 					verbs -= x
 				set_broken()
-		if(3.0)
+		if(EXPLODE_LIGHT)
 			if (prob(25))
 				for(var/x in verbs)
 					verbs -= x
 				set_broken()
-		else
-	return
 
-/obj/machinery/computer/bullet_act(obj/item/projectile/Proj)
+
+/obj/machinery/computer/bullet_act(obj/projectile/Proj)
 	if(CHECK_BITFIELD(resistance_flags, INDESTRUCTIBLE))
 		visible_message("[Proj] ricochets off [src]!")
 		return 0
@@ -82,7 +81,7 @@
 
 /obj/machinery/computer/proc/decode(text)
 	// Adds line breaks
-	text = oldreplacetext(text, "\n", "<BR>")
+	text = replacetext(text, "\n", "<BR>")
 	return text
 
 
@@ -90,13 +89,13 @@
 	. = ..()
 
 	if(isscrewdriver(I) && circuit)
-		if(user.mind?.cm_skills && user.mind.cm_skills.engineer < SKILL_ENGINEER_MASTER)
+		if(user.skills.getRating("engineer") < SKILL_ENGINEER_MASTER)
 			user.visible_message("<span class='notice'>[user] fumbles around figuring out how to deconstruct [src].</span>",
 			"<span class='notice'>You fumble around figuring out how to deconstruct [src].</span>")
-			var/fumbling_time = 50 * ( SKILL_ENGINEER_MASTER - user.mind.cm_skills.engineer )
+			var/fumbling_time = 50 * ( SKILL_ENGINEER_MASTER - user.skills.getRating("engineer") )
 			if(!do_after(user, fumbling_time, TRUE, src, BUSY_ICON_UNSKILLED))
 				return
-				
+
 		playsound(loc, 'sound/items/screwdriver.ogg', 25, 1)
 
 		if(!do_after(user, 20, TRUE, src, BUSY_ICON_BUILD))
@@ -119,8 +118,8 @@
 			to_chat(user, "<span class='notice'>You disconnect the monitor.</span>")
 			A.state = 4
 			A.icon_state = "4"
-			
-		M.deconstruct(src)
+
+		M.decon(src)
 		qdel(src)
 
 	else if(isxeno(user))

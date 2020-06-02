@@ -15,7 +15,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	interaction_flags = INTERACT_OBJ_NANO
 
-	var/req_role = "" //to be compared with assigned_role to only allow those to use that machine.
+	var/req_role //to be compared with job.type to only allow those to use that machine.
 	var/points = 40
 	var/max_points = 50
 	var/use_points = TRUE
@@ -23,7 +23,6 @@
 	var/broken = 0
 
 	var/list/listed_products = list()
-
 
 /obj/item/portable_vendor/attack_hand(mob/living/user)
 	. = ..()
@@ -52,13 +51,22 @@
 		if(I.registered_name != user.real_name)
 			return FALSE
 
-		if(req_role && I.rank != req_role)
-			return FALSE
+		if(req_role)
+			var/mob/living/living_user = user
+			if(!istype(living_user.job, req_role))
+				return FALSE
 
 	return TRUE
 
+/obj/item/portable_vendor/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
+										datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 
-/obj/item/portable_vendor/ui_interact(mob/user, ui_key = "main", datum/nanoui/ui = null, force_open = 0)
+	if(!ui)
+		ui = new(user, src, ui_key, "PortableVendor", name, 600, 700, master_ui, state)
+		ui.open()
+
+/obj/item/portable_vendor/ui_data(mob/user)
 	var/list/display_list = list()
 
 
@@ -85,61 +93,53 @@
 		"max_points" = max_points,
 		"displayed_records" = display_list,
 	)
+	return data
 
-	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
-
-	if (!ui)
-		ui = new(user, src, ui_key, "portable_vendor.tmpl", name , 600, 700)
-		ui.set_initial_data(data)
-		ui.open()
-		ui.set_auto_update(1)
-
-
-/obj/item/portable_vendor/Topic(href, href_list)
-	. = ..()
-	if(.)
+/obj/item/portable_vendor/ui_act(action, params)
+	if(..())
 		return
+	switch(action)
+		if("vend")
+			if(!allowed(usr))
+				to_chat(usr, "<span class='warning'>Access denied.</span>")
+				return
 
-	if(href_list["vend"])
+			var/idx = text2num(params["vend"])
 
-		if(!allowed(usr))
-			to_chat(usr, "<span class='warning'>Access denied.</span>")
-			return
+			var/list/L = listed_products[idx]
+			var/cost = L[2]
 
-		var/idx = text2num(href_list["vend"])
-
-		var/list/L = listed_products[idx]
-		var/cost = L[2]
-
-		if(use_points && points < cost)
-			to_chat(usr, "<span class='warning'>Not enough points.</span>")
-
-
-		var/turf/T = get_turf(src)
-		if(length(T.contents) > 25)
-			to_chat(usr, "<span class='warning'>The floor is too cluttered, make some space.</span>")
-			return
+			if(use_points && points < cost)
+				to_chat(usr, "<span class='warning'>Not enough points.</span>")
 
 
-		if(use_points)
-			points -= cost
+			var/turf/T = get_turf(src)
+			if(length(T.contents) > 25)
+				to_chat(usr, "<span class='warning'>The floor is too cluttered, make some space.</span>")
+				return
 
-		playsound(src, "sound/machines/fax.ogg", 5)
-		fabricating = TRUE
-		update_overlays()
-		spawn(30)
-			var/type_p = L[3]
-			var/obj/IT = new type_p(get_turf(src))
-			if(loc == usr)
-				usr.put_in_hands(IT)
-			fabricating = FALSE
+
+			if(use_points)
+				points -= cost
+
+			playsound(src, "sound/machines/fax.ogg", 5)
+			fabricating = TRUE
 			update_overlays()
+			addtimer(CALLBACK(src, .proc/do_vend, L[3], usr), 3 SECONDS)
 
 	updateUsrDialog()
 
+/obj/item/portable_vendor/proc/do_vend(thing, mob/user)
+	var/obj/IT = new thing(get_turf(src))
+	if(loc == user)
+		user.put_in_hands(IT)
+	fabricating = FALSE
+	update_overlays()
 
-/obj/item/portable_vendor/proc/update_overlays()
-	if(overlays) overlays.Cut()
+/obj/item/portable_vendor/update_overlays()
+	. = ..()
+	if(overlays)
+		overlays.Cut()
 	if (broken)
 		overlays += image(icon, "securespark")
 	else if (fabricating)
@@ -182,16 +182,16 @@
 
 /obj/item/portable_vendor/ex_act(severity)
 	switch(severity)
-		if(1.0)
+		if(EXPLODE_DEVASTATE)
 			qdel(src)
 			return
-		if(2.0)
+		if(EXPLODE_HEAVY)
 			if(prob(50))
 				qdel(src)
 				return
 			else
 				malfunction()
-		else
+		if(EXPLODE_LIGHT)
 			if(prob(80))
 				malfunction()
 
@@ -200,8 +200,8 @@
 	name = "\improper Nanotrasen Automated Storage Briefcase"
 	desc = "A suitcase-sized automated storage and retrieval system. Designed to efficiently store and selectively dispense small items. This one has the Nanotrasen logo stamped on its side."
 
-	req_access_txt = "200"
-	req_role = CORPORATE_LIAISON
+	req_access = list(ACCESS_NT_CORPORATE)
+	req_role = /datum/job/terragov/civilian/liaison
 	listed_products = list(
 							list("INCENTIVES", 0, null, null, null),
 							list("Neurostimulator Implant", 30, /obj/item/implanter/neurostim, "white", "Implant which regulates nociception and sensory function. Benefits include pain reduction, improved balance, and improved resistance to overstimulation and disoritentation. To encourage compliance, negative stimulus is applied if the implant hears a (non-radio) spoken codephrase. Implant will be degraded by the body's immune system over time, and thus malfunction with gradually increasing frequency. Personal use not recommended."),

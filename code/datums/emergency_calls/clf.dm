@@ -11,16 +11,12 @@
 
 
 /datum/emergency_call/clf/create_member(datum/mind/M)
-	var/turf/spawn_loc = get_spawn_point()
-	var/mob/original = M.current
-
-	if(!istype(spawn_loc))
+	. = ..()
+	if(!.)
 		return
 
-	var/mob/living/carbon/human/H = new /mob/living/carbon/human(spawn_loc)
-
-	H.name = GLOB.namepool[/datum/namepool/clf].random_name(H)
-	H.real_name = H.name
+	var/mob/original = M.current
+	var/mob/living/carbon/human/H = .
 
 	M.transfer_to(H, TRUE)
 	H.fully_replace_character_name(M.name, H.real_name)
@@ -33,20 +29,17 @@
 	if(!leader)
 		leader = H
 		var/datum/job/J = SSjob.GetJobType(/datum/job/clf/leader)
-		SSjob.AssignRole(H, J.title)
-		J.assign_equip(H)
+		H.apply_assigned_role_to_spawn(J)
 		to_chat(H, "<span class='notice'>You are a leader of the local resistance group, the Colonial Liberation Front.</span>")
 		return
 
 	if(medics < max_medics)
 		var/datum/job/J = SSjob.GetJobType(/datum/job/clf/medic)
-		SSjob.AssignRole(H, J.title)
-		J.assign_equip(H)
+		H.apply_assigned_role_to_spawn(J)
 		to_chat(H, "<span class='notice'>You are a medic of the local resistance group, the Colonial Liberation Front.</span>")
 		medics++
 		return
 
 	var/datum/job/J = SSjob.GetJobType(/datum/job/clf/standard)
-	SSjob.AssignRole(H, J.title)
-	J.assign_equip(H)
+	H.apply_assigned_role_to_spawn(J)
 	to_chat(H, "<span class='notice'>You are a member of the local resistance group, the Colonial Liberation Front.</span>")

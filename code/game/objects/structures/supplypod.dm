@@ -26,8 +26,9 @@ GLOBAL_LIST_INIT(pod_styles, list(\
 	pixel_y = -5
 	layer = TABLE_LAYER
 	closet_flags = CLOSET_ALLOW_OBJS|CLOSET_ALLOW_DENSE_OBJ
-	armor = list("melee" = 30, "bullet" = 50, "laser" = 50, "energy" = 100, "bomb" = 100, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 80)
+	soft_armor = list("melee" = 30, "bullet" = 50, "laser" = 50, "energy" = 100, "bomb" = 100, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 80)
 	anchored = TRUE
+	flags_atom = PREVENT_CONTENTS_EXPLOSION
 	var/adminNamed = FALSE
 	var/bluespace = FALSE
 	var/landingDelay = 30
@@ -133,18 +134,21 @@ GLOBAL_LIST_INIT(pod_styles, list(\
 		if(effectGib)
 			L.adjustBruteLoss(5000)
 			L.gib()
+			continue
+
 		L.adjustBruteLoss(damage)
-	
+		UPDATEHEALTH(L)
+
 	var/explosion_sum = B[1] + B[2] + B[3] + B[4]
 	if(explosion_sum != 0)
 		explosion(get_turf(src), B[1], B[2], B[3], B[4])
 	else if(!effectQuiet)
 		playsound(src, "explosion", landingSound ? 15 : 80, 1)
-	
+
 	if(effectMissile)
 		opened = TRUE
 		qdel(src)
-	
+		return
 	if(style == STYLE_SEETHROUGH)
 		open(src)
 	else
@@ -161,7 +165,7 @@ GLOBAL_LIST_INIT(pod_styles, list(\
 		return
 	if(opened)
 		return
-	opened = TRUE 
+	opened = TRUE
 	var/turf/T = get_turf(holder)
 	var/mob/M
 	if(istype(holder, /mob))
@@ -250,11 +254,11 @@ GLOBAL_LIST_INIT(pod_styles, list(\
 			var/atom/movable/AM = i
 			var/icon/I = getFlatIcon(AM)
 			add_overlay(I)
-	
+
 	else if(pod.style != STYLE_INVISIBLE)
 		icon_state = "[pod.icon_state]_falling"
 		name = pod.name
-	
+
 	return ..()
 
 
@@ -288,7 +292,7 @@ GLOBAL_LIST_INIT(pod_styles, list(\
 		L.forceMove(src)
 	if(pod.effectStun)
 		for(var/mob/living/M in get_turf(src))
-			M.stun(pod.landingDelay + 10)
+			M.Stun((pod.landingDelay + 10) * 20)
 	if(pod.effectStealth)
 		icon_state = ""
 	if(pod.fallDuration == initial(pod.fallDuration) && pod.landingDelay + pod.fallDuration < pod.fallingSoundLength)

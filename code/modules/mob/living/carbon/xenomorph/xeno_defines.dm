@@ -3,6 +3,7 @@
 	var/display_name = ""
 	var/upgrade_name = "Young"
 	var/caste_desc = null
+	var/job_type = /datum/job/xenomorph
 
 	var/caste_type_path = null
 
@@ -26,12 +27,7 @@
 	var/tacklemin = 1
 	var/tacklemax = 1
 	var/tackle_chance = 100
-	var/tackle_damage = 20 //How much HALLOSS damage a xeno deals when tackling
-
-	// *** RNG Attacks *** //
-	var/bite_chance = 5 //Chance of doing a special bite attack in place of a claw. Set to 0 to disable.
-	var/tail_chance = 10 //Chance of doing a special tail attack in place of a claw. Set to 0 to disable.
-	var/rng_min_interval = 3 SECONDS //Prevents further critical hits until this much time elapses
+	var/tackle_damage = 20 //How much STAMINA damage a xeno deals when tackling
 
 	// *** Speed *** //
 	var/speed = 1
@@ -53,21 +49,31 @@
 	var/list/evolves_to = list() //type paths to the castes that can be evolved to
 	var/deevolves_to // type path to the caste to deevolve to
 
+	///see_in_dark value while consicious
+	var/conscious_see_in_dark = 8
+	///see_in_dark value while unconscious
+	var/unconscious_see_in_dark = 5
+
 	// *** Flags *** //
 	var/caste_flags = CASTE_EVOLUTION_ALLOWED|CASTE_CAN_VENT_CRAWL|CASTE_CAN_BE_QUEEN_HEALED|CASTE_CAN_BE_LEADER
 
 	var/can_hold_eggs = CANNOT_HOLD_EGGS
 
 	// *** Defense *** //
-	var/list/armor
+	var/list/soft_armor
+	var/list/hard_armor
 
 	var/fire_resist = 1 //0 to 1; lower is better as it is a multiplier.
+
+	// *** Sunder *** //
+	var/sunder_recover = 0.5 // How much sunder is recovered per tick
+	var/sunder_max = 100 // What is the max amount of sunder that can be applied to a xeno (100 = 100%)
 
 	// *** Ranged Attack *** //
 	var/spit_delay = 6 SECONDS //Delay timer for spitting
 	var/list/spit_types //list of datum projectile types the xeno can use.
 
-	var/charge_type = 0 //0: normal. 1: warrior/hunter style pounce. 2: ravager free attack.
+	var/charge_type = 0
 	var/pounce_delay = 4 SECONDS
 
 	var/acid_spray_range = 0
@@ -80,6 +86,7 @@
 	var/agility_speed_increase = 0 // this opens up possibilities for balancing
 
 	// *** Boiler Abilities *** //
+	var/max_ammo = 0
 	var/bomb_strength = 0
 	var/acid_delay = 0
 	var/bomb_delay = 0
@@ -95,9 +102,6 @@
 
 	// *** Queen Abilities *** //
 	var/queen_leader_limit = 0 //Amount of leaders allowed
-
-	// *** Defiler Abilities *** //
-	var/neuro_claws_amount
 
 	var/list/actions
 
@@ -118,13 +122,17 @@
 	mob_size = MOB_SIZE_XENO
 	hand = 1 //Make right hand active by default. 0 is left hand, mob defines it as null normally
 	see_in_dark = 8
-	lighting_alpha = LIGHTING_PLANE_ALPHA_INVISIBLE
+	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
 	sight = SEE_SELF|SEE_OBJS|SEE_TURFS|SEE_MOBS
 	see_infrared = TRUE
 	hud_type = /datum/hud/alien
-	hud_possible = list(HEALTH_HUD_XENO, PLASMA_HUD, PHEROMONE_HUD,QUEEN_OVERWATCH_HUD)
+	hud_possible = list(HEALTH_HUD_XENO, PLASMA_HUD, PHEROMONE_HUD, QUEEN_OVERWATCH_HUD, ARMOR_SUNDER_HUD)
+	buckle_flags = NONE
+	faction = FACTION_XENO
+	initial_language_holder = /datum/language_holder/xeno
+	gib_chance = 5
+
 	var/hivenumber = XENO_HIVE_NORMAL
-	job = ROLE_XENOMORPH
 
 	var/datum/hive_status/hive
 
@@ -141,22 +149,17 @@
 	var/max_grown = 200
 	var/time_of_birth
 
+	var/list/stomach_contents
 	var/devour_timer = 0
 
 	var/evolution_stored = 0 //How much evolution they have stored
 
 	var/upgrade_stored = 0 //How much upgrade points they have stored.
 	var/upgrade = XENO_UPGRADE_INVALID  //This will track their upgrade level.
-	var/gib_chance = 5 // % chance of them exploding when taking damage. Goes up with damage inflicted.
-	var/critical_proc = 0
-	var/critical_delay = 25
 
-	var/middle_mouse_toggle = TRUE //This toggles whether selected ability uses middle mouse clicking or shift clicking
-
-	var/datum/armor/armor
-	var/armor_bonus = 0 //Extra chance of deflecting projectiles due to temporary effects
-	var/armor_pheromone_bonus = 0 //
-
+	var/armor_bonus = 0
+	var/armor_pheromone_bonus = 0
+	var/sunder = 0 // sunder affects armour values and does a % removal before dmg is applied. 50 sunder == 50% effective armour values
 	var/fire_resist_modifier = 0
 
 	var/obj/structure/tunnel/start_dig = null
@@ -174,12 +177,11 @@
 	var/is_zoomed = 0
 	var/zoom_turf = null
 	var/attack_delay = 0 //Bonus or pen to time in between attacks. + makes slashes slower.
-	var/speed = -0.5 //Regular xeno speed modifier. Positive makes you go slower. (1.5 is equivalent to FAT mutation)
-	var/speed_modifier = 0 //Speed bonus/penalties. Positive makes you go slower.
 	var/tier = XENO_TIER_ONE //This will track their "tier" to restrict/limit evolutions
 
 	var/emotedown = 0
 
+	var/list/datum/action/xeno_abilities = list()
 	var/datum/action/xeno_action/activable/selected_ability
 	var/selected_resin = /obj/structure/bed/nest //which resin structure to build when we secrete resin
 
@@ -190,8 +192,6 @@
 	//If they're not a xeno subtype it might crash or do weird things, like using human verb procs
 	//It should add them properly on New() and should reset/readd them on evolves
 	var/list/inherent_verbs = list()
-
-	initial_language_holder = /datum/language_holder/xeno
 
 	//Lord forgive me for this horror, but Life code is awful
 	//These are tally vars, yep. Because resetting the aura value directly leads to fuckups
@@ -217,9 +217,6 @@
 	var/fortify = 0
 	var/crest_defense = 0
 
-	//Runner vars
-	var/hit_and_run = 0 //If we have a value here, we get bonus damage in proportion to movement.
-
 	//Leader vars
 	var/leader_aura_strength = 0 //Pheromone strength inherited from Queen
 	var/leader_current_aura = "" //Pheromone type inherited from Queen
@@ -227,9 +224,6 @@
 	//Runner vars
 	var/savage = FALSE
 	var/savage_used = FALSE
-
-	//Hunter vars
-	var/sneak_bonus = 0.00
 
 	//Notification spam controls
 	var/recent_notice = 0

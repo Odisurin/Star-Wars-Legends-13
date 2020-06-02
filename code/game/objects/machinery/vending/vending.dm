@@ -4,7 +4,7 @@
 
 /datum/data/vending_product
 	var/product_name = "generic"
-	var/product_path = null
+	var/atom/product_path = null
 	var/amount = 0
 	var/price = 0
 	var/display_color = "white"
@@ -21,13 +21,14 @@
 
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 10
-	interaction_flags = INTERACT_MACHINE_NANO
-	var/vend_power_usage = 150 //actuators and stuff
+	active_power_usage = 100
+	interaction_flags = INTERACT_MACHINE_TGUI
 
 	var/active = TRUE //No sales pitches if off!
 	var/vend_ready = TRUE //Are we ready to vend?? Is it time??
 	var/vend_delay = 10 //How long does it take to vend?
 	var/datum/data/vending_product/currently_vending = null // A /datum/data/vending_product instance of what we're paying for right now.
+	var/currently_vending_index
 
 	// To be filled out at compile time
 	var/list/products	= list() // For each, use the following pattern:
@@ -65,6 +66,9 @@
 
 	var/knockdown_threshold = 100
 
+	ui_x = 500
+	ui_y = 600
+
 
 /obj/machinery/vending/Initialize(mapload, ...)
 	. = ..()
@@ -95,17 +99,43 @@
 
 /obj/machinery/vending/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			qdel(src)
-		if(2)
+		if(EXPLODE_HEAVY)
 			if(prob(50))
 				qdel(src)
-		if(3)
+		if(EXPLODE_LIGHT)
 			if(prob(25))
 				INVOKE_ASYNC(src, .proc/malfunction)
 
 /obj/machinery/vending/proc/select_gamemode_equipment(gamemode)
 	return
+
+GLOBAL_LIST_INIT(vending_white_items, typecacheof(list(
+	/obj/item/ammo_magazine/pistol/standard_pistol,
+	/obj/item/ammo_magazine/revolver/standard_revolver,
+	/obj/item/weapon/gun/smg/standard_smg,
+	/obj/item/weapon/gun/rifle/standard_carbine,
+	/obj/item/weapon/gun/rifle/standard_assaultrifle,
+	/obj/item/weapon/gun/rifle/standard_lmg,
+	/obj/item/weapon/gun/rifle/standard_dmr,
+	/obj/item/weapon/gun/energy/lasgun/lasrifle,
+	/obj/item/weapon/gun/shotgun/pump/t35,
+	/obj/item/weapon/gun/rifle/standard_autoshotgun,
+	/obj/item/ammobox,
+	/obj/item/shotgunbox,
+	/obj/item/smartgun_powerpack,
+	/obj/item/weapon/combat_knife,
+	/obj/item/radio/headset/mainship/marine,
+	/obj/item/clothing/gloves/marine,
+	/obj/item/clothing/shoes/marine,
+	/obj/item/clothing/under/marine,
+	/obj/item/storage/backpack/marine/satchel,
+	/obj/item/clothing/suit/storage/marine,
+	/obj/item/storage/belt/marine,
+	/obj/item/storage/pouch/flare,
+	/obj/item/storage/pouch/firstaid
+)))
 
 /obj/machinery/vending/proc/build_inventory(list/productlist,hidden=0,req_coin=0)
 
@@ -121,11 +151,11 @@
 		R.amount = amount
 		R.price = price
 
-		if(ispath(typepath,/obj/item/weapon/gun/rifle/m41a) || ispath(typepath,/obj/item/ammo_magazine/rifle) || ispath(typepath,/obj/item/weapon/combat_knife) || ispath(typepath,/obj/item/radio/headset/mainship/marine) || ispath(typepath,/obj/item/clothing/gloves/marine) || ispath(typepath,/obj/item/clothing/shoes/marine) || ispath(typepath,/obj/item/clothing/under/marine) || ispath(typepath,/obj/item/storage/backpack/marine/satchel) || ispath(typepath,/obj/item/clothing/suit/storage/marine) || ispath(typepath,/obj/item/storage/belt/marine) || ispath(typepath,/obj/item/storage/pouch/flare) || ispath(typepath,/obj/item/storage/pouch/firstaid) )
+		if(is_type_in_typecache(typepath, GLOB.vending_white_items))
 			R.display_color = "white"
 //		else if(ispath(typepath,/obj/item/clothing) || ispath(typepath,/obj/item/storage))
 //			R.display_color = "white"
-//		else if(ispath(typepath,/obj/item/reagent_container) || ispath(typepath,/obj/item/stack/medical))
+//		else if(ispath(typepath,/obj/item/reagent_containers) || ispath(typepath,/obj/item/stack/medical))
 //			R.display_color = "blue"
 		else
 			R.display_color = "black"
@@ -155,7 +185,7 @@
 		return FALSE
 
 	if(M.a_intent == INTENT_HARM)
-		M.do_attack_animation(src)
+		M.do_attack_animation(src, ATTACK_EFFECT_SMASH)
 		if(prob(M.xeno_caste.melee_damage))
 			playsound(loc, 'sound/effects/metalhit.ogg', 25, 1)
 			M.visible_message("<span class='danger'>\The [M] smashes \the [src] beyond recognition!</span>", \
@@ -250,7 +280,7 @@
 		to_chat(user, "<span class='notice'>You insert the [I] into the [src]</span>")
 
 	else if(iswrench(I))
-		if(!wrenchable) 
+		if(!wrenchable)
 			return
 
 		if(!do_after(user, 20, TRUE, src, BUSY_ICON_BUILD))
@@ -285,32 +315,34 @@
 			to_chat(usr, "[icon2html(src, usr)]<span class='warning'>Error: Unable to access your account. Please contact technical support if problem persists.</span>")
 
 /obj/machinery/vending/proc/transfer_and_vend(datum/money_account/acc)
-	if(acc)
-		var/transaction_amount = currently_vending.price
-		if(transaction_amount <= acc.money)
-
-			//transfer the money
-			acc.money -= transaction_amount
-
-			//create entries in the two account transaction logs
-			var/datum/transaction/T = new()
-			T.purpose = "Purchase of [currently_vending.product_name]"
-			if(transaction_amount > 0)
-				T.amount = "([transaction_amount])"
-			else
-				T.amount = "[transaction_amount]"
-			T.source_terminal = src.name
-			T.date = GLOB.current_date_string
-			T.time = worldtime2text()
-			acc.transaction_log.Add(T)
-
-			// Vend the item
-			src.vend(src.currently_vending, usr)
-			currently_vending = null
-		else
-			to_chat(usr, "[icon2html(src, usr)]<span class='warning'>You don't have that much money!</span>")
-	else
+	if(!acc)
 		to_chat(usr, "[icon2html(src, usr)]<span class='warning'>Error: Unable to access your account. Please contact technical support if problem persists.</span>")
+		return
+
+	var/transaction_amount = currently_vending.price
+	if(transaction_amount > acc.money)
+		to_chat(usr, "[icon2html(src, usr)]<span class='warning'>You don't have that much money!</span>")
+		return
+
+	//transfer the money
+	acc.money -= transaction_amount
+
+	//create entries in the two account transaction logs
+	var/datum/transaction/T = new()
+	T.purpose = "Purchase of [currently_vending.product_name]"
+	if(transaction_amount > 0)
+		T.amount = "([transaction_amount])"
+	else
+		T.amount = "[transaction_amount]"
+	T.source_terminal = src.name
+	T.date = GLOB.current_date_string
+	T.time = worldtime2text()
+	acc.transaction_log.Add(T)
+
+	// Vend the item
+	src.vend(src.currently_vending, usr)
+	currently_vending = null
+	currently_vending_index = null
 
 
 /obj/machinery/vending/proc/GetProductIndex(datum/data/vending_product/P)
@@ -342,93 +374,111 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	
+
 	if(tipped_level == 2)
 		user.visible_message("<span class='notice'> [user] begins to heave the vending machine back into place!</span>","<span class='notice'> You start heaving the vending machine back into place..</span>")
 		if(!do_after(user,80, FALSE, src, BUSY_ICON_FRIENDLY))
 			return FALSE
-			
+
 		user.visible_message("<span class='notice'> [user] rights the [src]!</span>","<span class='notice'> You right the [src]!</span>")
 		flip_back()
 		return TRUE
 
 	return TRUE
 
+/obj/machinery/vending/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = FALSE, \
+										datum/tgui/master_ui = null, datum/ui_state/state = GLOB.default_state)
+	ui = SStgui.try_update_ui(user, src, ui_key, ui, force_open)
 
-
-
-/obj/machinery/vending/ui_interact(mob/user, ui_key = "main", datum/nanoui/ui = null, force_open = 0)
-
-	var/list/display_list = list()
-	var/list/display_records = list()
-	display_records += product_records
-	if(extended_inventory)
-		display_records += hidden_records
-	if(coin)
-		display_records += coin_records
-	for (var/datum/data/vending_product/R in display_records)
-		var/prodname = adminscrub(R.product_name)
-		if(R.amount) prodname += ": [R.amount]"
-		else prodname += ": SOLD OUT"
-		if(R.price) prodname += " (Price: [R.price])"
-		prodname = "<color = [R.display_color]>[prodname]</color>"
-		display_list += list(list("product_name" = prodname, "product_color" = R.display_color, "amount" = R.amount, "prod_index" = GetProductIndex(R), "prod_cat" = R.category))
-
-	var/list/data = list(
-		"vendor_name" = name,
-		"currently_vending_name" = currently_vending ? sanitize(currently_vending.product_name) : null,
-		"premium_length" = premium.len,
-		"coin" = coin ? coin.name : null,
-		"displayed_records" = display_list,
-		"isshared" = isshared
-	)
-
-	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
-
-	if (!ui)
-		ui = new(user, src, ui_key, "vending_machine.tmpl", name , 450, 600)
-		ui.set_initial_data(data)
+	if(!ui)
+		ui = new(user, src, ui_key, "Vending", name, ui_x, ui_y, master_ui, state)
 		ui.open()
-		ui.set_auto_update(1)
 
-/obj/machinery/vending/Topic(href, href_list)
-	. = ..()
-	if(.)
+/obj/machinery/vending/ui_static_data(mob/user)
+	. = list()
+	.["vendor_name"] = name
+	.["displayed_records"] = list()
+	.["hidden_records"] = list()
+	.["coin_records"] = list()
+	for(var/datum/data/vending_product/R in product_records)
+		var/prodname = adminscrub(R.product_name)
+		.["displayed_records"] += list(list("product_name" = prodname, "product_color" = R.display_color, "prod_index" = GetProductIndex(R), "prod_cat" = R.category, "prod_price" = R.price, "prod_desc" = initial(R.product_path.desc)))
+	for(var/datum/data/vending_product/R in hidden_records)
+		var/prodname = adminscrub(R.product_name)
+		.["hidden_records"] += list(list("product_name" = prodname, "product_color" = R.display_color, "prod_index" = GetProductIndex(R), "prod_cat" = R.category, "prod_price" = R.price, "prod_desc" = initial(R.product_path.desc)))
+	for(var/datum/data/vending_product/R in coin_records)
+		var/prodname = adminscrub(R.product_name)
+		.["coin_records"] += list(list("product_name" = prodname, "product_color" = R.display_color, "prod_index" = GetProductIndex(R), "prod_cat" = R.category, "prod_price" = R.price, "prod_desc" = initial(R.product_path.desc)))
+
+	.["premium_length"] = premium.len
+
+/obj/machinery/vending/ui_data(mob/user)
+	. = list()
+	.["displayed_stock"] = list()
+	.["hidden_stock"] = list()
+	.["coin_stock"] = list()
+
+	for(var/datum/data/vending_product/R in product_records)
+		.["displayed_stock"]["[GetProductIndex(R)]"] = R.amount
+	for(var/datum/data/vending_product/R in hidden_records)
+		.["hidden_stock"]["[GetProductIndex(R)]"] = R.amount
+	for(var/datum/data/vending_product/R in coin_records)
+		.["coin_stock"]["[GetProductIndex(R)]"] = R.amount
+
+	.["currently_vending_name"] = currently_vending ? sanitize(currently_vending.product_name) : null
+	.["currently_vending_index"] = currently_vending_index
+	.["extended"] = extended_inventory
+	.["coin"] = coin ? coin.name : null
+	.["isshared"] = isshared
+
+/obj/machinery/vending/ui_act(action, params)
+	if(..())
 		return
+	switch(action)
+		if("remove_coin")
+			if(!coin)
+				to_chat(usr, "There is no coin in this machine.")
+				return
 
-	if(href_list["remove_coin"])
-		if(!coin)
-			to_chat(usr, "There is no coin in this machine.")
-			return
+			coin.forceMove(loc)
+			coin = null
+			usr.put_in_hands(coin)
+			to_chat(usr, "<span class='notice'>You remove the [coin] from the [src]</span>")
+			. = TRUE
 
-		coin.forceMove(loc)
-		coin = null
-		usr.put_in_hands(coin)
-		to_chat(usr, "<span class='notice'>You remove the [coin] from the [src]</span>")
+		if("vend")
+			if(!allowed(usr) && (!wires.is_cut(WIRE_IDSCAN) || hacking_safety))
+				to_chat(usr, "<span class='warning'>Access denied.</span>")
+				flick(icon_deny, src)
+				return
 
-	if((href_list["vend"]) && vend_ready && !currently_vending)
-		if(!allowed(usr) && (!wires.is_cut(WIRE_IDSCAN) || hacking_safety))
-			to_chat(usr, "<span class='warning'>Access denied.</span>")
-			flick(icon_deny, src)
-			return
+			var/idx = text2num(params["vend"])
+			var/cat = text2num(params["cat"])
 
-		var/idx = text2num(href_list["vend"])
-		var/cat = text2num(href_list["cat"])
+			var/datum/data/vending_product/R = GetProductByID(idx,cat)
+			if(!istype(R) || !R.product_path || R.amount <= 0)
+				return
 
-		var/datum/data/vending_product/R = GetProductByID(idx,cat)
-		if(!istype(R) || !R.product_path || R.amount <= 0)
-			return
+			if(R.price == null)
+				vend(R, usr)
+			else
+				currently_vending = R
+				currently_vending_index = idx
+			. = TRUE
 
-		if(R.price == null)
-			vend(R, usr)
-		else
-			currently_vending = R
+		if("cancel_buying")
+			currently_vending = null
+			currently_vending_index = null
+			. = TRUE
 
-	else if(href_list["cancel_buying"])
-		currently_vending = null
-		
+		if("swipe")
+			if(!ishuman(usr))
+				return
+			var/mob/living/carbon/human/H = usr
+			scan_card(H.wear_id)
+			. = TRUE
+
 	updateUsrDialog()
-
 
 /obj/machinery/vending/proc/vend(datum/data/vending_product/R, mob/user)
 	if(!allowed(user) && (!wires.is_cut(WIRE_IDSCAN) || hacking_safety)) //For SECURE VENDING MACHINES YEAH
@@ -436,7 +486,10 @@
 		flick(src.icon_deny,src)
 		return
 
-	if (R in coin_records)
+	if(R.category == CAT_HIDDEN && !extended_inventory)
+		return
+
+	if(R.category == CAT_COIN)
 		if(!coin)
 			to_chat(user, "<span class='notice'>You need to insert a coin to get this item.</span>")
 			return
@@ -459,7 +512,9 @@
 			src.speak(src.vend_reply)
 			src.last_reply = world.time
 
-	release_item(R, vend_delay)
+	var/obj/item/new_item = release_item(R, vend_delay)
+	if(istype(new_item))
+		user.put_in_any_hand_if_possible(new_item, warning = FALSE)
 	vend_ready = 1
 	updateUsrDialog()
 
@@ -467,20 +522,21 @@
 	set waitfor = 0
 	if(delay_vending)
 		if(powered(power_channel))
-			use_power(vend_power_usage)	//actuators and stuff
+			use_power(active_power_usage)	//actuators and stuff
 			if (icon_vend)
-				flick(icon_vend,src) //Show the vending animation if needed
+				flick(icon_vend, src) //Show the vending animation if needed
 			sleep(delay_vending)
-		else if(machine_current_charge > vend_power_usage) //if no power, use the machine's battery.
-			machine_current_charge -= min(machine_current_charge, vend_power_usage) //Sterilize with min; no negatives allowed.
-			//to_chat(world, "<span class='warning'>DEBUG: Machine Auto_Use_Power: Vend Power Usage: [vend_power_usage] Machine Current Charge: [machine_current_charge].</span>")
+		else if(machine_current_charge > active_power_usage) //if no power, use the machine's battery.
+			machine_current_charge -= min(machine_current_charge, active_power_usage) //Sterilize with min; no negatives allowed.
+			//to_chat(world, "<span class='warning'>DEBUG: Machine Auto_Use_Power: Vend Power Usage: [active_power_usage] Machine Current Charge: [machine_current_charge].</span>")
 			if (icon_vend)
 				flick(icon_vend,src) //Show the vending animation if needed
 			sleep(delay_vending)
 		else
 			return
+	SSblackbox.record_feedback("tally", "vendored", 1, R.product_name)
 	if(ispath(R.product_path,/obj/item/weapon/gun))
-		return new R.product_path(get_turf(src),1)
+		return new R.product_path(get_turf(src), 1)
 	else
 		return new R.product_path(get_turf(src))
 
@@ -490,7 +546,7 @@
 	if(machine_stat & (BROKEN|NOPOWER))
 		return
 
-	if(user.stat || user.restrained() || user.lying)
+	if(user.stat || user.restrained() || user.lying_angle)
 		return
 
 	if(get_dist(user, src) > 1 || get_dist(src, A) > 1)

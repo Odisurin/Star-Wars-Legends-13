@@ -46,7 +46,7 @@ Notes:
 	owner = C
 	var/datum/asset/stuff = get_asset_datum(/datum/asset/simple/jquery)
 	stuff.send(owner)
-	
+
 	owner << browse(file2text('code/modules/tooltip/tooltip.html'), "window=[control]")
 
 	return ..()
@@ -73,12 +73,12 @@ Notes:
 		title = "<h1>[title]</h1>"
 	if(content)
 		content = "<p>[content]</p>"
-	
+
 	//Make our dumb param object
 	params = {"{ "cursor": "[params]", "screenLoc": "[thing.screen_loc]" }"}
 
 	//Send stuff to the tooltip
-	var/view_size = getviewsize(owner.view)
+	var/list/view_size = getviewsize(owner.view)
 	owner << output(list2params(list(params, view_size[1] , view_size[2], "[title][content]", theme, special)), "[control]:tooltip.update")
 
 	//If a hide() was hit while we were showing, run hide() again to avoid stuck tooltips

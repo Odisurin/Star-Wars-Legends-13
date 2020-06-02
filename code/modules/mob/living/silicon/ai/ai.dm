@@ -4,12 +4,13 @@
 	icon = 'icons/mob/AI.dmi'
 	icon_state = "ai"
 	anchored = TRUE
+	move_resist = MOVE_FORCE_OVERPOWERING
 	density = TRUE
 	canmove = FALSE
-	job = "AI"
 	status_flags = CANSTUN|CANKNOCKOUT
 	sight = SEE_TURFS | SEE_MOBS | SEE_OBJS
 	hud_type = /datum/hud/ai
+	buckle_flags = NONE
 
 	var/list/available_networks = list("marinemainship", "marine", "dropship1", "dropship2")
 	var/obj/machinery/camera/current
@@ -60,6 +61,12 @@
 
 	create_eye()
 
+	if(!job)
+		var/datum/job/terragov/silicon/ai/ai_job = SSjob.type_occupations[/datum/job/terragov/silicon/ai]
+		if(!ai_job)
+			stack_trace("Unemployment has reached to an AI, who has failed to find a job.")
+		apply_assigned_role_to_spawn(ai_job)
+
 	GLOB.ai_list += src
 
 
@@ -74,7 +81,7 @@
 	return FALSE
 
 
-/mob/living/silicon/ai/incapacitated(ignore_restraints)
+/mob/living/silicon/ai/incapacitated(ignore_restrained, restrained_flags)
 	if(control_disabled)
 		return TRUE
 	return ..()
@@ -87,7 +94,7 @@
 /mob/living/silicon/ai/emp_act(severity)
 	. = ..()
 
-	if(prob(30)) 
+	if(prob(30))
 		view_core()
 
 
@@ -119,7 +126,7 @@
 			return
 
 		ai_actual_track(pick(target))
-			
+
 
 /mob/living/silicon/ai/proc/switchCamera(obj/machinery/camera/C)
 	if(QDELETED(C))
@@ -164,7 +171,7 @@
 	for(var/obj/machinery/camera/C in remove)
 		lit_cameras -= C //Removed from list before turning off the light so that it doesn't check the AI looking away.
 		C.Togglelight(0)
-		
+
 	for(var/obj/machinery/camera/C in add)
 		C.Togglelight(1)
 		lit_cameras |= C
@@ -184,7 +191,7 @@
 	if(iscarbon(speaker))
 		var/mob/living/carbon/S = speaker
 		if(S.job)
-			jobpart = "[S.job]"
+			jobpart = "[S.job.title]"
 	else
 		jobpart = "Unknown"
 
@@ -227,13 +234,13 @@
 /mob/living/silicon/ai/Stat()
 	. = ..()
 
-	if(statpanel("Stats"))
-	
+	if(statpanel("Game"))
+
 		if(stat != CONSCIOUS)
-			stat(null, text("Systems nonfunctional"))
+			stat("System status:", "Nonfunctional")
 			return
 
-		stat(null, text("System integrity: [(health + 100) / 2]%"))
+		stat("System integrity:", "[(health + 100) / 2]%")
 
 
 /mob/living/silicon/ai/fully_replace_character_name(oldname, newname)

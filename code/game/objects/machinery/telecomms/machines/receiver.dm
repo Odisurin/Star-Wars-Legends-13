@@ -18,7 +18,7 @@
 /obj/machinery/telecomms/receiver/receive_signal(datum/signal/subspace/signal)
 	if(!on || !istype(signal) || !check_receive_level(signal) || signal.transmission_method != TRANSMISSION_SUBSPACE)
 		return
-		
+
 	if(!is_freq_listening(signal))
 		return
 
@@ -35,7 +35,7 @@
 
 	for(var/obj/machinery/telecomms/hub/H in links)
 		for(var/obj/machinery/telecomms/relay/R in H.links)
-			if(R.can_receive(signal) && R.z in signal.levels)
+			if(R.can_receive(signal) && (R.z in signal.levels))
 				return TRUE
 
 	return FALSE
@@ -47,7 +47,7 @@
 	id = "Receiver A"
 	network = "tcommsat"
 	autolinkers = list("receiverA") // link to relay
-	freq_listening = list(FREQ_MEDICAL, FREQ_REQUISITIONS, FREQ_ALPHA, FREQ_BRAVO, FREQ_CHARLIE, FREQ_DELTA, FREQ_COMMAND, FREQ_ENGINEERING, FREQ_POLICE, FREQ_PMC, FREQ_COLONIST, FREQ_UPP, FREQ_DEATHSQUAD, FREQ_IMPERIAL)
+	freq_listening = list(FREQ_MEDICAL, FREQ_REQUISITIONS, FREQ_ALPHA, FREQ_BRAVO, FREQ_CHARLIE, FREQ_DELTA, FREQ_COMMAND, FREQ_ENGINEERING, FREQ_POLICE, FREQ_PMC, FREQ_COLONIST, FREQ_USL, FREQ_DEATHSQUAD, FREQ_IMPERIAL, FREQ_SECTOID)
 
 
 //--PRESET RIGHT--//

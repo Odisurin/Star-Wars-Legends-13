@@ -164,6 +164,10 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 
 /obj/item/radio/headset/mainship/Initialize()
 	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/item/radio/headset/mainship/LateInitialize(mapload)
+	. = ..()
 	camera = new /obj/machinery/camera/headset(src)
 
 
@@ -239,21 +243,24 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	sl_direction = TRUE
 	to_chat(wearer, "<span class='notice'>You toggle the SL directional display on.</span>")
 	playsound(loc, 'sound/machines/click.ogg', 15, 0, 1)
-	
+
 
 /obj/item/radio/headset/mainship/proc/disable_sl_direction()
-	if(wearer.mind && wearer.assigned_squad && wearer.hud_used?.SL_locator)
+	if(!wearer.assigned_squad)
+		return
+
+	if(wearer.mind && wearer.hud_used?.SL_locator)
 		wearer.hud_used.SL_locator.alpha = 0
 
-	if(wearer?.assigned_squad?.squad_leader == wearer)
+	if(wearer.assigned_squad.squad_leader == wearer)
 		SSdirection.clear_leader(wearer.assigned_squad.tracking_id)
 		SSdirection.stop_tracking("marine-sl", wearer)
 	else
 		SSdirection.stop_tracking(wearer.assigned_squad.tracking_id, wearer)
-	
+
 	sl_direction = FALSE
 	to_chat(wearer, "<span class='notice'>You toggle the SL directional display off.</span>")
-	playsound(loc, 'sound/machines/click.ogg', 15, 0, 1)
+	playsound(loc, 'sound/machines/click.ogg', 15, 0, TRUE)
 
 
 
@@ -366,29 +373,21 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	freerange = TRUE
 
 
-/obj/item/radio/headset/mainship/marine/Initialize(mapload, squad, rank)
+/obj/item/radio/headset/mainship/marine/Initialize(mapload, datum/squad/squad, rank)
 	if(squad)
-		icon_state = "headset_marine_[lowertext(squad)]"
-		var/dat = "marine [lowertext(squad)]"
-		switch(squad)
-			if("Alpha")
-				frequency = FREQ_ALPHA
-			if("Bravo")
-				frequency = FREQ_BRAVO
-			if("Charlie")
-				frequency = FREQ_CHARLIE
-			if("Delta")
-				frequency = FREQ_DELTA
+		icon_state = "headset_marine_[lowertext(squad.name)]"
+		var/dat = "marine [lowertext(squad.name)]"
+		frequency = squad.radio_freq
 		switch(rank)
-			if(SQUAD_LEADER)
+			if(/datum/job/terragov/squad/leader)
 				dat += " leader"
 				keyslot2 = /obj/item/encryptionkey/squadlead
 				use_command = TRUE
 				command = TRUE
-			if(SQUAD_ENGINEER)
+			if(/datum/job/terragov/squad/engineer)
 				dat += " engineer"
 				keyslot2 = /obj/item/encryptionkey/engi
-			if(SQUAD_CORPSMAN)
+			if(/datum/job/terragov/squad/corpsman)
 				dat += " corpsman"
 				keyslot2 = /obj/item/encryptionkey/med
 		name = dat + " radio headset"
@@ -507,10 +506,10 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	keyslot2 = /obj/item/encryptionkey/mcom
 
 
-/obj/item/radio/headset/distress/wolves
-	name = "Steel Wolves headset"
+/obj/item/radio/headset/distress/usl
+	name = "Non standard headset"
 	frequency = FREQ_CIV_GENERAL
-	keyslot = /obj/item/encryptionkey/wolves
+	keyslot = /obj/item/encryptionkey/usl
 
 
 /obj/item/radio/headset/distress/commando
@@ -527,3 +526,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 /obj/item/radio/headset/distress/som
 	name = "\improper Sons of Mars headset"
 	keyslot = /obj/item/encryptionkey/som
+
+/obj/item/radio/headset/distress/sectoid
+	name = "\improper alien headset"
+	keyslot = /obj/item/encryptionkey/sectoid

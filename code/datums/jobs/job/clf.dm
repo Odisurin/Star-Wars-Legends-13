@@ -1,8 +1,8 @@
 /datum/job/clf
 	access = ALL_ANTAGONIST_ACCESS
 	minimal_access = ALL_ANTAGONIST_ACCESS
-	skills_type = /datum/skills/pfc/crafty
-	faction = "Colonial Liberation Force"
+	skills_type = /datum/skills/crafty
+	faction = FACTION_CLF
 
 
 //CLF Standard
@@ -47,7 +47,7 @@
 	H.equip_to_slot_or_del(new /obj/item/ammo_magazine/smg/uzi/extended, SLOT_IN_BACKPACK)
 	H.equip_to_slot_or_del(new /obj/item/ammo_magazine/smg/uzi/extended, SLOT_IN_BACKPACK)
 
-	H.equip_to_slot_or_del(new /obj/item/reagent_container/hypospray/autoinjector/tramadol, SLOT_IN_R_POUCH)
+	H.equip_to_slot_or_del(new /obj/item/reagent_containers/hypospray/autoinjector/tramadol, SLOT_IN_R_POUCH)
 
 
 //CLF Medic

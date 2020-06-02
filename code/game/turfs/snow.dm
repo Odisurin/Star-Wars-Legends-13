@@ -9,6 +9,11 @@
 	icon_state = "snow_0"
 	hull_floor = TRUE
 
+// Melting snow
+/turf/open/floor/plating/ground/snow/fire_act(exposed_temperature, exposed_volume)
+	slayer = 0
+	update_icon(1, 0)
+
 //Xenos digging up snow
 /turf/open/floor/plating/ground/snow/attack_alien(mob/living/carbon/xenomorph/M)
 	if(M.a_intent == INTENT_GRAB)
@@ -33,7 +38,7 @@
 		update_icon(1, 0)
 
 	//PLACING/REMOVING/BUILDING
-/turf/open/snow/attackby(obj/item/I, mob/user, params)
+/turf/open/floor/plating/ground/snow/attackby(obj/item/I, mob/user, params)
 	. = ..()
 	//Light Stick
 	if(istype(I, /obj/item/lightstick))
@@ -68,17 +73,9 @@
 	if(slayer > 0)
 		if(iscarbon(AM))
 			var/mob/living/carbon/C = AM
-			var/slow_amount = 0.75
-			var/can_stuck = 1
-			if(isxeno(C))
-				slow_amount = 0.25
-				can_stuck = 0
-			C.next_move_slowdown += slow_amount * slayer
-			if(prob(2))
+			C.next_move_slowdown += (isxeno(C) ? 0.25 : 0.5) * slayer
+			if(prob(1))
 				to_chat(C, "<span class='warning'>Moving through [src] slows you down.</span>")
-			else if(can_stuck && slayer == 3 && prob(2))
-				to_chat(C, "<span class='warning'>You get stuck in [src] for a moment!</span>")
-				C.next_move_slowdown += 10
 	..()
 
 
@@ -142,18 +139,19 @@
 //Explosion act
 /turf/open/floor/plating/ground/snow/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			if(slayer)
 				slayer = 0
 				update_icon(1, 0)
-		if(2)
-			if(prob(60) && slayer)
+		if(EXPLODE_HEAVY)
+			if(slayer && prob(60))
 				slayer = max(slayer - 2, 0)
 				update_icon(1, 0)
-		if(3)
-			if(prob(20) && slayer)
+		if(EXPLODE_LIGHT)
+			if(slayer && prob(20))
 				slayer -= 1
 				update_icon(1, 0)
+	return ..()
 
 //SNOW LAYERS-----------------------------------//
 /turf/open/floor/plating/ground/snow/layer0

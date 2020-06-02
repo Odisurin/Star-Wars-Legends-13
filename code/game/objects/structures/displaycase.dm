@@ -12,11 +12,11 @@
 
 /obj/structure/displaycase/ex_act(severity)
 	switch(severity)
-		if(1)
+		if(EXPLODE_DEVASTATE)
 			deconstruct(FALSE)
-		if(2)
+		if(EXPLODE_HEAVY)
 			take_damage(15)
-		if(3)
+		if(EXPLODE_LIGHT)
 			take_damage(5)
 
 
@@ -31,7 +31,7 @@
 	. = ..()
 	if(.)
 		return
-	
+
 	if(destroyed && occupied)
 		to_chat(user, "<span class='notice'>You deactivate the hover field built into the case.</span>")
 		occupied = FALSE
