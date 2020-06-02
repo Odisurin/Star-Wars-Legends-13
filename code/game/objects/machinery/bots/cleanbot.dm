@@ -3,7 +3,7 @@
 /obj/machinery/bot/cleanbot
 	name = "Cleanbot"
 	desc = "A little cleaning robot, he looks so excited!"
-	icon = 'icons/obj/aibots.dmi'
+	icon = 'icons/star/mob/droids/service.dmi'
 	icon_state = "cleanbot0"
 	density = FALSE
 	anchored = FALSE
