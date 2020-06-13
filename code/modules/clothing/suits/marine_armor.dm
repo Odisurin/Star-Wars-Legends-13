@@ -109,6 +109,30 @@
 	slowdown = SLOWDOWN_ARMOR_VERY_LIGHT
 	brightness_on = 8 //because it's LIGHT armor, get it?
 
+
+
+
+
+/obj/item/clothing/suit/storage/marine/clone
+	name = "\improper clone armor"
+	desc = "clone"
+	icon_state = "clone"
+	soft_armor = list("melee" = 45, "bullet" = 55, "laser" = 55, "energy" = 20, "bomb" = 45, "bio" = 30, "rad" = 10, "fire" = 25, "acid" = 35)
+	slowdown = SLOWDOWN_ARMOR_VERY_LIGHT
+	brightness_on = 8 //because it's LIGHT armor, get it?
+
+
+
+
+
+
+
+
+
+
+
+
+
 /obj/item/clothing/suit/storage/marine/harness
 	name = "\improper M3 pattern marine harness"
 	desc = "A standard Marine M3 Pattern Harness. No encumbrance and almost no protection."
