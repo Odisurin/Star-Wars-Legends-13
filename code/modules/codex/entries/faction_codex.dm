@@ -84,3 +84,29 @@
 	-How the HELL are they making a profit?<br>\
 	-No combat capability whatsoever<br>\
 	--Will get tips by hook or by crook."
+
+/datum/codex_entry/republic_faction
+    display_name = "The Galatic Republic (faction)"
+    lore_text = "The Galatic Republic, known informally as the Republic, is a militaristic type of republic, requiring no military service and bolstering a \
+    a moderate, generally capable navy.<br><br> The Galatic Republic traces back to the Old Republic, an organization created to legislate \
+    and enforce Galatic Law, which over time amassed more influence until eventually managing to absorb most of the Galaxy, leading to the modern-day government. \
+    The Galatic Republic is the largest inter-species authority in the galaxy, currently fighting a war against the CIS."
+    mechanics_text = "100 quadrillion sentients.<br><br>Standing army of several million clone troopers.<br><br>~15k SSD class star ships, mainly modern and combat-ready<br><br>\
+    ++Largest military in the Galaxy.<br>\
+    +Powerful Chancellor.<br>\
+    +Possesses Holonet , allowing Hologram communication.<br>\
+    -High opposition and unrest in the Outer-Rim sectors.<br>\
+    --Navy is spread out in sector fleets."
+
+/datum/codex_entry/cis_faction
+    display_name = "The Confederacy of Independant Systems (faction)"
+    lore_text = "The Confederacy of Independant Systems, known informally as the CIS, is a separatist movement in the year 24 BBY, requiring no military service and bolstering a \
+    a Droid Army.<br><br> The Confederacy traces back to multiple large corporations and unions such as the Trade Federation and the Galatic Banking Clans, an organization created to seperate from the Galatic Republic \
+    and form it's own territories, which over time amassed more influence until eventually managing to turn some of the Inner-Rim and Outer-Rim worlds , leading to the government. \
+    The Confederacy of Independant Systems is the largest multi-coporation authority in the galaxy, currently fighting a war against the Republic."
+    mechanics_text = "45 quadrillion sentients.<br><br>Standing army of several Trillions of battle droids.<br><br>~100k SSD class star ships, mainly automated and combat-ready<br><br>\
+    ++Largest droid military in the Galaxy.<br>\
+    +Has Control over multiple coporations and banks.<br>\
+    +Possesses numerous droid factories , allowing for the construction of Billions of droids.<br>\
+    -Currently at war with the Galatic Republic.<br>\
+    --Internal Issues with the Separatist Council."
