@@ -644,7 +644,7 @@
 	GLOB.attachment_vendors.Remove(src)
 
 
-
+/*
 /obj/machinery/vending/uniform_supply
 	name = "\improper ColMarTech surplus uniform vendor"
 	desc = "A automated weapon rack hooked up to a colossal storage of uniforms"
@@ -704,6 +704,7 @@
 					)
 
 	prices = list()
+*/
 
 /obj/machinery/vending/dress_supply
 	name = "\improper ColMarTech dress uniform vendor"
@@ -747,3 +748,73 @@
 /obj/machinery/vending/uniform_supply/Destroy()
 	. = ..()
 	GLOB.marine_vendors.Remove(src)
+
+
+
+
+
+
+
+
+
+///star wars
+
+
+
+
+/obj/machinery/vending/uniform_supply
+	name = "\improper ColMarTech surplus uniform vendor"
+	desc = "A automated weapon rack hooked up to a colossal storage of uniforms"
+	icon_state = "marineuniform"
+	icon_vend = "marineuniform_vend"
+	icon_deny = "marineuniform"
+	req_access = null
+	req_one_access = list(ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_PREP, ACCESS_MARINE_CARGO)
+	var/squad_tag = ""
+
+	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
+	products = list(
+					/obj/item/clothing/shoes/marine = 20,
+					/obj/item/clothing/under/marine/standard = 20,
+					/obj/item/storage/backpack/marine/standard = 10,
+					/obj/item/storage/backpack/marine/satchel = 10,
+					/obj/item/clothing/gloves/marine = 20,
+					/obj/item/clothing/suit/storage/marine/clone = 20,
+
+					/obj/item/clothing/head/helmet/marine/clone/standard = 20,
+
+					/obj/item/clothing/glasses/mgoggles = 10,
+					/obj/item/clothing/glasses/mgoggles/prescription = 10,
+					/obj/item/clothing/mask/rebreather/scarf = 10,
+					/obj/item/clothing/mask/bandanna/skull = 10,
+					/obj/item/clothing/mask/bandanna/green = 10,
+					/obj/item/clothing/mask/bandanna/white = 10,
+					/obj/item/clothing/mask/bandanna/black = 10,
+					/obj/item/clothing/mask/bandanna = 10,
+					/obj/item/clothing/mask/rebreather = 10,
+					/obj/item/clothing/mask/breath = 10,
+					/obj/item/tank/emergency_oxygen = 10,
+					/obj/item/storage/belt/marine = 10,
+					/obj/item/storage/belt/shotgun = 10,
+					/obj/item/storage/belt/knifepouch = 10,
+					/obj/item/belt_harness/marine = 10,
+					/obj/item/storage/belt/sparepouch = 10,
+					/obj/item/storage/belt/gun/pistol/standard_pistol = 10,
+					/obj/item/storage/belt/gun/revolver/standard_revolver = 10,
+					/obj/item/storage/pouch/pistol = 10,
+					/obj/item/storage/pouch/magazine = 10,
+					/obj/item/storage/pouch/magazine/pistol = 10,
+					/obj/item/storage/pouch/shotgun = 10,
+					/obj/item/storage/pouch/firstaid = 10,
+					/obj/item/storage/pouch/grenade = 10,
+					/obj/item/storage/pouch/medkit = 10,
+					/obj/item/storage/pouch/flare = 10,
+					/obj/item/storage/pouch/construction = 10,
+					/obj/item/storage/pouch/tools = 10,
+					/obj/item/clothing/tie/storage/brown_vest = 5,
+					/obj/item/clothing/tie/storage/white_vest/medic = 5,
+					/obj/item/clothing/tie/storage/webbing = 5,
+					/obj/item/clothing/tie/holster = 5
+					)
+
+	prices = list()

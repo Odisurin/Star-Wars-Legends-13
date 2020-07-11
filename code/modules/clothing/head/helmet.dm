@@ -618,3 +618,15 @@
 	flags_item = NODROP|DELONDROP
 	soft_armor = list("melee" = 65, "bullet" = 60, "laser" = 30, "energy" = 20, "bomb" = 25, "bio" = 40, "rad" = 0, "fire" = 20, "acid" = 20)
 	anti_hug = 5
+
+
+
+//star wars
+
+/obj/item/clothing/head/helmet/marine/clone/standard
+	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT|ITEM_PRISON_VARIANT|ITEM_ICE_PROTECTION)
+	name = "\improper clone trooper helmet"
+	desc = "A generic clone trooper helmet. Probably better off without it."
+	icon = 'icons/obj/clothing/cm_hats.dmi'
+	icon_state = "clone"
+	item_state = "clone"
