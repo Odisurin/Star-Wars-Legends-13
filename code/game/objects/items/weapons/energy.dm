@@ -63,7 +63,7 @@
 /obj/item/weapon/energy/sword/Initialize()
 	. = ..()
 	if(!sword_color)
-		sword_color = pick("red","blue","green","purple")
+		sword_color = pick("red","blue","green","purple","magenta","yellow","orange","cyan","white")
 	AddComponent(/datum/component/shield, SHIELD_TOGGLE|SHIELD_PURE_BLOCKING)
 
 

@@ -192,6 +192,17 @@
 	. = ..()
 	update_icon()
 
+//variant without ugl attachment
+/obj/item/weapon/gun/energy/lasgun/M43/stripped
+	starting_attachment_types = list()
+
+/obj/item/weapon/gun/energy/lasgun/M43/unique_action(mob/user)
+	return toggle_chargemode(user)
+
+/obj/item/weapon/gun/energy/lasgun/Initialize(mapload, ...)
+	. = ..()
+	update_icon()
+
 
 //Toggles Overcharge mode. Overcharge mode significantly increases damage and AP in exchange for doubled ammo usage and increased fire delay.
 /obj/item/weapon/gun/energy/lasgun/proc/toggle_chargemode(mob/user)
@@ -518,7 +529,7 @@
 		return
 
 	mode_index = WRAP(mode_index + 1, 1, length(mode_list)+1)
-	
+
 	playsound(user, 'sound/weapons/emitter.ogg', 5, FALSE, 2)
 	charge_cost = initial(mode_list[mode_index].charge_cost)
 	ammo = GLOB.ammo_list[initial(mode_list[mode_index].ammo)]
@@ -529,7 +540,7 @@
 		SEND_SIGNAL(src, COMSIG_GUN_FIREMODE_TOGGLE, initial(mode_list[mode_index].fire_mode), user.client)
 	else
 		SEND_SIGNAL(src, COMSIG_GUN_FIREMODE_TOGGLE, GUN_FIREMODE_SEMIAUTO, user.client)
-	
+
 	base_gun_icon = initial(mode_list[mode_index].icon_state)
 	update_icon()
 
