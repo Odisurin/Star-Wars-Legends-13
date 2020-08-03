@@ -133,7 +133,7 @@
 		return FALSE
 	if(prefs && (prefs.toggles_sound & SOUND_LOBBY))
 		//Since this is the legacy, replace this hardcoded ogg with your list of hosted files
-		SEND_SOUND(src, sound('sound/music/DawsonChristian.ogg', repeat = 0, wait = 0, volume = vol, channel = CHANNEL_LOBBYMUSIC)) // MAD JAMS
+		SEND_SOUND(src, sound('sound/music/03 Battle Of The Heroes.ogg', repeat = 2, wait = 0, volume = vol, channel = CHANNEL_LOBBYMUSIC)) // MAD JAMS
 
 
 /proc/playsound_z(z, soundin, _volume) // Play sound for all online mobs on a given Z-level. Good for ambient sounds.

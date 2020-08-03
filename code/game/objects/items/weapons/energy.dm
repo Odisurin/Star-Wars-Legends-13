@@ -45,7 +45,7 @@
 
 /obj/item/weapon/energy/sword
 	name = "energy sword"
-	desc = "May the force be within you."
+	desc = "A weapon used by force wielders."
 	icon_state = "sword0"
 	force = 3.0
 	throwforce = 5.0
@@ -70,7 +70,7 @@
 /obj/item/weapon/energy/sword/attack_self(mob/living/user as mob)
 	toggle_active()
 	if (active)
-		force = 30
+		force = 100
 		heat = 3500
 		if(base_sword_icon != "sword")
 			icon_state = "[base_sword_icon]1"
@@ -104,6 +104,27 @@
 
 /obj/item/weapon/energy/sword/green
 	sword_color = "green"
+
+/obj/item/weapon/energy/sword/green
+	sword_color = "magenta"
+
+/obj/item/weapon/energy/sword/green
+	sword_color = "purple"
+
+/obj/item/weapon/energy/sword/green
+	sword_color = "cyan"
+
+/obj/item/weapon/energy/sword/green
+	sword_color = "blue"
+
+/obj/item/weapon/energy/sword/green
+	sword_color = "yellow"
+
+/obj/item/weapon/energy/sword/green
+	sword_color = "orange"
+
+/obj/item/weapon/energy/sword/green
+	sword_color = "yellow"
 
 
 /obj/item/weapon/energy/sword/green/attack_self()
