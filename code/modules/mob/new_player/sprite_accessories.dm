@@ -71,7 +71,7 @@
 */
 
 /datum/sprite_accessory/hair
-	species_allowed = list("Human","Unathi","Tajara","Skrell","Vox","Machine","Synthetic","Early Synthetic")
+	species_allowed = list("Human","Unathi","Tajara","Skrell","Vox","Machine")
 	icon = 'icons/mob/Human_face.dmi'
 
 /datum/sprite_accessory/hair/bald

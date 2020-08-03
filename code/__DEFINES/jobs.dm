@@ -27,6 +27,7 @@
 #define JOB_DISPLAY_ORDER_SUQAD_ENGINEER		23
 #define JOB_DISPLAY_ORDER_SQUAD_MARINE			24
 #define JOB_DISPLAY_ORDER_SURVIVOR				25
+#define JOB_DISPLAY_ORDER_BATTLE				26
 
 #define JOB_FLAG_SPECIALNAME (1<<0)
 #define JOB_FLAG_LATEJOINABLE (1<<1) //Can this job be selected for prefs to join as?
@@ -64,6 +65,7 @@
 #define SQUAD_ENGINEER "Squad Engineer"
 #define SQUAD_MARINE "Squad Marine"
 #define SILICON_AI "AI"
+#define BATTLE DROID = "Battle Droid"
 
 #define JOB_CAT_COMMAND "Command"
 #define JOB_CAT_SILICON "Silicon"
