@@ -51,6 +51,9 @@
 /mob/living/carbon/human/species/synthetic/old
 	race = "Early Synthetic"
 
+/mob/living/carbon/human/species/synthetic/battle_droid
+	race = "Battle Droid"
+
 /mob/living/carbon/human/species/moth
 	race = "Moth"
 
