@@ -222,7 +222,7 @@
 
 /obj/item/star/code/helmet/officer/admiral
 	name = "Admiral cap"
-	desc = "Specialized naval cap. tight fitted cap meant for Republic Naval Commanders."
+	desc = "Specialized naval cap. tight fitted cap meant for Republic Naval officers."
 	icon_state = "admiral_cap"
 	item_state = "admiral_cap"
 	accuracy_mod = 0
