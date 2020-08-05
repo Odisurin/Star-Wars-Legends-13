@@ -4,13 +4,13 @@
 $include dbconfig.txt
 
 ## Server name: This appears at the top of the screen in-game.
-SERVER_NAME Something
+SERVER_NAME Star Wars: Legends 13
 
 ## Hosted by name for unix platforms.
 HOSTEDBY yournamehere
 
 ## The title of the main window.
-TITLE Change Me
+TITLE Star Wars: Legends 13
 
 ## Optional URL for faster resource downloading.
 #RESOURCE_URL url
@@ -42,7 +42,7 @@ PROTECT_LEGACY_RANKS
 #FORUMURL
 #WIKIURL
 #RULESURL
-#DISCORDURL
+#DISCORDURL https://discord.gg/c6VwCSQ
 #DONATIONURL
 #GITHUBURL
 #BANAPPEALS

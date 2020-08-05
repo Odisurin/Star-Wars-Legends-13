@@ -44,7 +44,7 @@
 
 
 /obj/item/weapon/energy/sword
-	name = "energy sword"
+	name = "Lightsaber"
 	desc = "A weapon used by force wielders."
 	icon_state = "sword0"
 	force = 3.0
@@ -105,6 +105,10 @@
 /obj/item/weapon/energy/sword/green
 	sword_color = "green"
 
+/obj/item/weapon/energy/sword/green/attack_self()
+	..()
+	force = active ? 80 : 3
+
 /obj/item/weapon/energy/sword/green
 	sword_color = "magenta"
 
@@ -127,9 +131,7 @@
 	sword_color = "yellow"
 
 
-/obj/item/weapon/energy/sword/green/attack_self()
-	..()
-	force = active ? 80 : 3
+
 
 /obj/item/weapon/energy/sword/red
 	sword_color = "red"

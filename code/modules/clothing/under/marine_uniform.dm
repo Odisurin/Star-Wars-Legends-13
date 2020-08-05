@@ -106,6 +106,30 @@
 	icon_state = "XO_jumpsuit"
 	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT)
 
+/obj/item/clothing/under/marine/officer/jediknight
+	name = "Jedi Knight Tunic"
+	desc = "A synthetic Tunic stitched with Plastoid materials, usually warn by Jedi Knights."
+	icon_state = "jedi_tunic1"
+	item_state = "jedi_tunic1"
+
+/obj/item/clothing/under/marine/officer/jedimaster
+	name = "Jedi Master Tunic"
+	desc = "A synthetic Tunic stitched with Plastoid materials, usually warn by Jedi Masters."
+	icon_state = "jedi_tunic0"
+	item_state = "jedi_tunic0"
+
+/obj/item/clothing/under/marine/officer/sithacolyte
+	name = "Sith Acolyte Tunic"
+	desc = "A synthetic Tunic stitched with Plastoid materials, usually warn by Sith Acolytes."
+	icon_state = "sith_tunic1"
+	item_state = "sith_tunic1"
+
+/obj/item/clothing/under/marine/officer/sithassassin
+	name = "Sith Assassin Tunic"
+	desc = "A synthetic Tunic stitched with Plastoid materials, usually warn by Sith Acolytes."
+	icon_state = "sith_tunic0"
+	item_state = "sith_tunic0"
+
 /obj/item/clothing/under/marine/officer/command
 	name = "captain uniform"
 	desc = "A special-issue, well-ironed, kevlar-weaved, hazmat-tested, EMF-augmented uniform worth of a TerraGov Naval Captain. Even looking at it the wrong way could result in being court-martialed."

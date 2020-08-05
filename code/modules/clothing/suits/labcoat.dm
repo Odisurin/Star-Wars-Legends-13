@@ -183,6 +183,26 @@
 	icon_state = "labcoatg"
 	item_state = "labcoatg"
 
+/obj/item/clothing/suit/storage/jedimasterrobe
+	name = "Jedi Master Robe"
+	icon_state = "jedi_robe0"
+	item_state = "jedi_robe0"
+
+/obj/item/clothing/suit/storage/jediknightrobe
+	name = "Jedi Knight Robe"
+	icon_state = "jedi_robe1"
+	item_state = "jedi_robe1"
+
+/obj/item/clothing/suit/storage/sithacolyterobe
+	name = "Sith Acolyte Robe"
+	icon_state = "sith_robe0"
+	item_state = "sith_robe0"
+
+/obj/item/clothing/suit/storage/sithassassinrobe
+	name = "Sith Assassin Robe"
+	icon_state = "sith_robe1"
+	item_state = "sith_robe0"
+
 /obj/item/clothing/suit/storage/labcoat/researcher
 	name = "researcher's labcoat"
 	desc = "A high quality labcoat, seemingly worn by scholars and researchers alike. It has a distinct leathery feel to it, and goads you towards adventure."
