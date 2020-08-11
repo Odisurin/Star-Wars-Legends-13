@@ -201,7 +201,7 @@
 /obj/item/clothing/suit/storage/sithassassinrobe
 	name = "Sith Assassin Robe"
 	icon_state = "sith_robe1"
-	item_state = "sith_robe0"
+	item_state = "sith_robe1"
 
 /obj/item/clothing/suit/storage/labcoat/researcher
 	name = "researcher's labcoat"
