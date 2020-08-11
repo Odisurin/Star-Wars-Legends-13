@@ -45,7 +45,10 @@
 		/datum/reagent/sodium,
 		/datum/reagent/consumable/sugar,
 		/datum/reagent/sulfur,
-		/datum/reagent/water
+		/datum/reagent/water,
+		/datum/reagent/red_alazhi,
+		/datum/reagent/kavam,
+		/datum/reagent/ambori,
 	)
 
 	var/list/recording_recipe

@@ -266,7 +266,7 @@
 	taste_description = "grossness"
 
 /datum/reagent/medicine/tricordrazine/on_mob_life(mob/living/L, metabolism)
-	
+
 	L.adjustOxyLoss(-REM)
 	L.adjustToxLoss(-0.8*REM)
 	L.heal_limb_damage(1.6*REM, 1.6*REM)
@@ -281,6 +281,33 @@
 	L.adjustBrainLoss(2*REM, TRUE)
 
 /datum/reagent/medicine/tricordrazine/overdose_crit_process(mob/living/L, metabolism)
+	L.apply_damages(6*REM, 6*REM, 6*REM)
+
+/datum/reagent/medicine/bacta
+	name = "Bacta"
+	description = "Bacta is a highly effective medical liquid, derived from a mixture of Red Alazhi, Kavam, and Ambori. It can be used to treat a wide range of injuries."
+	color = "#00FFFF"
+	scannable = TRUE
+	overdose_threshold = REAGENTS_OVERDOSE
+	overdose_crit_threshold = REAGENTS_OVERDOSE_CRITICAL
+	taste_description = "chalky"
+
+/datum/reagent/medicine/bacta/on_mob_life(mob/living/L, metabolism)
+
+	L.adjustOxyLoss(-0.9*REM)
+	L.adjustToxLoss(-0.9*REM)
+	L.heal_limb_damage(3.6*REM, 3.6*REM)
+	if(volume > 10)
+		L.reagent_pain_modifier -= PAIN_REDUCTION_LIGHT
+	if(volume > 20)
+		L.reagent_pain_modifier -= PAIN_REDUCTION_MEDIUM
+	return ..()
+
+/datum/reagent/medicine/bacta/overdose_process(mob/living/L, metabolism)
+	L.jitter(5)
+	L.adjustBrainLoss(8.5*REM, TRUE)
+
+/datum/reagent/medicine/bacta/overdose_crit_process(mob/living/L, metabolism)
 	L.apply_damages(6*REM, 6*REM, 6*REM)
 
 /datum/reagent/medicine/dylovene
@@ -613,7 +640,7 @@
 	scannable = TRUE
 	purge_list = list(/datum/reagent/medicine/oxycodone)
 	purge_rate = 0.2
-	
+
 /datum/reagent/medicine/meralyne/on_mob_life(mob/living/L, metabolism)
 	L.heal_limb_damage(4*REM, 0)
 	if(volume > 5)

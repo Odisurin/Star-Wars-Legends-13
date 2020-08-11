@@ -22,6 +22,24 @@
 	taste_description = "sludge"
 	description = "A synthetic blood-like liquid used by all Synthetics."
 
+/datum/reagent/kavam
+	name = "Kavam"
+	color = "#597d7f"
+	taste_description = "strange"
+	description = "An inorganic substance from a Vratix.."
+
+/datum/reagent/red_alazhi
+	name = "Red Alazhi"
+	color = "#FF0000"
+	taste_description = "sludge"
+	description = "A special bacteria grown for use in the medical field."
+
+/datum/reagent/ambori
+	name = "Ambori"
+	color = "#ffffff"
+	taste_description = "nasty"
+	description = "A colorless liquid used as the suspension medium for bacta in bacta tanks.."
+
 /datum/reagent/blood/xeno_blood
 	name = "Acid Blood"
 	color = "#dffc00"

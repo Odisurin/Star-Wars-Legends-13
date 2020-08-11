@@ -21,6 +21,11 @@
 	results = list(/datum/reagent/medicine/dermaline = 3)
 	required_reagents = list(/datum/reagent/oxygen = 1, /datum/reagent/phosphorus = 1, /datum/reagent/medicine/kelotane = 1)
 
+/datum/chemical_reaction/bacta
+	name = "Bacta"
+	results = list(/datum/reagent/medicine/bacta = 3)
+	required_reagents = list(/datum/reagent/ambori = 1, /datum/reagent/kavam = 1, /datum/reagent/red_alazhi = 1)
+
 /datum/chemical_reaction/dexalinplus
 	name = "Dexalin Plus"
 	results = list(/datum/reagent/medicine/dexalinplus = 3)
