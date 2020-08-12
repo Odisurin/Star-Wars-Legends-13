@@ -232,6 +232,16 @@
 	results = list(/datum/reagent/consumable/ethanol/brave_bull = 3)
 	required_reagents = list(/datum/reagent/consumable/ethanol/tequila = 2, /datum/reagent/consumable/ethanol/kahlua = 1)
 
+/datum/chemical_reaction/gadje
+	name = "Gadje"
+	results = list(/datum/reagent/consumable/drink/gadje = 3)
+	required_reagents = list(/datum/reagent/consumable/drink/charde =1 , /datum/reagent/consumable/drink/otratay =1 , /datum/reagent/consumable/drink/chooss =1 )
+
+/datum/chemical_reaction/aitha
+	name = "Aitha protein drink"
+	results = list(/datum/reagent/consumable/aitha = 3)
+	required_reagents = list (/datum/reagent/consumable/nutriment = 1, /datum/reagent/kavam = 2, /datum/reagent/water = 1)
+
 /datum/chemical_reaction/tequila_sunrise
 	name = "Tequila Sunrise"
 	results = list(/datum/reagent/consumable/ethanol/tequila_sunrise = 3)

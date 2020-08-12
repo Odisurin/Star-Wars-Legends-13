@@ -33,6 +33,26 @@
 	var/burn_heal = 0
 	var/blood_gain = 0.4
 
+/datum/reagent/consumable/aitha
+	name = "Aitha protein drink"
+	description = "a fairly tasty drink favored by athletes and spacers, and used to keep their bodies healthy.."
+	nutriment_factor = 18
+	color = "#664330" // rgb: 102, 67, 48
+
+	var/brute_heal = 1
+	var/burn_heal = 0.1
+	var/blood_gain = 0.4
+
+/datum/reagent/consumable/aitha/on_mob_life(mob/living/L, metabolism)
+	if(prob(50))
+		L.heal_limb_damage(brute_heal, burn_heal)
+	if(iscarbon(L))
+		var/mob/living/carbon/C = L
+		if(C.blood_volume < BLOOD_VOLUME_NORMAL)
+			C.blood_volume += blood_gain
+
+	return ..()
+
 /datum/reagent/consumable/nutriment/on_mob_life(mob/living/L, metabolism)
 	if(prob(50))
 		L.heal_limb_damage(brute_heal, burn_heal)

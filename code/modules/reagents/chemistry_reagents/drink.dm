@@ -44,6 +44,73 @@
 	L.heal_limb_damage(0, 0.2)
 	return ..()
 
+// star wars non-alcoholic drinks
+
+/datum/reagent/consumable/drink/nectar
+	name = "Nectar"
+	description = "Nectar made from the M'iiyoom plant."
+	color = "#FFD700"
+	taste_description = "nectary"
+
+/datum/reagent/consumable/drink/nectar/on_mob_life(mob/living/L, metabolism)
+	L.heal_limb_damage(0, 0.4)
+	return ..()
+
+/datum/reagent/consumable/drink/otratay
+	name = "Oratay juice"
+	description = "Made from Oratay fruit."
+	color = "#A0522D" // rgb: 160,82,45
+	taste_description = "oratangy"
+
+/datum/reagent/consumable/drink/chooss
+	name = "Chooss"
+	description = "A very fizzy drink."
+	color = "#A0522D" // rgb: 160,82,45
+	taste_description = "fizzy!"
+
+/datum/reagent/consumable/drink/charde
+	name = "Charde"
+	description = "A very moderately tempered drink."
+	color = "#008000" // rgb: 160,82,45
+	taste_description = "Pretty good"
+
+/datum/reagent/consumable/drink/gardulla
+	name = "Gardulla"
+	description = "A starchy drink liked by the hutt species."
+	color = "#228B22" // rgb: 160,82,45
+	taste_description = "relaxing"
+
+/datum/reagent/consumable/drink/gadje
+	name = "Gadje"
+	description = "A delicious blend of several different kinds of drinks."
+	color = "#990066" // rgb: 153, 0, 102
+	taste_description = "flavory"
+
+/datum/reagent/consumable/drink/mocoa
+	name = "Mocoa"
+	description = "A drink served with foamy cream on top."
+	color = "#8f7049" // rgb: 153, 0, 102
+	taste_description = "foamy"
+
+/datum/reagent/consumable/drink/asdac
+	name = "Asdac"
+	description = "A hot beverage that has been rumored to improve eyesight."
+	color = "#973800" // rgb: 151, 56, 0
+	taste_description = "carrots"
+
+/datum/reagent/consumable/drink/asdac/on_mob_life(mob/living/L, metabolism)
+	L.adjust_blurriness(-1)
+	L.adjust_blindness(-1)
+	switch(current_cycle)
+		if(1 to 20)
+			//nothing
+		if(21 to INFINITY)
+			if(prob(current_cycle-10) && iscarbon(L))
+				var/mob/living/carbon/C = L
+				C.disabilities &= ~NEARSIGHTED
+	return ..()
+
+// end of list
 
 /datum/reagent/consumable/drink/limejuice
 	name = "Lime Juice"

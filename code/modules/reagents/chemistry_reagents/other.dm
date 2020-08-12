@@ -22,6 +22,8 @@
 	taste_description = "sludge"
 	description = "A synthetic blood-like liquid used by all Synthetics."
 
+//star wars other reagents
+
 /datum/reagent/kavam
 	name = "Kavam"
 	color = "#597d7f"
@@ -40,12 +42,13 @@
 	taste_description = "nasty"
 	description = "A colorless liquid used as the suspension medium for bacta in bacta tanks.."
 
+//end
+
 /datum/reagent/blood/xeno_blood
 	name = "Acid Blood"
 	color = "#dffc00"
 	taste_description = "acid"
 	description = "A corrosive yellow-ish liquid..."
-
 
 /datum/reagent/water
 	name = "Water"

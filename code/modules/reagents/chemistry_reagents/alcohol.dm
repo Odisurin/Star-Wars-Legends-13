@@ -119,6 +119,101 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	taste_description = "sweet rice wine"
 	boozepwr = 70
 
+// star wars alcoholic drinks
+
+/datum/reagent/consumable/ethanol/accarragm
+	name = "Accarragm"
+	description = "A potent Liqueur made by the Wookie Species."
+	color = "#db7093"
+	taste_description = "yo agaahaa!"
+	boozepwr = 79
+
+/datum/reagent/consumable/ethanol/grakkyn
+	name = "Grakkyn"
+	description = "A very potent Liqueur made by the Wookie Species used in a mixed drink."
+	color = "#d4965f"
+	taste_description = "yo agaahaa!"
+	boozepwr = 67
+
+/datum/reagent/consumable/ethanol/vrortic_cocktail
+	name = "Vrortic cocktail"
+	description = "A very potent mixture made by the Wookies."
+	color = "#d4965f"
+	taste_description = "yo agaahaa!"
+	boozepwr = 67
+
+/datum/reagent/consumable/ethanol/garrmorl
+	name = "Garrmorl"
+	description = "A rough alcoholic drink made by the Wookie Species."
+	color = "#0064C8"
+	taste_description = "arri arri!"
+	boozepwr = 95
+
+/datum/reagent/consumable/ethanol/ardees
+	name = "Ardees"
+	description = "A moderately strong alcoholic drink, also called 'Jawa Juice'."
+	color = "#AFAFAF"
+	taste_description = "sharp and bitter"
+	boozepwr = 66
+
+/datum/reagent/consumable/ethanol/phattro
+	name = "Phattro"
+	description = "An alcoholic drink that is fairly tame."
+	color = "#442450"
+	taste_description = "sweet"
+	boozepwr = 35
+
+/datum/reagent/consumable/ethanol/grog
+	name = "Grog"
+	description = "Watered down alcohol, its alright if you're a nerf herder."
+	color = "#958732"
+	taste_description = "bitter and watery"
+	boozepwr = 25
+
+/datum/reagent/consumable/ethanol/grog/novanian
+	name = "Novanian Grog"
+	description = "High grade grog, from Ban-Satir II."
+	color = "#B6A643"
+	taste_description = "tame and bitter"
+	boozepwr = 45
+
+/datum/reagent/consumable/ethanol/durindfire
+	name = "Durindfire"
+	description = "An alcoholic drink, that glows while exposed to oxygen."
+	color = "#592114"
+	taste_description = "strange"
+	boozepwr = 40
+
+/datum/reagent/consumable/ethanol/prow
+	name = "Prow"
+	description = "An Alcoholic drink usually mixed to make cock-tails."
+	color = "#eb0301"
+	taste_description = "strange"
+	boozepwr = 25
+
+/datum/reagent/consumable/ethanol/tssolok
+	name = "T'ssolok"
+	description = "A  Twi'lek liquor that had a poor flavor, but a great aftertaste."
+	color = "#d4ba5f"
+	taste_description = "Poor yet, Savory"
+	boozepwr = 55
+
+/datum/reagent/consumable/ethanol/quanya
+	name = "Quanya"
+	description = "A drink that could make the Kessel Run."
+	color = "#eb0301"
+	taste_description = "bitter"
+	boozepwr = 32
+
+/datum/reagent/consumable/ethanol/raava
+	name = "Raava"
+	description = "A strong alcoholic drink which was very intoxicating."
+	color = "#1C1918"
+	taste_description = "sweet and savory"
+	boozepwr = 75
+
+//- end of list
+
 /datum/reagent/consumable/ethanol/thirteenloko
 	name = "Thirteen Loko"
 	description = "A potent mixture of caffeine and alcohol."
