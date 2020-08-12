@@ -26,6 +26,11 @@
 	results = list(/datum/reagent/medicine/bacta = 3)
 	required_reagents = list(/datum/reagent/ambori = 1, /datum/reagent/kavam = 1, /datum/reagent/red_alazhi = 1)
 
+/datum/chemical_reaction/kolto
+	name = "Kolto"
+	results = list(/datum/reagent/medicine/kolto = 3)
+	required_reagents = list(/datum/reagent/medicine/lesser_kolto = 1, /datum/reagent/carbon = 1, /datum/reagent/oxygen = 1)
+
 /datum/chemical_reaction/dexalinplus
 	name = "Dexalin Plus"
 	results = list(/datum/reagent/medicine/dexalinplus = 3)

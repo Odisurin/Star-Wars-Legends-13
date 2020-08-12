@@ -283,6 +283,60 @@
 /datum/reagent/medicine/tricordrazine/overdose_crit_process(mob/living/L, metabolism)
 	L.apply_damages(6*REM, 6*REM, 6*REM)
 
+/datum/reagent/medicine/lesser_kolto
+	name = "Lesser-Kolto"
+	description = "Lesser-Kolto is a substance usually in the oceans of Manaan, it is a very weak healing substance."
+	color = "#DBF3FA"
+	scannable = TRUE
+	overdose_threshold = REAGENTS_OVERDOSE
+	overdose_crit_threshold = REAGENTS_OVERDOSE_CRITICAL
+	taste_description = "tasteless"
+
+/datum/reagent/medicine/lesser_kolto/on_mob_life(mob/living/L, metabolism)
+
+	L.adjustOxyLoss(-REM)
+	L.adjustToxLoss(-0.4*REM)
+	L.heal_limb_damage(0.8*REM, 0.8*REM)
+	if(volume > 10)
+		L.reagent_pain_modifier -= PAIN_REDUCTION_LIGHT
+	if(volume > 20)
+		L.reagent_pain_modifier -= PAIN_REDUCTION_LIGHT
+	return ..()
+
+/datum/reagent/medicine/lesser_kolto/overdose_process(mob/living/L, metabolism)
+	L.jitter(5)
+	L.adjustBrainLoss(1*REM, TRUE)
+
+/datum/reagent/medicine/kolto/overdose_crit_process(mob/living/L, metabolism)
+	L.apply_damages(15*REM, 15*REM, 15*REM)
+
+/datum/reagent/medicine/kolto
+	name = "Kolto"
+	description = "Kolto is a substance usually in the oceans of Manaan, it is very expensive but is rumored to be weaker than bacta."
+	color = "#DBF3FA"
+	scannable = TRUE
+	overdose_threshold = REAGENTS_OVERDOSE
+	overdose_crit_threshold = REAGENTS_OVERDOSE_CRITICAL
+	taste_description = "tasteless"
+
+/datum/reagent/medicine/kolto/on_mob_life(mob/living/L, metabolism)
+
+	L.adjustOxyLoss(-REM)
+	L.adjustToxLoss(-0.8*REM)
+	L.heal_limb_damage(1.8*REM, 1.8*REM)
+	if(volume > 10)
+		L.reagent_pain_modifier -= PAIN_REDUCTION_LIGHT
+	if(volume > 20)
+		L.reagent_pain_modifier -= PAIN_REDUCTION_LIGHT
+	return ..()
+
+/datum/reagent/medicine/kolto/overdose_process(mob/living/L, metabolism)
+	L.jitter(5)
+	L.adjustBrainLoss(5*REM, TRUE)
+
+/datum/reagent/medicine/kolto/overdose_crit_process(mob/living/L, metabolism)
+	L.apply_damages(6*REM, 6*REM, 6*REM)
+
 /datum/reagent/medicine/bacta
 	name = "Bacta"
 	description = "Bacta is a highly effective medical liquid, derived from a mixture of Red Alazhi, Kavam, and Ambori. It can be used to treat a wide range of injuries."

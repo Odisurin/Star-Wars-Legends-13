@@ -49,6 +49,7 @@
 		/datum/reagent/red_alazhi,
 		/datum/reagent/kavam,
 		/datum/reagent/ambori,
+		/datum/reagent/medicine/lesser_kolto,
 	)
 
 	var/list/recording_recipe
