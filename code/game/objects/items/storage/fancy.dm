@@ -124,8 +124,8 @@
 //CIG PACK//
 ////////////
 /obj/item/storage/fancy/cigarettes
-	name = "cigarette packet"
-	desc = "The most popular brand of Space Cigarettes, sponsors of the Space Olympics."
+	name = "Cigarra packet"
+	desc = "The most popular brand of Cigarras, sponsors of the Space casualties."
 	icon = 'icons/obj/items/cigarettes.dmi'
 	icon_state = "cigpacket"
 	item_state = "cigpacket"
@@ -168,26 +168,26 @@
 		..()
 
 /obj/item/storage/fancy/cigarettes/dromedaryco
-	name = "\improper Nanotrasen Gold packet"
-	desc = "Building better worlds, and rolling better cigarettes. These fancy cigarettes are Nanotrasen's entry into the market. Comes backed by a fierce legal team."
+	name = "\improper Twileki Smile"
+	desc = "leading better rebellions, and rolling better cigarras. These fancy cigarras are Ryloth's entry into the market. Comes backed by a fierce illegal team."
 	icon_state = "ntpacket"
 	item_state = "ntpacket"
 
 /obj/item/storage/fancy/cigarettes/luckystars
-	name = "\improper Lucky Stars packet"
-	desc = "A mellow blend made from synthetic, pod-grown tobacco. The commercial jingle is guaranteed to get stuck in your head."
+	name = "\improper Hutt's Gamble"
+	desc = "A mellow blend made from synthetic chemicals. The hutt propaganda is guaranteed to get stuck in your head."
 	icon_state = "lspacket"
 	item_state = "lspacket"
 
 /obj/item/storage/fancy/cigarettes/kpack
-	name = "\improper Koorlander Gold packet"
-	desc = "Koorlander, Gold: 3% tobacco. 97% other. For when you want to look cool and the risk of a slow horrible death isn't really a factor."
+	name = "\improper Fallen Knight"
+	desc = "Cigarras for people who just dont care about the risk of a slow horrible death."
 	icon_state = "kpacket"
 	item_state = "kpacket"
 
 /obj/item/storage/fancy/cigarettes/lady_finger
-	name = "\improper ArctiCool Menthols packet"
-	desc = "An entry level brand of cigarettes with a bright blue packaging. For when you want to smell like lozenges and smoke"
+	name = "\improper Correlian Resolve"
+	desc = "An entry level brand of cigarras with a bright blue packaging. For when you want to smell like hypermatter and smoke"
 	icon_state = "acpacket"
 	item_state = "acpacket"
 
