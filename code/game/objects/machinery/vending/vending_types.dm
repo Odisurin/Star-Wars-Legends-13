@@ -126,7 +126,7 @@
 	idle_power_usage = 200
 
 /obj/machinery/vending/cigarette
-	name = "cigarette machine" //OCD had to be uppercase to look nice with the new formating
+	name = "Cigarra machine" //OCD had to be uppercase to look nice with the new formating
 	desc = "A specialized vending machine designed to contribute to your slow and uncomfortable death."
 	product_slogans = "There's no better time to start smokin'.;\
 		Smoke now, and win the adoration of your peers.;\
@@ -140,7 +140,7 @@
 		Nicotine heaven.;\
 		Best cigarettes since 2150.;\
 		Don't be so hard on yourself, kid. Smoke a Lucky Star!;\
-		Professionals. Better cigarettes for better people. Yes, better people."
+		Professionals. Better Cigarras for better people. Yes, better people."
 	vend_delay = 14
 	icon_state = "cigs"
 	products = list(/obj/item/storage/fancy/cigarettes/luckystars = 50,
@@ -170,8 +170,8 @@
 					/obj/item/tool/lighter/random = 2)
 
 /obj/machinery/vending/medical
-	name = "NanotrasenMed Plus"
-	desc = "Medical Pharmaceutical dispenser.  Provided by Nanotrasen Pharmaceuticals Division(TM)"
+	name = "Republic Medical"
+	desc = "Medical Pharmaceutical dispenser.  Provided by the Galatic Republic's Medical Branch."
 	icon_state = "med"
 	icon_deny = "med-deny"
 	//product_ads = "Go save some lives!;The best stuff for your medbay.;Only the finest tools.;Natural chemicals!;This stuff saves lives.;Don't you want some?;Ping!"
@@ -222,7 +222,7 @@
 					/obj/item/assembly/prox_sensor = 6,/obj/item/assembly/igniter = 6)
 
 /obj/machinery/vending/nanomed
-	name = "NanoMed"
+	name = "Republic Medical pack"
 	desc = "Wall-mounted Medical Equipment dispenser."
 	product_ads = "Go save some lives!;The best stuff for your medbay.;Only the finest tools.;Natural chemicals!;This stuff saves lives.;Don't you want some?"
 	icon_state = "wallmed"

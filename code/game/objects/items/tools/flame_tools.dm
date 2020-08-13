@@ -142,8 +142,8 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 //FINE SMOKABLES//
 //////////////////
 /obj/item/clothing/mask/cigarette
-	name = "cigarette"
-	desc = "A roll of tobacco and nicotine."
+	name = "Cigarra"
+	desc = "A roll of chemicals and dried vegetation."
 	icon_state = "cigoff"
 	throw_speed = 0.5
 	item_state = "cigoff"
@@ -245,12 +245,12 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 /obj/item/clothing/mask/cigarette/afterattack(obj/item/reagent_containers/glass/glass, mob/living/user, proximity)
 	. = ..()
-	if(!proximity || lit) //can't dip if cigarette is lit
+	if(!proximity || lit) //can't dip if cigarra is lit
 		return
-	if(istype(glass))	//you can dip cigarettes into beakers
+	if(istype(glass))	//you can dip cigarra into beakers
 		if(glass.reagents.trans_to(src, chem_volume))	//if reagents were transfered, show the message
 			to_chat(user, "<span class='notice'>You dip \the [src] into \the [glass].</span>")
-		else			//if not, either the beaker was empty, or the cigarette was full
+		else			//if not, either the beaker was empty, or the cigarra was full
 			if(!glass.reagents.total_volume)
 				to_chat(user, "<span class='notice'>[glass] is empty.</span>")
 			else
