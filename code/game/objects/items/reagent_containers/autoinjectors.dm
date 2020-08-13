@@ -41,6 +41,20 @@
 	amount_per_transfer_from_this = 5
 	list_reagents = list(/datum/reagent/medicine/tricordrazine = 15)
 
+/obj/item/reagent_containers/hypospray/autoinjector/bacta
+	name = "bacta autoinjector"
+	desc = "An autoinjector loaded with 3 doses of bacta, a powerful general use medicine for treating damage."
+	icon_state = "autoinjector-4"
+	amount_per_transfer_from_this = 5
+	list_reagents = list(/datum/reagent/medicine/bacta = 15)
+
+/obj/item/reagent_containers/hypospray/autoinjector/kolto
+	name = "kolto autoinjector"
+	desc = "An autoinjector loaded with 3 doses of kolto, a less-powerful general use medicine for treating damage."
+	icon_state = "autoinjector-4"
+	amount_per_transfer_from_this = 5
+	list_reagents = list(/datum/reagent/medicine/kolto = 10)
+
 /obj/item/reagent_containers/hypospray/autoinjector/combat
 	name = "combat autoinjector"
 	desc = "An autoinjector loaded with a dose of healing and painkilling chemicals. Intended for use in active combat."

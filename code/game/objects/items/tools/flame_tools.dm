@@ -371,7 +371,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 ////////////
 /obj/item/clothing/mask/cigarette/cigar
 	name = "premium cigar"
-	desc = "A brown roll of tobacco and... well, you're not quite sure. This thing's huge!"
+	desc = "A brown roll of chemicals and dried vegitation and... well, you're not quite sure. This thing's huge!"
 	icon_state = "cigaroff"
 	icon_on = "cigaron"
 	icon_off = "cigaroff"
@@ -383,14 +383,14 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	list_reagents = list(/datum/reagent/nicotine = 10)
 
 /obj/item/clothing/mask/cigarette/cigar/cohiba
-	name = "\improper Cohiba Robusto cigar"
+	name = "\improper  Shento cigar"
 	desc = "There's little more you could want from a cigar."
 	smoketime = 2000
 	chem_volume = 80
 	list_reagents = list(/datum/reagent/nicotine = 15)
 
 /obj/item/clothing/mask/cigarette/cigar/havana
-	name = "premium Havanian cigar"
+	name = "premium Dilnlexan cigar"
 	desc = "A cigar fit for only the best of the best."
 	smoketime = 7200
 	chem_volume = 50
@@ -401,7 +401,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /////////////////
 /obj/item/clothing/mask/cigarette/pipe
 	name = "smoking pipe"
-	desc = "A pipe, for smoking. Probably made of meershaum or something."
+	desc = "A pipe, for smoking. Probably made of mandalorian-steel or something."
 	icon_state = "pipeoff"
 	item_state = "pipeoff"
 	icon_on = "pipeon"  //Note - these are in masks.dmi

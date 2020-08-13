@@ -172,8 +172,8 @@
 /obj/machinery/vending/medical
 	name = "Republic Medical"
 	desc = "Medical Pharmaceutical dispenser.  Provided by the Galatic Republic's Medical Branch."
-	icon_state = "med"
-	icon_deny = "med-deny"
+	icon_state = "repubmed"
+	icon_deny = "repubmed-deny"
 	//product_ads = "Go save some lives!;The best stuff for your medbay.;Only the finest tools.;Natural chemicals!;This stuff saves lives.;Don't you want some?;Ping!"
 	req_access = list(ACCESS_MARINE_MEDBAY, ACCESS_MARINE_CHEMISTRY) //only doctors and researchers can access these
 	products = list(/obj/item/healthanalyzer = 5,
@@ -225,12 +225,12 @@
 	name = "Republic Medical pack"
 	desc = "Wall-mounted Medical Equipment dispenser."
 	product_ads = "Go save some lives!;The best stuff for your medbay.;Only the finest tools.;Natural chemicals!;This stuff saves lives.;Don't you want some?"
-	icon_state = "wallmed"
-	icon_deny = "wallmed-deny"
-	density = FALSE
+	icon_state = "wallrepubmed"
+	icon_deny = "wallrepubmed-deny"
+	density 
 	wrenchable = FALSE
-	products = list(/obj/item/reagent_containers/hypospray/autoinjector/tricordrazine = 1,
-					/obj/item/reagent_containers/hypospray/autoinjector/tramadol = 1,
+	products = list(/obj/item/reagent_containers/hypospray/autoinjector/bacta = 1,
+					/obj/item/reagent_containers/hypospray/autoinjector/kolto = 1,
 					/obj/item/reagent_containers/hypospray/autoinjector/hypervene = 1,
 					/obj/item/stack/medical/bruise_pack = 2,
 					/obj/item/stack/medical/ointment = 2,
