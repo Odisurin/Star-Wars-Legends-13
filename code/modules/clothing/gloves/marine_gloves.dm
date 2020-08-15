@@ -29,10 +29,22 @@
 	item_state = "bgloves"
 
 /obj/item/clothing/gloves/marine/clone
-	name = "Clone Trooper gloves"
+	name = "Plastoid gloves"
 	desc = "Shiny and impressive.."
 	icon_state = "clone"
 	item_state = "clone"
+
+/obj/item/clothing/gloves/marine/captain1
+	name = "Plastoid Captain gloves"
+	desc = "Shiny and impressive.."
+	icon_state = "captain1"
+	item_state = "captain1"
+
+/obj/item/clothing/gloves/marine/lieutenant1
+	name = "Plastoid Lieutenant gloves"
+	desc = "Shiny and impressive.."
+	icon_state = "lieutenant1"
+	item_state = "lieutenant1"
 
 /obj/item/clothing/gloves/marine/officer/chief
 	name = "chief officer gloves"
