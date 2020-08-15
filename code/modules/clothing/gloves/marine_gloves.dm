@@ -28,6 +28,12 @@
 	icon_state = "black"
 	item_state = "bgloves"
 
+/obj/item/clothing/gloves/marine/clone
+	name = "Clone Trooper gloves"
+	desc = "Shiny and impressive.."
+	icon_state = "clone"
+	item_state = "clone"
+
 /obj/item/clothing/gloves/marine/officer/chief
 	name = "chief officer gloves"
 	desc = "Blood crusts are attached to its metal studs, which are slightly dented."

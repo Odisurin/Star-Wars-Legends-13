@@ -110,28 +110,40 @@
 	brightness_on = 8 //because it's LIGHT armor, get it?
 
 
-
+// Star Wars Armors : Testing currently
 
 
 /obj/item/clothing/suit/storage/marine/clone
-	name = "\improper clone armor"
-	desc = "clone"
+	name = "\improper Clone Trooper Armor"
+	desc = "Armor used by the Grand army of the Republic for their Clone troopers."
 	icon_state = "clone"
-	soft_armor = list("melee" = 45, "bullet" = 55, "laser" = 55, "energy" = 20, "bomb" = 45, "bio" = 30, "rad" = 10, "fire" = 25, "acid" = 35)
+	soft_armor = list("melee" = 35, "bullet" = 15, "laser" = 75, "energy" = 40, "bomb" = 45, "bio" = 30, "rad" = 95, "fire" = 34, "acid" = 35)
 	slowdown = SLOWDOWN_ARMOR_VERY_LIGHT
 	brightness_on = 8 //because it's LIGHT armor, get it?
 
+/obj/item/clothing/suit/storage/marine/cpilot
+	name = "\improper Clone Pilot Armor"
+	desc = "Armor used by the Grand army of the Republic for their Clone pilots."
+	icon_state = "cpilot"
+	soft_armor = list("melee" = 35, "bullet" = 15, "laser" = 75, "energy" = 40, "bomb" = 45, "bio" = 30, "rad" = 10, "fire" = 25, "acid" = 35)
+	slowdown = SLOWDOWN_ARMOR_VERY_LIGHT
+	brightness_on = 8 //because it's LIGHT armor, get it?
 
+/obj/item/clothing/suit/storage/marine/storm
+	name = "\improper Storm Trooper Armor"
+	desc = "Armor used by the Galactic Empire's Stormtrooper Corps."
+	icon_state = "storm"
+	soft_armor = list("melee" = 25, "bullet" = 15, "laser" = 90, "energy" = 82, "bomb" = 25, "bio" = 30, "rad" = 10, "fire" = 35, "acid" = 45)
+	slowdown = SLOWDOWN_ARMOR_VERY_LIGHT
+	brightness_on = 8 //because it's LIGHT armor, get it?
 
-
-
-
-
-
-
-
-
-
+/obj/item/clothing/suit/storage/marine/ccommando
+	name = "\improper Clone Commando Armor"
+	desc = "Armor used by the Grand army of the Republic for their Clone Commandos."
+	icon_state = "ccommando"
+	soft_armor = list("melee" = 55, "bullet" = 15, "laser" = 85, "energy" = 60, "bomb" = 45, "bio" = 30, "rad" = 65, "fire" = 54, "acid" = 55)
+	slowdown = SLOWDOWN_ARMOR_VERY_LIGHT
+	brightness_on = 8 //because it's LIGHT armor, get it?
 
 /obj/item/clothing/suit/storage/marine/harness
 	name = "\improper M3 pattern marine harness"
