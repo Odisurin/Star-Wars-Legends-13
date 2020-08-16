@@ -161,6 +161,23 @@
 	slowdown = SLOWDOWN_ARMOR_VERY_LIGHT
 	brightness_on = 8 //because it's LIGHT armor, get it?
 
+/obj/item/clothing/suit/storage/marine/sergeant1
+	name = "\improper Clone Trooper Phase I Sergeant Armor"
+	desc = "Armor used by the Grand army of the Republic for their Clone Sergeants."
+	icon_state = "sergeant1"
+	soft_armor = list("melee" = 35, "bullet" = 15, "laser" = 75, "energy" = 80, "bomb" = 45, "bio" = 30, "rad" = 65, "fire" = 54, "acid" = 55)
+	slowdown = SLOWDOWN_ARMOR_VERY_LIGHT
+	brightness_on = 8 //because it's LIGHT armor, get it?
+
+/obj/item/clothing/suit/storage/marine/commander1
+	name = "\improper Clone Trooper Phase I Commander Armor"
+	desc = "Armor used by the Grand army of the Republic for their Clone Commanders."
+	icon_state = "commander1"
+	soft_armor = list("melee" = 45, "bullet" = 15, "laser" = 78, "energy" = 80, "bomb" = 45, "bio" = 30, "rad" = 65, "fire" = 54, "acid" = 55)
+	slowdown = SLOWDOWN_ARMOR_VERY_LIGHT
+	brightness_on = 8 //because it's LIGHT armor, get it?
+
+
 /obj/item/clothing/suit/storage/marine/harness
 	name = "\improper M3 pattern marine harness"
 	desc = "A standard Marine M3 Pattern Harness. No encumbrance and almost no protection."

@@ -634,10 +634,28 @@
 
 //star wars
 
+/obj/item/clothing/head/helmet/marine/clone/commander1
+	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT|ITEM_PRISON_VARIANT|ITEM_ICE_PROTECTION)
+	name = "\improper Clone Trooper Sergeant Phase I helmet"
+	desc = "A yellow marked helmet warn by Clone Commanders of the GAR."
+	icon = 'icons/obj/clothing/cm_hats.dmi'
+	icon_state = "commander1"
+	item_state = "commander1"
+	soft_armor = list("melee" = 15, "bullet" = 5, "laser" = 68, "energy" = 45, "bomb" = 30, "bio" = 50, "rad" = 35, "fire" = 30, "acid" = 50)
+
+/obj/item/clothing/head/helmet/marine/clone/sergeant1
+	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT|ITEM_PRISON_VARIANT|ITEM_ICE_PROTECTION)
+	name = "\improper Clone Trooper Sergeant Phase I helmet"
+	desc = "A green marked helmet worn by Clone Trooper Sergeants of the GAR."
+	icon = 'icons/obj/clothing/cm_hats.dmi'
+	icon_state = "sergeant1"
+	item_state = "sergeant1"
+	soft_armor = list("melee" = 15, "bullet" = 5, "laser" = 68, "energy" = 45, "bomb" = 30, "bio" = 50, "rad" = 35, "fire" = 30, "acid" = 50)
+
 /obj/item/clothing/head/helmet/marine/clone/captain1
 	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT|ITEM_PRISON_VARIANT|ITEM_ICE_PROTECTION)
 	name = "\improper Clone Trooper Captain Phase I helmet"
-	desc = "A shiny helmet warn by Clone Trooper Captains of the GAR."
+	desc = "A red marked helmet worn by Clone Trooper Captains of the GAR."
 	icon = 'icons/obj/clothing/cm_hats.dmi'
 	icon_state = "captain1"
 	item_state = "captain1"
@@ -646,7 +664,7 @@
 /obj/item/clothing/head/helmet/marine/clone/lieutenant1
 	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT|ITEM_PRISON_VARIANT|ITEM_ICE_PROTECTION)
 	name = "\improper Clone Trooper Lieutenant Phase I helmet"
-	desc = "A shiny helmet warn by Clone Trooper Lieutenants of the GAR."
+	desc = "A blue marked helmet worn by Clone Trooper Lieutenants of the GAR."
 	icon = 'icons/obj/clothing/cm_hats.dmi'
 	icon_state = "lieutenant1"
 	item_state = "lieutenant1"
@@ -655,17 +673,26 @@
 /obj/item/clothing/head/helmet/marine/clone/phase1
 	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT|ITEM_PRISON_VARIANT|ITEM_ICE_PROTECTION)
 	name = "\improper Clone Trooper Phase I helmet"
-	desc = "A shiny helmet warn by Clone Troopers of the GAR."
+	desc = "A shiny helmet worn by Clone Troopers of the GAR."
 	icon = 'icons/obj/clothing/cm_hats.dmi'
 	icon_state = "phase1"
 	item_state = "phase1"
+	soft_armor = list("melee" = 15, "bullet" = 5, "laser" = 68, "energy" = 45, "bomb" = 30, "bio" = 50, "rad" = 35, "fire" = 30, "acid" = 50)
+
+/obj/item/clothing/head/helmet/marine/clone/airborne1
+	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT|ITEM_PRISON_VARIANT|ITEM_ICE_PROTECTION)
+	name = "\improper Clone Airborne Trooper helmet"
+	desc = "A shiny helmet worn by Clone Airborne Troopers of the GAR."
+	icon = 'icons/obj/clothing/cm_hats.dmi'
+	icon_state = "airborne"
+	item_state = "airborne"
 	soft_armor = list("melee" = 15, "bullet" = 5, "laser" = 68, "energy" = 45, "bomb" = 30, "bio" = 50, "rad" = 35, "fire" = 30, "acid" = 50)
 
 
 /obj/item/clothing/head/helmet/marine/clone/phase2
 	flags_item_map_variant = (ITEM_JUNGLE_VARIANT|ITEM_ICE_VARIANT|ITEM_PRISON_VARIANT|ITEM_ICE_PROTECTION)
 	name = "\improper Clone Trooper Phase II helmet"
-	desc = "A shiny helmet warn by Clone Troopers of the GAR."
+	desc = "A shiny helmet worn by Clone Troopers of the GAR."
 	icon = 'icons/obj/clothing/cm_hats.dmi'
 	icon_state = "phase2"
 	item_state = "phase2"

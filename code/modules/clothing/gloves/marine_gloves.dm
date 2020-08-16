@@ -36,13 +36,26 @@
 
 /obj/item/clothing/gloves/marine/captain1
 	name = "Plastoid Captain gloves"
-	desc = "Shiny and impressive.."
+	desc = "Red and impressive.."
 	icon_state = "captain1"
 	item_state = "captain1"
 
+/obj/item/clothing/gloves/marine/commander1
+	name = "Plastoid Commander gloves"
+	desc = "Yellow and impressive.."
+	icon_state = "commander1"
+	item_state = "commander1"
+
+/obj/item/clothing/gloves/marine/sergeant1
+	name = "Plastoid Sergeant gloves"
+	desc = "Green and impressive.."
+	icon_state = "sergeant1"
+	item_state = "sergeant1"
+
+
 /obj/item/clothing/gloves/marine/lieutenant1
 	name = "Plastoid Lieutenant gloves"
-	desc = "Shiny and impressive.."
+	desc = "Blue and impressive.."
 	icon_state = "lieutenant1"
 	item_state = "lieutenant1"
 
