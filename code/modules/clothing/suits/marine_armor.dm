@@ -44,49 +44,6 @@
 	)
 	max_storage_space = 6
 
-/obj/item/clothing/suit/storage/marine/Initialize()
-	. = ..()
-	armor_overlays = list("lamp") //Just one for now, can add more later.
-	update_icon()
-
-/obj/item/clothing/suit/storage/marine/update_icon(mob/user)
-	var/image/I
-	I = armor_overlays["lamp"]
-	overlays -= I
-	qdel(I)
-	if(flags_armor_features & ARMOR_LAMP_OVERLAY)
-		I = image('icons/obj/clothing/cm_suits.dmi', src, flags_armor_features & ARMOR_LAMP_ON? "lamp-on" : "lamp-off")
-		armor_overlays["lamp"] = I
-		overlays += I
-	else
-		armor_overlays["lamp"] = null
-	user?.update_inv_wear_suit()
-
-
-/obj/item/clothing/suit/storage/marine/dropped(mob/user)
-	if(loc != user)
-		turn_off_light(user)
-	return ..()
-
-/obj/item/clothing/suit/storage/marine/Destroy()
-	if(pockets)
-		QDEL_NULL(pockets)
-	return ..()
-
-/obj/item/clothing/suit/storage/marine/attack_self(mob/user)
-	if(!isturf(user.loc))
-		to_chat(user, "<span class='warning'>You cannot turn the light on while in [user.loc].</span>")
-		return
-	if(flashlight_cooldown > world.time)
-		return
-	if(!ishuman(user))
-		return
-	var/mob/living/carbon/human/H = user
-	if(H.wear_suit != src)
-		return
-	toggle_armor_light(user)
-	return TRUE
-
 /obj/item/clothing/suit/storage/marine/item_action_slot_check(mob/user, slot)
 	if(!ishuman(user))
 		return FALSE
