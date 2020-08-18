@@ -397,7 +397,7 @@
 
 /obj/machinery/vending/MarineMed/Blood
 	name = "\improper MM Blood Dispenser"
-	desc = "Marine Med brand Blood Pack Dispensery"
+	desc = "Republic Med brand Blood Pack Dispensery"
 	icon_state = "bloodvendor"
 	icon_deny = "bloodvendor-deny"
 	product_ads = "The best blood on the market!"
@@ -426,8 +426,8 @@
 			if(!temp_list.len) break
 
 /obj/machinery/vending/marine_medic
-	name = "\improper ColMarTech Medic Vendor"
-	desc = "A marine medic equipment vendor"
+	name = "\improper BlastTech Medic Vendor"
+	desc = "A Clone medic equipment vendor"
 	product_ads = "They were gonna die anyway.;Let's get space drugged!"
 	req_access = list(ACCESS_MARINE_MEDPREP)
 	icon_state = "marinemed"
@@ -456,7 +456,7 @@
 
 
 /obj/machinery/vending/marine_special
-	name = "\improper ColMarTech Specialist Vendor"
+	name = "\improper BlastTech Specialist Vendor"
 	desc = "A marine specialist equipment vendor"
 	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
 	req_access = list(ACCESS_MARINE_SPECPREP)
@@ -488,7 +488,7 @@
 
 
 /obj/machinery/vending/shared_vending/marine_special
-	name = "\improper ColMarTech Specialist Vendor"
+	name = "\improper BlastTech Specialist Vendor"
 	desc = "A marine specialist equipment vendor"
 	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
 	req_access = list(ACCESS_MARINE_SPECPREP)
@@ -515,7 +515,7 @@
 
 
 /obj/machinery/vending/shared_vending/marine_engi
-	name = "\improper ColMarTech Engineer System Vendor"
+	name = "\improper BlastTech Engineer Vendor"
 	desc = "A marine engineering system vendor"
 	product_ads = "If it breaks, wrench it!;If it wrenches, weld it!;If it snips, snip it!"
 	req_access = list(ACCESS_MARINE_ENGPREP)
@@ -540,7 +540,7 @@
 
 
 /obj/machinery/vending/marine_smartgun
-	name = "\improper ColMarTech Smartgun Vendor"
+	name = "\improper BlastTech Heavy Vendor"
 	desc = "A marine smartgun equipment vendor"
 	hacking_safety = 1
 	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
@@ -561,8 +561,8 @@
 	prices = list()
 
 /obj/machinery/vending/marine_leader
-	name = "\improper ColMarTech Leader Vendor"
-	desc = "A marine leader equipment vendor"
+	name = "\improper BlastTech Leader Vendor"
+	desc = "A Republic leader equipment vendor"
 	hacking_safety = 1
 	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
 	req_access = list(ACCESS_MARINE_LEADER)
