@@ -11,7 +11,7 @@
 	wrenchable = FALSE
 	tokensupport = TOKEN_MARINE
 
-	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
+	product_ads = "If it clanks, it's hostile!;How many droids have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Blasters!;Die, scumbag!;Don't shoot me brother!;Shoot them, bro.;Why not have a donut?"
 	products = list(
 					/obj/item/weapon/gun/pistol/standard_pistol = 25,
 					/obj/item/ammo_magazine/pistol/standard_pistol = 30,
@@ -75,8 +75,7 @@
 	desc = "A automated rack hooked up to a small supply of various firearms and explosives."
 	wrenchable = FALSE
 	products = list(
-					/obj/item/storage/backpack/marine/standard = 15,
-					/obj/item/storage/backpack/marine/satchel = 15,
+					/obj/item/storage/backpack/ccommando = 4,
 					/obj/item/storage/large_holster/machete/full = 10,
 					/obj/item/storage/belt/marine = 15,
 					/obj/item/storage/belt/shotgun = 10,
@@ -398,7 +397,7 @@
 
 /obj/machinery/vending/MarineMed/Blood
 	name = "\improper MM Blood Dispenser"
-	desc = "Marine Med brand Blood Pack Dispensery"
+	desc = "Republic Med brand Blood Pack Dispensery"
 	icon_state = "bloodvendor"
 	icon_deny = "bloodvendor-deny"
 	product_ads = "The best blood on the market!"
@@ -427,8 +426,8 @@
 			if(!temp_list.len) break
 
 /obj/machinery/vending/marine_medic
-	name = "\improper ColMarTech Medic Vendor"
-	desc = "A marine medic equipment vendor"
+	name = "\improper BlastTech Medic Vendor"
+	desc = "A Clone medic equipment vendor"
 	product_ads = "They were gonna die anyway.;Let's get space drugged!"
 	req_access = list(ACCESS_MARINE_MEDPREP)
 	icon_state = "marinemed"
@@ -457,7 +456,7 @@
 
 
 /obj/machinery/vending/marine_special
-	name = "\improper ColMarTech Specialist Vendor"
+	name = "\improper BlastTech Specialist Vendor"
 	desc = "A marine specialist equipment vendor"
 	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
 	req_access = list(ACCESS_MARINE_SPECPREP)
@@ -489,7 +488,7 @@
 
 
 /obj/machinery/vending/shared_vending/marine_special
-	name = "\improper ColMarTech Specialist Vendor"
+	name = "\improper BlastTech Specialist Vendor"
 	desc = "A marine specialist equipment vendor"
 	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
 	req_access = list(ACCESS_MARINE_SPECPREP)
@@ -516,7 +515,7 @@
 
 
 /obj/machinery/vending/shared_vending/marine_engi
-	name = "\improper ColMarTech Engineer System Vendor"
+	name = "\improper BlastTech Engineer Vendor"
 	desc = "A marine engineering system vendor"
 	product_ads = "If it breaks, wrench it!;If it wrenches, weld it!;If it snips, snip it!"
 	req_access = list(ACCESS_MARINE_ENGPREP)
@@ -541,7 +540,7 @@
 
 
 /obj/machinery/vending/marine_smartgun
-	name = "\improper ColMarTech Smartgun Vendor"
+	name = "\improper BlastTech Heavy Vendor"
 	desc = "A marine smartgun equipment vendor"
 	hacking_safety = 1
 	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
@@ -562,8 +561,8 @@
 	prices = list()
 
 /obj/machinery/vending/marine_leader
-	name = "\improper ColMarTech Leader Vendor"
-	desc = "A marine leader equipment vendor"
+	name = "\improper BlastTech Leader Vendor"
+	desc = "A Republic leader equipment vendor"
 	hacking_safety = 1
 	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
 	req_access = list(ACCESS_MARINE_LEADER)
@@ -763,7 +762,7 @@
 
 
 /obj/machinery/vending/uniform_supply
-	name = "\improper ColMarTech surplus uniform vendor"
+	name = "\improper Blasttech surplus uniform vendor"
 	desc = "A automated weapon rack hooked up to a colossal storage of uniforms"
 	icon_state = "marineuniform"
 	icon_vend = "marineuniform_vend"
@@ -772,36 +771,34 @@
 	req_one_access = list(ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_PREP, ACCESS_MARINE_CARGO)
 	var/squad_tag = ""
 
-	product_ads = "If it moves, it's hostile!;How many enemies have you killed today?;Shoot first, perform autopsy later!;Your ammo is right here.;Guns!;Die, scumbag!;Don't shoot me bro!;Shoot them, bro.;Why not have a donut?"
+	product_ads = "If it's clanking, it's hostile!;How many droids have you killed today?;Shoot first, perform scrapping later!;Your ammo is right here.;Blasters!;Die, scumbag!;Don't shoot me bro!;Shoot them, brother.;Why not have a deathstick?"
 	products = list(
-					/obj/item/clothing/shoes/marine = 20,
-					/obj/item/clothing/under/marine/standard = 20,
-					/obj/item/storage/backpack/marine/standard = 10,
-					/obj/item/storage/backpack/marine/satchel = 10,
-					/obj/item/clothing/gloves/marine = 20,
+					/obj/item/clothing/under/marine/bodyglove = 20,
+					/obj/item/storage/backpack/ccommando = 4,
+					/obj/item/clothing/shoes/clone = 20,
+					/obj/item/clothing/head/helmet/marine/clone/commander1 = 20,
+					/obj/item/clothing/head/helmet/marine/clone/sergeant1 = 20,
+					/obj/item/clothing/head/helmet/marine/clone/captain1 = 20,
+					/obj/item/clothing/head/helmet/marine/clone/lieutenant1 = 20,
+					/obj/item/clothing/head/helmet/marine/clone/phase1 = 20,
+					/obj/item/clothing/head/helmet/marine/clone/phase2 = 20,
+					/obj/item/clothing/head/helmet/marine/clone/airborne1 = 20,
+					/obj/item/clothing/head/helmet/marine/clone/arf = 20,
+					/obj/item/clothing/head/helmet/marine/clone/ccommando = 20,
+					/obj/item/clothing/head/helmet/marine/clone/cpilot1 = 20,
 					/obj/item/clothing/suit/storage/marine/clone = 20,
-
-					/obj/item/clothing/head/helmet/marine/clone/standard = 20,
-
-					/obj/item/clothing/glasses/mgoggles = 10,
-					/obj/item/clothing/glasses/mgoggles/prescription = 10,
-					/obj/item/clothing/mask/rebreather/scarf = 10,
-					/obj/item/clothing/mask/bandanna/skull = 10,
-					/obj/item/clothing/mask/bandanna/green = 10,
-					/obj/item/clothing/mask/bandanna/white = 10,
-					/obj/item/clothing/mask/bandanna/black = 10,
-					/obj/item/clothing/mask/bandanna = 10,
-					/obj/item/clothing/mask/rebreather = 10,
-					/obj/item/clothing/mask/breath = 10,
-					/obj/item/tank/emergency_oxygen = 10,
-					/obj/item/storage/belt/marine = 10,
-					/obj/item/storage/belt/shotgun = 10,
-					/obj/item/storage/belt/knifepouch = 10,
-					/obj/item/belt_harness/marine = 10,
-					/obj/item/storage/belt/sparepouch = 10,
-					/obj/item/storage/belt/gun/pistol/standard_pistol = 10,
-					/obj/item/storage/belt/gun/revolver/standard_revolver = 10,
-					/obj/item/storage/pouch/pistol = 10,
+					/obj/item/clothing/suit/storage/marine/cpilot = 20,
+					/obj/item/clothing/suit/storage/marine/storm = 20,
+					/obj/item/clothing/suit/storage/marine/ccommando = 4,
+					/obj/item/clothing/suit/storage/marine/captain1 = 4,
+					/obj/item/clothing/suit/storage/marine/lieutenant1 = 10,
+					/obj/item/clothing/suit/storage/marine/sergeant1 = 30,
+					/obj/item/clothing/suit/storage/marine/commander1 = 1,
+					/obj/item/clothing/gloves/marine/clone = 30,
+					/obj/item/clothing/gloves/marine/captain1 = 4,
+					/obj/item/clothing/gloves/marine/commander1 = 1,
+					/obj/item/clothing/gloves/marine/sergeant1 = 30,
+					/obj/item/clothing/gloves/marine/lieutenant1 = 10,
 					/obj/item/storage/pouch/magazine = 10,
 					/obj/item/storage/pouch/magazine/pistol = 10,
 					/obj/item/storage/pouch/shotgun = 10,

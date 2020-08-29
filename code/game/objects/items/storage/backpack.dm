@@ -166,6 +166,14 @@
 	desc = "It's an orange backpack which was designed to hold beakers, pill bottles and bottles."
 	icon_state = "chempack"
 
+// Star Wars Backpacks
+
+/obj/item/storage/backpack/ccommando
+	name = "Commando backpack"
+	desc = "It's a plastoid-electronic backpack especially designed for use in hazardious environments."
+	icon_state = "ccommando"
+
+
 /*
 * Satchel Types
 */

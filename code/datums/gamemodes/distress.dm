@@ -446,7 +446,7 @@
 /datum/game_mode/infestation/distress/mode_new_player_panel(mob/new_player/NP)
 
 	var/output = "<div align='center'>"
-	output += "<br><i>You are part of the <b>TerraGov Marine Corps</b>, a military branch of the TerraGov council.</i>"
+	output += "<br><i>You are part of the <b>Grand Army of the Republic</b>, a military branch of the Galactic Republic.</i>"
 	output +="<hr>"
 	output += "<p><a href='byond://?src=[REF(NP)];lobby_choice=show_preferences'>Setup Character</A> | <a href='byond://?src=[REF(NP)];lobby_choice=lore'>Background</A><br><br><a href='byond://?src=[REF(NP)];lobby_choice=observe'>Observe</A></p>"
 	output +="<hr>"

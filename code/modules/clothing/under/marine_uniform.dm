@@ -27,6 +27,15 @@
 	icon_state = "marine_engineer"
 
 
+/obj/item/clothing/under/marine/bodyglove
+	name = "\improper Black bodyglove"
+	desc = "A standard-issue, plastoid bodyglove which is easy to wear."
+	siemens_coefficient = 0.9
+	icon_state = "bodyglove"
+	soft_armor = list("melee" = 2, "bullet" = 5, "laser" = 7, "energy" = 5, "bomb" = 5, "bio" = 5, "rad" = 5, "fire" = 5, "acid" = 5)
+	rollable_sleeves = TRUE
+	has_sensor = 2
+
 /obj/item/clothing/under/marine/sniper
 	name = "\improper TGMC sniper snow uniform"
 	icon_state = "s_marine_sniper"

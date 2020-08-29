@@ -75,6 +75,14 @@
 	flags_inventory = NOSLIPPING
 	siemens_coefficient = 0.6
 
+/obj/item/clothing/shoes/clone
+	name = "Plastoid boots"
+	desc = "Only a small amount of Clankers, Banthas, and Sepratists."
+	icon_state = "clone"
+	soft_armor = list("melee" = 15, "bullet" = 20, "laser" = 50, "energy" = 30, "bomb" = 30, "bio" = 20, "rad" = 20, "fire" = 20, "acid" = 25)
+	flags_inventory = NOSLIPPING
+	siemens_coefficient = 0.6
+
 /obj/item/clothing/shoes/marinechief/captain
 	name = "captain's shoes"
 	desc = "Has special soles for better trampling those underneath."

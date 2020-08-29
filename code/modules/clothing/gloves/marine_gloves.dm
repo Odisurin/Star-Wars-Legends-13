@@ -28,6 +28,37 @@
 	icon_state = "black"
 	item_state = "bgloves"
 
+/obj/item/clothing/gloves/marine/clone
+	name = "Plastoid gloves"
+	desc = "Shiny and impressive.."
+	icon_state = "clone"
+	item_state = "clone"
+
+/obj/item/clothing/gloves/marine/captain1
+	name = "Plastoid Captain gloves"
+	desc = "Red and impressive.."
+	icon_state = "captain1"
+	item_state = "captain1"
+
+/obj/item/clothing/gloves/marine/commander1
+	name = "Plastoid Commander gloves"
+	desc = "Yellow and impressive.."
+	icon_state = "commander1"
+	item_state = "commander1"
+
+/obj/item/clothing/gloves/marine/sergeant1
+	name = "Plastoid Sergeant gloves"
+	desc = "Green and impressive.."
+	icon_state = "sergeant1"
+	item_state = "sergeant1"
+
+
+/obj/item/clothing/gloves/marine/lieutenant1
+	name = "Plastoid Lieutenant gloves"
+	desc = "Blue and impressive.."
+	icon_state = "lieutenant1"
+	item_state = "lieutenant1"
+
 /obj/item/clothing/gloves/marine/officer/chief
 	name = "chief officer gloves"
 	desc = "Blood crusts are attached to its metal studs, which are slightly dented."
