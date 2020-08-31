@@ -549,3 +549,119 @@
 	A.update_hud(user)
 
 	return TRUE
+
+/obj/item/weapon/gun/energy/lasgun/starwars
+	recoil = FALSE
+	recoil_unwielded = FALSE
+/obj/item/weapon/gun/energy/lasgun/starwars/update_icon(mob/user)
+	return
+/obj/item/weapon/gun/energy/lasgun/starwars/update_item_state(mob/user)
+	. = item_state
+	item_state = "[initial(icon_state)][flags_item & WIELDED ? "_w" : ""]"
+	if(. != item_state && ishuman(user))
+		var/mob/living/carbon/human/human_user = user
+		if(src == human_user.l_hand)
+			human_user.update_inv_l_hand()
+		else if (src == human_user.r_hand)
+			human_user.update_inv_r_hand()
+/obj/item/weapon/gun/energy/lasgun/starwars/rifle
+	name = "DC-15S"
+	desc = "A plasma based firearm. Uses tibanna gas cartridges."
+	reload_sound = 'sound/weapons/guns/interact/rifle_reload.ogg'
+	fire_sound = 'sound/weapons/guns/fire/laser.ogg'
+	icon_state = "dc-15s"
+	load_method = CELL //codex
+	ammo = /datum/ammo/energy/plasma
+	flags_equip_slot = ITEM_SLOT_BACK
+	muzzleflash_iconstate = "muzzle_flash_plasma"
+	w_class = WEIGHT_CLASS_BULKY
+	force = 15
+	overcharge = FALSE
+	flags_gun_features = GUN_CAN_POINTBLANK|GUN_ENERGY
+	aim_slowdown = 0.75
+	wield_delay = 1 SECONDS
+	gun_skill_category = GUN_SKILL_RIFLES
+	fire_delay = 3
+	accuracy_mult = 1.5
+	accuracy_mult_unwielded = 0.6
+	scatter_unwielded = 20 //Heavy and unwieldy
+	damage_falloff_mult = 0.5
+	cell_type = /obj/item/cell/lasgun/tibanna_cartridge
+	scatter = 0
+/obj/item/weapon/gun/energy/lasgun/starwars/rifle/dc15s
+	name = "DC-15S"
+	desc = "A plasma based firearm. Uses tibanna gas cartridges."
+	icon_state = "dc-15s"
+	ammo = /datum/ammo/energy/plasma
+	aim_slowdown = 0.75
+	wield_delay = 0.5 SECONDS
+	fire_delay = 2
+	accuracy_mult = 1.5
+	accuracy_mult_unwielded = 0.6
+	scatter_unwielded = 20 //Heavy and unwieldy
+	damage_falloff_mult = 0.5
+
+/obj/item/weapon/gun/energy/lasgun/starwars/rifle/dc15
+	name = "DC-15"
+	desc = "A plasma based firearm. Uses tibanna gas cartridges."
+	icon_state = "dc-15"
+	aim_slowdown = 0.50
+	wield_delay = 1 SECONDS
+	fire_delay = 3
+	accuracy_mult = 1.8
+	accuracy_mult_unwielded = 0.9
+	scatter_unwielded = 40 //Heavy and unwieldy
+	damage_falloff_mult = 0.2
+/obj/item/weapon/gun/energy/lasgun/starwars/rifle/e5
+	name = "E-5"
+	desc = "A laser based firearm. Uses tibanna gas cartridges."
+	icon_state = "E-5"
+	ammo = /datum/ammo/energy/lasgun
+	aim_slowdown = 0.75
+	wield_delay = 0.5 SECONDS
+	fire_delay = 2
+	accuracy_mult = 1.1
+	accuracy_mult_unwielded = 0.8
+	scatter_unwielded = 20 //Heavy and unwieldy
+	damage_falloff_mult = 0.5
+	muzzleflash_iconstate = "muzzle_flash_laser"
+
+/obj/item/weapon/gun/energy/lasgun/starwars/pistol
+	icon_state = "DC-17"
+	fire_sound = 'sound/weapons/guns/fire/laser.ogg'
+	unload_sound = 'sound/weapons/guns/interact/pistol_unload.ogg'
+	reload_sound = 'sound/weapons/guns/interact/pistol_reload.ogg'
+	cocked_sound = 'sound/weapons/guns/interact/pistol_cocked.ogg'
+	muzzleflash_iconstate = "muzzle_flash_light"
+	load_method = CELL //codex
+	flags_equip_slot = ITEM_SLOT_BELT
+	w_class = WEIGHT_CLASS_NORMAL
+	force = 6
+	wield_delay = 0.25 SECONDS //If you modify your pistol to be two-handed, it will still be fast to aim
+	gun_skill_category = GUN_SKILL_PISTOLS
+	flags_gun_features = GUN_CAN_POINTBLANK|GUN_ENERGY
+	cell_type = /obj/item/cell/lasgun/tibanna_cartridge/pistol
+	scatter = 0
+	recoil = 0
+	recoil_unwielded = 0
+/obj/item/weapon/gun/energy/lasgun/starwars/pistol/DC17
+	name = "DC-17"
+	desc = "A plasma based firearm. Uses tibanna gas cartridges."
+	icon_state = "DC-17"
+	aim_slowdown = 0.25
+	fire_delay = 2
+	accuracy_mult = 1.8
+	accuracy_mult_unwielded = 1.5
+	scatter_unwielded = 5 //Heavy and unwieldy
+	damage_falloff_mult = 0.2
+
+obj/item/weapon/gun/energy/lasgun/starwars/pistol/DC17/fordo
+	name = "DC-17"
+	desc = "A plasma based firearm. Uses tibanna gas cartridges."
+	icon_state = "Fordo DC-17"
+	aim_slowdown = 0.25
+	fire_delay = 2
+	accuracy_mult = 1.8
+	accuracy_mult_unwielded = 1.5
+	scatter_unwielded = 5 //Heavy and unwieldy
+	damage_falloff_mult = 0.2

@@ -84,3 +84,22 @@
 /obj/item/cell/lasgun/lasrifle/update_icon()
 	var/remaining = CEILING((charge / max(maxcharge, 1)) * 100, 25)
 	icon_state = "[base_ammo_icon]_[remaining]"
+
+
+/obj/item/cell/lasgun/tibanna_cartridge
+	name = "Tibanna Gas Cartridge"
+	desc = "A specialized high density gas cartridge used to power Blasters."
+	icon = 'icons/obj/items/ammo.dmi'
+	icon_state = "tibanna_gas"
+	maxcharge = 6000
+	w_class = WEIGHT_CLASS_TINY
+	gun_type = /obj/item/weapon/gun/energy/lasgun/starwars/rifle
+
+/obj/item/cell/lasgun/tibanna_cartridge/pistol
+	name = "Tibanna Gas Cartridge"
+	desc = "A specialized high density gas cartridge used to power Blasters."
+	icon = 'icons/obj/items/ammo.dmi'
+	icon_state = "tibanna_gas"
+	maxcharge = 1000
+	w_class = WEIGHT_CLASS_TINY
+	gun_type = /obj/item/weapon/gun/energy/lasgun/starwars/pistol
