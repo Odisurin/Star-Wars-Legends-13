@@ -1425,6 +1425,8 @@
 #include "code\modules\shuttle\shuttle_rotate.dm"
 #include "code\modules\shuttle\supply.dm"
 #include "code\modules\shuttle\gamemodes\crash.dm"
+#include "code\modules\star_wars\mobs\droids.dm"
+#include "code\modules\star_wars\structures\droid_factory.dm"
 #include "code\modules\surgery\amputation.dm"
 #include "code\modules\surgery\bones.dm"
 #include "code\modules\surgery\brainrepair.dm"
