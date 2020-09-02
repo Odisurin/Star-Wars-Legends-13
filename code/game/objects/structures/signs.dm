@@ -394,3 +394,20 @@
 	name = "\improper TGMC poster"
 	desc = "An old recruitment poster for the TGMC. Looking at it floods you with a mixture of pride and sincere regret."
 	icon_state = "prop3"
+
+//Star wars signs
+
+/obj/structure/sign/unite
+	name = "\improper GAR basic recruitment poster"
+	desc = " UNITE! under the GAR today!."
+	icon_state = "prop4"
+
+/obj/structure/sign/astromech
+	name = "\improper Industrial Automaton R2 Series Advertisement"
+	desc = "Seems to be a R2 series astromech, with very promising words."
+	icon_state = "prop5"
+
+/obj/structure/sign/care
+	name = "\improper GAR Care poster"
+	desc = "Care about your brothers, care about orders, care about who could be listening!."
+	icon_state = "prop6"
