@@ -3,12 +3,16 @@
 //*__with love__*//
 ///////////////////
 
-#define isdroidbasic(H) (is_species(H, /datum/species/droid_b1)) // for some reason. Just don't touch this. You can use this in future.
+#define isdroidbasic(H) (is_species(H, /datum/species/droid)) // for some reason. Just don't touch this. You can use this in future.
+#define isdroidb2(H) (is_species(H, /datum/species/droid/b2))
 
 //Random droid naming
 
 /datum/namepool/droid/get_random_name()
 	return "droid #[rand(1,999)]"
+
+/datum/namepool/tacticool/get_random_name()
+	return "tactical droid #[rand(1,999)]"
 
 /datum/namepool/droideka/get_random_name() //just gift, lol
 	return "droideka #[rand(1,999)]"
@@ -66,13 +70,13 @@
 
 	death_message = "Stands and start seems disabled" //You can change if you want. Appears when droid killed.
 
-/datum/species/droid_b1/handle_post_spawn(mob/living/carbon/human/H) //technical shit.
+/datum/species/droid/handle_post_spawn(mob/living/carbon/human/H) //technical shit.
 	. = ..()
 	var/datum/atom_hud/AH = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED_SYNTH]
 	AH.add_hud_to(H)
 
 
-/datum/species/droid_b1/post_species_loss(mob/living/carbon/human/H) //technical shit.
+/datum/species/droid/post_species_loss(mob/living/carbon/human/H) //technical shit.
 	var/datum/atom_hud/AH = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED_SYNTH]
 	AH.remove_hud_from(H)
 	return ..()
@@ -95,15 +99,41 @@
 	icobase = 'icons/star/mob/droids/r_bb1.dmi'
 	deform = 'icons/star/mob/droids/r_def_bb1.dmi'
 
+/datum/species/droid/tactical
+	name = "Tactical Droid"
+	name_plural = "tactical droids"
+	icobase = 'icons/star/mob/droids/r_tac.dmi'
+	deform = 'icons/star/mob/droids/r_def_tac.dmi'
+	total_health = 180
+	namepool = /datum/namepool/tacticool
+
+/datum/species/droid/b2
+	name = "B2 Droid"
+	name_plural = "droids b2"
+	icobase = 'icons/star/mob/droids/r_b2.dmi'
+	deform = 'icons/star/mob/droids/r_def_b2.dmi'
+	total_health = 240
+	namepool = /datum/namepool/droidb2
+
 /mob/living/proc/offer_droid() //Proc for new droid
 	GLOB.offered_mob_list += src
 	notify_ghosts("<span class='boldnotice'>A new Droid created! Name: [name][job ? " Job: [job.title]" : ""] </span>", enter_link = "claim=[REF(src)]", source = src, action = NOTIFY_ORBIT)
+
+/mob/living/carbon/proc/Weapon_Give()
+	var/mob/living/carbon/human/species/droid/factory/D = src
+	var/obj/item/I = new/obj/item/weapon/gun/energy/lasgun/droidgun
+	if(D.race == "B2 Droid")
+		D.put_in_hands(I)
+	else return
 
 /mob/living/carbon/human/species/droid/b1 //Technical shit
 	race = "Droid B1"
 
 /mob/living/carbon/human/species/droid/b1_slim //Technical shit
 	race = "Droid B1 Slim"
+
+/mob/living/carbon/human/species/droid/tactical
+	race = "Tactical Droid"
 
 /mob/living/carbon/human/species/droid/Initialize() //Technical shit
 	. = ..()
@@ -115,6 +145,18 @@
 /mob/living/carbon/human/species/droid/factory/Initialize() //Technical shit
 	. = ..()
 	offer_droid() //offers new droid to ghosts
+	playsound(loc, 'sound/voice/liveagain.ogg', 75, 1)
 
 /mob/living/carbon/human/species/droid/factory/slim //Technical shit
 	race = "Droid B1 Slim"
+
+/mob/living/carbon/human/species/droid/factory/tactical
+	race = "Tactical Droid"
+
+/mob/living/carbon/human/species/droid/factory/b2
+	race = "B2 Droid"
+	var/obj/item/weapon/gun/energy/lasgun/droidgun/attached_gun
+
+/mob/living/carbon/human/species/droid/factory/b2/Initialize()
+	. = ..()
+	attached_gun = new /obj/item/weapon/gun/energy/lasgun/droidgun(src)
