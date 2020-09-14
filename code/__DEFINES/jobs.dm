@@ -139,3 +139,46 @@ MEDICAL_OFFICER, MEDICAL_RESEARCHER, SQUAD_LEADER, SQUAD_SPECIALIST, SQUAD_SMART
 #define SMARTIE_POINTS_HIGH 3
 
 #define SQUAD_MAX_POSITIONS(total_positions) CEILING(total_positions / length(SSjob.active_squads), 1)
+
+// STAR WARS JOBS : EARLY WORK
+
+// #define JOB_DISPLAY_ORDER_ADMIRAL			1
+// #define JOB_DISPLAY_ORDER_CLONE_COMMANDER			2
+// #define JOB_DISPLAY_ORDER_ENSIGN			3
+// #define JOB_DISPLAY_ORDER_FIFTH_FLEET_CAPTAIN			4
+// #define JOB_DISPLAY_ORDER_FIFTH_FLEET_TROOPER			5
+// #define JOB_DISPLAY_ORDER_MEDICAL_OFFICER			6
+// #define JOB_DISPLAY_ORDER_CLONE_CAPTAIN			7
+// #define JOB_DISPLAY_ORDER_CLONE_LIEUTENANT			8
+// #define JOB_DISPLAY_ORDER_CLONE_SERGEANT			9
+// #define JOB_DISPLAY_ORDER_CLONE_MEDIC			10
+// #define JOB_DISPLAY_ORDER_CLONE_TROOPER			11
+
+// #define ADMIRAL "Admiral"
+// #define ENSIGN "Ensign"
+// #define REQ_OFFICER "Supply Officer"
+// #define MEDICAL_OFFICER "Medical Officer"
+// #define FIFTH_FLEET_TROOPER "Fifth Fleet Trooper"
+// #define FIFTH_FLEET_CAPTAIN "Fifth Fleet Captain"
+// #define CLONE_COMMANDER "Clone Commander"
+// #define CLONE_CAPTAIN "Clone Captain"
+// #define CLONE_LIEUTENANT "Clone Lieutenant"
+// #define CLONE_SERGEANT "Clone Sergeant"
+// #define CLONE_PILOT "Clone Pilot"
+// #define CLONE_MEDIC "Clone Medic"
+// #define CLONE_HEAVY "Clone Heavy"
+// #define CLONE_ENGINEER "Clone Engineer"
+// #define CLONE_MARKSMEN "Clone Marksmen"
+// #define CLONE_TROOPER "Clone Trooper"
+
+
+//GLOBAL_LIST_EMPTY(jobs_command)
+//GLOBAL_LIST_INIT(jobs_police, list(FIFTH_FLEET_CAPTAIN, FIFTH_FLEET_TROOPER)) //TO DO: Turn all of these into associative lists generated dynamically, like jobs_command
+//GLOBAL_LIST_INIT(jobs_officers, list(ADMIRAL, CLONE_COMMANDER, ENSIGN, CLONE_CAPTAIN, CLONE_PILOT))
+//GLOBAL_LIST_INIT(jobs_engineering, list(CLONE_ENGINEER))
+//GLOBAL_LIST_INIT(jobs_requisitions, list(REQ_OFFICER))
+//GLOBAL_LIST_INIT(jobs_medical, list(MEDICAL_OFFICER, CLONE_MEDIC))
+//GLOBAL_LIST_INIT(jobs_marines, list(CLONE_TROOPER, CLONE_SERGEANT, CLONE_MARKSMEN, CLONE_HEAVY))
+//GLOBAL_LIST_INIT(jobs_regular_all, list(ADMIRAL, CLONE_COMMANDER, ENSIGN, CLONE_PILOT, CLONE_ENGINEER, \
+MEDICAL_OFFICER, FIFTH_FLEET_CAPTAIN, \
+REQ_OFFICER, SQUAD_SPECIALIST, CLONE_SERGEANT, CLONE_MEDIC, CLONE_MARKSMEN, CLONE_HEAVY, CLONE_TROOPER))
