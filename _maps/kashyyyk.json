@@ -1,0 +1,8 @@
+{
+    "map_name": "kashyyyk",
+    "map_path": "map_files/Kashyyyk",
+    "map_file": "Kashyyyk.dmm",
+    "shuttles": {
+    },
+    "announce_text": "The Wookie homeworld of Kashyyyk is under attack by CIS Forces, which have tracked the source to a unknown planet.  The Republic ###SHIPNAME### has jumped within range of the planet. FOR THE REPUBLIC!"
+}
