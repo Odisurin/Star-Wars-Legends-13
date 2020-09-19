@@ -888,6 +888,7 @@
 	else
 		return current_mag.current_rounds
 
+
 //-------------------------------------------------------
 //M5 RPG'S MEAN FUCKING COUSIN
 

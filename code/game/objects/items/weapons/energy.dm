@@ -41,7 +41,75 @@
 		w_class = WEIGHT_CLASS_HUGE
 		heat = 0
 
+/obj/item/weapon/energy/electrostaff
+	name = "Electrostaff"
+	desc = "An energised staff, capable of blocking a lightsaber."
+	icon_state = "electrostaff0"
+	force = 20.0
+	throwforce = 25.0
+	throw_speed = 1
+	throw_range = 5
+	var/stunforce = 10
+	var/agonyforce = 80
+	var/status = 0		//whether the thing is on or not
+	var/obj/item/cell/bcell = null
+	var/hitcost = 1000	//oh god why do power cells carry so much charge? We probably need to make a distinction between "industrial" sized power cells for APCs and power cells for everything else.
+	var/has_user_lock = TRUE //whether the baton prevents people without correct access from using it.
+	w_class = WEIGHT_CLASS_NORMAL
+	flags_atom = CONDUCT|NOBLOODY
+	attack_verb = list("bashed", "electricuted", "wacked", "", "stunned")
+	sharp = IS_SHARP_ITEM_BIG
+	edge = 0
 
+/obj/item/weapon/energy/electrostaff/attack_self(mob/user)
+	active = !active
+	if(active)
+		to_chat(user, "<span class='notice'>The electrostaff is now energised.</span>")
+		force = 35
+		agonyforce = 70	//same force as a stunbaton, but uses way more charge.
+		hitcost = 2500
+		playsound(loc, "sparks", 15, 1)
+		icon_state = "electrostaff1"
+		w_class = WEIGHT_CLASS_HUGE
+		heat = 3500
+	else
+		to_chat(user, "<span class='notice'>The electrostaff can now be holstered.</span>")
+		force = 20
+		icon_state = "electrostaff0"
+		w_class = WEIGHT_CLASS_HUGE
+		heat = 0
+
+/obj/item/weapon/energy/electrostaff
+	name = "Electrostaff"
+	desc = "An energised staff, capable of blocking a lightsaber."
+	icon_state = "electrostaff0"
+	force = 20.0
+	throwforce = 25.0
+	throw_speed = 1
+	throw_range = 5
+	stunforce = 0
+	w_class = WEIGHT_CLASS_NORMAL
+	flags_atom = CONDUCT|NOBLOODY
+	attack_verb = list("bashed", "electricuted", "wacked", "", "stunned")
+	sharp = IS_SHARP_ITEM_BIG
+	edge = 0
+
+/obj/item/weapon/energy/electrostaff/attack_self(mob/user)
+	active = !active
+	if(active)
+		to_chat(user, "<span class='notice'>The electrostaff is now energised.</span>")
+		force = 35
+		agonyforce = 70	//same force as a stunbaton, but uses way more charge.
+		hitcost = 2500
+		icon_state = "electrostaff1"
+		w_class = WEIGHT_CLASS_HUGE
+		heat = 3500
+	else
+		to_chat(user, "<span class='notice'>The electrostaff can now be holstered.</span>")
+		force = 20
+		icon_state = "electrostaff0"
+		w_class = WEIGHT_CLASS_HUGE
+		heat = 0
 
 /obj/item/weapon/energy/sword
 	name = "Lightsaber"
