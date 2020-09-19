@@ -626,13 +626,28 @@
 	damage_falloff_mult = 0.5
 	muzzleflash_iconstate = "muzzle_flash_laser"
 
+/obj/item/weapon/gun/energy/lasgun/starwars/rifle/e5s
+	name = "E-5S"
+	desc = "A laser based sniper rifle. Uses tibanna gas cartridges."
+	icon_state = "e-5s"
+	ammo = /datum/ammo/energy/lasgun
+	aim_slowdown = 0.75
+	wield_delay = 0.5 SECONDS
+	fire_delay = 7.5
+	accuracy_mult = 1.6
+	accuracy_mult_unwielded = 1.2
+	scatter_unwielded = 20 //Heavy and unwieldy
+	damage_falloff_mult = 0.5
+	muzzleflash_iconstate = "muzzle_flash_laser"
+	zoomdevicename = "scope"
+
 /obj/item/weapon/gun/energy/lasgun/starwars/pistol
-	icon_state = "DC-17"
+	icon_state = "DC-17 Blaster Pistol"
 	fire_sound = 'sound/weapons/guns/fire/laser.ogg'
 	unload_sound = 'sound/weapons/guns/interact/pistol_unload.ogg'
 	reload_sound = 'sound/weapons/guns/interact/pistol_reload.ogg'
 	cocked_sound = 'sound/weapons/guns/interact/pistol_cocked.ogg'
-	muzzleflash_iconstate = "muzzle_flash_light"
+	muzzleflash_iconstate = "muzzle_flash_plasma"
 	load_method = CELL //codex
 	flags_equip_slot = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_NORMAL
@@ -644,24 +659,25 @@
 	scatter = 0
 	recoil = 0
 	recoil_unwielded = 0
+
 /obj/item/weapon/gun/energy/lasgun/starwars/pistol/DC17
-	name = "DC-17"
+	name = "DC-17 Blaster Pistol"
 	desc = "A plasma based firearm. Uses tibanna gas cartridges."
 	icon_state = "DC-17"
 	aim_slowdown = 0.25
 	fire_delay = 2
 	accuracy_mult = 1.8
 	accuracy_mult_unwielded = 1.5
-	scatter_unwielded = 5 //Heavy and unwieldy
+	scatter_unwielded = 3 //Heavy and unwieldy
 	damage_falloff_mult = 0.2
 
 obj/item/weapon/gun/energy/lasgun/starwars/pistol/DC17/fordo
-	name = "DC-17"
+	name = "DC-17 Modified Blaster Pistol"
 	desc = "A plasma based firearm. Uses tibanna gas cartridges."
 	icon_state = "Fordo DC-17"
 	aim_slowdown = 0.25
 	fire_delay = 2
 	accuracy_mult = 1.8
 	accuracy_mult_unwielded = 1.5
-	scatter_unwielded = 5 //Heavy and unwieldy
+	scatter_unwielded = 3 //Heavy and unwieldy
 	damage_falloff_mult = 0.2
