@@ -64,9 +64,16 @@
 #define TOGGLES_GAMEPLAY_DEFAULT (RADIAL_MEDICAL)
 
 #define CITIZENSHIP_CHOICES list(\
-	"TerraGov",\
-	"Limited Service (Colony)",\
-	"Green Card (Foreign)"\
+	"Deep Core",\
+	"Core Worlds",\
+	"Colonies"\
+	"Inner Rim"\
+	"Expansion Region"\
+	"Mid Rim"\
+	"Outer Rim Territories"\
+	"Tingel Arm"\
+	"Wild Space"\
+	"Unknown Regions"\
 	)
 
 
@@ -80,24 +87,11 @@
 
 
 #define RELIGION_CHOICES list(\
-	"Christianity (Protestant)",\
-	"Christianity (Catholic)",\
-	"Christianity (Orthodox)",\
-	"Christianity (Mormonism)",\
-	"Christianity (Other)",\
-	"Judaism",\
-	"Islam (Shia)",\
-	"Islam (Sunni)",\
-	"Buddhism",\
-	"Hinduism",\
-	"Sikhism",\
-	"Shintoism",\
-	"Wiccanism",\
-	"Paganism (Wicca)",\
-	"Minor Religion",\
+	"Core (Droid Belief)",\
+	"Follower of the Force (Dark or Light)",\
+	"Zealots of Psusan (All Female Religion)",\
 	"Atheism",\
 	"None",\
-	"Other"\
 	)
 
 
