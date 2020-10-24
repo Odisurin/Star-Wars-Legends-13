@@ -94,7 +94,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/moth_wings = "Plain"
 
 	//Lore
-	var/citizenship = "TerraGov"
+	var/citizenship = "Galatic Republic"
 	var/religion = "None"
 	var/nanotrasen_relation = "Neutral"
 	var/flavor_text = ""
@@ -878,13 +878,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			religion = choice
 
 		if("corporation")
-			var/new_relation = input(user, "Choose your relation to the Nanotrasen company that will appear on background checks.", "Nanotrasen Relation")  as null|anything in CORP_RELATIONS
+			var/new_relation = input(user, "Choose your relation to the Republic that will appear on background checks.", "Republic Loyalty")  as null|anything in CORP_RELATIONS
 			if(!new_relation)
 				return
 			nanotrasen_relation = new_relation
 
 		if("squad")
-			var/new_squad = input(user, "Choose your preferred squad.", "Preferred Squad") as null|anything in SELECTABLE_SQUADS
+			var/new_squad = input(user, "Choose your preferred Battalion.", "Preferred Battalion") as null|anything in SELECTABLE_SQUADS
 			if(!new_squad)
 				return
 			preferred_squad = new_squad

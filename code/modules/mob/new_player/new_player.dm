@@ -372,13 +372,13 @@
 	output += "<a href='byond://?src=[REF(src)];lobby_choice=marines'>TerraGov Marine Corps</A><br><br><a href='byond://?src=[REF(src)];lobby_choice=aliens'>Xenomorph Hive</A>"
 	output += "</div>"
 
-	var/datum/browser/popup = new(src, "lore", "<div align='center'>Current Year: 2415</div>", 240, 300)
+	var/datum/browser/popup = new(src, "lore", "<div align='center'>Current Year: 22 BBY</div>", 240, 300)
 	popup.set_content(output)
 	popup.open(FALSE)
 
 /mob/new_player/proc/ViewMarines()
 	var/output = "<div align='center'>"
-	output += "<p><i>The <b>TerraGov Marine Corps'</b> mission is to enforce space law for the purpose of defending Terra's orbit as well as other solar colonies around the galaxy under the conflict of the Independent Colonial Confederation and the intelligent xenomorph threat. \nThe TGMC is composed by willing men and women from all kinds of social strata, hailing from all across the TerraGov systems. \nAs the vessel approaches to the ordered location on space, the cryostasis pods deactivate and awake you from your long-term stasis. Knowing that it's one of those days again, you hope that you'll make this out alive...</i></p>"
+	output += "<p><i>The <b>Grand Army of the Republic'</b> mission is to defeat the sepratist threat of the CIS in the mid-rim and outer-rim through warfare. \nThe GAR is composed of willing Clone Troopers and human officers from across the galaxy, hailing from all across the Reoublic's systems. \nAs the vessel approaches to the ordered location on space, the cryostasis pods deactivate and awake you from your long-term stasis. Knowing that it's just like the simulations, you hope that you'll make this out alive...</i></p>"
 	output += "</div>"
 
 	var/datum/browser/popup = new(src, "marines", "<div align='center'>TerraGov Marine Corps</div>", 480, 280)

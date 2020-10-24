@@ -305,7 +305,7 @@
 
 
 /obj/machinery/vending/marineFood
-	name = "\improper Marine Food and Drinks Vendor"
+	name = "\improper Republic Food and Drinks Vendor"
 	desc = "Standard Issue Food and Drinks Vendor, containing standard military food and drinks."
 	icon_state = "sustenance"
 	wrenchable = FALSE
@@ -331,7 +331,7 @@
 
 /obj/machinery/vending/MarineMed
 	name = "\improper MarineMed"
-	desc = "Marine Medical Drug Dispenser - Provided by Nanotrasen Pharmaceuticals Division(TM)"
+	desc = "Republic Medical Drug Dispenser - Provided by Nanotrasen Pharmaceuticals Division(TM)"
 	icon_state = "marinemed"
 	icon_deny = "marinemed-deny"
 	product_ads = "Go save some lives!;The best stuff for your medbay.;Only the finest tools.;All natural chemicals!;This stuff saves lives.;Don't you want some?;Ping!"
@@ -779,6 +779,70 @@
 					/obj/item/clothing/gloves/marine/commander1 = 1,
 					/obj/item/clothing/gloves/marine/sergeant1 = 30,
 					/obj/item/clothing/gloves/marine/lieutenant1 = 10,
+					/obj/item/storage/pouch/magazine = 10,
+					/obj/item/storage/pouch/magazine/pistol = 10,
+					/obj/item/storage/pouch/shotgun = 10,
+					/obj/item/storage/pouch/firstaid = 10,
+					/obj/item/storage/pouch/grenade = 10,
+					/obj/item/storage/pouch/medkit = 10,
+					/obj/item/storage/pouch/flare = 10,
+					/obj/item/storage/pouch/construction = 10,
+					/obj/item/storage/pouch/tools = 10,
+					/obj/item/clothing/tie/storage/brown_vest = 5,
+					/obj/item/clothing/tie/storage/white_vest/medic = 5,
+					/obj/item/clothing/tie/storage/webbing = 5,
+					/obj/item/clothing/tie/holster = 5
+					)
+
+	prices = list()
+
+/obj/machinery/vending/uniform_supply/commander
+	name = "\improper Blasttech surplus commander uniform vendor"
+	desc = "A automated weapon rack hooked up to a colossal storage of uniforms"
+	icon_state = "marineuniform"
+	icon_vend = "marineuniform_vend"
+	icon_deny = "marineuniform"
+	req_access = null
+	req_one_access = list(ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_PREP, ACCESS_MARINE_CARGO)
+
+
+	product_ads = "If it's clanking, it's hostile!;How many droids have you killed today?;Shoot first, perform scrapping later!;Your ammo is right here.;Blasters!;Die, scumbag!;Don't shoot me bro!;Shoot them, brother.;Why not have a deathstick?"
+	products = list(
+					/obj/item/clothing/under/marine/bodyglove = 1,
+					/obj/item/clothing/shoes/clone = 1,
+					/obj/item/clothing/head/helmet/marine/clone/commander1 = 1,,
+					/obj/item/clothing/suit/storage/marine/commander1 = 1,
+					/obj/item/clothing/gloves/marine/clone = 1,
+					/obj/item/clothing/gloves/marine/commander1 = 1,
+					/obj/item/storage/pouch/magazine = 10,
+					/obj/item/storage/pouch/magazine/pistol = 10,
+					/obj/item/storage/pouch/shotgun = 10,
+					/obj/item/storage/pouch/firstaid = 10,
+					/obj/item/storage/pouch/grenade = 10,
+					/obj/item/storage/pouch/medkit = 10,
+					/obj/item/storage/pouch/flare = 10,
+					/obj/item/clothing/tie/holster = 5
+					)
+
+	prices = list()
+
+/obj/machinery/vending/uniform_supply/captain
+	name = "\improper Blasttech surplus captain uniform vendor"
+	desc = "A automated weapon rack hooked up to a colossal storage of uniforms"
+	icon_state = "marineuniform"
+	icon_vend = "marineuniform_vend"
+	icon_deny = "marineuniform"
+	req_access = null
+	req_one_access = list(ACCESS_MARINE_LOGISTICS, ACCESS_MARINE_PREP, ACCESS_MARINE_CARGO)
+
+
+	product_ads = "If it's clanking, it's hostile!;How many droids have you killed today?;Shoot first, perform scrapping later!;Your ammo is right here.;Blasters!;Die, scumbag!;Don't shoot me bro!;Shoot them, brother.;Why not have a deathstick?"
+	products = list(
+					/obj/item/clothing/under/marine/bodyglove = 4,
+					/obj/item/clothing/shoes/clone = 4,
+					/obj/item/clothing/head/helmet/marine/clone/captain1 = 4,
+					/obj/item/clothing/suit/storage/marine/captain1 = 4,
+					/obj/item/clothing/gloves/marine/captain1 = 4,
 					/obj/item/storage/pouch/magazine = 10,
 					/obj/item/storage/pouch/magazine/pistol = 10,
 					/obj/item/storage/pouch/shotgun = 10,
