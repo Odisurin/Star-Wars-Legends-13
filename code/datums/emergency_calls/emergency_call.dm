@@ -7,7 +7,7 @@
 	var/name = ""
 	var/mob_max = 10
 	var/mob_min = 1
-	var/dispatch_message = "An encrypted signal has been received from a nearby vessel. Stand by." //Message displayed to marines once the signal is finalized.
+	var/dispatch_message = "A commandpost is under attack. Stand by." //Message displayed to marines once the signal is finalized.
 	var/objectives = "" //Objectives to display to the members.
 	var/probability = 0 //So we can give different ERTs a different probability.
 	var/list/datum/mind/members = list() //Currently-joined members.

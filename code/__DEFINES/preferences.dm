@@ -66,14 +66,14 @@
 #define CITIZENSHIP_CHOICES list(\
 	"Deep Core",\
 	"Core Worlds",\
-	"Colonies"\
-	"Inner Rim"\
-	"Expansion Region"\
-	"Mid Rim"\
-	"Outer Rim Territories"\
-	"Tingel Arm"\
-	"Wild Space"\
-	"Unknown Regions"\
+	"Colonies",\
+	"Inner Rim",\
+	"Expansion Region",\
+	"Mid Rim",\
+	"Outer Rim Territories",\
+	"Tingel Arm",\
+	"Wild Space",\
+	"Unknown Regions",\
 	)
 
 
@@ -87,8 +87,7 @@
 
 
 #define RELIGION_CHOICES list(\
-	"Core (Droid Belief)",\
-	"Follower of the Force (Dark or Light)",\
+	"Believer in the Force",\
 	"Zealots of Psusan (All Female Religion)",\
 	"Atheism",\
 	"None",\
