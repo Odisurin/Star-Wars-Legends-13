@@ -639,6 +639,9 @@
 	scatter_unwielded = 20 //Heavy and unwieldy
 	damage_falloff_mult = 0.5
 	muzzleflash_iconstate = "muzzle_flash_laser"
+	attachable_allowed = list(/obj/item/attachable/scope/mini/unremovable/starwars)
+	starting_attachment_types = list(/obj/item/attachable/scope/mini/unremovable/starwars)
+	charge_cost = 1200
 	zoomdevicename = "scope"
 
 /obj/item/weapon/gun/energy/lasgun/starwars/pistol
@@ -681,3 +684,19 @@ obj/item/weapon/gun/energy/lasgun/starwars/pistol/DC17/fordo
 	accuracy_mult_unwielded = 1.5
 	scatter_unwielded = 3 //Heavy and unwieldy
 	damage_falloff_mult = 0.2
+
+
+obj/item/weapon/gun/energy/lasgun/starwars/rifle/dc15x
+	name = "\improper DC-15X Sniper Rifle"
+	desc = "A plasma based high accuracy blaster. Uses tibanna gas cartridges."
+	icon_state = "dc-15x"
+	aim_slowdown = 0.25
+	fire_delay = 2
+	accuracy_mult = 1.8
+	accuracy_mult_unwielded = 1.5
+	scatter_unwielded = 3 //Heavy and unwieldy
+	damage_falloff_mult = 0.2
+	attachable_allowed = list(/obj/item/attachable/scope/mini/unremovable/starwars)
+	starting_attachment_types = list(/obj/item/attachable/scope/mini/unremovable/starwars)
+	charge_cost = 1000
+
