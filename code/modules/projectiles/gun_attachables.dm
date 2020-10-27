@@ -704,6 +704,16 @@ Defined in conflicts.dm of the #defines folder.
 	attach_icon = "pmcscope"
 	flags_attach_features = ATTACH_ACTIVATION
 
+
+// star wars scope!
+
+/obj/item/attachable/scope/mini/unremovable/starwars
+	name = "Blaster Scope"
+	icon_state = "miniscope"
+	attach_icon = "none"
+	desc = "A rail mounted zoom sight scope specialized for use on Blaster Rifles. Allows zoom by activating the attachment. Use F12 if your HUD doesn't come back."
+	flags_attach_features = ATTACH_ACTIVATION
+
 //////////// Stock attachments ////////////////////////////
 
 

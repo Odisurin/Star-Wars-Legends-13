@@ -911,6 +911,22 @@
 	burst_amount = 4
 	accuracy_mult = 0.8
 
+
+// ------------------------------
+//Star Wars Rockets
+
+/obj/item/weapon/gun/launcher/rocket/starwars/clone 
+	name = "\improper RPS-6 Rocket Launcher"
+	desc = "The standard anti-armor rocket launcher of the Grand Army of the Republic."
+	icon_state = "rps-6"
+	item_state = "rps-6"
+	
+/obj/item/weapon/gun/launcher/rocket/starwars/droid 
+	name = "\improper E-60R Missle Launcher"
+	desc = "The standard anti-armor rocket launcher of the Droid Army."
+	icon_state = "e-60r"
+	item_state = "e-60r"
+
 //-------------------------------------------------------
 //SCOUT SHOTGUN
 
